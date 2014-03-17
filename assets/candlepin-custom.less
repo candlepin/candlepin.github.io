@@ -1,0 +1,191 @@
+// NAVBAR
+.navbar-header a img {
+  .navbar-vertical-align(40px);
+}
+
+.navbar {
+  font-size: 15px;
+  border-bottom: 2px solid #cc0000;
+}
+
+// TABLE OF CONTENTS
+@toc-color: lighten(@navbar-default-bg, 25%);
+@toc-border: darken(@toc-color, 10%);
+@toc-text: white; 
+@toc-heading-padding: 12px;
+@toc-body-padding: 5px 12px;
+.panel-toc {
+  .panel-variant(@toc-border; @toc-text; @toc-color; @toc-border);
+
+  .panel-heading {
+    padding: @toc-heading-padding;
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 2px;
+      margin-top: 2px;
+    }
+  }
+
+  .panel-body {
+    // Add 3D effects
+    .panel-heading-styles(@toc-color);
+
+    padding: @toc-body-padding;
+
+    ul#markdown-toc {
+      list-style-position: inside;
+      color: @toc-text;
+      padding: 0px;
+
+      a {
+        color: @toc-text;
+      }
+
+      li:only-child {
+        list-style-type: none;
+      }
+
+    }
+  }
+}
+
+// ALERTS
+.custom-alert(@bg-color; @text-color) {
+  .alert;
+  .alert-variant(@bg-color, darken(@bg-color, 10%),  @text-color);
+  .alert-styles(@bg-color);
+
+  // use the .alert-link class by default
+  a {
+    // The .alert-link mixin is within the .alert mixin
+    .alert .alert-link;
+  }
+}
+
+.titled-alert(@bg-color; @text-color; @title) {
+  .custom-alert(@bg-color, @text-color);
+
+  &:before {
+    content: @title;
+    font-weight: bold;
+  }
+}
+
+@example-color: @state-info-bg;
+@example-text: @state-info-text;
+.alert-example {
+  .alert;
+  .titled-alert(@example-color, @example-text, "Example: ");
+}
+
+@todo-color: @state-success-bg;
+@todo-text: @state-success-text;
+.alert-todo {
+  .titled-alert(@todo-color, @todo-text, "To Do: ");
+}
+
+.alert-good {
+  .custom-alert(@state-success-bg; @state-success-text);
+}
+
+.alert-bad {
+  .custom-alert(@state-danger-bg; @state-danger-text);
+}
+
+.alert-caution {
+  .custom-alert(@state-warning-bg; @state-warning-text);
+}
+
+.alert-notice {
+  .custom-alert(@state-info-bg; @state-info-text);
+}
+
+// TABLES
+table {
+  .table;
+}
+
+table.column-striped tr td:nth-child(odd) {
+  background: @gray-lighter;
+}
+
+// POSITIONING
+img.center-block {
+  .center-block();
+}
+
+// LISTS
+dl {
+  .dl-horizontal;
+}
+
+// MODIFICATION DATE
+#date_modified {
+  .pull-right;
+  .text-muted;
+  .small;
+}
+
+// FOOTER
+@footer-height: 30px;
+body {
+  margin-bottom: @footer-height;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+footer {
+  // Pull in 3D effects
+  .navbar-default;
+
+  background-color: @navbar-default-bg;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: @footer-height;
+
+  div.row div {
+    color: @navbar-default-link-color;
+    margin-top: ((@footer-height - @line-height-computed) / 2);
+    margin-bottom: ((@footer-height - @line-height-computed) / 2);
+
+    a {
+      color: @navbar-default-link-active-color;
+    }
+  }
+
+  #licenses {
+    .make-md-column(11);
+  }
+
+  #copyright {
+    .make-md-column(1);
+  }
+}
+
+// SYNTAX HIGHLIGHTING STYLE
+pre {
+  .solarized-light;
+}
+
+pre.language-console {
+  .solarized-dark;
+  color: lighten(@solarized-dark-default, 10%);
+
+  // Pygments marks bash builtins with the nb class.  Just show them normally.
+  .nb {
+    color: lighten(@solarized-dark-default, 10%);
+  }
+
+  // Put the command prompt in bold.
+  .gp {
+    font-style: bolder;
+  }
+}
+
+.output-only {
+  .solarized-light .go;
+}

@@ -1,0 +1,3 @@
+This directory has a custom bootstrap bundle with a lot of the JS removed.
+There are no popovers, carousels, input groups, progress bars, modals, or
+accordians.  Most everything else should be there.

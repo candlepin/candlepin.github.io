@@ -1,0 +1,26 @@
+---
+layout: default
+title: Candlepin Project
+---
+{% for cat in site.page-categories %}
+  <h2>{{ cat | capitalize}}</h2>
+  <ul>
+  {% sorted_for page in site.pages sort_by:title %}
+    {% for pc in page.categories %}
+      {% if pc == cat %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+      {% endif %}
+    {% endfor %}
+  {% endsorted_for %}
+  </ul>
+{% endfor %}
+
+<h2>Uncategorized</h2>
+<ul>
+{% sorted_for page in site.pages sort_by:title %}
+  {% assign directory = page.path | split: '/' | first %}
+  {% if page.categories == null and directory == 'docs' %}
+    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+  {% endif %}
+{% endsorted_for %}
+</ul>

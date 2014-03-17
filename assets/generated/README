@@ -1,0 +1,19 @@
+The syntax highlighting styles are based on the Solarized color scheme
+(http://ethanschoonover.com/solarized) and the CSS is adapted from
+https://gist.github.com/nicolashery/5765395.  I have altered the CSS and made
+it into a LESS non-outputting mixin
+(http://lesscss.org/features/#mixins-feature-not-outputting-the-mixin)
+
+If you wish to use a different CSS, you can create one easily from the
+built-in Pygments styles.
+
+You can get a list of styles with
+
+pygmentize -L styles
+
+Once you have the style you like, you can generate a style sheet like so:
+
+pygmentize -S <some_style> -f html > pygments.less
+
+Note that the extension should be '.less'.  LESS is a superset of CSS so
+you should have no problems.

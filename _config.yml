@@ -1,0 +1,18 @@
+# Do not use tabs in this file!
+repository: https://github.com/candlepin/candlepin
+exclude: ['bin', 'Gemfile*', 'README']
+page-categories: [usage, developers, design, thumbslug, headpin]
+
+# What to compile with lessc
+less_artifacts: ['assets/candlepin.less']
+# -x minifies the CSS
+lessc: bin/less.js-1.7.0/lessc -x
+
+# This is a workaround so we can use pygments.rb
+# See https://github.com/navarroj/krampygs
+markdown_ext: dummy_value
+markdown: kramdown
+kramdown:
+  # Use GitHub flavor markdown
+  input: GFM
+  hard_wrap: false
