@@ -173,19 +173,23 @@ pre {
 
 pre.language-console {
   .solarized-dark;
-  color: lighten(@solarized-dark-default, 10%);
 
-  // Pygments marks bash builtins with the nb class.  Just show them normally.
+  // Pygments marks bash builtins with the nb class.  Just show them like generic text.
   .nb {
-    color: lighten(@solarized-dark-default, 10%);
+    color: @solarized-dark-primary;
   }
 
-  // Put the command prompt in bold.
+  // Highlight the command prompt in green
   .gp {
-    font-style: bolder;
+    color: @solarized-green;
   }
 }
 
-.output-only {
-  .solarized-light .go;
+pre.output-only {
+  .solarized-dark;
+  
+  // Print all code as Generic.Output
+  code {
+    .go;
+  }
 }
