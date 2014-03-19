@@ -99,6 +99,7 @@ Now it is time to begin the installation.
    Password for SYS/SYSTEM: password
    Start at boot: y
    ```
+   {:.output-only}
 1. Make sure you can connect locally.
 
    ```console
