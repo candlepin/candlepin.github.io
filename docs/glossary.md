@@ -7,7 +7,7 @@ It is helpful to understand the high level terms in the candlepin data model. A 
 
 ![](/images/model.png){:.center-block}
 
-In that diagram you will see the folling terms
+In that diagram you will see the following terms
 
 Owner
 : an organization who has purchased subscriptions to products.
