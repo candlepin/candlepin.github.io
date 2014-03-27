@@ -12,7 +12,7 @@ subscription data is accessed from. Subscriptions will follow the following
 lifecycle with states that can be inferred primarily from their begin and end
 dates. 
 
-![](/images/subscription_states.png){:.center-block}
+![]({{ site.baseurl }}/images/subscription_states.png){:.center-block}
 
 # State Definitions
 The following states, are in the above diagram

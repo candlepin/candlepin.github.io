@@ -23,11 +23,11 @@ here they are with some added screenshots:
  1. Enter `http://eclipse-cs.sf.net/update`
  1. Click the down arrow and choose Eclipse Checkstyle Plug-in 5.x (latest 5.x version is suitable)
 
-    ![](/images/checkstyle-eclipse.png)
+    ![]({{ site.baseurl }}/images/checkstyle-eclipse.png)
  1. Click `Install...`
  1. Review, then click `Next>`
 
-    ![](/images/checkstyle-eclipse-review.png)
+    ![]({{ site.baseurl }}/images/checkstyle-eclipse-review.png)
  1. Accept the license
  1. Click `Finish`
 

@@ -10,19 +10,19 @@
         <span class="icon-bar"></span>
       </button>
       <a href="/">
-        <img src="/images/logo-header.png" />
+        <img src="{{ site.baseurl }}/images/logo-header.png" />
       </a>
     </div>
     <div class="collapse navbar-collapse" id="candlepin-navbar">
       <ul class="nav navbar-nav">
         <li class="{% if page.overview %}active{% endif %}">
-          <a href="{{ site.url }}/">Overview</a>
+          <a href="{{ site.baseurl }}/">Overview</a>
         </li>
         <li class="{% if page.url contains '/docs/' %}active{% endif %}">
-          <a href="{{ site.url }}/docs/">Documentation</span></a>
+          <a href="{{ site.baseurl }}/docs/">Documentation</span></a>
         </li>
-        <li class="{% if page.url contains '/news/' %}active{% endif %}">
-          <a href="{{ site.url }}/news/">News</a>
+        <li class="{% if page.url contains '/posts/' %}active{% endif %}">
+          <a href="{{ site.baseurl }}/news/">News</a>
         </li>
         <li class="">
           <a href="{{ site.repository }}">View on GitHub</a>

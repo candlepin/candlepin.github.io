@@ -53,7 +53,7 @@ of certificate replacement.
 
 ### Content Cert Proxy
 
-![](/images/cs-proxy.png)
+![]({{ site.baseurl }}/images/cs-proxy.png)
 
 One possible solution, following the proxy model, would be be for the On
 Premise Server to provide 2 bits of data to a Content Proxy. These are:

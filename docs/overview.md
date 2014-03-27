@@ -30,13 +30,13 @@ has a feed (or calls out to get) Order and Product Data. Then, remote clients
 which were created from the orders. The EMs provide client information, and
 pull down identity and entitlement data.
 
-![](/images/simple.png){:.center-block}
+![]({{ site.baseurl }}/images/simple.png){:.center-block}
 
 In a more robust case, a hosted Candlepin can provide data to a remote
 Candlepin installation. This allows larger customers to manage their
 subscriptions in a secure fashion but within their own networks.
 
-![](/images/on-premise.png){:.center-block}
+![]({{ site.baseurl }}/images/on-premise.png){:.center-block}
 
 The design goal is to allow candlepin instances to federate this data out. So,
 if a central group manages purchasing for a large company, they then should be
@@ -50,7 +50,7 @@ consumed. Since much of this data can be unique per deployment, the engine
 supports several extension points which can be replaced at deployment time. The
 high level engine looks like this:
 
-![](/images/components.png){:.center-block}
+![]({{ site.baseurl }}/images/components.png){:.center-block}
 
 ## Extension Points
 The Engine supports the following extension points:

@@ -5,7 +5,7 @@ title: Glossary
 # Candlepin Terms
 It is helpful to understand the high level terms in the candlepin data model. A basic diagram of the model is:
 
-![](/images/model.png){:.center-block}
+![]({{ site.baseurl }}/images/model.png){:.center-block}
 
 In that diagram you will see the following terms
 
