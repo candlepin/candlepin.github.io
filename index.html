@@ -1,26 +1,66 @@
 ---
-layout: default
-title: Candlepin Project
+title: Home
 ---
-{% for cat in site.page-categories %}
-  <h2>{{ cat | capitalize}}</h2>
-  <ul>
-  {% sorted_for page in site.pages sort_by:title %}
-    {% for pc in page.categories %}
-      {% if pc == cat %}
-        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-      {% endif %}
-    {% endfor %}
-  {% endsorted_for %}
-  </ul>
-{% endfor %}
-
-<h2>Uncategorized</h2>
-<ul>
-{% sorted_for page in site.pages sort_by:title %}
-  {% assign directory = page.path | split: '/' | first %}
-  {% if page.categories == null and directory == 'docs' %}
-    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-  {% endif %}
-{% endsorted_for %}
-</ul>
+{% include top.html %}
+<style>
+  .navbar {
+    margin-bottom: 0px;
+  }
+</style>
+</head>
+<body>
+  {% include header.html %}
+  <div id="banner-container" class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{{ site.baseurl }}images/logo-frontpage.png"/>
+      </div>
+      <div id="front-page-blurb" class="col-md-6">
+        <h1>Candlepin</h1>
+        <h2>Subscription and Entitlement Management<br/>all open source</h2>
+      </div>
+    </div>
+  </div>
+  <div id="front-page-lower" class="container-fluid">
+    <div class="row">
+      <div class="what-is">
+        <h3>What is Candlepin?</h3>
+        <p>
+          Candlepin is a collection of tools which allow companies to manage
+          software subscriptions. The subscriptions allow users to access
+          provided content over secure connections.
+        </p>
+      </div>
+      <div class="features">
+        <h3>Features:</h3>
+        <ul>
+          <li>is open source</li>
+          <li>is written in Java and Ruby</li>
+          <li>is part of <a href="http://www.katello.org">Katello</a></li>
+        </ul>
+      </div>
+      <div class="news">
+        <h3>News</h3>
+        <ul>
+          {% for post in site.posts limit: 4 %}
+            {% capture post_id %}{{ post.id | replace_first: '/', '' | replace: '/', '-'}}{% endcapture %}
+            <li>{{ post.date | date: "%-d %B %Y" }} - <a href="{{ site.baseurl }}news/index.html#{{ post_id }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div id="button-row" class="row">
+      <div class="what-is">
+        <a href="{{ site.baseurl }}/docs/overview.html" role="button">More</a>
+      </div>
+      <div class="features">
+        <a href="{{ site.baseurl }}/docs/developer_notes.html" role="button">More</a>
+      </div>
+      <div class="news">
+        <a href="{{ site.baseurl }}/news" role="button">More</a>
+      </div>
+  </div>
+  {% include footer.html %}
+  {% include bootstrap.html %}
+</body>
+</html>

@@ -1,3 +1,71 @@
+// HOME
+// From the Brand Book
+@rh-red: rgb(204, 0, 0);
+@rh-dark-red: rgb(158, 41, 43);
+@rh-darker-red: rgb(120, 31, 28);
+
+.red-border() {
+  border-bottom: 2px solid @rh-red;
+}
+
+div#banner-container {
+  #gradient.vertical(@start-color: @navbar-default-bg; @end-color: black);
+  height: 275px;
+  .red-border;
+}
+
+div#front-page-blurb {
+  font-family: "Overpass", @font-family-base;
+  text-shadow: 0 1px 0 darken(@rh-red, 10%);
+
+  h1 {
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+  }
+
+  h2 {
+    color: @rh-red;
+    font-size: 25px;
+  }
+}
+
+div#front-page-lower {
+  #gradient.vertical(@start-color: #bbb; @end-color: white);
+
+  .what-is,
+  .features,
+  .news {
+    .make-md-column(4);
+    font-family: "Overpass", @font-family-base;
+  }
+
+  .news a {
+    text-decoration: none;
+  }
+
+  h3 {
+    color: @rh-dark-red;
+    font-size: 20px;
+  }
+
+  a[role=button] {
+    .btn;
+    .active;
+    .button-variant(white; @rh-red; darken(@rh-red, 10%));
+    .btn-styles(@rh-red);
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+   div#button-row.row {
+     padding-bottom: 20px;
+   }
+}
+
 // NAVBAR
 .navbar-header a img {
   .navbar-vertical-align(40px);
@@ -5,13 +73,13 @@
 
 .navbar {
   font-size: 15px;
-  border-bottom: 2px solid #cc0000;
+  .red-border;
 }
 
 // TABLE OF CONTENTS
 @toc-color: lighten(@navbar-default-bg, 25%);
 @toc-border: darken(@toc-color, 10%);
-@toc-text: white; 
+@toc-text: white;
 @toc-heading-padding: 12px;
 @toc-body-padding: 5px 12px;
 .panel-toc {
@@ -51,7 +119,7 @@
 // ALERTS
 .custom-alert(@bg-color; @text-color) {
   .alert;
-  .alert-variant(@bg-color, darken(@bg-color, 10%),  @text-color);
+  .alert-variant(@bg-color; darken(@bg-color, 10%);  @text-color);
   .alert-styles(@bg-color);
 
   // use the .alert-link class by default
@@ -62,7 +130,7 @@
 }
 
 .titled-alert(@bg-color; @text-color; @title) {
-  .custom-alert(@bg-color, @text-color);
+  .custom-alert(@bg-color; @text-color);
 
   &:before {
     content: @title;
@@ -74,13 +142,13 @@
 @example-text: @state-info-text;
 .alert-example {
   .alert;
-  .titled-alert(@example-color, @example-text, "Example: ");
+  .titled-alert(@example-color; @example-text; "Example: ");
 }
 
 @todo-color: @state-success-bg;
 @todo-text: @state-success-text;
 .alert-todo {
-  .titled-alert(@todo-color, @todo-text, "To Do: ");
+  .titled-alert(@todo-color; @todo-text; "To Do: ");
 }
 
 .alert-good {
@@ -158,11 +226,11 @@ footer {
   }
 
   #licenses {
-    .make-md-column(11);
+    .make-md-column(10);
   }
 
   #copyright {
-    .make-md-column(1);
+    .make-md-column(2);
   }
 }
 
@@ -187,7 +255,7 @@ pre.language-console {
 
 pre.output-only {
   .solarized-dark;
-  
+
   // Print all code as Generic.Output
   code {
     .go;

@@ -1,7 +1,10 @@
 # Do not use tabs in this file!
 repository: https://github.com/candlepin/candlepin
 exclude: ['bin', 'Gemfile*', 'README']
-page-categories: [usage, developers, design, thumbslug, headpin]
+page-categories: [administrative, usage, developers, design, thumbslug]
+permalink: /news/:year/:title.html
+paginate: 8
+paginate_path: /news/page:num
 
 # What to compile with lessc
 less_artifacts: ['assets/candlepin.less']
