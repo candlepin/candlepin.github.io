@@ -76,3 +76,30 @@
   font-weight: normal;
   font-style: normal;
 }
+
+.overpass(@directory; @prefix; @svg_id) {
+  font-family: 'Overpass';
+  @eot-ie9: %("/assets/fonts/overpass/%s/%s.eot", @directory, @prefix);
+  @eot: %("/assets/fonts/overpass/%s/%s.eot?#iefix", @directory, @prefix); 
+  @woff: %("/assets/fonts/overpass/%s/%s.woff", @directory, @prefix);
+  @ttf: %("/assets/fonts/overpass/%s/%s.ttf", @directory, @prefix);
+  @svg: %("/assets/fonts/overpass/%s/%s.svg#%s", @directory, @prefix, @svg_id);
+  src: url(@eot-ie9); // IE 9 compatibility mode
+  src:
+    url(@eot) format('embedded-opentype'), //IE 6 to IE 8
+    url(@woff) format('woff'), // Sane browsers
+    url(@ttf) format('truetype'), // Safari, Android, iOS
+    url(@svg) format('svg'); // Legacy iOS
+}
+
+@font-face {
+  .overpass('regular'; 'overpass_regular'; 'webfontLTZe4IYH');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  .overpass('bold'; 'overpass_bold'; 'webfontzAU82Ltw');
+  font-weight: bold;
+  font-style: normal;
+}
