@@ -10,17 +10,21 @@ title: Home
 </head>
 <body>
   {% include header.html %}
-  <div id="banner-container" class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <img src="{{ site.baseurl }}images/logo-frontpage.png"/>
-      </div>
-      <div id="front-page-blurb" class="col-md-6">
-        <h1>Candlepin</h1>
-        <h2>Subscription and Entitlement Management<br/>all open source</h2>
-      </div>
-    </div>
-  </div>
+
+  <div id="front-page-banner" class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="{{ site.baseurl }}images/logo-frontpage.png"/>
+        </div>
+        <div id="front-page-blurb" class="col-md-6">
+          <h1>Candlepin</h1>
+          <h2>Subscription and Entitlement Management<br/>all open source</h2>
+        </div>
+      </div> <!-- End row -->
+    </div> <!-- End container -->
+  </div> <!-- End Jumbotron -->
+
   <div id="front-page-lower" class="container-fluid">
     <div class="row">
       <div class="what-is">
