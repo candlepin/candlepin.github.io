@@ -73,6 +73,7 @@ div#front-page-lower {
 
 .navbar {
   font-size: 15px;
+  font-weight: bold;
   .red-border;
 }
 
@@ -108,6 +109,7 @@ div#front-page-lower {
         color: @toc-text;
       }
 
+      // Don't print a bullet if this is an only child.
       li:only-child {
         list-style-type: none;
       }
@@ -250,6 +252,12 @@ pre.language-console {
   // Highlight the command prompt in green
   .gp {
     color: @solarized-green;
+  }
+
+  // Provide x-axis scrolling for long lines
+  code {
+    word-wrap: normal;
+    white-space: pre;
   }
 }
 
