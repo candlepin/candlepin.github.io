@@ -48,11 +48,17 @@ $ ./subscription-manager
 ./subscription-manager
 ```
 
-To find blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
+To find code blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
 
 # Gotchas
-* In Less, you must use semicolons to separate parameters to mixins and not commas.
+* In Less, you must use semicolons to separate parameters to mixins and not commas. However, Less' functions
+  do use commas.
+  E.g. .my_mixin(18px; \#deadbeef) versus darken(\#deadbeef, 10%)
   See <http://lesscss.org/features/#mixins-parametric-feature-mixins-with-multiple-parameters>
+* Be careful with internal links.  Preface them with {{ site.baseurl }} if they are in another direcotry.
+  See <http://jekyllrb.com/docs/github-pages/>
+* The URLs for all posts and pages contain a leading slash so there is no need to provide one.  E.g. Linking to a post
+  would use {{ site.baseurl }}{{ post.url }}
 
 # References
 * Jekyll is the engine used to create the site.  There is very good documentation at
@@ -66,12 +72,3 @@ To find blocks missing a lexer, install pcre-tools and use the following `pcregr
 * The JS and theming are courtesy of Bootstrap <http://getbootstrap.com/> although
   I did strip out some of the JS that we probably would not use like the carousel and
   modal dialog functions.
-
-GitHub Pages is powered by Jekyll, however all Pages sites are generated using
-the --safe option to disable custom plugins for security reasons.
-Unfortunately, this means the plugins won’t work if you’re deploying to
-GitHub Pages.
-
-You can still use GitHub Pages to publish your site, but you’ll need to
-convert the site locally and push the generated static files to your GitHub
-repository instead of the Jekyll source files. 
