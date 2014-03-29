@@ -48,8 +48,6 @@ $ ./subscription-manager
 ./subscription-manager
 ```
 
-To find code blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
-
 # Gotchas
 * In Less, you must use semicolons to separate parameters to mixins and not commas. However, Less' functions
   do use commas.
@@ -59,6 +57,10 @@ To find code blocks missing a lexer, install pcre-tools and use the following `p
   See <http://jekyllrb.com/docs/github-pages/>
 * The URLs for all posts and pages contain a leading slash so there is no need to provide one.  E.g. Linking to a post
   would use {{ site.baseurl }}{{ post.url }}
+
+# Tips
+* If you want to see an overview of an object in Liquid, filter it through the debug filter from _plugins.  E.g. {{ page | debug }}
+* To find code blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
 
 # References
 * Jekyll is the engine used to create the site.  There is very good documentation at

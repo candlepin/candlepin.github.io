@@ -1,0 +1,17 @@
+---
+layout: default
+no_date: true
+---
+{{ page | debug }}
+{% for cat in page.project_categories %}
+  <h2>{{ cat | capitalize}}</h2>
+  <ul>
+  {% sorted_for page in page.project_pages sort_by:title %}
+    {% for pc in page.categories %}
+      {% if pc == cat %}
+        <li><a href="{{ site.url }}{{ page.url }}">{{ page.title }}</a></li>
+      {% endif %}
+    {% endfor %}
+  {% endsorted_for %}
+  </ul>
+{% endfor %}

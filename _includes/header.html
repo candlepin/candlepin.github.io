@@ -16,13 +16,21 @@
     <div class="collapse navbar-collapse" id="candlepin-navbar">
       <ul class="nav navbar-nav">
         <li class="{% if page.overview %}active{% endif %}">
-          <a href="{{ site.baseurl }}/">Overview</a>
-        </li>
-        <li class="{% if page.url contains '/docs/' %}active{% endif %}">
-          <a href="{{ site.baseurl }}/docs/">Documentation</span></a>
+          <a href="{{ site.baseurl }}/docs/overview.html">About</a>
         </li>
         <li class="{% if page.url contains '/posts/' %}active{% endif %}">
           <a href="{{ site.baseurl }}/news/">News</a>
+        </li>
+        <li class="{% if page.url contains '/docs/' %}active{% endif %} dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ site.baseurl }}/docs/candlepin">Candlepin</a></li>
+            <li><a href="{{ site.baseurl }}/docs/subscription-manager">Subscription Manager</a></li>
+            <li><a href="{{ site.baseurl }}/docs/thumbslug">Thumbslug</a></li>
+          </ul>
+        </li>
+        <li class="{% if page.url contains 'contact_us.html' %}active{% endif %}">
+          <a href="{{ site.baseurl }}/administrative/contact_us.html">Contact Us</a>
         </li>
         <li class="">
           <a href="{{ site.repository }}">View on GitHub</a>

@@ -2,6 +2,7 @@
 repository: https://github.com/candlepin/candlepin
 exclude: ['bin', 'Gemfile*', 'README']
 # The order of the categories here will be the order they show up in on the index page
+projects_dir: 'docs'
 page-categories: [usage, developers, design, thumbslug]
 
 permalink: /news/:year/:title.html
