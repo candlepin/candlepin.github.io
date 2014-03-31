@@ -1,66 +1,60 @@
 #! /usr/bin/env ruby
 =begin
-  Jekyll generator to create an index page breaking down items in the directory
+  Liquid tag to create an index breaking down items in the directory
   by category.
 =end
 
-require 'set'
 module Jekyll
-  class ProjectIndexPage < Page
-    attr_reader :project_categories
-    attr_reader :project_pages
-
-    CATEGORY_ATTRIBUTES_FOR_LIQUID = %w[
-      project_categories
-      project_pages
-    ]
-
-    def initialize(site, base, dir)
-      @site = site
-      @base = base
-      @dir = dir
-      @name = "project_index.html"
-
-      self.process(@name)
-      self.read_yaml(File.join(base, site.config['layouts']), 'project_index.html')
-
-      project_categories = Set.new(['uncategorized'])
-      project_pages = Set.new
-      Jekyll.logger.info("Dir", dir)
-      #site.pages.each { |p| Jekyll.logger.info("Path", File.dirname(p.path)); Jekyll.logger.info("Dir", "#{dir}") }
-      site.pages.select { |page| File.dirname(page.path) =~ %r(#{dir}$) }.each do |p|
-        # FIXME fix for multiple categories
-        project_categories << p.categories
-        project_pages << p
-      end
-    end
-
-    def to_liquid
-      super.to_liquid
-      further_data = Hash[CATEGORY_ATTRIBUTES_FOR_LIQUID.map { |attribute|
-        [attribute, send(attribute)]
-      }]
-      data.deep_merge(further_data)
+  class ProjectCategory < Struct.new(:name, :weight)
+    def to_liquid()
+      Hash[self.members.map { |attr| [attr.to_s, send(attr)] }]
     end
   end
 
-  class ProjectIndexGenerator < Generator
-    safe true
-    priority :lowest
+  class ProjectIndexTag < Liquid::Tag
+    attr_accessor :tag_name
+    attr_accessor :text
+    attr_accessor :tokens
 
     def logger
       Jekyll.logger
     end
 
-    def generate(site)
-      return unless site.layouts.key? 'project_index'
-      logger.abort_with("FATAL:", "Missing 'projects_dir' path in site configuration") if !site.config['projects_dir']
+    def initialize(tag_name, text, tokens)
+      super
+      @tag_name = tag_name
+      @text = text
+      @tokens = tokens
+    end
 
-      docs_dir = site.config['projects_dir']
-      # for each immediate subdirectory
-      Dir.glob("#{docs_dir}/*/").each do |subdir|
-        site.pages << ProjectIndexPage.new(site, site.source, subdir)
+    def render(context)
+      site = context.registers[:site]
+      page = context.registers[:page]
+
+      logger.abort_with("FATAL:", "Missing '#{tag_name}' layout in #{site.config['layouts']}") unless site.layouts.has_key?(tag_name)
+      layout = site.layouts[tag_name]
+
+      categories = []
+      # Get all the pages in the directory of the page using the tag EXCEPTING the page using the tag
+      # itself
+      project_pages = site.pages.select do |p|
+        File.dirname(p.path) == File.dirname(page['path']) && p.url != page['url']
       end
+
+      project_pages.each do |proj_page|
+        categories << proj_page.data.fetch('categories', 'uncategorized')
+      end
+
+      project_categories = []
+      # Create a set of categories and build ProjectCategory objects from each one
+      categories.flatten.uniq.each_with_object(project_categories) do |cat, list|
+          list << ProjectCategory.new(cat, site.config['category-weight'].fetch(cat, nil))
+      end
+      payload = site.site_payload.deep_merge({"project_categories" => project_categories, "project_pages" => project_pages})
+
+      Liquid::Template.parse(layout.content).render!(payload)
     end
   end
 end
+
+Liquid::Template.register_tag('project_index', Jekyll::ProjectIndexTag)

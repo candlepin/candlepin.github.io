@@ -8,6 +8,9 @@
     - kramdown
 =end
 module Jekyll
+  class IncludeMarkdownError < StandardError
+  end
+
   class MarkdownTag < Liquid::Tag
     def initialize(tag_name, text, tokens)
       super
@@ -15,11 +18,16 @@ module Jekyll
     end
     require "kramdown"
     def render(context)
-      tmpl = File.read File.join Dir.pwd, "_includes", @text
-      site = context.registers[:site]
-      tmpl = (Liquid::Template.parse tmpl).render site.site_payload
-      html = Kramdown::Document.new(tmpl).to_html
+      begin
+        site = context.registers[:site]
+        template = File.read(File.join(site.source, Jekyll::Tags::IncludeTag::INCLUDES_DIR, @text))
+        liquified = Liquid::Template.parse(template).render!(site.site_payload)
+        Kramdown::Document.new(liquified).to_html
+      rescue => e
+        raise IncludeMarkdownError.new(e.message)
+      end
     end
   end
 end
+
 Liquid::Template.register_tag('include_markdown', Jekyll::MarkdownTag)

@@ -14,13 +14,13 @@ module Jekyll
         if i.to_liquid[sort_attr].instance_of? String and not case_sensitive
           sort_by_with_nil!(sorted_collection, :downcase) { |item| item.to_liquid[sort_attr] }
         else
-          sorted_collection.sort_by! { |itemj| item.to_liquid[sort_attr] }
+          sort_by_with_nil!(sorted_collection) { |item| item.to_liquid[sort_attr] }
         end
       else
         if i.instance_of? String and not case_sensitive
-          sort_by_with_nil!(sorted_collection){ |item| item.downcase }
+          sort_by_with_nil!(sorted_collection) { |item| item.downcase }
         else
-          sorted_collection.sort!
+          sort_by_with_nil!(sorted_collection) { |item| item }
         end
       end
 
@@ -36,7 +36,7 @@ module Jekyll
       result
     end
 
-    def sort_by_with_nil!(collection, meth)
+    def sort_by_with_nil!(collection, meth=:to_s)
       if block_given?
         collection.sort_by! { |i| (yield(i) && yield(i).send(meth)) || '' }
       else
