@@ -39,9 +39,12 @@ module Jekyll
     def sort_by_with_nil!(collection, meth=:to_s)
       if block_given?
         collection.sort_by! { |i| (yield(i) && yield(i).send(meth)) || '' }
+        last_nil = collection.each_index.select { |i| (yield(collection[i]) && yield(collection[i]).send(meth)).nil? }.last
       else
         collection.sort_by! { |i| (i && i.send(meth)) || '' }
+        last_nil = collection.each_index.select { |i| (i && i.send(meth)).nil? }.last
       end
+      collection.rotate!(last_nil + 1) if last_nil
     end
   end
 

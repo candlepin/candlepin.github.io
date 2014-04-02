@@ -1,12 +1,8 @@
 {% sorted_for cat in project_categories sort_by:weight %}
-  <h2>{{ cat.name | capitalize}}</h2>
+<h2>{{ cat.name | capitalize}}</h2>
   <ul>
-  {% sorted_for page in project_pages sort_by:title %}
-    {% for pc in page.categories %}
-      {% if pc == cat.name %}
-        <li><a href="{{ site.url }}{{ page.url }}">{{ page.title }}</a></li>
-      {% endif %}
-    {% endfor %}
+  {% sorted_for page in cat.pages sort_by:title %}
+     <li><a href="{{ site.url }}{{ page.url }}">{{ page.title }}</a></li>
   {% endsorted_for %}
   </ul>
 {% endsorted_for %}
