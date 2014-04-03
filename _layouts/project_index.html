@@ -1,4 +1,4 @@
-{% sorted_for cat in project_categories sort_by:weight %}
+{% sorted_for cat in project_categories sort_by:order %}
 <h2>{{ cat.name | capitalize}}</h2>
   <ul>
   {% sorted_for page in cat.pages sort_by:title %}

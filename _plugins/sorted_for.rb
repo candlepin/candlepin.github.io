@@ -1,10 +1,31 @@
 #! /usr/bin/env ruby
 # Courtesy of https://gist.github.com/mbland/3812259 and altered to allow nils.
 
+class NilSortingArray < Array
+  # sort_by with nils going at the end.
+  def sort_by_with_nil!(meth=:to_s)
+    # Break the collection into items that evaluate to nil and those that don't
+    nulls, valids = self.partition do |i|
+      res = (block_given?) ? yield(i) : i
+      (res && res.send(meth)).nil?
+    end
+
+    valids.sort_by! do |i|
+      res = (block_given?) ? yield(i) : i
+      res.send(meth)
+    end
+    self.replace(valids + nulls)
+  end
+end
+
 module Jekyll
   module SortedForImpl
+    def logger
+      Jekyll.logger
+    end
+
     def render(context)
-      sorted_collection = collection_to_sort(context)
+      sorted_collection = NilSortingArray.new(collection_to_sort(context))
       return if sorted_collection.empty?
       sort_attr = @attributes['sort_by']
       case_sensitive = @attributes['case_sensitive'] == 'true'
@@ -12,15 +33,15 @@ module Jekyll
 
       if sort_attr != nil
         if i.to_liquid[sort_attr].instance_of? String and not case_sensitive
-          sort_by_with_nil!(sorted_collection, :downcase) { |item| item.to_liquid[sort_attr] }
+          sorted_collection.sort_by_with_nil!(:downcase) { |item| item.to_liquid[sort_attr] }
         else
-          sort_by_with_nil!(sorted_collection) { |item| item.to_liquid[sort_attr] }
+          sorted_collection.sort_by_with_nil! { |item| item.to_liquid[sort_attr] }
         end
       else
         if i.instance_of? String and not case_sensitive
-          sort_by_with_nil!(sorted_collection) { |item| item.downcase }
+          sorted_collection.sort_by_with_nil!(:downcase)
         else
-          sort_by_with_nil!(sorted_collection) { |item| item }
+          sorted_collection.sort_by_with_nil!
         end
       end
 
@@ -34,17 +55,6 @@ module Jekyll
         @collection_name = original_name
       end
       result
-    end
-
-    def sort_by_with_nil!(collection, meth=:to_s)
-      if block_given?
-        collection.sort_by! { |i| (yield(i) && yield(i).send(meth)) || '' }
-        last_nil = collection.each_index.select { |i| (yield(collection[i]) && yield(collection[i]).send(meth)).nil? }.last
-      else
-        collection.sort_by! { |i| (i && i.send(meth)) || '' }
-        last_nil = collection.each_index.select { |i| (i && i.send(meth)).nil? }.last
-      end
-      collection.rotate!(last_nil + 1) if last_nil
     end
   end
 

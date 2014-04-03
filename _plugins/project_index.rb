@@ -5,7 +5,7 @@
 =end
 
 module Jekyll
-  class ProjectCategory < Struct.new(:name, :weight, :pages)
+  class ProjectCategory < Struct.new(:name, :order, :pages)
     def to_liquid()
       Hash[self.members.map { |attr| [attr.to_s, send(attr)] }]
     end
@@ -53,8 +53,8 @@ module Jekyll
       project_categories = []
       # Create a set of categories and build ProjectCategory objects from each one
       categories.each_with_object(project_categories) do |(cat, pages), list|
-          weight = site.config['category-weight'].fetch(cat, nil)
-          list << ProjectCategory.new(cat, weight, pages)
+          order = site.config['category-order'].fetch(cat, nil)
+          list << ProjectCategory.new(cat, order, pages)
       end
       payload = site.site_payload.deep_merge({"project_categories" => project_categories})
 
