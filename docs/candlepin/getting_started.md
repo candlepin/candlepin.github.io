@@ -26,8 +26,8 @@ For more information on working with Git, checkout the [Spacewalk](https://fedor
 
 # The Code
  * [Coding Conventions (style)](java_coding_conventions.html)
- * [Coding Standards](coding_standards.html)
- * [Testing Standards](testing_standards.html)
+ * [Coding Standards](developer_notes.html#code-style)
+ * [Testing Standards](developer_notes.html#testing)
 
 # Building
 
@@ -112,7 +112,7 @@ $ buildr test
 
 Additionally there is a suite of functional tests which require a deployed
 Candlepin instance to hit against. For more information on deploying Candlepin
-see: [Deployment](deployment.html)
+see: [Deployment](developer_deployment.html)
 
 These tests currently assume they can hit http://localhost:8080/candlepin/
 
@@ -182,4 +182,4 @@ To enable remote debugging in Tomcat, you must pass the JVM values telling it to
 Candlepin uses Tito to build the rpms, see [here](building_rpms_with_tito.html).
 
 ## Using LogDriver (logging JDBC driver)
-To use the logging JDBC driver with Candlepin see [the log driver page](log_driver.html)
+To use the logging JDBC driver with Candlepin see [the log driver page](logdriver.html)

@@ -6,7 +6,7 @@ title: API
 
 # API
 Candlepin uses a RESTful api powered by [RESTEasy](http://www.jboss.org/resteasy/).
-See [disambiguation of terms](disambiguation_of_terms.html) for definitions of terms
+See [the glossary](glossary.html) for definitions of terms
 used here. The data is returned in JSON objects unless noted below.
 For information on using JSON in JAXB frameworks go [here](json_jaxb.html).
 
@@ -303,9 +303,6 @@ If the product adapater supports them:
 ### Events
  * GET /events : list all events
  * GET /events/{event_uuid} : Get a specific event
-
-## Possible API flow
- * [Entitlement API Flow](entitlement_api_flow.html)
 
 ## Generate the Latest Version of the API
 To auto generate a list from the source code, run `buildr candlepin:apicrawl`.
