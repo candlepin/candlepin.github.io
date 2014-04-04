@@ -7,7 +7,7 @@
 
     {% unless page.no_date %}
       <div id="date_modified">
-        Last modified on {{ page.date_modified | date: "%-d %B %Y" }}
+        Last modified on {% date_modified format:'%-d %B %Y' %}
       </div>
     {% endunless %}
   </div>
