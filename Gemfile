@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
-gem 'github-pages'
-gem 'typogruby'
-# Use what OpenShift has available
+# Use what OpenShift has available for rugged
 gem 'rugged', "= 0.16.0"
+gem 'typogruby', "~> 1.0"
+gem 'jekyll', "~> 1.4"
+gem 'kramdown', "~> 1.3"
