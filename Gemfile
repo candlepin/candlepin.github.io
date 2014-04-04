@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 gem 'github-pages'
 gem 'typogruby'
-gem 'rugged'
+# Use what OpenShift has available
+gem 'rugged', "= 0.16.0"
