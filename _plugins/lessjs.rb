@@ -41,20 +41,18 @@ module Jekyll
           generated_directory = source_path.join("generated")
           css_name = file.to_s.gsub(less_ext, '.css')
 
-          begin
-            dest_dir = dest_root.join(generated_directory)
-            FileUtils.mkdir_p(dest_dir)
-            command = [site.config['lessc'],
-                       artifact,
-                       generated_directory.join(css_name)
-                       ].join(' ')
+          dest_dir = dest_root.join(generated_directory)
+          FileUtils.mkdir_p(dest_dir)
+          command = [site.config['lessc'],
+                     artifact,
+                     generated_directory.join(css_name)
+                     ].join(' ')
 
-            logger.info("Compiling LESS:", command)
+          logger.info("Compiling LESS:", command)
 
-            result = `#{command}`
+          result = `#{command}`
 
-            raise IOError.new("LESS compilation error: #{result}") if $?.to_i != 0
-          end
+          raise IOError.new("LESS compilation error: #{result}".red) if $?.to_i != 0
 
           relative_path = generated_directory.relative_path_from(source_root)
           site.static_files << LessCssFile.new(site, site.source, relative_path, css_name)
