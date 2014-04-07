@@ -1,11 +1,39 @@
 #! /usr/bin/env ruby
-# Inspired by https://gist.github.com/andyfowler/642739
+# Inspired by https://gist.github.com/andyfowler/642739 and https://github.com/zroger/jekyll-less
 require 'pathname'
 
 module Jekyll
   class LessCssFile < StaticFile
+    def logger
+      Jekyll.logger
+    end
+
+    def destination(dest)
+      File.join(dest, @dir, @name.sub(LessJsGenerator::LESS_EXT_REGEX , '.css'))
+    end
+
+    def modified?
+      others = @site.static_files.clone
+      # avoid infinite recursion
+      others.delete(self)
+      super || others.any? { |sf| sf.path =~ LessJsGenerator::LESS_EXT_REGEX && sf.modified? }
+    end
+
     def write(dest)
-      # do nothing
+      dest_path = destination(dest)
+      return false if File.exist?(dest_path) and !modified?
+      @@mtimes[path] = mtime
+
+      FileUtils.mkdir_p(File.dirname(dest_path))
+
+      command = [@site.config['lessc'],
+                 path,
+                 dest_path
+                 ].join(' ')
+      logger.info("Compiling LESS:", command)
+      result = `#{command}`
+
+      raise IOError.new("LESS compilation error: #{result}".red) if $?.to_i != 0
     end
   end
 
@@ -14,49 +42,35 @@ module Jekyll
   #   less_artifacts: a list of globs.  Files matching the globs are sent to lessc.
   class LessJsGenerator < Generator
     safe true
-    priority :low
+    priority :high
+
+    LESS_EXT_REGEX = /\.less$/i
 
     def logger
       Jekyll.logger
     end
 
-    # This method creates the CSS from the LESS file and places it in the Jekyll content directory rather than
-    # in _site. This behavior is a work-around for GitHub's limitation against running Jekyll plugins.
+    def validate(config)
+      unless config.has_key?('lessc')
+        logger.abort_with("FATAL:", "Missing 'lessc' path in site configuration")
+      end
+      unless config.has_key?('less_artifacts')
+        logger.abort_with("FATAL:", "Missing 'less_artifacts' value in site configuration")
+      end
+    end
+
     def generate(site)
-      source_root = Pathname.new(site.source)
-      dest_root = Pathname.new(site.dest)
-      less_ext = /\.less$/i
-
-      logger.abort_with("FATAL:", "Missing 'lessc' path in site configuration") if !site.config['lessc']
-      logger.abort_with("FATAL:", "Missing 'less_artifacts' value in site configuration") if !site.config['less_artifacts']
-
-      less_artifacts = site.config['less_artifacts'].map { |glob| Dir.glob(File.join(source_root, glob)) }
+      validate(site.config)
+      less_artifacts = site.config['less_artifacts'].map { |glob| Dir.glob(File.join(site.source, glob)) }
       less_artifacts.flatten!
 
-      # static_files have already been filtered against excludes, etc.
-      if site.static_files.any? { |sf| sf.path =~ less_ext && sf.modified? }
-        #compile top level artifacts
-        less_artifacts.each do |artifact|
-          source_path, file = Pathname.new(artifact).split
-          generated_directory = source_path.join("generated")
-          css_name = file.to_s.gsub(less_ext, '.css')
-
-          dest_dir = dest_root.join(generated_directory)
-          FileUtils.mkdir_p(dest_dir)
-          command = [site.config['lessc'],
-                     artifact,
-                     generated_directory.join(css_name)
-                     ].join(' ')
-
-          logger.info("Compiling LESS:", command)
-
-          result = `#{command}`
-
-          raise IOError.new("LESS compilation error: #{result}".red) if $?.to_i != 0
-
-          relative_path = generated_directory.relative_path_from(source_root)
-          site.static_files << LessCssFile.new(site, site.source, relative_path, css_name)
-        end
+      site.static_files.clone.select { |f| less_artifacts.include?(f.path) }.each do |artifact|
+        site.static_files.delete(artifact)
+        source_path, file = Pathname.new(artifact.path).split
+        relative_path = source_path.relative_path_from(Pathname.new(site.source))
+        # You must insert the LessCssFile at the beginning so that when it runs its modified? the
+        # values in @@mtimes won't be updated for the other static files yet.
+        site.static_files.insert(0, LessCssFile.new(site, site.source, relative_path, file.to_s))
       end
     end
   end
