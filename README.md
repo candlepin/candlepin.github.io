@@ -1,5 +1,5 @@
 # Getting Started
-1. `yum install nodejs-less python-pygments ruby-devel rubygem-rugged`
+1. `yum install nodejs-less python-pygments ruby-devel rubygem-rugged libyaml`
 2. `gem install bundler`
 3. `bundle install`
 
