@@ -32,7 +32,7 @@ module Jekyll
       page = context.registers[:page]
       source_root = site.source
       begin
-        repo = Rugged::Repository.new(File.join(source_root, ".git"))
+        repo = Rugged::Repository.new(Rugged::Repository.discover(source_root))
         index = repo.index
         obj = index[page['path']]
         if obj.nil?
