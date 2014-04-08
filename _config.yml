@@ -21,7 +21,7 @@ paginate_path: /news/page:num
 # What to compile with lessc
 less_artifacts: ['assets/candlepin.less']
 # -x minifies the CSS
-lessc: /usr/bin/lessc -x
+lessc: bin/less.js-1.7.0/lessc -x
 
 # This is a workaround so we can use pygments.rb
 # See https://github.com/navarroj/krampygs
