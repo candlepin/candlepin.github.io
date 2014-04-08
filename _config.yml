@@ -1,6 +1,9 @@
 # Do not use tabs in this file!
 repository: https://github.com/candlepin/candlepin
 
+# Required for running on Ruby 1.9
+encoding: utf-8
+
 # Change this if we ever need the site to reside in a sub-directory
 baseurl: ''
 
