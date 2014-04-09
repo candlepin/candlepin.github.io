@@ -71,8 +71,8 @@ curl -k -u admin:admin "https://localhost:8443/candlepin/consumers?owner=foo&fac
 
 ## Consolidated Information
 
-* Key is case sensitive, however value is not 
-* Wildcard (*) may be used as many times as needed in any key and/or value
-  * Ex: fact=net.interface.*.mac_address:52:54:00:12:3c:aa may be shortened to fact=*mac_addr*:52:54:00:12:3c:aa
+* Key is case sensitive, however value is not
+* Wildcard \* may be used as many times as needed in any key and/or value
+  * Ex: ```fact=net.interface.*.mac_address:52:54:00:12:3c:aa may be shortened to fact=*mac_addr*:52:54:00:12:3c:aa```
 * KeyValue parameters are split on ONLY the first colon
 * Using the same key with different values represents OR
