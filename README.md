@@ -1,9 +1,12 @@
 # Getting Started
-1. `yum install rhino python-pygments ruby-devel rubygem-rugged libyaml`
+1. `yum install nodejs python-pygments ruby-devel libyaml`
 2. `gem install bundler`
 3. `bundle install`
+4. Render the site with `jekyll serve --watch`
+5. Make changes and save.
+6. Jekyll will automatically render your changes.
 
-# Workflow
+# Advanced Workflow
 1. Install Auto Reload from <https://addons.mozilla.org/en-US/firefox/addon/auto-reload/>
 2. In Firefox, go to Tools -> Auto Reload Preferences. Create an entry for http://localhost:4000. Click
    'Add Directory...' and point to the `$CHECKOUT_DIR/_site` directory. (This directory may not exist
@@ -54,7 +57,7 @@ $ ./subscription-manager
   E.g. .my_mixin(18px; \#deadbeef) versus darken(\#deadbeef, 10%)
   See <http://lesscss.org/features/#mixins-parametric-feature-mixins-with-multiple-parameters>
 * Be careful with internal links.  Preface them with {{ site.baseurl }} if they are in another direcotry.
-  See <http://jekyllrb.com/docs/github-pages/>
+  See <http://jekyllrb.com/docs/github-pages/#project_page_url_structure>
 * The URLs for all posts and pages contain a leading slash so there is no need to provide one.  E.g. Linking to a post
   would use {{ site.baseurl }}{{ post.url }}
 
