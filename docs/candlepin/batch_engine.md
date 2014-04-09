@@ -27,18 +27,29 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.google.inject.Inject;
+import com.google.inject.persist.UnitOfWork;
+
 import java.util.Date;
 
 /**
  * SimpleTask
  */
-public class SimpleTask implements Job {
+public class SimpleTask extends KingpinJob {
     
     /** must be in CRON format */
     public static final String DEFAULT_SCHEDULE = "0 * * * * ?";
 
+    /*
+     * Must inject the unit of work for all async jobs
+     */
+    @Inject
+    public void SimpleTask(UnitOfWork uow) {
+        super(uow);
+    }
+
     @Override
-    public void execute(final JobExecutionContext ctx)
+    public void toExecute(final JobExecutionContext ctx)
         throws JobExecutionException {
         System.out.println("simple task ran: " + new Date().toString());
     }
