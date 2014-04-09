@@ -9,7 +9,7 @@
   Dependency:
     - rugged
 =end
-require 'rugged'
+require 'git'
 
 module Jekyll
   class DateModifiedTag < Liquid::Tag
@@ -27,21 +27,32 @@ module Jekyll
       Jekyll.logger
     end
 
+    def open_repo(source_root)
+      # You can add :log => logger as option when building the Git object for more info.
+      if ENV['OPENSHIFT_HOMEDIR']
+        root = File.join(ENV['OPENSHIFT_HOMEDIR'], "git", "#{ENV['OPENSHIFT_APP_NAME']}.git")
+        logger.debug("", "Reading from Openshift bare repo at #{root}")
+        return Git.bare(root)
+      else
+        return Git.open(source_root)
+      end
+    end
+
     def render(context)
       site = context.registers[:site]
       page = context.registers[:page]
-      source_root = site.source
       begin
-        repo = Rugged::Repository.new(Rugged::Repository.discover(source_root))
-        index = repo.index
-        obj = index[page['path']]
-        if obj.nil?
-          logger.warn("Warning:", "#{page['path']} not found in Git index. Using current time.")
+        repo = open_repo(site.source)
+        most_recent = repo.log.path(page['path']).first
+        if most_recent.nil?
+          logger.warn("Warning:", "#{page['path']} not found in Git log. Using current time.")
         else
-          mtime = obj[:mtime]
+          # See http://alexpeattie.com/blog/working-with-dates-in-git/ for differences in author date
+          # and commit date
+          mtime = most_recent.author_date
         end
-      rescue Rugged::RepositoryError
-        logger.error("Error:", "Missing Git repository! Defaulting to current time.")
+      rescue => e
+        logger.error("Error:", "Could not read Git repository! Defaulting to current time. #{e}")
       end
       # Set mtime to the site's generation time if we hit a RepositoryError or nil obj
       mtime ||= site.time
