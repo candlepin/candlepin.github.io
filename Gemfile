@@ -9,3 +9,8 @@ gem 'rack-jekyll', "~> 0.4"
 gem 'psych', "~> 2.0.5"
 gem 'rack'
 gem 'thin'
+
+group :development do
+  gem 'thor'
+  gem 'stringex'
+end

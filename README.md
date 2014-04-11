@@ -3,7 +3,9 @@
 2. `gem install bundler`
 3. `bundle install`
 4. Render the site with `jekyll serve --watch`
-5. Make changes and save.
+5. Make changes and save.  If you wish to create a news item, run `bin/site-tool post "My Title"`.  That
+   command will create a file with the correct name and format and open your editor as defined by VISUAL
+   or EDITOR.  You can use a different editor with the `--editor` option.
 6. Jekyll will automatically render your changes.
 
 # Advanced Workflow
@@ -16,6 +18,12 @@
     ```
     $ firewall-cmd --add-port=4000/tcp --permanent
     ```
+# Deployment
+1. `yum install rhc`
+2. `rhc setup`
+3. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
+   To automate this, I've created a little script.  Simply run `bin/site-tool bootstrap`.  You should
+   now be able to use `rhc` to issue commands to the app on Openshift.
 
 # Syntax Highlighting
 Syntax highlighting is provided by [Pygments](http://pygments.org) (more specifically by
@@ -77,3 +85,12 @@ $ ./subscription-manager
 * The JS and theming are courtesy of Bootstrap <http://getbootstrap.com/> although
   I did strip out some of the JS that we probably would not use like the carousel and
   modal dialog functions.
+
+# Openshift Details
+Right now, we have the BUNDLE_WITHOUT environment variable set to "development"
+to exclude gems that are in the development group in the Gemfile.  If you ever
+need to change that then run the following in your Openshift app checkout.
+
+```
+$ rhc set-env BUNDLE_WITHOUT="development another_group"
+```

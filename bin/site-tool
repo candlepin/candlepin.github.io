@@ -1,0 +1,66 @@
+#! /usr/bin/env ruby
+
+require 'date'
+require 'git'
+require 'stringex_lite'
+require 'thor'
+
+class SiteTool < Thor
+  include Thor::Actions
+
+  desc "post TITLE", "create a post"
+  option :editor, :default => ENV['VISUAL'] || ENV['EDITOR'] || 'vi'
+  option :date, :default => Time.now.to_s
+  def post(title)
+    begin
+      date = Date.parse(options[:date])
+    rescue
+      say_status(:error, "Could not parse '#{options[:date]}'", :red)
+      exit 1
+    end
+    slug = title.to_url
+    dest = path_to(:_posts)
+
+    shell.mute { empty_directory(dest) }
+
+    filename = "#{date.strftime('%Y-%m-%d')}-#{slug}.md"
+    create_file(path_to(dest, filename)) do
+      ["---",
+       "layout: news",
+       "title: #{title}",
+       "---",
+       ""].join("\n")
+    end
+
+    exec(options[:editor], path_to(dest, filename))
+  end
+
+  APP_ID = "5343494ce0b8cdec71000349"
+  APP_NAME = "website"
+  DOMAIN_NAME = "candlepinproject"
+
+  desc "bootstrap", "add openshift configuration"
+  def bootstrap
+    repo = Git.open(SiteTool.source_root)
+    repo.config("rhc.app-id", APP_ID)
+    repo.config("rhc.app-name", APP_NAME)
+    repo.config("rhc.domain-name", DOMAIN_NAME)
+    repo.add_remote("openshift", "ssh://#{APP_ID}@#{APP_NAME}-#{DOMAIN_NAME}.rhcloud.com/~/git/#{APP_NAME}.git")
+    repo.remote("openshift").fetch
+  end
+
+  # Methods in the no_tasks block are not exposed to users
+  no_tasks do
+    def self.source_root
+      File.expand_path("..", File.dirname(__FILE__))
+    end
+
+    # Builds a path within the source_root
+    def path_to(*args)
+      args = args.map(&:to_s)
+      File.join(*args)
+    end
+  end
+end
+
+SiteTool.start(ARGV)
