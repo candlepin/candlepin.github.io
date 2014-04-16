@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Exit on errors
+set -e
+
+cd $OPENSHIFT_REPO_DIR
+bundle install --without=development --deployment
+bundle exec jekyll build

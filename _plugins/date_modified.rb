@@ -29,12 +29,14 @@ module Jekyll
 
     def open_repo(source_root)
       # You can add :log => logger as option when building the Git object for more info.
-      if ENV['OPENSHIFT_HOMEDIR']
+      if File.directory?(File.join(source_root, '.git'))
+        return Git.open(source_root)
+      elsif ENV['OPENSHIFT_HOMEDIR']
         root = File.join(ENV['OPENSHIFT_HOMEDIR'], "git", "#{ENV['OPENSHIFT_APP_NAME']}.git")
         logger.debug("", "Reading from Openshift bare repo at #{root}")
         return Git.bare(root)
       else
-        return Git.open(source_root)
+        return nil
       end
     end
 
@@ -43,7 +45,7 @@ module Jekyll
       page = context.registers[:page]
       begin
         repo = open_repo(site.source)
-        most_recent = repo.log.path(page['path']).first
+        most_recent = (repo.nil?) ? nil : repo.log.path(page['path']).first
         if most_recent.nil?
           logger.warn("Warning:", "#{page['path']} not found in Git log. Using current time.")
         else
