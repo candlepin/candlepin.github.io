@@ -1,12 +1,11 @@
 #! /usr/bin/env ruby
 # Inspired by https://gist.github.com/andyfowler/642739 and https://github.com/zroger/jekyll-less
 require 'pathname'
+require_relative 'mixins.rb'
 
 module Jekyll
   class LessCssFile < StaticFile
-    def logger
-      Jekyll.logger
-    end
+    include LogCapable
 
     def destination(dest)
       File.join(dest, @dir, @name.sub(LessJsGenerator::LESS_EXT_REGEX , '.css'))
@@ -46,9 +45,7 @@ module Jekyll
 
     LESS_EXT_REGEX = /\.less$/i
 
-    def logger
-      Jekyll.logger
-    end
+    include LogCapable
 
     def validate(config)
       unless config.has_key?('lessc')

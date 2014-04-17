@@ -4,11 +4,11 @@
   by category.
 =end
 
+require_relative 'mixins.rb'
+
 module Jekyll
   class ProjectCategory < Struct.new(:name, :order, :pages)
-    def to_liquid()
-      Hash[self.members.map { |attr| [attr.to_s, send(attr)] }]
-    end
+    include Liquify
   end
 
   class ProjectIndexTag < Liquid::Tag
@@ -16,9 +16,7 @@ module Jekyll
     attr_accessor :text
     attr_accessor :tokens
 
-    def logger
-      Jekyll.logger
-    end
+    include LogCapable
 
     def initialize(tag_name, text, tokens)
       super

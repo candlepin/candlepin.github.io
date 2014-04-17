@@ -10,9 +10,12 @@
     - rugged
 =end
 require 'git'
+require_relative 'mixins.rb'
 
 module Jekyll
   class DateModifiedTag < Liquid::Tag
+    include LogCapable
+
     def initialize(tag_name, text, tokens)
       @tag_name = tag_name
       @attributes = {}
@@ -21,10 +24,6 @@ module Jekyll
       end
       @tokens = tokens
       super
-    end
-
-    def logger
-      Jekyll.logger
     end
 
     def open_repo(source_root)
