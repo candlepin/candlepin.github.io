@@ -55,6 +55,9 @@ end
 
 module Jekyll
   class KramdownPygments < Jekyll::Converter
+    safe true
+    priority :highest
+
     def matches(ext)
       ext =~ /^\.md$/i
     end
