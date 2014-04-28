@@ -76,6 +76,37 @@ div#front-page-lower {
   .red-border;
 }
 
+// SEARCH BOX
+// See http://getbootstrap.com/getting-started/#third-parties
+.reset-box-sizing {
+  &,
+  *,
+  *:before,
+  *:after {
+    .box-sizing(content-box);
+  }
+}
+
+#gcse {
+  .reset-box-sizing();
+  width: 250px;
+  .navbar-vertical-align(36px);
+
+  form.gsc-search-box {
+    margin-bottom: 0px;
+  }
+
+  .gsib_a {
+    padding-top: 0px;
+    padding-left: 3px;
+  }
+
+  input.gsc-search-button {
+    margin-top: 4px;
+    position: relative;
+  }
+}
+
 // TABLE OF CONTENTS
 @toc-color: lighten(@navbar-default-bg, 25%);
 @toc-border: darken(@toc-color, 10%);
@@ -169,12 +200,13 @@ div#front-page-lower {
 }
 
 // TABLES
-table {
-  .table;
-}
-
-table.column-striped tr td:nth-child(odd) {
-  background: @gray-lighter;
+#page-content {
+  table {
+    .table;
+    .column-striped tr td:nth-child(odd) {
+      background: @gray-lighter;
+    }
+  }
 }
 
 // POSITIONING
