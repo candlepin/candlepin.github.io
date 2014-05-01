@@ -4,7 +4,7 @@ gem 'typogruby', "~> 1.0"
 gem 'jekyll', "~> 1.4"
 gem 'kramdown', "~> 1.3"
 gem 'rack-jekyll', "~> 0.4"
-gem 'nokogiri', "~> 1.6"
+gem 'nokogiri', "~> 1.5.2"
 gem 'stringex'
 gem 'rack'
 gem 'thin'

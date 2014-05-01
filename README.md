@@ -1,5 +1,5 @@
 # Getting Started
-1. `yum install nodejs python-pygments ruby-devel libyaml`
+1. `yum install nodejs python-pygments ruby-devel libyaml libxslt-devel`
 2. `gem install bundler`
 3. `bundle install`
 4. Render the site with `jekyll serve --watch`
