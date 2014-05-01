@@ -1,6 +1,8 @@
 #! /usr/bin/env ruby
 # Courtesy of https://gist.github.com/mbland/3812259 and altered to allow nils.
 
+require_relative 'mixins.rb'
+
 class NilSortingArray < Array
   # sort_by with nils going at the end.
   def sort_by_with_nil!(meth=:to_s)
@@ -20,9 +22,7 @@ end
 
 module Jekyll
   module SortedForImpl
-    def logger
-      Jekyll.logger
-    end
+    include LogCapable
 
     def render(context)
       sorted_collection = NilSortingArray.new(collection_to_sort(context))
