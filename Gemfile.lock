@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://mirror.openshift.com/mirror/ruby/
   specs:
     blankslate (2.1.2.4)
     classifier (1.3.4)
