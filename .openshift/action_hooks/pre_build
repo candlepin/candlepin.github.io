@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Exit on errors
+set -e
+
+cd $OPENSHIFT_REPO_DIR
+
+# We need a recent version of Bundler to support the
+# "ruby" keyword in the Gemfile.
+gem update bundler

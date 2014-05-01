@@ -1,7 +1,26 @@
 # Getting Started
 1. `yum install nodejs python-pygments ruby-devel libyaml libxslt-devel`
-2. `gem install bundler`
-3. `bundle install`
+2. Install RVM. Yes, I know RVM can be a pain when you first start using it, but OpenShift uses Ruby 1.9.3
+   and the fact is there are some small compatibility issues between 2.0.0 and 1.9.3. Note: do **NOT** install
+   RVM as root.
+
+   ```
+   $ curl -sSL https://get.rvm.io | bash -s stable --ruby=ruby-1.9.3-p545 --ruby=ruby-2.0.0-p353 --with-gems=rhc
+   # The command below will insure that when you install subsequent Ruby versions, the 'rhc' gem will be installed.
+   $ echo "rhc" >> ~/.rvm/gemsets/global.gems
+   $ rvm --default use 2.0.0-p353
+   ```
+
+   Now you must configure your terminal emulator to act as a login shell.  In gnome-terminal, go to "Edit -> 
+   Profile Preferences -> Title and Command".  Check the box reading "Run command as login shell."  In xfce4-terminal,
+   go to "Edit -> Preferences" and check the "Run command as login shell" box.  See 
+   <https://rvm.io/integration/gnome-terminal>
+
+   With these settings, RVM will use Ruby 2.0.0 as a default.  However, when you `cd` to the website directory
+   RVM will detect the .ruby-version and .ruby-gemset files and switch to Ruby 1.9.3 and the candlepinproject.org
+   gemset.  The documentation from RVM is extensive so don't be afraid to read it.
+
+3. Go into your checkout directory and run `bundle install`
 4. Render the site with `jekyll serve --watch`
 5. Make changes and save.  If you wish to create a news item, run `bin/site-tool post "My Title"`.  That
    command will create a file with the correct name and format and open your editor as defined by VISUAL
@@ -74,6 +93,7 @@ $ ./subscription-manager
 * To find code blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
 
 # References
+* We use RVM to manage Ruby versions and gemsets.  See <https://rvm.io/#docindex>
 * Jekyll is the engine used to create the site.  There is very good documentation at
   <http://jekyllrb.com/docs/home/>
 * We are using Kramdown as our Markdown renderer. There is a quick reference at
