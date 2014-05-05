@@ -64,3 +64,5 @@ With SSL, the best I've found is to use the Java client example, which needs a f
 ## Notes
 * install `qpid-tools`
   * add events queue `qpid-config add queue events`
+
+
