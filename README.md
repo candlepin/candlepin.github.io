@@ -19,7 +19,6 @@
    With these settings, RVM will use Ruby 2.0.0 as a default.  However, when you `cd` to the website directory
    RVM will detect the .ruby-version and .ruby-gemset files and switch to Ruby 1.9.3 and the candlepinproject.org
    gemset.  The documentation from RVM is extensive so don't be afraid to read it.
-
 3. Go into your checkout directory and run `bundle install`
 4. Render the site with `jekyll serve --watch`
 5. Make changes and save.  If you wish to create a news item, run `bin/site-tool post "My Title"`.  That
@@ -30,7 +29,7 @@
 # Advanced Workflow
 1. Install Auto Reload from <https://addons.mozilla.org/en-US/firefox/addon/auto-reload/>
 2. In Firefox, go to Tools -> Auto Reload Preferences. Create an entry for http://localhost:4000. Click
-   'Add Directory...' and point to the `$CHECKOUT_DIR/_site` directory. (This directory may not exist
+   'Add Directory...' and point to the `$CHECKOUT_DIR/\_site` directory. (This directory may not exist
    yet if Jekyll has not yet rendered the site.) Uncheck the 'Reload active tab only' box.
 3. *Optional* Open port 4000 in your firewall so others can see your local site
 
@@ -79,9 +78,28 @@ $ ./subscription-manager
 ```
 
 # Gotchas
+* In Markdown, whitespace matters!  Specifically, when you're in a block (like a list element in a bulleted list)
+  you need to make sure all sub-blocks have the same initial indentation.
+
+**Correct**
+<pre>
+* Hello World looks like
+  ```
+  print "Hello World"
+  ```
+</pre>
+
+**INCORRECT**
+<pre>
+* Hello World looks like
+```
+print "Hello World"
+```
+</pre>
+
 * In Less, you must use semicolons to separate parameters to mixins and not commas. However, Less' functions
   do use commas.
-  E.g. .my_mixin(18px; \#deadbeef) versus darken(\#deadbeef, 10%)
+  E.g. .my\_mixin(18px; \#deadbeef) versus darken(\#deadbeef, 10%)
   See <http://lesscss.org/features/#mixins-parametric-feature-mixins-with-multiple-parameters>
 * Be careful with internal links.  Preface them with {{ site.baseurl }} if they are in another direcotry.
   See <http://jekyllrb.com/docs/github-pages/#project_page_url_structure>
@@ -89,8 +107,13 @@ $ ./subscription-manager
   would use {{ site.baseurl }}{{ post.url }}
 
 # Tips
-* If you want to see an overview of an object in Liquid, filter it through the debug filter from _plugins.  E.g. {{ page | debug }}
+* If you want to see an overview of an object in Liquid, filter it through the debug filter from \_plugins.  E.g. {{ page | debug }}
 * To find code blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
+* Vim associates '.md' files with Modula-2.  Add the following to your .vimrc to change the association:
+
+  ```
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  ```
 
 # References
 * We use RVM to manage Ruby versions and gemsets.  See <https://rvm.io/#docindex>
