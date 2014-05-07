@@ -14,4 +14,7 @@ gem 'thin'
 
 group :development do
   gem 'thor'
+  gem 'rack-livereload'
+  gem 'guard-livereload'
+  gem 'guard-jekyll-plus'
 end
