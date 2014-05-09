@@ -5,6 +5,10 @@ ignore %r{\.swp$}
 
 guard 'jekyll-plus', :serve => true do
   watch %r{.*}
+
+  # Guard's ignore ability is weird.  As far as I can tell, when you ignore
+  # something, it is ignored globally and not just scoped to the particular
+  # guard task.  Beware.
   ignore %r{^_site}
 end
 
