@@ -32,9 +32,9 @@ If you are not using SSL then simply use ```tcp://IP_ADDR```
 
 * Restart tomcat:
 
-```console
-$ sudo service tomcat6 restart
-```
+  ```console
+  $ sudo service tomcat6 restart
+  ```
 * Hook up a client (like Qpid's [Python drain](http://qpid.apache.org/releases/qpid-0.26/messaging-api/python/examples/drain.html) or [Java drain](http://qpid.apache.org/releases/qpid-0.24/qpid-jms/examples/Drain.java.html)).
 
 ## Running with stand-alone Qpid server
