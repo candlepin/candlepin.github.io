@@ -3,7 +3,16 @@
 
 ignore %r{\.swp$}
 
-guard 'jekyll-plus', :serve => true do
+ISOLATION_FILE = ".isolation_config.yml"
+ENV['RACK_ENV'] = "development"
+
+jekyll_config = ["_config.yml"]
+if File.exists?(ISOLATION_FILE)
+  UI.warning("Running with additional Jekyll configuration in #{ISOLATION_FILE}")
+  jekyll_config << ISOLATION_FILE if File.exists?(ISOLATION_FILE)
+end
+
+guard 'jekyll-plus', :serve => true, :config => jekyll_config do
   watch %r{.*}
 
   # Guard's ignore ability is weird.  As far as I can tell, when you ignore

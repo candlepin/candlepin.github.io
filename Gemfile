@@ -14,7 +14,9 @@ gem 'thin'
 
 group :development do
   gem 'thor'
+  gem 'safe_yaml'
   gem 'rack-livereload'
   gem 'guard-livereload'
-  gem 'guard-jekyll-plus'
+  # Until https://github.com/imathis/guard-jekyll-plus/issues/24 gets fixed...
+  gem 'guard-jekyll-plus', :git => 'https://github.com/awood/guard-jekyll-plus'
 end
