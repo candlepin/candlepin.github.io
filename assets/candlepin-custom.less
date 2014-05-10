@@ -14,7 +14,7 @@ div#front-page-banner {
   margin-bottom: 0px;
 }
 
-div#front-page-blurb {
+div#front-page-blurb, div#not-found-blurb {
   font-family: "Overpass", @font-family-base;
   text-shadow: 0 1px 0 darken(@rh-red, 10%);
 
@@ -29,6 +29,22 @@ div#front-page-blurb {
   h2 {
     color: @rh-red;
     font-size: 25px;
+  }
+}
+
+div#not-found-banner {
+  #gradient.vertical(@start-color: @navbar-default-bg; @end-color: black);
+  position:absolute;
+  top: @navbar-height;
+  bottom: @footer-height;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
+
+div#not-found-blurb {
+  h1 {
+    letter-spacing: inherit;
   }
 }
 
