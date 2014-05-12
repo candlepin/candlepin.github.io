@@ -11,37 +11,79 @@
    $ rvm --default use 2.0.0-p353
    ```
 
-   Now you must configure your terminal emulator to act as a login shell.  In gnome-terminal, go to "Edit -> 
+   Now you must configure your terminal emulator to act as a login shell.  In gnome-terminal, go to "Edit ->
    Profile Preferences -> Title and Command".  Check the box reading "Run command as login shell."  In xfce4-terminal,
-   go to "Edit -> Preferences" and check the "Run command as login shell" box.  See 
+   go to "Edit -> Preferences" and check the "Run command as login shell" box.  See
    <https://rvm.io/integration/gnome-terminal>
 
    With these settings, RVM will use Ruby 2.0.0 as a default.  However, when you `cd` to the website directory
    RVM will detect the .ruby-version and .ruby-gemset files and switch to Ruby 1.9.3 and the candlepinproject.org
    gemset.  The documentation from RVM is extensive so don't be afraid to read it.
 3. Go into your checkout directory and run `bundle install`
-4. Render the site with `jekyll serve --watch`
+4. Render the site with `jekyll serve --watch`.  (See Advanced Workflow section for tips on getting real time
+   previews of your updates).
 5. Make changes and save.  If you wish to create a news item, run `bin/site-tool post "My Title"`.  That
    command will create a file with the correct name and format and open your editor as defined by VISUAL
    or EDITOR.  You can use a different editor with the `--editor` option.
 6. Jekyll will automatically render your changes.
 
 # Advanced Workflow
-1. Install Auto Reload from <https://addons.mozilla.org/en-US/firefox/addon/auto-reload/>
-2. In Firefox, go to Tools -> Auto Reload Preferences. Create an entry for http://localhost:4000. Click
-   'Add Directory...' and point to the `$CHECKOUT_DIR/\_site` directory. (This directory may not exist
-   yet if Jekyll has not yet rendered the site.) Uncheck the 'Reload active tab only' box.
-3. *Optional* Open port 4000 in your firewall so others can see your local site
+1. *Optional*: Open port 4000 in your firewall so others can see your local site
 
     ```
     $ firewall-cmd --add-port=4000/tcp --permanent
     ```
+2. If you wish to see real time previews of your updates (i.e. if you don't
+   want to hit the refresh button all the time), then you can use
+   `bin/site-tool serve`.  This command is a wrapper around Jekyll but uses the
+   [LiveReload protocol](http://feedback.livereload.com/knowledgebase/articles/86174-livereload-protocol)
+   with a tool called [Guard](https://github.com/guard/guard).  Guard is very
+   powerful and I recommend reading the documentation, but all you really need
+   to know to get started is that you exit Guard by hitting Ctrl-D or by typing
+   "e" or "exit".
+
+   Guard will print some output and you should see a notice that Jekyll is
+   serving on port 4000 and that LiveReload is waiting for a browser to
+   connect.  Go to http://localhost:4000 and visit a page.  When you edit that
+   page's source Markdown file and save, Guard will see the file modification
+   and trigger a site build.  LiveReload will then refresh your browser for
+   you if your browser is connected.  Sometimes it is a bit tricky to get the browser
+   to make the initial WebSockets connection.  You may have to refresh or shift-refresh
+   a few times.  You're connected when you see the "Browser connected" message on
+   the Guard console.
+
+3. **Extreme ProTip**: Unfortunately, Jekyll is a bit simplistic in how it
+   regenerates sites.  It regenerates everything instead of just what it needs
+   to (improving this is on the roadmap for Jekyll 2.0).  I find waiting for
+   the entire site to render to be tedious, so there is a faster way to preview
+   changes if you're only working on a few pages:
+
+   ```
+   $ bin/site-tool isolate path/to/source/file.md
+   ```
+   Using `isolate` will only render and serve the files you give as arguments
+   plus a few other dependencies like CSS files.  You can provide as many
+   source files as you like if you're working with more than one pages at a
+   time.  The isolate command works by telling Jekyll to ignore everything but
+   the files you specify.  The isolate command also includes the LiveReload
+   functionality.
+
 # Deployment
 1. `yum install rhc`
 2. `rhc setup`
 3. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
    To automate this, I've created a little script.  Simply run `bin/site-tool bootstrap`.  You should
    now be able to use `rhc` to issue commands to the app on Openshift.
+4. When you are ready to deploy, `git push origin master; git push openshift master`.  Currently you must
+   push to both locations!  Github is the upstream and the Openshift repo is where we build from.  This
+   double repo situation is annoying and I plan on fixing it, but for now just remember to push to both
+   places.
+5. When you push to Openshift, it will fire a Jenkins build at <http://build-candlepinproject.rhcloud.com>, if
+   your build fails (and they do sometimes because Jenkins gets a bad build node or the stars are misaligned), then
+   you need to log in to Jenkins (see awood for your account and password if you don't know it) and trigger the
+   build manually.  We use Jenkins builds because even though they can be flakey, they prevent a broken application
+   from being deployed (i.e. `jekyll build` has to return successfully before the app will deploy).  The Openshift
+   relevant files are in the repo in the .openshift directory.
 
 # Syntax Highlighting
 Syntax highlighting is provided by [Pygments](http://pygments.org) (more specifically by
@@ -136,4 +178,10 @@ need to change that then run the following in your Openshift app checkout.
 
 ```
 $ rhc set-env BUNDLE_WITHOUT="development another_group"
+```
+
+You can view the current custom environment variables with
+
+```
+$ rhc env list
 ```
