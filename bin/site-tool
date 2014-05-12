@@ -30,11 +30,12 @@ class SiteTool < Thor
 
     filename = "#{date.strftime('%Y-%m-%d')}-#{slug}.md"
     create_file(path_to(dest, filename)) do
-      ["---",
-       "layout: news",
-       "title: #{title}",
-       "---",
-       ""].join("\n")
+    <<-CONTENT.gsub(/^\s*/, '')
+      ---
+      layout: news
+      title: #{title}
+      ---
+    CONTENT
     end
 
     exec(options[:editor], path_to(dest, filename))
