@@ -12,7 +12,7 @@ if File.exists?(ISOLATION_FILE)
   jekyll_config << ISOLATION_FILE if File.exists?(ISOLATION_FILE)
 end
 
-guard 'jekyll-plus', :serve => true, :config => jekyll_config do
+guard 'jekyll-plus', :serve => true, :extensions => ['less'], :config => jekyll_config do
   watch %r{.*}
 
   # Guard's ignore ability is weird.  As far as I can tell, when you ignore
