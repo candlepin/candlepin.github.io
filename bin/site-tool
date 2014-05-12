@@ -75,20 +75,20 @@ class SiteTool < Thor
     config['exclude'] += old_config['exclude'] || []
 
     # Due to our use of pagination, Jekyll wants an index.html
-    config['include'] = %w(*.less *.js *.css *.png 404.html index.html)
+    config['include'] = Set.new(%w(*.less *.js *.css *.png 404.html index.*))
     files.each do |glob|
       matches = Dir.glob(glob)
-      config['include'] += matches.map do |f|
+      matches.map! do |f|
         ext = File.extname(f)
-        # Remove file extension
-        name = File.basename(f, ext)
         # Jekyll won't serve files that it is ignoring so we need to match
         # the original extension (usually .md) and the rendered extension
         # (.html)
-        "#{name}.*"
+        "#{File.basename(f, ext)}.*"
       end
+      config['include'].add(*matches)
     end
 
+    config['include'] = config['include'].to_a
     create_file(ISOLATION_FILE, YAML.dump(config))
     begin
       invoke(:serve, [])
