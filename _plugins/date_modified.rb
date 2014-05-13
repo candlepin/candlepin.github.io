@@ -16,8 +16,6 @@ module Jekyll
   class DateModifiedTag < Liquid::Tag
     include LogCapable
 
-    @@date_cache = Hash.new
-
     def initialize(tag_name, text, tokens)
       @tag_name = tag_name
       @attributes = {}
@@ -44,18 +42,11 @@ module Jekyll
     def render(context)
       site = context.registers[:site]
       page = context.registers[:page]
-      page_path = page['path']
-      format = @attributes['format']
-
-      if @@date_cache.has_key?(page_path)
-        return context.invoke('date', @@date_cache[page_path], context[format])
-      end
-
       begin
         repo = open_repo(site.source)
-        most_recent = (repo.nil?) ? nil : repo.log.path(page_path).first
+        most_recent = (repo.nil?) ? nil : repo.log.path(page['path']).first
         if most_recent.nil?
-          logger.warn("Warning:", "#{page_path} not found in Git log. Using current time.")
+          logger.warn("Warning:", "#{page['path']} not found in Git log. Using current time.")
         else
           # See http://alexpeattie.com/blog/working-with-dates-in-git/ for differences in author date
           # and commit date
@@ -66,8 +57,8 @@ module Jekyll
       end
       # Set mtime to the site's generation time if we hit a RepositoryError or nil obj
       mtime ||= site.time
-      @@date_cache[page_path] = mtime
 
+      format = @attributes['format']
       # Delegate to Liquid's date filter
       # Basically, we're doing the below but more efficiently. The
       # context[format] will resolve the format value within the context (which
