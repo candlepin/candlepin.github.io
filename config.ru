@@ -4,11 +4,13 @@ require 'rack/jekyll'
 # "development" is the default.
 if ENV['RACK_ENV'] == "development"
   require 'rack/livereload'
+  require './_rack/isolation.rb'
   use Rack::LiveReload,
     :min_delay => 500,
     :max_delay => 2000,
     :no_swf => true,
     :source => :vendored
+  use Rack::IsolationInjector
 end
 
 use Rack::Static,

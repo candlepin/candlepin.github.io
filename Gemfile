@@ -19,4 +19,5 @@ group :development do
   gem 'guard-livereload'
   # Until https://github.com/imathis/guard-jekyll-plus/issues/24 gets fixed...
   gem 'guard-jekyll-plus', :git => 'https://github.com/awood/guard-jekyll-plus'
+  gem 'guard-rack'
 end
