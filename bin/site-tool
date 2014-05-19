@@ -32,7 +32,6 @@ class SiteTool < Thor
     create_file(path_to(dest, filename)) do
     <<-CONTENT.gsub(/^\s*/, '')
       ---
-      layout: news
       title: #{title}
       ---
     CONTENT
