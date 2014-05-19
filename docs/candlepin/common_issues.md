@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Common Problems
 ---
 {% include toc.md %}

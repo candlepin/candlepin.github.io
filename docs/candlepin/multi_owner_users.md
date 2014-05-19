@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: design
 title: Multi-Owner Users Design
 ---

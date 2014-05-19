@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: developers
 title: Debugging SSL with Wireshark
 ---

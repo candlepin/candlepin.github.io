@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: usage
 title: Configuring Candlepin to Use Oracle
 ---

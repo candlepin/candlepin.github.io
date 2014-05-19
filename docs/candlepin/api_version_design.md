@@ -1,5 +1,4 @@
 ---
-layout: default
 title: API Version Design
 ---
 {% include toc.md %}

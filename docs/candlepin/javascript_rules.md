@@ -1,5 +1,4 @@
 ---
-layout: default
 title: JavaScript Rules
 ---
 {% include toc.md %}

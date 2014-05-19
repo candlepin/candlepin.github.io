@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Subscription Manager Entry Points
 ---
 {% include toc.md %}

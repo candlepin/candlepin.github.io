@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: usage
 title: Reporting an Error
 ---

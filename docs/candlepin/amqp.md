@@ -1,5 +1,4 @@
 ---
-layout: default
 title: AMQP
 ---
 {% include toc.md %}

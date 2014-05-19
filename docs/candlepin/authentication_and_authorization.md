@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Authentication and Authorization
 ---
 {% include toc.md %}

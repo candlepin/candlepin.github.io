@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Subscription Management
 ---
 {% include toc.md %}

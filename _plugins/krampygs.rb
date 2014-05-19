@@ -53,33 +53,24 @@ module Kramdown
   end
 end
 
-module Jekyll
-  class KramdownPygments < Jekyll::Converter
-    safe true
-    priority :highest
+class Jekyll::Converters::Markdown::KramdownPygments
+  def initialize(config)
+    @config = config
+  end
 
-    def matches(ext)
-      ext =~ /^\.md$/i
-    end
-
-    def output_ext(ext)
-      ".html"
-    end
-
-    def convert(content)
-      html = Kramdown::Document.new(content, {
-          :auto_ids             => @config['kramdown']['auto_ids'],
-          :auto_ids_prefix      => @config['kramdown']['auto_ids_prefix'],
-          :footnote_nr          => @config['kramdown']['footnote_nr'],
-          :entity_output        => @config['kramdown']['entity_output'],
-          :toc_levels           => @config['kramdown']['toc_levels'],
-          :smart_quotes         => @config['kramdown']['smart_quotes'],
-          :coderay_default_lang => @config['kramdown']['default_lang'],
-          :input                => @config['kramdown']['input'],
-          :hard_wrap            => @config['kramdown']['hard_wrap'],
-          :parse_block_html     => @config['kramdown']['parse_block_html'],
-      }).to_pygs
-      return Typogruby.improve(html)
-    end
+  def convert(content)
+    html = Kramdown::Document.new(content, {
+        :auto_ids             => @config['kramdown']['auto_ids'],
+        :auto_ids_prefix      => @config['kramdown']['auto_ids_prefix'],
+        :footnote_nr          => @config['kramdown']['footnote_nr'],
+        :entity_output        => @config['kramdown']['entity_output'],
+        :toc_levels           => @config['kramdown']['toc_levels'],
+        :smart_quotes         => @config['kramdown']['smart_quotes'],
+        :coderay_default_lang => @config['kramdown']['default_lang'],
+        :input                => @config['kramdown']['input'],
+        :hard_wrap            => @config['kramdown']['hard_wrap'],
+        :parse_block_html     => @config['kramdown']['parse_block_html'],
+    }).to_pygs
+    return Typogruby.improve(html)
   end
 end

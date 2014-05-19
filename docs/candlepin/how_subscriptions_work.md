@@ -1,5 +1,4 @@
 ---
-layout: default
 title: How Subscriptions Work
 ---
 {% include toc.md %}

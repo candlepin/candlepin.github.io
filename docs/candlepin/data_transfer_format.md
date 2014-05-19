@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Data Transfer
 ---
 {% include toc.md %}

@@ -1,5 +1,4 @@
 ---
-layout: news
 title: CandlepinProject.org gets a facelift
 ---
 The Candlepin team is proud to present a significantly redesigned version

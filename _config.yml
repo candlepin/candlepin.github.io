@@ -23,11 +23,17 @@ less_artifacts: ['assets/candlepin.less']
 # -x minifies the CSS
 lessc: bin/less.js-1.7.0/lessc -x
 
-# This is a workaround so we can use pygments.rb
-# See https://github.com/navarroj/krampygs
-markdown_ext: dummy_value
-markdown: kramdown
+markdown: KramdownPygments
 kramdown:
   # Use GitHub flavor markdown
   input: GFM
   hard_wrap: false
+
+# See http://jekyllrb.com/docs/configuration/#frontmatter-defaults
+defaults:
+  - scope: { path: "docs" }
+    values: { layout: "default" }
+  - scope: { path: "news" }
+    values: { layout: "news" }
+  - scope: { path: "_posts" }
+    values: { layout: "news" }
