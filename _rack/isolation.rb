@@ -17,15 +17,18 @@ module Rack
 
     def call(env)
       req = Rack::Request.new(env)
-      path = Pathname.new(req.path_info).relative_path_from(Pathname.new('/')).to_s
+
+      path = Pathname.new(req.path_info).relative_path_from(Pathname.new('/'))
+      if path.directory?
+        path = path.join(Pathname.new("index.html")).cleanpath
+      end
+      path = path.to_s
+
       files = ::Dir[::File.join(site_root, "**/*")].map do |f|
         Pathname.new(f).relative_path_from(Pathname.new(site_root)).to_s
       end
-      if files.include?(path)
-        if ::File.directory?(path)
-          path = ::File.join(path, "index.html")
-        end
 
+      if files.include?(path)
         mime = mime(path)
         file = file_info(::File.join(site_root, path))
         body = file[:body]
