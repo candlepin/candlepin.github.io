@@ -18,7 +18,5 @@ group :development do
   gem 'rack-livereload'
   gem 'guard-livereload'
   # Until https://github.com/imathis/guard-jekyll-plus/issues/24 gets fixed...
-#  gem 'guard-jekyll-plus', :git => 'https://github.com/awood/guard-jekyll-plus'
-  gem 'guard-jekyll-plus', :path => '~/devel/guard-jekyll-plus'
-  gem 'guard-rack'
+  gem 'guard-jekyll-plus', :git => 'https://github.com/awood/guard-jekyll-plus'
 end

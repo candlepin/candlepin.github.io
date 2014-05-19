@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/awood/guard-jekyll-plus
+  revision: eeb3aa4b81b69494a6c201fbd1b32bc240926839
+  specs:
+    guard-jekyll-plus (1.4.11)
+      guard (~> 2.0)
+      jekyll (~> 2.0)
+
+GIT
   remote: https://github.com/hsbt/rack-jekyll
   revision: 60446328a42a955e497284f7500379254f11a68f
   ref: 60446328a42a955e497284f7500379254f11a68f
@@ -41,12 +49,6 @@ GEM
       em-websocket (~> 0.5)
       guard (~> 2.0)
       multi_json (~> 1.8)
-    guard-rack (1.4.0)
-      ffi
-      guard
-      libnotify
-      rb-inotify
-      spoon
     http_parser.rb (0.6.0)
     jekyll (2.0.3)
       classifier (~> 1.3)
@@ -66,8 +68,6 @@ GEM
     jekyll-sass-converter (1.0.0)
       sass (~> 3.2)
     kramdown (1.3.3)
-    libnotify (0.8.2)
-      ffi (>= 1.0.11)
     liquid (2.5.5)
     listen (2.7.5)
       celluloid (>= 0.15.2)
@@ -99,8 +99,6 @@ GEM
     safe_yaml (1.0.3)
     sass (3.3.7)
     slop (3.5.0)
-    spoon (0.0.4)
-      ffi
     stringex (2.5.2)
     thin (1.6.2)
       daemons (>= 1.0.9)
@@ -119,8 +117,8 @@ PLATFORMS
 
 DEPENDENCIES
   git (~> 1.2)
+  guard-jekyll-plus!
   guard-livereload
-  guard-rack
   jekyll (~> 2.0)
   kramdown (~> 1.3)
   nokogiri (~> 1.5.2)

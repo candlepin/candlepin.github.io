@@ -71,7 +71,7 @@ class SiteTool < Thor
       # convertible.rb read_yaml method.
       content =~ /\A(---\s*\n.*?\n?)^(---\s*$\n?)/m
     end
-    config['exclude'] = pages.map { |f| File.basename(f) }
+    config['exclude'] = pages
     config['exclude'] += old_config['exclude'] || []
 
     # Due to our use of pagination, Jekyll wants an index.html
@@ -80,9 +80,9 @@ class SiteTool < Thor
       matches = Dir.glob(glob)
       matches.map! do |f|
         ext = File.extname(f)
-        # Jekyll won't serve files that it is ignoring so we need to match
-        # the original extension (usually .md) and the rendered extension
-        # (.html)
+        # If we have to add to this list from Rack, then Rack will have no
+        # idea what the original file extension was.  Use a wildcard to
+        # avoid this issue.
         "#{File.basename(f, ext)}.*"
       end
       config['include'].add(*matches)

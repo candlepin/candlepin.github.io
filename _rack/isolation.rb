@@ -1,64 +1,117 @@
 #! /usr/bin/env ruby
 
+require 'pathname'
 require 'safe_yaml/load'
 require 'set'
-require 'uri'
 
 module Rack
   class IsolationInjector
-    def initialize(app, options={})
-      @app = app
+    attr_reader :site_root
+
+    def initialize(options={})
       @options = options
+      @site_root = @options[:site_root] || "_site"
     end
 
     ISOLATION_FILE = '.isolation_config.yml'
 
     def call(env)
       req = Rack::Request.new(env)
-      begin
-        status, headers, response = @app.call(env)
-        resp = [status, headers, response]
-        return *resp unless status == 404 && ::File.exists?(ISOLATION_FILE)
-      rescue => e
-        puts "Something weird happened: #{e}"
+      path = Pathname.new(req.path_info).relative_path_from(Pathname.new('/')).to_s
+      files = ::Dir[::File.join(site_root, "**/*")].map do |f|
+        Pathname.new(f).relative_path_from(Pathname.new(site_root)).to_s
       end
+      if files.include?(path)
+        if ::File.directory?(path)
+          path = ::File.join(path, "index.html")
+        end
 
-      uri = URI.parse(req.path_info)
-      file = (::File.extname(uri.path).empty?) ? "index.html" : ::File.basename(uri.path)
-      file = "#{::File.basename(file, ::File.extname(file))}.*".force_encoding('utf-8')
+        mime = mime(path)
+        file = file_info(::File.join(site_root, path))
+        body = file[:body]
+        time = file[:time]
+        hdrs = { 'Last-Modified'  => time }
 
-      SafeYAML::OPTIONS[:default_mode] = :safe
-      old_config = SafeYAML.load_file(ISOLATION_FILE)
-
-      file_set = Set.new(old_config['include'])
-
-      # Prevent loops.  If it's already in 'include' then we've gone through here before.
-      return *resp if file_set.include?(file)
-
-      old_config['include'] = file_set.add(file).to_a
-
-      ::File.open(ISOLATION_FILE, 'w') do |f|
-        YAML.dump(old_config, f)
+        if time == req.env['HTTP_IF_MODIFIED_SINCE']
+          [304, hdrs, []]
+        else
+          hdrs.update({ 'Content-length' => body.bytesize.to_s,
+                        'Content-Type' => mime, } )
+          [200, hdrs, [body]]
+        end
+      else
+        handle_404(req, path)
       end
+    end
 
-      response.close if response.respond_to?(:close)
-      response = <<-PAGE.gsub(/^\s*/, '')
-      <!DOCTYPE HTML>
-      <html lang="en-US">
-      <head>
-        <meta charset="UTF-8">
-        <title>Rendering #{req.path_info}</title>
-      </head>
-      <body>
-        <h1>Hold on while I render that page for you!</h1>
-      </body>
-      PAGE
+    def handle_404(req, true_path)
+      if ::File.exist?(ISOLATION_FILE)
+        file = true_path
+        # Use a wildcard since the origin file could be anything
+        file = "#{::File.basename(file, ::File.extname(file))}.*"
 
-      headers ||= {}
-      headers['Content-Length'] = response.length.to_s
-      headers['Content-Type'] = 'text/html'
-      headers['Connection'] = 'keep-alive'
-      return [200, headers, response.split("\n")]
+        SafeYAML::OPTIONS[:default_mode] = :safe
+        old_config = SafeYAML.load_file(ISOLATION_FILE)
+
+        file_set = Set.new(old_config['include'])
+
+        # Prevent loops.  If it's already in 'include'
+        # then we've gone through here before.
+        return static_error if file_set.include?(file)
+
+        old_config['include'] = file_set.add(file).to_a
+
+        ::File.open(ISOLATION_FILE, 'w') do |f|
+          YAML.dump(old_config, f)
+        end
+
+        response = <<-PAGE.gsub(/^\s*/, '')
+        <!DOCTYPE HTML>
+        <html lang="en-US">
+        <head>
+          <meta charset="UTF-8">
+          <title>Rendering #{req.path_info}</title>
+        </head>
+        <body>
+          <h1>Hold on while I render that page for you!</h1>
+        </body>
+        PAGE
+
+        headers ||= {}
+        headers['Content-Length'] = response.bytesize.to_s
+        headers['Content-Type'] = 'text/html'
+        headers['Connection'] = 'keep-alive'
+        [200, headers, [response]]
+      else
+        static_error
+      end
+    end
+
+    def static_error
+      error_page = ::File.join(site_root, "404.html")
+      if ::File.exist?(error_page)
+        body = file_info(error_page)[:body]
+        mime = mime(error_page)
+      else
+        body = "Not found"
+        mime = "text/plain"
+      end
+      return [404, {"Content-Type" => mime, "Content-length" => body.bytesize.to_s}, [body]]
+    end
+
+    def mime(path_info)
+      Mime.mime_type(::File.extname(path_info))
+    end
+
+    def file_info(path)
+      expand_path = ::File.expand_path(path)
+      ::File.open(expand_path, 'r') do |f|
+        {
+          :body => f.read,
+          :time => f.mtime.httpdate,
+          :expand_path => expand_path
+        }
+      end
     end
   end
 end
