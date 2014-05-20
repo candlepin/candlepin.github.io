@@ -68,6 +68,12 @@
    the files you specify.  The isolate command also includes the LiveReload
    functionality.
 
+   If you forget to add a file that you need to the `isolate` command, that's all
+   right.  Just go ahead and navigate to the other page.  Rack will add the file
+   you requested to the list of isolated files, Jekyll will render it, and LiveReload
+   will refresh your browser.  (If Jekyll takes longer to render than LiveReload does
+   to refresh, you may have to refresh manually).
+
 # Deployment
 1. `yum install rhc`
 2. `rhc setup`
