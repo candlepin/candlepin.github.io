@@ -51,7 +51,7 @@ module Rack
       if ::File.exist?(ISOLATION_FILE)
         file = true_path
         # Use a wildcard since the origin file could be anything
-        file = "#{::File.basename(file, ::File.extname(file))}.*"
+        file = "#{::File.basename(file, ::File.extname(file))}.*".force_encoding('utf-8')
 
         SafeYAML::OPTIONS[:default_mode] = :safe
         old_config = SafeYAML.load_file(ISOLATION_FILE)
