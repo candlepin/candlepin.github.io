@@ -6,7 +6,8 @@ gem 'git', "~> 1.2"
 gem 'typogruby', "~> 1.0"
 gem 'jekyll', "~> 2.0"
 gem 'kramdown', "~> 1.3"
-gem 'rack-jekyll', :git => 'https://github.com/hsbt/rack-jekyll', :ref => '60446328a42a955e497284f7500379254f11a68f'
+# Until https://github.com/adaoraul/rack-jekyll/pull/22 is accepted
+gem 'rack-jekyll', :git => 'https://github.com/awood/rack-jekyll'
 gem 'nokogiri', "~> 1.5.2"
 gem 'stringex'
 gem 'rack'
@@ -17,6 +18,6 @@ group :development do
   gem 'safe_yaml'
   gem 'rack-livereload'
   gem 'guard-livereload'
-  # Until https://github.com/imathis/guard-jekyll-plus/issues/24 gets fixed...
+  # Until https://github.com/imathis/guard-jekyll-plus/issues/25 is accepted
   gem 'guard-jekyll-plus', :git => 'https://github.com/awood/guard-jekyll-plus'
 end

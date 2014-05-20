@@ -7,9 +7,8 @@ GIT
       jekyll (~> 2.0)
 
 GIT
-  remote: https://github.com/hsbt/rack-jekyll
-  revision: 60446328a42a955e497284f7500379254f11a68f
-  ref: 60446328a42a955e497284f7500379254f11a68f
+  remote: https://github.com/awood/rack-jekyll
+  revision: 38db078046a52666b8da1dc0055877a98e6fab30
   specs:
     rack-jekyll (0.4.1)
       jekyll (> 1.3)
