@@ -25,6 +25,6 @@ guard 'jekyll-plus',
   ignore %r{^_site}
 end
 
-guard 'livereload', :grace_period => 4 do
+guard 'livereload', :grace_period => 5 do
   watch %r{.*}
 end
