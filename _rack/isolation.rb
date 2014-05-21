@@ -11,6 +11,7 @@ module Rack
     def initialize(options={})
       @options = options
       @site_root = @options[:site_root] || "_site"
+      SafeYAML::OPTIONS[:default_mode] = :safe
     end
 
     ISOLATION_FILE = '.isolation_config.yml'
@@ -53,7 +54,6 @@ module Rack
         # Use a wildcard since the origin file could be anything
         file = "#{::File.basename(file, ::File.extname(file))}.*".force_encoding('utf-8')
 
-        SafeYAML::OPTIONS[:default_mode] = :safe
         old_config = SafeYAML.load_file(ISOLATION_FILE)
 
         file_set = Set.new(old_config['include'])
