@@ -1,9 +1,6 @@
 # More info at https://github.com/guard/guard#readme
 # Courtesy http://dan.doezema.com/2014/01/setting-up-livereload-with-jekyll/
 
-# Heavy handed fix for annoying SafeYAML bug:
-# https://github.com/dtao/safe_yaml/issues/10#issuecomment-13039602
-notification :off
 ignore %r{\.swp$}
 
 ISOLATION_FILE = ".isolation_config.yml"
