@@ -4,17 +4,19 @@
    and the fact is there are some small compatibility issues between 2.0.0 and 1.9.3. Note: do **NOT** install
    RVM as root.
 
+   First you must configure your terminal emulator to act as a login shell.  In gnome-terminal,
+   go to "Edit -> Profile Preferences -> Title and Command".  Check the box reading
+   "Run command as login shell."  In xfce4-terminal, go to "Edit -> Preferences"
+   and check the "Run command as login shell" box.  See <https://rvm.io/integration/gnome-terminal>
+
+   Start a new terminal and run the following:
+
    ```
    $ curl -sSL https://get.rvm.io | bash -s stable --ruby=ruby-1.9.3-p545 --ruby=ruby-2.0.0-p353 --with-gems=rhc
    # The command below will insure that when you install subsequent Ruby versions, the 'rhc' gem will be installed.
    $ echo "rhc" >> ~/.rvm/gemsets/global.gems
    $ rvm --default use 2.0.0-p353
    ```
-
-   Now you must configure your terminal emulator to act as a login shell.  In gnome-terminal, go to "Edit ->
-   Profile Preferences -> Title and Command".  Check the box reading "Run command as login shell."  In xfce4-terminal,
-   go to "Edit -> Preferences" and check the "Run command as login shell" box.  See
-   <https://rvm.io/integration/gnome-terminal>
 
    With these settings, RVM will use Ruby 2.0.0 as a default.  However, when you `cd` to the website directory
    RVM will detect the .ruby-version and .ruby-gemset files and switch to Ruby 1.9.3 and the candlepinproject.org
