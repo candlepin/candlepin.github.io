@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Expired Entitlements
 ---
 {% include toc.md %}

@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: thumbslug
 title: How Thumbslug Works
 ---

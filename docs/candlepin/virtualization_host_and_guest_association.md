@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Associating Hosts and Guests in Candlepin
 ---
 {% include toc.md %}

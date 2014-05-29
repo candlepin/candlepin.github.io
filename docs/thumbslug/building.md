@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: thumbslug
 title: Getting Started
 ---

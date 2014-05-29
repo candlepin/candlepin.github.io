@@ -7,7 +7,15 @@ encoding: utf-8
 # Change this if we ever need the site to reside in a sub-directory
 baseurl: ''
 
-exclude: ['bin', 'Gemfile*', 'README.md', 'config.ru', 'vendor']
+exclude:
+  - 'bin'
+  - 'vendor'
+  - 'Gemfile*'
+  - 'README.md'
+  - 'config.ru'
+  - 'guard.ru'
+  - 'Guardfile'
+
 # The order of the categories here will be the order they show up in on the index page
 projects_dir: 'docs'
 
@@ -23,11 +31,17 @@ less_artifacts: ['assets/candlepin.less']
 # -x minifies the CSS
 lessc: bin/less.js-1.7.0/lessc -x
 
-# This is a workaround so we can use pygments.rb
-# See https://github.com/navarroj/krampygs
-markdown_ext: dummy_value
-markdown: kramdown
+markdown: KramdownPygments
 kramdown:
   # Use GitHub flavor markdown
   input: GFM
   hard_wrap: false
+
+# See http://jekyllrb.com/docs/configuration/#frontmatter-defaults
+defaults:
+  - scope: { path: "docs" }
+    values: { layout: "default" }
+  - scope: { path: "news" }
+    values: { layout: "news" }
+  - scope: { path: "_posts" }
+    values: { layout: "news" }

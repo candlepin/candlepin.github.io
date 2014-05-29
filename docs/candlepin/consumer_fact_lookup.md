@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: usage
 title: Lookup Consumers By Facts
 ---

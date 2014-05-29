@@ -1,5 +1,4 @@
 ---
-layout: default
 title: JSON and JAXB
 ---
 {% include toc.md %}

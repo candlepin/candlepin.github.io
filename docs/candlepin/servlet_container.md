@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: design
 title: Supporting Multiple Servlet Containers
 ---

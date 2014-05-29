@@ -1,61 +1,110 @@
+GIT
+  remote: https://github.com/awood/guard-jekyll-plus
+  revision: eeb3aa4b81b69494a6c201fbd1b32bc240926839
+  specs:
+    guard-jekyll-plus (1.4.11)
+      guard (~> 2.0)
+      jekyll (~> 2.0)
+
+GIT
+  remote: https://github.com/awood/rack-jekyll
+  revision: 38db078046a52666b8da1dc0055877a98e6fab30
+  specs:
+    rack-jekyll (0.4.1)
+      jekyll (> 1.3)
+      rack (~> 1.5.0)
+
 GEM
   remote: https://mirror.openshift.com/mirror/ruby/
   specs:
     blankslate (2.1.2.4)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
     classifier (1.3.4)
       fast-stemmer (>= 1.0.0)
+    coderay (1.1.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.7.0)
     colorator (0.1)
-    commander (4.1.6)
-      highline (~> 1.6.11)
     daemons (1.1.9)
+    em-websocket (0.5.1)
+      eventmachine (>= 0.12.9)
+      http_parser.rb (~> 0.6.0)
     eventmachine (1.0.3)
+    execjs (2.0.2)
     fast-stemmer (1.0.2)
     ffi (1.9.3)
+    formatador (0.2.4)
     git (1.2.6)
-    highline (1.6.21)
-    jekyll (1.5.1)
+    guard (2.6.1)
+      formatador (>= 0.2.4)
+      listen (~> 2.7)
+      lumberjack (~> 1.0)
+      pry (>= 0.9.12)
+      thor (>= 0.18.1)
+    guard-livereload (2.1.2)
+      em-websocket (~> 0.5)
+      guard (~> 2.0)
+      multi_json (~> 1.8)
+    http_parser.rb (0.6.0)
+    jekyll (2.0.3)
       classifier (~> 1.3)
       colorator (~> 0.1)
-      commander (~> 4.1.3)
+      jekyll-coffeescript (~> 1.0)
+      jekyll-sass-converter (~> 1.0)
+      kramdown (~> 1.3)
       liquid (~> 2.5.5)
-      listen (~> 1.3)
-      maruku (= 0.7.0)
+      listen (~> 2.5)
+      mercenary (~> 0.3.3)
       pygments.rb (~> 0.5.0)
-      redcarpet (~> 2.3.0)
+      redcarpet (~> 3.1)
       safe_yaml (~> 1.0)
       toml (~> 0.1.0)
+    jekyll-coffeescript (1.0.0)
+      coffee-script (~> 2.2)
+    jekyll-sass-converter (1.0.0)
+      sass (~> 3.2)
     kramdown (1.3.3)
     liquid (2.5.5)
-    listen (1.3.1)
+    listen (2.7.5)
+      celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
-      rb-kqueue (>= 0.2)
-    maruku (0.7.0)
+    lumberjack (1.0.5)
+    mercenary (0.3.3)
+    method_source (0.8.2)
+    multi_json (1.10.0)
     nokogiri (1.5.11)
     parslet (1.5.0)
       blankslate (~> 2.0)
     posix-spawn (0.3.8)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     pygments.rb (0.5.4)
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.1.0)
     rack (1.5.2)
-    rack-jekyll (0.4.1)
-      jekyll (>= 0.12.0, < 2.0)
-      rack (~> 1.5.0)
+    rack-livereload (0.3.15)
+      rack
     rb-fsevent (0.9.4)
-    rb-inotify (0.9.3)
+    rb-inotify (0.9.4)
       ffi (>= 0.5.0)
-    rb-kqueue (0.2.2)
-      ffi (>= 0.5.0)
-    redcarpet (2.3.0)
+    redcarpet (3.1.2)
     rubypants (0.2.0)
-    safe_yaml (1.0.2)
+    safe_yaml (1.0.3)
+    sass (3.3.7)
+    slop (3.5.0)
     stringex (2.5.2)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
     thor (0.19.1)
+    timers (1.1.0)
     toml (0.1.1)
       parslet (~> 1.5.0)
     typogruby (1.0.16)
@@ -67,11 +116,15 @@ PLATFORMS
 
 DEPENDENCIES
   git (~> 1.2)
-  jekyll (~> 1.4)
+  guard-jekyll-plus!
+  guard-livereload
+  jekyll (~> 2.0)
   kramdown (~> 1.3)
   nokogiri (~> 1.5.2)
   rack
-  rack-jekyll (~> 0.4)
+  rack-jekyll!
+  rack-livereload
+  safe_yaml
   stringex
   thin
   thor

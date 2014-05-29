@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Virtualization Entitlements
 ---
 This page may be out of date

@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: developers
 title: Developer's Guide to Getting Started
 ---

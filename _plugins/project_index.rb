@@ -54,7 +54,7 @@ module Jekyll
           order = site.config['category-order'].fetch(cat, nil)
           list << ProjectCategory.new(cat, order, pages)
       end
-      payload = site.site_payload.deep_merge({"project_categories" => project_categories})
+      payload = Utils.deep_merge_hashes(site.site_payload, {"project_categories" => project_categories})
 
       Liquid::Template.parse(layout.content).render!(payload)
     end

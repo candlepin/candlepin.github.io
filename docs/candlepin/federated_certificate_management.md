@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Federated Certificate Management
 ---
 {% include toc.md %}

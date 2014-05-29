@@ -1,5 +1,4 @@
 ---
-layout: default
 title: The Certificate Revocation List
 ---
 {% include toc.md %}

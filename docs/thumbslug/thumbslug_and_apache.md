@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: thumbslug
 title: Thumbslug and Apache
 ---

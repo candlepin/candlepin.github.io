@@ -1,5 +1,4 @@
 ---
-layout: default
 categories: design
 title: Manifest Consumer Association
 ---
