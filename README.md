@@ -78,15 +78,25 @@
 
 # Deployment
 1. `yum install rhc`
-2. `rhc setup`
-3. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
+1. `rhc setup`
+j. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
    To automate this, I've created a little script.  Simply run `bin/site-tool bootstrap`.  You should
    now be able to use `rhc` to issue commands to the app on Openshift.
-4. When you are ready to deploy, `git push origin master; git push openshift master`.  Currently you must
+1. ```TEMPORARY```: Visit the Jenkins job website. <http://build-candlepinproject.rhcloud.com>
+   It appears our jenkins gear is still getting idled when not used for a couple days. Visiting the site will reload the gear.
+1. When you are ready to deploy, `git push origin master; git push openshift master`.  Currently you must
    push to both locations!  Github is the upstream and the Openshift repo is where we build from.  This
    double repo situation is annoying and I plan on fixing it, but for now just remember to push to both
    places.
-5. When you push to Openshift, it will fire a Jenkins build at <http://build-candlepinproject.rhcloud.com>, if
+
+   If you see an error during push to openshift:
+
+   ```
+   ERROR - Job not available: http://build-candlepinproject.rhcloud.com/job/website-build
+   ```
+
+   This likely indicates you did not visit the website in previous step. You can login to the jenkins instance and trigger another build if this happens.
+1. When you push to Openshift, it will fire a Jenkins build at <http://build-candlepinproject.rhcloud.com>, if
    your build fails (and they do sometimes because Jenkins gets a bad build node or the stars are misaligned), then
    you need to log in to Jenkins (see awood for your account and password if you don't know it) and trigger the
    build manually.  We use Jenkins builds because even though they can be flakey, they prevent a broken application

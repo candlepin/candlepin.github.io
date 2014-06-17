@@ -6,10 +6,32 @@ title: Developer Notes
 
 This page contains a variety of information for those intending to work on Candlepin and it's associated sub-projects.
 
+# Eclipse Setup
+The Candlepin buildfile has an eclipse task to generate the `.classpath` for you.
+
+* Generate the .classpath file first:
+
+  ```console
+  $ cd candlepin/
+  $ buildr eclipse
+  (in /home/user/devel/candlepin, development)
+  Generating Eclipse project for candlepin
+  Writing /home/user/devel/candlepin/.classpath
+  Writing /home/user/devel/candlepin/.project
+  Fixing eclipse .classpath
+  Completed in 0.180s
+  ```
+* Create a Java project as you normally would (File -> New -> Java Project).
+* Choose Create Project From Existing Source.
+* Choose the root of your git checkout.
+* Ensure your `M2_REPO` classpath variable is pointing to `~/.m2/repository`
+
 # Code Style
 For Java code, we have checkstyle set up. You can configure it in Eclipse to
 report violations as errors, or run from the CLI. See instructions
 [here](checkstyle.html).
+
+Also see the [Java Coding Conventions](java_coding_conventions.html)
 
 For Python, stick to the guidelines in PEP8:
 <http://www.python.org/dev/peps/pep-0008/>. Also, run `make stylish` to run pep8,
@@ -60,41 +82,46 @@ on the go, all of which should be kept passing before you commit to any given
 codebase.
 
 1. Candlepin
-   * Java unit tests: Standard junit tests which can be run from within Eclipse or from the CLI.
- 
+   * Java unit tests: Standard JUnit tests which can be run from within Eclipse or from the CLI.
+
      ```console
      $ buildr test
      ```
    * Functional rspec tests:
- 
+
      ```console
      $ buildr spec
      ```
+   * Functional tests in parallen:
+
+     ```console
+     $ buildr parallel_rspec
+     ```
    * The safest bet is to run everything before committing:
- 
+
      ```console
      $ buildr check_all
      ```
 
 1. Subscription Manager
    * Python nosetests: Generally unit tests, which should *not* require root access or a live Candlepin server to run.
- 
+
      ```console
      $ nosetests
      ```
- 
+
      Subscription-manager tests need an X server DISPLAY set, since they run gui tests as well. To avoid showing those tests on screen, you can setup an offscreen vncserver and set DISPLAY to point to that server for the tests.
- 
+
      ```console
      $ DISPLAY=:13 nosetests
      ```
 1. python-rhsm
    * Still a very small suite of tests which needs work, and requires a live Candlepin server on localhost. (needs work)
- 
+
      ```console
      $ ./setup.py nosetests
      ```
- 
+
      The setup.py is required just the first run to compile the C library and
      copy it to the correct location for the unit tests. After that you can use
      nosetests normally, although you may need to re-run the above if anything
@@ -153,7 +180,7 @@ See [the debugging with wireshark page](debugging_with_wireshark.html)
 
 # Tips
 
-## Auto-Generating `candlepin.conf`
+## Auto-Generating candlepin.conf
 Buildr can auto-generate candlepin.conf for you.  This is very useful when you
 are constantly switching between databases.  See [the AutoConf page](auto_conf.html).
 
@@ -267,3 +294,51 @@ local copy of code with this setup.
 
 Note similar setups can be done with [winpdb](http://winpdb.org/). There are
 other ways to set source paths, but this is pretty quick and easy.
+
+## Debugging with Tomcat
+To enable remote debugging in Tomcat, you must pass the JVM values telling it to enable JDWP.
+
+1. Open `/etc/tomcat/tomcat.conf`
+1. Add the following to the `CATALINA_OPTS` variable:
+
+   ```
+   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+   ```
+   Now you will be able to connect a debugger to port 8000.
+
+   The `-Xdebugger -Xrunjdwp` version of enabling the debugger has been
+   [deprecated as of Java 5](http://docs.oracle.com/javase/6/docs/technotes/guides/jpda/conninv.html).
+   Use `-agentlib` instead.
+   {:.alert-notice}
+
+## Building RPMs with Tito
+Candlepin uses Tito to build the rpms, see [here](building_rpms_with_tito.html).
+
+## Using LogDriver (logging JDBC driver)
+To use the logging JDBC driver with Candlepin see [the log driver page](logdriver.html)
+
+## Analyzing PostgreSQL Performance
+```sql
+CREATE FUNCTION pg_temp.sortarray(int2[]) returns int2[] as '
+  SELECT ARRAY(
+      SELECT $1[i]
+        FROM generate_series(array_lower($1, 1), array_upper($1, 1)) i
+    ORDER BY 1
+  )
+' language sql;
+
+  SELECT conrelid::regclass
+         ,conname
+         ,reltuples::bigint
+    FROM pg_constraint
+         JOIN pg_class ON (conrelid = pg_class.oid)
+   WHERE contype = 'f'
+         AND NOT EXISTS (
+           SELECT 1
+             FROM pg_index
+            WHERE indrelid = conrelid
+                  AND pg_temp.sortarray(conkey) = pg_temp.sortarray(indkey)
+         )
+ORDER BY reltuples DESC
+;
+```

@@ -1,6 +1,6 @@
 ---
 categories: developers
-title: Running The Tests
+title: Running Tests
 ---
 {% include toc.md %}
 
