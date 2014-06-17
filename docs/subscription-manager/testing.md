@@ -84,7 +84,7 @@ This plugin is essential for us in my opinion.  It lets you run all the tests wi
 
 ```console
 $ yum install xorg-x11-server-Xvfb
-$ git clone git://github.com/grupotaric/nose-xvfb
+$ git clone git://github.com/awood/nose-xvfb
 $ pip install ./nose-xvfb/
 $ nosetests --with-xvfb
 ```
