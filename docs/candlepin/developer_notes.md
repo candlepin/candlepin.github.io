@@ -87,6 +87,12 @@ codebase.
      ```console
      $ buildr test
      ```
+
+     A specific suite can be run with:
+
+     ```console
+     $ buildr test:EntitlementCuratorTest
+     ```
    * Functional rspec tests:
 
      ```console
