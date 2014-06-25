@@ -19,7 +19,7 @@ additional_json: candlepin_methods.json
 <h2>{{resource.name}}<a name="{{ resource.name | slugify }}"></a></h2>
 <ul>
 {% for m in resource.methods %}
-<li>{% if m.deprecated %}[DEPRECATED](#){:.btn .btn-xs .btn-danger .disabled} {% endif %}{{ m.httpVerbs | join: ',' }} {{ m.url }}
+<li>{% if m.deprecated %}<a href="#" class="btn btn-xs btn-danger disabled">DEPRECATED</a> {% endif %}{{ m.httpVerbs | join: ',' }} {{ m.url }}
   <dl>
     {% unless m.description == empty%}
     <dt>Description</dt>
