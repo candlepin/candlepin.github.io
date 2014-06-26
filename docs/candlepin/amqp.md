@@ -108,6 +108,13 @@ With SSL, the best I've found is to use the Java client example, which needs a f
   $ ./cpc create_owner orgA
   ```
 
+Alternatively, you can use `qpid-printevents` although it does not let you
+confine the output to a specific exchange.
+
+```console
+$ qpid-printevents --ssl-certificate foo.cert --ssl-key foo.key amqps://localhost:5671
+```
+
 # Configure SSL
 If you are running Pulp/Qpid on the same machine as your Candlepin server, you
 can use the buildconf/scripts/qpid/setup.sh script to create a signed client
