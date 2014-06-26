@@ -13,21 +13,34 @@ those projects.
 
 ## Running Candlepin with Pulp
 * Install Pulp <https://pulp-user-guide.readthedocs.org/en/pulp-2.3/installation.html>
-* Add an events topic queue to the Qpid broker
-  * install `qpid-tools`
-  * add events queue `qpid-config add exchange topic events`
+* Install the Qpid packages
+
+  ```console
+  $ sudo yum install qpid-tools qpid-cpp-server-store
+  ```
+
+* Add an events queue
+
+  ```console
+  $ qpid-config add exchange topic events --durable
+  ```
+  If you are connecting to Qpid over SSL, the command will look something like
+
+  ```console
+  $ qpid-config --ssl-certificate /path/to/client_cert --ssl-key /path/to/client_key -b amqps://localhost:5671 add exchange topic events --durable
+  ```
 * Configure candlepin
 
-In /etc/candlepin/candlepin.conf add:
+  In /etc/candlepin/candlepin.conf add:
 
-```properties
-candlepin.amqp.enable = true
-# Defaults to "tcp://localhost:5672?ssl='true'&ssl_cert_alias='amqp-client'"
-# Here I installed pulp on a machine: 192.168.1.187 with SSL
-candlepin.amqp.connect=tcp://192.168.1.187:5671?ssl='true'&ssl_cert_alias='amqp-client'
-```
+  ```properties
+  candlepin.amqp.enable = true
+  # Defaults to "tcp://localhost:5672?ssl='true'&ssl_cert_alias='amqp-client'"
+  # Here I installed pulp on a machine: 192.168.1.187 with SSL
+  candlepin.amqp.connect=tcp://192.168.1.187:5671?ssl='true'&ssl_cert_alias='amqp-client'
+  ```
 
-If you are not using SSL then simply use ```tcp://IP_ADDR```
+  If you are not using SSL then simply use ```tcp://IP_ADDR```
 
 * Restart tomcat:
 
