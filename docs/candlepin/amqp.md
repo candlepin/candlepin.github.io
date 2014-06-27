@@ -99,6 +99,7 @@ With SSL, the best I've found is to use the Java client example, which needs a f
 * Run the Java Drain client
 
   ```console
+  $ cd build/lib
   $ java -classpath `build-classpath-directory .` -Djavax.net.ssl.trustStore=/etc/candlepin/certs/amqp/truststore -Djavax.net.ssl.keyStore=/etc/candlepin/certs/amqp/keystore -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStorePassword=password org.apache.qpid.example.Drain --broker=guest:guest@10.13.137.187:5671 --broker-option=ssl=true,ssl_cert_alias=amqp-client -f "events/"
   ```
 * Create an org and watch for incoming messages.
