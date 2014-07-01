@@ -29,15 +29,23 @@ class SiteTool < Thor
     shell.mute { empty_directory(dest) }
 
     filename = "#{date.strftime('%Y-%m-%d')}-#{slug}.md"
-    create_file(path_to(dest, filename)) do
-    <<-CONTENT.gsub(/^\s*/, '')
+    content = <<-CONTENT.gsub(/^\s*/, '')
       ---
       title: #{title}
       ---
     CONTENT
+
+    create_file(path_to(dest, filename), content)
+
+    case options[:editor]
+      when /g?vim/
+        editor_args = "+"
+      when /x?emacs/
+        editor_args = "+#{content.lines.count}"
+      else
+        editor_args = nil
     end
-    # Open at the end of the file if Vim.  Emacs users are on their own.
-    editor_args ||= "+" if options[:editor] =~ /g?vim/
+
     exec(*([options[:editor], editor_args, path_to(dest, filename)].compact))
   end
 
