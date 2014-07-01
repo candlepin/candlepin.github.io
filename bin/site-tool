@@ -46,7 +46,7 @@ class SiteTool < Thor
         editor_args = nil
     end
 
-    exec(*([options[:editor], editor_args, path_to(dest, filename)].compact))
+    exec(*[options[:editor], editor_args, path_to(dest, filename)].compact)
   end
 
   ISOLATION_FILE = ".isolation_config.yml"
