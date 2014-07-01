@@ -17,7 +17,7 @@ Using JSON filtering is very easy, you simply append a keyword to the url with t
 ### Modified Property Values
 The value is simply the name of the json field. for instance, if my response is the json object:
 
-```
+```json
 {
     id: "someid",
     value: {id: "otherid", data: "this is data"}
@@ -26,7 +26,7 @@ The value is simply the name of the json field. for instance, if my response is 
 
 by specifying to &include=id we would receive:
 
-```
+```json
 {
     id: "someid"
 }
@@ -34,7 +34,7 @@ by specifying to &include=id we would receive:
 
 or &include=value.data:
 
-```
+```json
 {
     value: {data: "this is data"}
 }
@@ -42,7 +42,7 @@ or &include=value.data:
 
 or &exclude=value.data:
 
-```
+```json
 {
     id: "someid",
     value: {id: "otherid"}
@@ -57,8 +57,11 @@ or &exclude=value.data:
 
 ## Examples
 
-```bash
+```console
 $ curl -k -u admin:admin "https://localhost:8443/candlepin/consumers/c50e8819-af96-48a1-8168-ec8e2e5487a9"
+```
+
+```json
 {
   "id" : "ff80808146f2e3f60146f301d7550078",
   "uuid" : "c50e8819-af96-48a1-8168-ec8e2e5487a9",
@@ -126,8 +129,11 @@ $ curl -k -u admin:admin "https://localhost:8443/candlepin/consumers/c50e8819-af
 
 Can become much more readable by removing the id certificate and key, facts, guestIds, and hypervisorId
 
-```bash
+```console
 $ curl -k -u admin:admin "https://localhost:8443/candlepin/consumers/c50e8819-af96-48a1-8168-ec8e2e5487a9?exclude=idCert.cert&exclude=idCert.key&exclude=facts&exclude=guestIds&exclude=hypervisorId"
+```
+
+```json
 {
   "id" : "ff80808146f2e3f60146f301d7550078",
   "uuid" : "c50e8819-af96-48a1-8168-ec8e2e5487a9",
@@ -178,8 +184,11 @@ $ curl -k -u admin:admin "https://localhost:8443/candlepin/consumers/c50e8819-af
 
 Or if I just want a mapping of consumer uuid to guestIds
 
-```bash
+```console
 $ curl -k -u admin:admin "https://localhost:8443/candlepin/consumers/c50e8819-af96-48a1-8168-ec8e2e5487a9?include=uuid&include=guestIds.guestId"
+```
+
+```json
 {
   "uuid" : "c50e8819-af96-48a1-8168-ec8e2e5487a9",
   "guestIds" : [ {
