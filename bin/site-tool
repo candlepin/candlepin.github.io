@@ -110,8 +110,10 @@ class SiteTool < Thor
 
   desc "serve", "render and serve the site"
   def serve
-    guard_thread = Guard.start
-    guard_thread.join
+    Guard.start
+    while Guard.running do
+      sleep 1
+    end
   end
 
   APP_ID = "5343494ce0b8cdec71000349"
