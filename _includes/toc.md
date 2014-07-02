@@ -2,7 +2,7 @@
 
 <div class="panel panel-toc">
   <div class="panel-heading">
-####Table of Contents
+<h4>Table of Contents</h4>
 {:.no_toc}
   </div>
   <div class="panel-body">
