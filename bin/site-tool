@@ -93,6 +93,9 @@ class SiteTool < Thor
         # avoid this issue.
         "#{File.basename(f, ext)}.*"
       end
+      if matches.empty?
+        raise Thor::Error.new("Could not find any matches for #{glob}.")
+      end
       config['include'].add(*matches)
     end
 
