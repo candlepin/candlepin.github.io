@@ -49,7 +49,7 @@ Need to watch out for how to report on sub-pools for guests, as well as stack su
 
 ## Users and Orgs
 
-Issue here, we do not maintain user data, if we need these events, something else has to start sending them.
+TODO: Issues here, we do not maintain user data, if we need these events, something else has to start sending them. If we roll out as an upgrade to an existing installation, our user counts would be wrong, as no user events would have been sent.
 
 ### User count at a point in time
 
