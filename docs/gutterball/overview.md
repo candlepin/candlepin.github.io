@@ -36,6 +36,8 @@ Our proposal:
 
 ## Reporting API
 
-Gutterball will expose a REST API for running a predefined set of reports, returning the results as JSON.
+Gutterball will expose a [REST API](reportapi.html) for running a predefined set of reports, returning the results as JSON.
+
+## Planned Reports
 
 See the planned [supported reports](reports.html).
