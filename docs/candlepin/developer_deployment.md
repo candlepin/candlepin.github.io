@@ -36,7 +36,7 @@ Candlepin uses [buildr](http://buildr.apache.org) as its build tool
 * Install dependencies.
 
   ```console
-  $ sudo yum install ruby rubygems ruby-devel gcc tomcat java-1.7.0-openjdk-devel liquibase postgresql-jdbc
+  $ sudo yum install ruby rubygems ruby-devel gcc make gettext tomcat java-1.7.0-openjdk-devel liquibase postgresql-jdbc openssl libxml2-python
   ```
 
 * Update rubygems.
