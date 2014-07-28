@@ -7,29 +7,47 @@ title: Developer Notes
 This page contains a variety of information for those intending to work on Candlepin and it's associated sub-projects.
 
 # Eclipse Setup
-The Candlepin buildfile has an eclipse task to generate the `.classpath` for you.
+The Candlepin buildfile has an Eclipse task to generate the `.classpath` and
+`.project` for you.
 
-* Generate the .classpath file first:
+* Generate the .classpath and .project files first:
 
   ```console
   $ cd candlepin/
   $ buildr eclipse
-  (in /home/user/devel/candlepin, development)
-  Generating Eclipse project for candlepin
-  Writing /home/user/devel/candlepin/.classpath
-  Writing /home/user/devel/candlepin/.project
-  Fixing eclipse .classpath
-  Completed in 0.180s
   ```
 * Create a Java project as you normally would (File -> New -> Java Project).
 * Choose Create Project From Existing Source.
 * Choose the root of your git checkout.
 * Ensure your `M2_REPO` classpath variable is pointing to `~/.m2/repository`
 
+Now you need to set up Eclipse to conform to our coding conventions.  In
+Eclipse, go to Windows -> Preferences then:
+
+### Import Order
+* Go to Java -> Code Style -> Organize Imports
+* Click the Import button and import
+  `project_conf/eclipse/candlepin.importorder`
+
+### Code Formatter
+* Go to Java -> Code Style -> Formatter
+* Click the Import button and import
+  `project_conf/eclipse/code_formatter_candlepin.xml`
+
+### Templates
+* Go to Java -> Code Style -> Code Templates
+* There will be a section for "Comments" and for "Code"
+* For each section, click Import and import
+  `project_conf/eclipse/code_templates_comments.xml` for comments and
+  `project_conf/eclipse/code_templates_code.xml` for code.
+
+### Checkstyle
+* See instructions [here](checkstyle.html).  The `.checkstyle` file for a
+  project will be generated when you run `buildr eclipse`.
+
 # Code Style
-For Java code, we have checkstyle set up. You can configure it in Eclipse to
-report violations as errors, or run from the CLI. See instructions
-[here](checkstyle.html).
+Our canonical reference for code style is the `project_conf/checks.xml` file
+which stores all the Checkstyle configuration.
 
 Also see the [Java Coding Conventions](java_coding_conventions.html)
 
