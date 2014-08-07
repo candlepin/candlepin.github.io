@@ -11,7 +11,7 @@ the API, the difference is in implementation.
 
 ## URL versioning
 This is a classic form of versioning APIs used by many sites.
-[Smugmug](https://wiki.smugmug.net/display/API/API+1.2.2),
+[Smugmug](http://api.smugmug.com/services/api/?version=1.2.2),
 [Google](https://developers.google.com/maps/documentation/javascript/basics#Versioning),
 and many others.
 

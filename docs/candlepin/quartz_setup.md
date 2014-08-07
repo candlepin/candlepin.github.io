@@ -6,12 +6,12 @@ title: Quartz Configuration
 
 # Quartz Setup
 In order to setup pinsetter for
-[clustering](http://www.quartz-scheduler.org/docs/configuration/ConfigJDBCJobStoreClustering),
+[clustering](http://www.quartz-scheduler.org/documentation/quartz-2.x/configuration/ConfigJDBCJobStoreClustering),
 you need to configure [quartz](http://www.quartz-scheduler.org/) to use a
 relational database
 ([JdbcStore](http://www.quartz-scheduler.org/documentation/quartz-2.x/configuration/ConfigJobStoreTX))
 instead of the default memory storage,
-([RamJobStore](http://www.quartz-scheduler.org/docs/configuration/ConfigRAMJobStore)).
+([RamJobStore](http://quartz-scheduler.org/documentation/quartz-2.2.x/configuration/ConfigRAMJobStore).
 
 If you used `cpsetup` as described in the [Getting
 Started](getting_started.html) guide you already have the Quartz schema
@@ -37,8 +37,7 @@ Load the schema using the mechanism for your database.
 
 ## Configure Candlepin & Quartz
 Once you have the Quartz schema deployed, you need to configure Quartz in
-Candlepin to use those tables instead of the default
-[RamJobStore](http://www.quartz-scheduler.org/docs/configuration/ConfigRAMJobStore.html)
+Candlepin to use those tables instead of the default RamJobStore.
 
 I will cover each of the configuration items, if they can be changed, if they
 are required to change, and if they are to be left alone.

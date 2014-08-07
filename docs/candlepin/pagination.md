@@ -67,7 +67,7 @@ In order to add paging to a resource, the first thing you must do is tag the
 resource method with the
 [@Paginate](https://github.com/candlepin/candlepin/blob/76e2404d2c08ff87085503f658203a6a7e75e715/src/main/java/org/candlepin/paging/Paginate.java)
 annotation.  It is this annotation that invokes the
-[PageRequestInterceptor](https://github.com/candlepin/candlepin/blob/master/src/main/java/org/candlepin/resteasy/interceptor/PageRequestInterceptor.java?source=cc).
+[PageRequestInterceptor](https://github.com/candlepin/candlepin/blob/master/server/src/main/java/org/candlepin/resteasy/interceptor/PageRequestInterceptor.java).
 The interceptor is a RESTEasy interceptor that examines the query string for
 the parameters specified above.  It takes the values of these parameters and
 sets them in an object called a
@@ -135,7 +135,7 @@ public List<Consumer> list(@QueryParam("username") String userName,
 Earlier I mentioned that some _paging magic_ must occur.  This magic occurs in
 the Hibernate layer.  There are two methods, `listAll()` and `listByCriteria()`
 in the
-[AbstractHibernateCurator](https://github.com/candlepin/candlepin/blob/master/src/main/java/org/candlepin/model/AbstractHibernateCurator.java?source=cc)
+[AbstractHibernateCurator](https://github.com/candlepin/candlepin/blob/master/server/src/main/java/org/candlepin/model/AbstractHibernateCurator.java)
 that have signatures that accept PageRequest objects.  These methods are
 written to examine the PageRequest object and create a resultant Page object.
 Ideally, the best way is to have a method in your curator that builds a

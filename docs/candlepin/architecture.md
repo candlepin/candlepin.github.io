@@ -43,7 +43,6 @@ both the Entitlement Proxy and Entitlement Service.
 ## Resources
 
  * [JSON-RPC](http://json-rpc.org/)
- * [jersey](https://jersey.dev.java.net/)
  * [JBoss RESTEasy](http://www.jboss.org/resteasy/)
  * [Smugmug API](http://wiki.smugmug.net/display/SmugMug/API)
  * [JSON+REST vs. XML+SOAP](http://blog.feedly.com/2009/03/03/jsonrest-vs-xmlsoap/)
