@@ -79,7 +79,7 @@
 # Deployment
 1. `yum install rhc`
 1. `rhc setup`
-j. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
+1. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
    To automate this, I've created a little script.  Simply run `bin/site-tool bootstrap`.  You should
    now be able to use `rhc` to issue commands to the app on Openshift.
 1. ```TEMPORARY```: Visit the Jenkins job website. <http://build-candlepinproject.rhcloud.com>
@@ -102,6 +102,10 @@ j. Go into your checkout.  You'll need to add the Openshift metadata and remote 
    build manually.  We use Jenkins builds because even though they can be flakey, they prevent a broken application
    from being deployed (i.e. `jekyll build` has to return successfully before the app will deploy).  The Openshift
    relevant files are in the repo in the .openshift directory.
+
+   The most common cause of build failures is Jenkins losing track of its build node.  To check go to Manage Jenkins
+   and then Manage Nodes.  If you see a red 'X' on the 'websitebldr' node, then that's the problem.  Click
+   the 'websitebldr' link, delete the node, and run the build again.  Jenkins will commission a new 'websitebldr' node.
 
 # Syntax Highlighting
 Syntax highlighting is provided by [Pygments](http://pygments.org) (more specifically by
