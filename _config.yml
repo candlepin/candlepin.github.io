@@ -26,11 +26,6 @@ permalink: /news/:year/:title.html
 paginate: 8
 paginate_path: /news/page:num
 
-# What to compile with lessc
-less_artifacts: ['assets/candlepin.less']
-# -x minifies the CSS
-lessc: bin/less.js-1.7.0/lessc -x
-
 markdown: KramdownPygments
 kramdown:
   # Use GitHub flavor markdown
