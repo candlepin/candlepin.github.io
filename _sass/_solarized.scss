@@ -1,11 +1,11 @@
 /*
-A Less style-sheet for Pygments using the Solarized color-scheme
+A SCSS style-sheet for Pygments using the Solarized color-scheme
 
 Information on Solarized is at http://ethanschoonover.com/solarized
 
-Two mixins, .solarized-dark and .solarized-light are provided for convenience
+Two mixins, solarized-dark and solarized-light are provided for convenience
 and if you wish to use your own primary and secondary colors, you may call the
-.solarized mixin and provide parameters for the primary and secondary values.
+solarized mixin and provide parameters for the primary and secondary values.
 
 The CSS class names are derived from the CSS classes that Pygments uses when
 you generate a CSS file based on a style. E.g. pygmentize -S vim -f html
@@ -13,45 +13,33 @@ you generate a CSS file based on a style. E.g. pygmentize -S vim -f html
 An explanation of the Pygments token types is at http://pygments.org/docs/tokens/
 */ 
 
-@solarized-yellow:  #b58900;
-@solarized-orange:  #cb4b16;
-@solarized-red:     #dc322f;
-@solarized-magenta: #d33682;
-@solarized-violet:  #6c71c4;
-@solarized-blue:    #268bd2;
-@solarized-cyan:    #2aa198;
-@solarized-green:   #859900;
+$solarized-yellow:  #b58900;
+$solarized-orange:  #cb4b16;
+$solarized-red:     #dc322f;
+$solarized-magenta: #d33682;
+$solarized-violet:  #6c71c4;
+$solarized-blue:    #268bd2;
+$solarized-cyan:    #2aa198;
+$solarized-green:   #859900;
 
-@solarized-base03:  #002b36;
-@solarized-base02:  #073642;
-@solarized-base01:  #586e75;
-@solarized-base00:  #657b83;
-@solarized-base0:   #839496;
-@solarized-base1:   #93a1a1;
-@solarized-base2:   #eee8d5;
-@solarized-base3:   #fdf6e3;
+$solarized-base03:  #002b36;
+$solarized-base02:  #073642;
+$solarized-base01:  #586e75;
+$solarized-base00:  #657b83;
+$solarized-base0:   #839496;
+$solarized-base1:   #93a1a1;
+$solarized-base2:   #eee8d5;
+$solarized-base3:   #fdf6e3;
 
-.solarized-dark {
-  @solarized-dark-primary: @solarized-base0;
-  @solarized-dark-secondary: @solarized-base01;
-  @solarized-dark-bg: @solarized-base03;
+$solarized-dark-primary: $solarized-base0;
+$solarized-dark-secondary: $solarized-base01;
+$solarized-dark-bg: $solarized-base03;
 
-  .solarized(@solarized-dark-primary; @solarized-dark-secondary);
-  background-color: @solarized-dark-bg;
-  color: @solarized-dark-primary;
-}
+$solarized-light-primary: $solarized-base00;
+$solarized-light-secondary: $solarized-base1;
+$solarized-light-bg: $solarized-base3;
 
-.solarized-light {
-  @solarized-light-primary: @solarized-base00;
-  @solarized-light-secondary: @solarized-base1;
-  @solarized-light-bg: @solarized-base3;
-
-  .solarized(@solarized-light-primary; @solarized-light-secondary);
-  background-color: @solarized-light-bg;
-  color: @solarized-light-primary;
-}
-
-.solarized(@solarized-primary; @solarized-secondary) {
+@mixin solarized($solarized-primary, $solarized-secondary) {
   // Cyan
   .m,  // Literal.Number
   .s,  // Literal.String
@@ -67,7 +55,7 @@ An explanation of the Pygments token types is at http://pygments.org/docs/tokens
   .ss, // Literal.String.Symbol
   .il, // Literal.Number.Integer.Long
   .gd  // Generic.Deleted
-  { color: @solarized-cyan; }
+  { color: $solarized-cyan; }
 
   // Green
   .k,  // Keyword
@@ -78,7 +66,7 @@ An explanation of the Pygments token types is at http://pygments.org/docs/tokens
   .gi, // Generic.Inserted
   .kn, // Keyword.Namespace
   .kp  // Keyword.Pseudo
-  { color: @solarized-green; }
+  { color: $solarized-green; }
 
   // Orange
   .x,  // Other
@@ -89,7 +77,7 @@ An explanation of the Pygments token types is at http://pygments.org/docs/tokens
   .ni, // Name.Entity
   .ne, // Name.Exception
   .se  // Literal.String.Escape
-  { color: @solarized-orange; }
+  { color: $solarized-orange; }
 
   // Blue
   .kd, // Keyword.Declaration
@@ -103,25 +91,25 @@ An explanation of the Pygments token types is at http://pygments.org/docs/tokens
   .vc, // Name.Variable.Class
   .vg, // Name.Variable.Global
   .vi  // Name.Variable.Instance
-  { color: @solarized-blue; }
+  { color: $solarized-blue; }
 
   // Red
   .gr, // Generic.Error
   .kt, // Keyword.Type
   .sr, // Literal.String.Regex
   .err // Error
-  { color: @solarized-red; }
+  { color: $solarized-red; }
 
   // Yellow
   .nb // Name.Builtin
-  { color: @solarized-yellow; }
+  { color: $solarized-yellow; }
 
   // Comments
   .c,  // Comment
   .cm, // Comment.Multiline
   .c1, // Comment.Single
   .sb  // Literal.String.Backtick
-  { color: @solarized-secondary; }
+  { color: $solarized-secondary; }
 
   // Default
   .g,  // Generic
@@ -139,11 +127,25 @@ An explanation of the Pygments token types is at http://pygments.org/docs/tokens
   .py, // Name.Property
   .ld, // Literal.Date
   .sd  // Literal.String.Doc
-  { color: @solarized-primary; }
+  { color: $solarized-primary; }
 
   .ge  // Generic.Emph
-  { color: @solarized-primary; font-style: italic; }
+  { color: $solarized-primary; font-style: italic; }
 
   .gs  // Generic.Strong
-  { color: @solarized-primary; font-weight: bold; }
+  { color: $solarized-primary; font-weight: bold; }
 }
+
+.solarized-dark {
+  @include solarized($solarized-dark-primary, $solarized-dark-secondary);
+  background-color: $solarized-dark-bg;
+  color: $solarized-dark-primary;
+}
+
+.solarized-light {
+  @include solarized($solarized-light-primary, $solarized-light-secondary);
+  background-color: $solarized-light-bg;
+  color: $solarized-light-primary;
+}
+
+

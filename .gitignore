@@ -1,3 +1,4 @@
 _site/
 .isolation_config.yml
 *.swp
+.sass-cache

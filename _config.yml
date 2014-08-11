@@ -26,6 +26,10 @@ permalink: /news/:year/:title.html
 paginate: 8
 paginate_path: /news/page:num
 
+sass:
+  sass_dir: _sass
+  style: :compressed
+
 markdown: KramdownPygments
 kramdown:
   # Use GitHub flavor markdown

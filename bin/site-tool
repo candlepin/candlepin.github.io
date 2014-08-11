@@ -83,7 +83,7 @@ class SiteTool < Thor
     config['exclude'] += old_config['exclude'] || []
 
     # Due to our use of pagination, Jekyll wants an index.html
-    config['include'] = Set.new(%w(*.less *.js *.css *.png 404.html index.*))
+    config['include'] = Set.new(%w(*.scss *.js *.css *.png 404.html index.*))
     files.each do |glob|
       matches = Dir.glob(glob)
       matches.map! do |f|
