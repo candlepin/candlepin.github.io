@@ -2,3 +2,6 @@ _site/
 .isolation_config.yml
 *.swp
 .sass-cache
+
+# Travis deployment cache directory
+.dpl

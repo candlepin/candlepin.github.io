@@ -1,0 +1,22 @@
+language: ruby
+rvm:
+- 1.9.3
+branches:
+  only:
+    - master
+script: ./_travis/build
+bundler_args: --without development --deployment
+before_deploy: 
+- git config --global push.default current
+deploy:
+  provider: openshift
+  user: candlepinproject
+  password:
+    secure: AYUZvORwoP5joUq5RPEHJzBNo8mDwjxHxz8LcmbtNMDyaBa4RZgxGrNfdsfhiiRFAYjB0KjTGPvdqLaZ2m/xqDA6ZWAS4aOQROl2q+/RNGtlk6yflozR0YEP24mxjVxbSveAhbGj+R6d5C2/lsudi+a4PvCeV5ldXLDcBF5v4dI=
+  app: website
+  domain: candlepinproject
+  deployment_branch: master
+  on:
+    repo: candlepin/candlepinproject.org
+    branch: master
+  skip_cleanup: true
