@@ -27,6 +27,7 @@
 1. Install and configure Travis.  This will allow you to interact with the continuous integration 
    environment from the command line.  Note that you have to do this separately because there is a
    gem conflict with the site's bundle.
+
    ```
    gem install travis
    travis login --org
