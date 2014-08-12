@@ -1,0 +1,151 @@
+/*
+A SCSS style-sheet for Pygments using the Solarized color-scheme
+
+Information on Solarized is at http://ethanschoonover.com/solarized
+
+Two mixins, solarized-dark and solarized-light are provided for convenience
+and if you wish to use your own primary and secondary colors, you may call the
+solarized mixin and provide parameters for the primary and secondary values.
+
+The CSS class names are derived from the CSS classes that Pygments uses when
+you generate a CSS file based on a style. E.g. pygmentize -S vim -f html
+
+An explanation of the Pygments token types is at http://pygments.org/docs/tokens/
+*/ 
+
+$solarized-yellow:  #b58900;
+$solarized-orange:  #cb4b16;
+$solarized-red:     #dc322f;
+$solarized-magenta: #d33682;
+$solarized-violet:  #6c71c4;
+$solarized-blue:    #268bd2;
+$solarized-cyan:    #2aa198;
+$solarized-green:   #859900;
+
+$solarized-base03:  #002b36;
+$solarized-base02:  #073642;
+$solarized-base01:  #586e75;
+$solarized-base00:  #657b83;
+$solarized-base0:   #839496;
+$solarized-base1:   #93a1a1;
+$solarized-base2:   #eee8d5;
+$solarized-base3:   #fdf6e3;
+
+$solarized-dark-primary: $solarized-base0;
+$solarized-dark-secondary: $solarized-base01;
+$solarized-dark-bg: $solarized-base03;
+
+$solarized-light-primary: $solarized-base00;
+$solarized-light-secondary: $solarized-base1;
+$solarized-light-bg: $solarized-base3;
+
+@mixin solarized($solarized-primary, $solarized-secondary) {
+  // Cyan
+  .m,  // Literal.Number
+  .s,  // Literal.String
+  .mf, // Literal.Number.Float
+  .mh, // Literal.Number.Hex
+  .mi, // Literal.Number.Integer
+  .mo, // Literal.Number.Oct
+  .sc, // Literal.String.Char
+  .s2, // Literal.String.Double
+  .si, // Literal.String.Interpol
+  .sx, // Literal.String.Other
+  .s1, // Literal.String.Single
+  .ss, // Literal.String.Symbol
+  .il, // Literal.Number.Integer.Long
+  .gd  // Generic.Deleted
+  { color: $solarized-cyan; }
+
+  // Green
+  .k,  // Keyword
+  .o,  // Operator
+  .ow, // Operator.Word
+  .cp, // Comment.Preproc
+  .cs, // Comment.Special
+  .gi, // Generic.Inserted
+  .kn, // Keyword.Namespace
+  .kp  // Keyword.Pseudo
+  { color: $solarized-green; }
+
+  // Orange
+  .x,  // Other
+  .gh, // Generic.Heading
+  .gu, // Generic.Subheading
+  .kc, // Keyword.Constant
+  .no, // Name.Constant
+  .ni, // Name.Entity
+  .ne, // Name.Exception
+  .se  // Literal.String.Escape
+  { color: $solarized-orange; }
+
+  // Blue
+  .kd, // Keyword.Declaration
+  .kr, // Keyword.Reserved
+  .nc, // Name.Class
+  .nd, // Name.Decorator
+  .nf, // Name.Function
+  .nt, // Name.Tag
+  .nv, // Name.Variable
+  .bp, // Name.Builtin.Pseudo
+  .vc, // Name.Variable.Class
+  .vg, // Name.Variable.Global
+  .vi  // Name.Variable.Instance
+  { color: $solarized-blue; }
+
+  // Red
+  .gr, // Generic.Error
+  .kt, // Keyword.Type
+  .sr, // Literal.String.Regex
+  .err // Error
+  { color: $solarized-red; }
+
+  // Yellow
+  .nb // Name.Builtin
+  { color: $solarized-yellow; }
+
+  // Comments
+  .c,  // Comment
+  .cm, // Comment.Multiline
+  .c1, // Comment.Single
+  .sb  // Literal.String.Backtick
+  { color: $solarized-secondary; }
+
+  // Default
+  .g,  // Generic
+  .l,  // Literal
+  .n,  // Name
+  .p,  // Punctuation
+  .w,  // Text.Whitespace
+  .go, // Generic.Output
+  .gp, // Generic.Prompt
+  .gt, // Generic.Traceback
+  .na, // Name.Attribute
+  .nl, // Name.Label
+  .nn, // Name.Namespace
+  .nx, // Name.Other
+  .py, // Name.Property
+  .ld, // Literal.Date
+  .sd  // Literal.String.Doc
+  { color: $solarized-primary; }
+
+  .ge  // Generic.Emph
+  { color: $solarized-primary; font-style: italic; }
+
+  .gs  // Generic.Strong
+  { color: $solarized-primary; font-weight: bold; }
+}
+
+.solarized-dark {
+  @include solarized($solarized-dark-primary, $solarized-dark-secondary);
+  background-color: $solarized-dark-bg;
+  color: $solarized-dark-primary;
+}
+
+.solarized-light {
+  @include solarized($solarized-light-primary, $solarized-light-secondary);
+  background-color: $solarized-light-bg;
+  color: $solarized-light-primary;
+}
+
+

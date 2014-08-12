@@ -1,6 +1,8 @@
+[![Build Status](https://travis-ci.org/candlepin/candlepinproject.org.png?branch=master)](https://travis-ci.org/candlepin/candlepinproject.org)
+
 # Getting Started
 1. `yum install nodejs python-pygments ruby-devel libyaml libxslt-devel`
-2. Install RVM. Yes, I know RVM can be a pain when you first start using it, but OpenShift uses Ruby 1.9.3
+1. Install RVM. Yes, I know RVM can be a pain when you first start using it, but OpenShift uses Ruby 1.9.3
    and the fact is there are some small compatibility issues between 2.0.0 and 1.9.3. Note: do **NOT** install
    RVM as root.
 
@@ -21,13 +23,20 @@
    With these settings, RVM will use Ruby 2.0.0 as a default.  However, when you `cd` to the website directory
    RVM will detect the .ruby-version and .ruby-gemset files and switch to Ruby 1.9.3 and the candlepinproject.org
    gemset.  The documentation from RVM is extensive so don't be afraid to read it.
-3. Go into your checkout directory and run `bundle install`
-4. Render the site with `jekyll serve --watch`.  (See Advanced Workflow section for tips on getting real time
+1. Go into your checkout directory and run `bundle install`
+1. Install and configure Travis.  This will allow you to interact with the continuous integration 
+   environment from the command line.  Note that you have to do this separately because there is a
+   gem conflict with the site's bundle.
+   ```
+   gem install travis
+   travis login --org
+   ```
+1. Render the site with `jekyll serve --watch`.  (See Advanced Workflow section for tips on getting real time
    previews of your updates).
-5. Make changes and save.  If you wish to create a news item, run `bin/site-tool post "My Title"`.  That
+1. Make changes and save.  If you wish to create a news item, run `bin/site-tool post "My Title"`.  That
    command will create a file with the correct name and format and open your editor as defined by VISUAL
    or EDITOR.  You can use a different editor with the `--editor` option.
-6. Jekyll will automatically render your changes.
+1. Jekyll will automatically render your changes.
 
 # Advanced Workflow
 1. *Optional*: Open port 4000 in your firewall so others can see your local site
@@ -82,30 +91,10 @@
 1. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
    To automate this, I've created a little script.  Simply run `bin/site-tool bootstrap`.  You should
    now be able to use `rhc` to issue commands to the app on Openshift.
-1. ```TEMPORARY```: Visit the Jenkins job website. <http://build-candlepinproject.rhcloud.com>
-   It appears our jenkins gear is still getting idled when not used for a couple days. Visiting the site will reload the gear.
-1. When you are ready to deploy, `git push origin master; git push openshift master`.  Currently you must
-   push to both locations!  Github is the upstream and the Openshift repo is where we build from.  This
-   double repo situation is annoying and I plan on fixing it, but for now just remember to push to both
-   places.
-
-   If you see an error during push to openshift:
-
-   ```
-   ERROR - Job not available: http://build-candlepinproject.rhcloud.com/job/website-build
-   ```
-
-   This likely indicates you did not visit the website in previous step. You can login to the jenkins instance and trigger another build if this happens.
-1. When you push to Openshift, it will fire a Jenkins build at <http://build-candlepinproject.rhcloud.com>, if
-   your build fails (and they do sometimes because Jenkins gets a bad build node or the stars are misaligned), then
-   you need to log in to Jenkins (see awood for your account and password if you don't know it) and trigger the
-   build manually.  We use Jenkins builds because even though they can be flakey, they prevent a broken application
-   from being deployed (i.e. `jekyll build` has to return successfully before the app will deploy).  The Openshift
-   relevant files are in the repo in the .openshift directory.
-
-   The most common cause of build failures is Jenkins losing track of its build node.  To check go to Manage Jenkins
-   and then Manage Nodes.  If you see a red 'X' on the 'websitebldr' node, then that's the problem.  Click
-   the 'websitebldr' link, delete the node, and run the build again.  Jenkins will commission a new 'websitebldr' node.
+1. Submit your changes as a PR.  The Travis continuous integration hook will run automatically.  If the
+   build fails correct it.  Otherwise, when the PR is merged into master, Travis will run and deploy the
+   site.
+1. Travis configuration is in `.travis.yml` and in a few files located in the `\_travis` directory.
 
 # Syntax Highlighting
 Syntax highlighting is provided by [Pygments](http://pygments.org) (more specifically by
@@ -161,17 +150,14 @@ print "Hello World"
 ```
 </pre>
 
-* In Less, you must use semicolons to separate parameters to mixins and not commas. However, Less' functions
-  do use commas.
-  E.g. .my\_mixin(18px; \#deadbeef) versus darken(\#deadbeef, 10%)
-  See <http://lesscss.org/features/#mixins-parametric-feature-mixins-with-multiple-parameters>
 * Be careful with internal links.  Preface them with {{ site.baseurl }} if they are in another direcotry.
   See <http://jekyllrb.com/docs/github-pages/#project_page_url_structure>
 * The URLs for all posts and pages contain a leading slash so there is no need to provide one.  E.g. Linking to a post
   would use {{ site.baseurl }}{{ post.url }}
 
 # Tips
-* If you want to see an overview of an object in Liquid, filter it through the debug filter from \_plugins.  E.g. {{ page | debug }}
+* If you want to see an overview of an object in Liquid, filter it through the debug filter from `\_plugins.`
+  E.g. `{{ page | debug }}`
 * To find code blocks missing a lexer, install pcre-tools and use the following `pcregrep -r -M -n '^$\n^```$' *`
 * Vim associates '.md' files with Modula-2.  Add the following to your .vimrc to change the association:
 
@@ -186,9 +172,7 @@ print "Hello World"
 * We are using Kramdown as our Markdown renderer. There is a quick reference at
   <http://kramdown.gettalong.org/quickref.html> and a more complete syntax guide at
   <http://kramdown.gettalong.org/syntax.html>
-* The CSS is written using Less <http://lesscss.org>.
-  * The features are demonstrated at <http://lesscss.org/features/>
-  * The functions are explained at <http://lesscss.org/functions/>
+* The CSS is written using Sass <http://sass-lang.org>.
 * The JS and theming are courtesy of Bootstrap <http://getbootstrap.com/> although
   I did strip out some of the JS that we probably would not use like the carousel and
   modal dialog functions.

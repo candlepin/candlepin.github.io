@@ -1,0 +1,329 @@
+---
+# Add YAML front matter to ensure Jekyll transforms this file
+---
+@import "candlepin-variables";
+
+@import "bootstrap";
+@import "bootstrap/theme";
+
+// Pull in the Pygments CSS
+@import "solarized";
+
+// Custom Candlepin stuff
+@import "candlepin-fonts";
+
+// HOME
+// From the Brand Book
+$rh-red: rgb(204, 0, 0);
+$rh-dark-red: rgb(158, 41, 43);
+$rh-darker-red: rgb(120, 31, 28);
+$footer-height: 30px;
+
+.red-border {
+  border-bottom: 2px solid $rh-red;
+}
+
+div#front-page-banner {
+  @include gradient-vertical($start-color: $navbar-default-bg, $end-color: black);
+  @extend .red-border;
+  margin-bottom: 0px;
+}
+
+div#front-page-blurb, div#not-found-blurb {
+  font-family: "Overpass", $font-family-base;
+  text-shadow: 0 1px 0 darken($rh-red, 10%);
+
+  h1 {
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+  }
+
+  h2 {
+    color: $rh-red;
+    font-size: 25px;
+  }
+}
+
+div#not-found-banner {
+  @include gradient-vertical($start-color: $navbar-default-bg, $end-color: black);
+  position: absolute;
+  top: $navbar-height;
+  bottom: $footer-height;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
+
+div#not-found-blurb {
+  h1 {
+    letter-spacing: inherit;
+  }
+}
+
+div#front-page-lower {
+  @include gradient-vertical($start-color: #bbb, $end-color: white);
+
+  @mixin front-column {
+    font-family: "Overpass", $font-family-base;
+  }
+
+  ul {
+    padding-left: 15px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a.more-link {
+    @extend .pull-right;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: -5px;
+  }
+
+  a[role=button] {
+    @include button-variant(white, $rh-red, darken($rh-red, 10%));
+    @include btn-styles($rh-red);
+    @extend .btn;
+    @extend .btn-block;
+    font-weight: bold;
+    font-size: 17px;
+  }
+}
+
+// NAVBAR
+.navbar-header a img {
+  @include navbar-vertical-align(40px);
+}
+
+.navbar {
+  font-size: 15px;
+  font-weight: bold;
+  @extend .red-border;
+}
+
+// SEARCH BOX
+// See http://getbootstrap.com/getting-started/#third-parties
+.reset-box-sizing {
+  &,
+  *,
+  *:before,
+  *:after {
+    @include box-sizing(content-box);
+  }
+}
+
+#gcse {
+  @extend .reset-box-sizing;
+  width: 250px;
+  @include navbar-vertical-align(36px);
+
+  form.gsc-search-box {
+    margin-bottom: 0px;
+  }
+
+  .gsib_a {
+    padding-top: 0px;
+    padding-left: 3px;
+  }
+
+  input.gsc-search-button {
+    margin-top: 4px;
+    position: relative;
+  }
+}
+
+// TABLE OF CONTENTS
+$toc-color: lighten($navbar-default-bg, 25%);
+$toc-border: darken($toc-color, 10%);
+$toc-text: white;
+$toc-heading-padding: 12px;
+$toc-body-padding: 5px 12px;
+.panel-toc {
+  @include panel-variant($toc-border, $toc-text, $toc-color, $toc-border);
+
+  .panel-heading {
+    padding: $toc-heading-padding;
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 2px;
+      margin-top: 2px;
+    }
+  }
+
+  .panel-body {
+    // Add 3D effects
+    @include panel-heading-styles($toc-color);
+
+    padding: $toc-body-padding;
+
+    ul#markdown-toc,
+    ul#toc {
+      list-style-position: inside;
+      color: $toc-text;
+      padding: 0px;
+
+      a {
+        color: $toc-text;
+      }
+
+      // Don't print a bullet if this is an only child.
+      li:only-child {
+        list-style-type: none;
+      }
+    }
+  }
+}
+
+// ALERTS
+@mixin custom-alert($bg-color, $text-color) {
+  @extend .alert;
+  @include alert-variant($bg-color, darken($bg-color, 10%), $text-color);
+  @include alert-styles($bg-color);
+
+  // use the .alert-link class by default
+  a {
+    @extend .alert-link;
+  }
+}
+
+@mixin titled-alert($bg-color, $text-color, $title) {
+  @include custom-alert($bg-color, $text-color);
+
+  &:before {
+    content: $title;
+    font-weight: bold;
+  }
+}
+
+$example-color: $state-info-bg;
+$example-text: $state-info-text;
+.alert-example {
+  @include titled-alert($example-color, $example-text, "Example: ");
+}
+
+$todo-color: $state-success-bg;
+$todo-text: $state-success-text;
+.alert-todo {
+  @include titled-alert($todo-color, $todo-text, "To Do: ");
+}
+
+.alert-good {
+  @include custom-alert($state-success-bg, $state-success-text);
+}
+
+.alert-bad {
+  @include custom-alert($state-danger-bg, $state-danger-text);
+}
+
+.alert-caution {
+  @include custom-alert($state-warning-bg, $state-warning-text);
+}
+
+.alert-notice {
+  @include custom-alert($state-info-bg, $state-info-text);
+}
+
+// TABLES
+#page-content {
+  table {
+    @extend .table;
+    .column-striped tr td:nth-child(odd) {
+      background: $gray-lighter;
+    }
+  }
+}
+
+// POSITIONING
+img.center-block {
+  @include center-block();
+}
+
+// LISTS
+dl {
+  @extend .dl-horizontal;
+}
+
+// MODIFICATION DATE
+#date_modified {
+  @extend .pull-right;
+  @extend .text-muted;
+  @extend .small;
+}
+
+// FOOTER
+body {
+  margin-bottom: $footer-height;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+footer {
+  // Pull in 3D effects
+  @extend .navbar-default;
+
+  background-color: $navbar-default-bg;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: $footer-height;
+
+  div.row div {
+    color: $navbar-default-link-color;
+    margin-top: (($footer-height - $line-height-computed) / 2);
+    margin-bottom: (($footer-height - $line-height-computed) / 2);
+
+    a {
+      color: $navbar-default-link-active-color;
+    }
+  }
+
+  #licenses {
+    @include make-md-column(10);
+  }
+
+  #copyright {
+    @include make-md-column(2);
+  }
+}
+
+// SYNTAX HIGHLIGHTING STYLE
+pre {
+  @extend .solarized-light;
+}
+
+pre.language-console {
+  @extend .solarized-dark;
+
+  // Pygments marks bash builtins with the nb class.  Just show them like generic text.
+  .nb {
+    color: $solarized-dark-primary;
+  }
+
+  // Highlight the command prompt in green
+  .gp {
+    color: $solarized-green;
+  }
+
+  // Provide x-axis scrolling for long lines
+  code {
+    word-wrap: normal;
+    white-space: pre;
+  }
+}
+
+pre.output-only {
+  @extend .solarized-dark;
+
+  // Print all code as Generic.Output
+  code {
+    @extend .go;
+  }
+}
