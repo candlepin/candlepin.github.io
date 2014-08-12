@@ -9,7 +9,7 @@ title: Setting Up Candlepin
 This page describes how to install Candlepin using the rpms. If you are building from source, please
 see [wiki:Deployment].
 
-1. Install [PostgreSQL](https://fedorahosted.org/candlepin/wiki/Deployment#PostgreSQLTips)
+1. Install PostgreSQL.
 1. Configure the yum repo, 
 
    ```console

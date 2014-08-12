@@ -7,7 +7,7 @@ title: Introduction
 # Thumbslug
 
 ## Introduction
-Thumbslug is an open source proxy for Candlepin written using [JBoss Netty](http://www.jboss.org/netty).
+Thumbslug is an open source proxy for Candlepin written using [JBoss Netty](http://netty.io).
 
 ## Why Thumbslug?
 To continue the bowling theme started with Candlepin we chose another uncommon bowling term.

@@ -5,7 +5,7 @@ title: Database Schema Updates
 {% include toc.md %}
 
 # Candlepin Database Schema Updates
-We are using the [liquibase](http://www.liquibase.org/home) database
+We are using the [liquibase](http://www.liquibase.org) database
 refactoring tool for updating the candlepin database. Changes are represented
 by XML files containing instructions on the changes to apply. Liquibase keeps
 track of what has been applied and what hasn't, and is capable of managing a
@@ -35,9 +35,8 @@ confused about what has been applied and what hasn't.
    $ buildconf/scripts/gen-db-update.py short-description-for-filename-goes-here
    ```
 1. Edit the resulting file to perform the actual changes. The liquibase
-   documentation on [refactoring
-   commands](http://www.liquibase.org/manual/refactoring_commands) and
-   [changesets](http://www.liquibase.org/manual/changeset) may be useful here.
+   documentation on [refactoring commands](http://www.liquibase.org/documentation/changes) and
+   [changesets](http://www.liquibase.org/documentation/changeset) may be useful here.
 1. Test applying your change: (may have to adjust this command slightly for your system)
 
    ```

@@ -51,9 +51,9 @@ which stores all the Checkstyle configuration.
 
 Also see the [Java Coding Conventions](java_coding_conventions.html)
 
-For Python, stick to the guidelines in PEP8:
-<http://www.python.org/dev/peps/pep-0008/>. Also, run `make stylish` to run pep8,
-pyflakes, pyqver, rpmlint, and a few subman specific code checks.
+For Python, stick to the guidelines in [PEP8](http://legacy.python.org/dev/peps/pep-0008/).
+Also, run `make stylish` to run pep8, pyflakes, pyqver, rpmlint, and a few
+subman specific code checks.
 
 For C, run this on your code before you commit: `indent -linux -pcs -psl -ci8
 -cs -cli8 -cp0 yourawesomefile.c`. Note that you may need to double-check that
@@ -167,13 +167,11 @@ wrong you can end up with an un-maintainable mess. Look for good examples,
 experiment, chat with the team, and in general just try to leverage this when
 possible. We're all still learning how this works. :)
 
-In the Java unit tests this is accomplished with mockito: <http://mockito.org/>
+In the Java unit tests this is accomplished with [Mockito](http://code.google.com/p/mockito/).
 
 In subscription-manager and python-rhsm we use the python-mock module: <http://www.voidspace.org.uk/python/mock/>
 
-In headpin we use mock capabilities of rspec 2.0: <http://relishapp.com/rspec/rspec-mocks>
-
-# Architecture Gotcha's
+# Architecture Gotchas
 Candlepin can be a confusing beast. Some pointers that may help to understand how things work and why they are the way they are.
 
 ## Service Adapters

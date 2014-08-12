@@ -35,7 +35,7 @@ please follow the following steps.
       sudo yum install ocspd -y
   ```
 
-* Configure ocspd. A sample [attachment:ocspd.conf configuration file] has been attached with this page. You may have to customize to fit your needs. After doing so, please move the file to `/etc/ocspd/ocspd.conf`
+* Configure ocspd.  You may have to customize to fit your needs. After doing so, please move the file to `/etc/ocspd/ocspd.conf`
 * Start your ocspd daemon using the following command
 
   ```
@@ -70,7 +70,6 @@ please follow the following steps.
   ```
 
 # Reference
- * <http://www.openca.org/projects/ocspd/ocspd_conf_man.shtml>
- * <http://www.openca.org/projects/ocspd/ocspd_man.shtml>
+ * <http://www.openca.org/projects/ocspd/>
  * <http://www.openssl.org/docs/apps/ocsp.html>
  * <http://wiki.cacert.org/OcspResponder>
