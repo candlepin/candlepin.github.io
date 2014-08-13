@@ -77,6 +77,45 @@
   font-style: normal;
 }
 
+@mixin liberation_serif($directory, $prefix, $svg_id) {
+  font-family: 'Liberation Serif';
+  $eot-ie9: "/assets/fonts/liberation_serif/#{$directory}/#{$prefix}.eot";
+  $eot: "/assets/fonts/liberation_serif/#{$directory}/#{$prefix}.eot?#iefix";
+  $woff: "/assets/fonts/liberation_serif/#{$directory}/#{$prefix}.woff";
+  $ttf: "/assets/fonts/liberation_serif/#{$directory}/#{$prefix}.ttf";
+  $svg: "/assets/fonts/liberation_serif/#{$directory}/#{$prefix}.svg##{$svg_id}";
+  src: url(@eot-ie9); // IE 9 compatibility mode
+  src:
+    url($eot) format('embedded-opentype'), //IE 6 to IE 8
+    url($woff) format('woff'), // Sane browsers
+    url($ttf) format('truetype'), // Safari, Android, iOS
+    url($svg) format('svg'); // Legacy iOS
+}
+
+@font-face {
+  @include liberation_serif('bold', 'LiberationSerif-Bold', 'liberation_serifbold');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  @include liberation_serif('bolditalic', 'LiberationSerif-BoldItalic', 'liberation_serifbold_italic');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  @include liberation_serif('italic', 'LiberationSerif-Italic', 'liberation_serifitalic');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  @include liberation_serif('regular', 'LiberationSerif-Regular', 'liberation_serifregular');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @mixin overpass($directory, $prefix, $svg_id) {
   font-family: 'Overpass';
   $eot-ie9: "/assets/fonts/overpass/#{$directory}/#{$prefix}.eot";
