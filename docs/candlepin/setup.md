@@ -9,8 +9,38 @@ title: Setting Up Candlepin
 This page describes how to install Candlepin using the rpms. If you are building from source, please
 see [wiki:Deployment].
 
-1. Install PostgreSQL.
-1. Configure the yum repo, 
+# PostgreSQL
+
+1. Install PostgresSQL.
+
+   ```console
+   $ sudo yum install -y postgresql-server postgresql
+   ```
+
+1. Initialize PostgreSQL.
+
+   ```console
+   $ sudo postgresql-setup initdb
+   ```
+
+1. Update `/var/lib/pgsql/data/pg_hba.conf` to be trust instead of ident:
+
+   ```
+   # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+   local   all         all                               trust
+   host    all         all         127.0.0.1/32          trust
+   ```
+
+1. Enable and start the PostgreSQL server.
+
+   ```console
+   $ sudo chkconfig postgresql on
+   $ sudo /sbin/service postgresql start
+   ```
+
+# Candlepin
+
+1. Configure the yum repo,
 
    ```console
    $ wget -O /etc/yum.repos.d/fedora-candlepin.repo http://repos.fedorapeople.org/repos/candlepin/candlepin/fedora-candlepin.repo 
@@ -32,6 +62,12 @@ see [wiki:Deployment].
 
    ```console
    $ sudo update-alternatives --config java
+   ```
+
+1. Create the candlepin user:
+
+   ```console
+   $ sudo su - postgres -c 'createuser -dls candlepin'
    ```
 
 1. Setup candlepin
