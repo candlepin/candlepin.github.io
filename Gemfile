@@ -11,6 +11,7 @@ Encoding.default_internal=Encoding::UTF_8
 gem 'git', "~> 1.2"
 gem 'typogruby', "~> 1.0"
 gem 'jekyll', "~> 2.0"
+gem 'jekyll-sitemap'
 gem 'kramdown', "~> 1.3"
 # Until https://github.com/adaoraul/rack-jekyll/pull/22 is accepted
 gem 'rack-jekyll', :git => 'https://github.com/awood/rack-jekyll'
