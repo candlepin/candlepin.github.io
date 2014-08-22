@@ -39,8 +39,12 @@
           <a href="{{ site.repository }}">View on GitHub</a>
         </li>
       </ul>
-      <div id="gcse" class="navbar-right">
-        {% include search.html %}
+      <div id="search" class="navbar-right navbar-form" role="search">
+        <div class="form-group">
+          <form>
+            <input type="text" id="st-search-input" class="form-control st-search-input" placeholder="Search..."/>
+          </form>
+        </div>
       </div>
     </div>
   </div>

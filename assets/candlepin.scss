@@ -107,35 +107,12 @@ div#front-page-lower {
 }
 
 // SEARCH BOX
-// See http://getbootstrap.com/getting-started/#third-parties
-.reset-box-sizing {
-  &,
-  *,
-  *:before,
-  *:after {
-    @include box-sizing(content-box);
-  }
+div#search div.form-group form input.form-control {
+  @include navbar-vertical-align($input-height-base);
+  height: $input-height-base;
+  margin: 0px;
 }
 
-#gcse {
-  @extend .reset-box-sizing;
-  width: 250px;
-  @include navbar-vertical-align(36px);
-
-  form.gsc-search-box {
-    margin-bottom: 0px;
-  }
-
-  .gsib_a {
-    padding-top: 0px;
-    padding-left: 3px;
-  }
-
-  input.gsc-search-button {
-    margin-top: 4px;
-    position: relative;
-  }
-}
 
 // TABLE OF CONTENTS
 $toc-color: lighten($navbar-default-bg, 25%);
