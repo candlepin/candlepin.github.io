@@ -8,11 +8,11 @@ GIT
 
 GIT
   remote: https://github.com/awood/rack-jekyll
-  revision: 38db078046a52666b8da1dc0055877a98e6fab30
+  revision: 21f1522d133e09b2bc235643a13afd8ed7c2864d
   specs:
     rack-jekyll (0.4.1)
-      jekyll (> 1.3)
-      rack (~> 1.5.0)
+      jekyll (>= 1.3)
+      rack (~> 1.5)
 
 GEM
   remote: https://rubygems.org/
