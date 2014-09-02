@@ -6,4 +6,4 @@ use Rack::Static,
     "/favicon.ico" => "/images/favicon.ico"
   }
 
-run Rack::Jekyll.new
+run Rack::Jekyll.new(:no_render => true)
