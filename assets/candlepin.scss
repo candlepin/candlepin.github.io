@@ -1,5 +1,6 @@
 ---
 # Add YAML front matter to ensure Jekyll transforms this file
+no_date: true
 ---
 @import "candlepin-variables";
 
@@ -93,6 +94,11 @@ div#front-page-lower {
     font-weight: bold;
     font-size: 17px;
   }
+}
+
+// WHAT'S NEW
+div#whats-new h3 {
+  margin-bottom: 5px;
 }
 
 // NAVBAR

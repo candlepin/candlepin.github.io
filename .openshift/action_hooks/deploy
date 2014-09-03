@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Exit on errors
-set -e
-
-# We need a recent version of Bundler to support the
-# "ruby" keyword in the Gemfile.
-gem update bundler
