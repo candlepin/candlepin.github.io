@@ -116,7 +116,7 @@ codebase.
      ```console
      $ buildr spec
      ```
-   * Functional tests in parallen:
+   * Functional tests in parallel:
 
      ```console
      $ buildr parallel_rspec
