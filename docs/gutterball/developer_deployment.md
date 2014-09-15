@@ -16,13 +16,18 @@ Instructions for deploying gutterball from source.
 
 ## Instructions
 
- * cd gutterball/
  * Setup [MongoDB](mongodbsetup.html)
    * WARNING: Gutterball is currently transitioning to postgresql, these instructions will change.
  * Run deploy script:
+
    ```
-   bin/deploy
+   $ cd gutterball/
+   $ bin/deploy
    ```
+
+## Configuration
+
+By default, gutterball's configuration is set up for a from source developer deployment, so you may not need an actual /etc/gutterball/gutterball.conf. If so however, the properties you can use and their defaults can be viewed in [this file](https://github.com/candlepin/candlepin/blob/master/gutterball/src/main/java/org/candlepin/gutterball/config/ConfigProperties.java).
 
 
 
