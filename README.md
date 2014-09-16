@@ -151,7 +151,7 @@ print "Hello World"
 ```
 </pre>
 
-* Be careful with internal links.  Preface them with {{ site.baseurl }} if they are in another direcotry.
+* Be careful with internal links.  Preface them with {{ site.baseurl }} if they are in another directory.
   See <http://jekyllrb.com/docs/github-pages/#project_page_url_structure>
 * The URLs for all posts and pages contain a leading slash so there is no need to provide one.  E.g. Linking to a post
   would use {{ site.baseurl }}{{ post.url }}
