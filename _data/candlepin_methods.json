@@ -99,7 +99,7 @@
     "returnType": {
       "type": "object"
     },
-    "description": "Retrieves a single Activation Key\n <p>\n <pre>\n {\n   \"id\" : \"database_id\",\n   \"name\" : \"default_key\",\n   \"owner\" : {},\n   \"pools\" : [ ],\n   \"contentOverrides\" : [ ],\n   \"releaseVer\" : {},\n  \"serviceLevel\" : null,\n  \"updated\" : [date]\n   \"created\" : [date],\n }\n </pre>",
+    "description": "Retrieves a single Activation Key\n <p>\n <pre>\n {\n   \"id\" : \"database_id\",\n   \"name\" : \"default_key\",\n   \"owner\" : {},\n   \"pools\" : [ ],\n   \"contentOverrides\" : [ ],\n   \"releaseVer\" : {},\n   \"serviceLevel\" : null,\n   \"description\" : null,\n   \"updated\" : [date]\n   \"created\" : [date],\n }\n </pre>",
     "deprecated": null,
     "returns": "an ActivationKey object",
     "httpStatusCodes": [
@@ -4111,7 +4111,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.getProductStats",
-    "url": "/products/{prod_id}/statistics",
+    "url": "/products/{prod_id}/statistics/{vtype}",
     "verifiedParams": [
 
     ],
