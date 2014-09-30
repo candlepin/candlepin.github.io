@@ -141,7 +141,7 @@ Remember to set JAVA_HOME for buildr to work.
 {:.alert-caution}
 
 ```console
-$ buildconf/scripts/deploy
+$ server/bin/deploy
 ```
 
 Test that the application is listening with:
