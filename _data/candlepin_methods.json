@@ -20,7 +20,36 @@
     },
     "description": "Adds a Pool to an Activation Key",
     "deprecated": null,
-    "returns": "a Pool object",
+    "returns": "an ActivationKey object",
+    "httpStatusCodes": [
+      {
+        "statusCode": 400,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "method": "org.candlepin.resource.ActivationKeyResource.addProductIdToKey",
+    "url": "/activation_keys/{activation_key_id}/product/{product_id}",
+    "verifiedParams": [
+      "activation_key_id"
+    ],
+    "httpVerbs": [
+      "POST"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": {
+      "type": "object"
+    },
+    "description": "Adds an Product ID to an Activation Key",
+    "deprecated": null,
+    "returns": "an Activation Key object",
     "httpStatusCodes": [
       {
         "statusCode": 400,
@@ -99,7 +128,7 @@
     "returnType": {
       "type": "object"
     },
-    "description": "Retrieves a single Activation Key\n <p>\n <pre>\n {\n   \"id\" : \"database_id\",\n   \"name\" : \"default_key\",\n   \"owner\" : {},\n   \"pools\" : [ ],\n   \"contentOverrides\" : [ ],\n   \"releaseVer\" : {},\n   \"serviceLevel\" : null,\n   \"description\" : null,\n   \"updated\" : [date]\n   \"created\" : [date],\n }\n </pre>",
+    "description": "Retrieves a single Activation Key\n <p>\n <pre>\n {\n   \"id\" : \"database_id\",\n   \"name\" : \"default_key\",\n   \"owner\" : {},\n   \"pools\" : [ ],\n   \"productIds\" : [ ],\n   \"autoAttach\" : false,\n   \"contentOverrides\" : [ ],\n   \"releaseVer\" : {},\n   \"serviceLevel\" : null,\n   \"description\" : null,\n   \"updated\" : [date]\n   \"created\" : [date],\n }\n </pre>",
     "deprecated": null,
     "returns": "an ActivationKey object",
     "httpStatusCodes": [
@@ -160,7 +189,36 @@
     },
     "description": "Removes a Pool from an Activation Key",
     "deprecated": null,
-    "returns": "a Pool object",
+    "returns": "an ActivationKey object",
+    "httpStatusCodes": [
+      {
+        "statusCode": 400,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "method": "org.candlepin.resource.ActivationKeyResource.removeProductIdFromKey",
+    "url": "/activation_keys/{activation_key_id}/product/{product_id}",
+    "verifiedParams": [
+      "activation_key_id"
+    ],
+    "httpVerbs": [
+      "DELETE"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": {
+      "type": "object"
+    },
+    "description": "Removes a Product ID from an Activation Key",
+    "deprecated": null,
+    "returns": "an ActivationKey object",
     "httpStatusCodes": [
       {
         "statusCode": 400,
@@ -444,6 +502,10 @@
       {
         "name": "entitle_date",
         "type": "string"
+      },
+      {
+        "name": "from_pool",
+        "type": "list"
       }
     ],
     "returnType": {
@@ -3122,7 +3184,7 @@
   },
   {
     "method": "org.candlepin.resource.OwnerResource.getStatistics",
-    "url": "/owners/{owner_key}/statistics",
+    "url": "/owners/{owner_key}/statistics/{type}",
     "verifiedParams": [
       "owner_key"
     ],
@@ -3130,6 +3192,10 @@
       "GET"
     ],
     "queryParams": [
+      {
+        "name": "reference",
+        "type": "string"
+      },
       {
         "name": "from",
         "type": "string"
@@ -3458,6 +3524,10 @@
       },
       {
         "name": "activeon",
+        "type": "string"
+      },
+      {
+        "name": "matches",
         "type": "string"
       },
       {
