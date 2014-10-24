@@ -87,7 +87,7 @@
    to refresh, you may have to refresh manually).
 
 # Deployment
-1. `yum install rhc`
+1. `gem install rhc`
 1. `rhc setup`
 1. Go into your checkout.  You'll need to add the Openshift metadata and remote to your .git/config.
    To automate this, I've created a little script.  Simply run `bin/site-tool bootstrap`.  You should
