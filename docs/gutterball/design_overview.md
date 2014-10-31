@@ -1,6 +1,6 @@
 ---
-categories: design
-title: Gutterball Overview
+categories: outdated
+title: Old Design Overview
 ---
 {% include toc.md %}
 

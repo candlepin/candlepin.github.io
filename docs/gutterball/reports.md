@@ -1,5 +1,5 @@
 ---
-categories: design
+categories: outdated
 title: Reports
 ---
 {% include toc.md %}

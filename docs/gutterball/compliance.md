@@ -1,12 +1,15 @@
 ---
-categories: design
+categories: outdated
 title: Compliance Calculation and Storage
 ---
 {% include toc.md %}
 
 # Compliance Calculation and Storage
 
-IN PROGRESS
+NOT APPLICABLE ANYMORE - Compliance is reported over an Event Message Bus.
+
+
+#### OLD IDEAS
 
 Compliance is calculated by running consumer and entitlement JSON through Javascript rules from Candlepin.
 
