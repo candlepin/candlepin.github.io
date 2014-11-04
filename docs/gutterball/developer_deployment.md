@@ -1,5 +1,5 @@
 ---
-categories: Developers
+categories: developers
 title: Developer Deployment
 ---
 
@@ -52,7 +52,7 @@ All commands below are assumed relative to your candlepin project checkout: **$C
 
 ## Configuration
 
-By default, gutterball's configuration is set up for a from source developer deployment, so you may not need an actual
+By default, gutterball's configuration is set up for a source developer deployment, so you may not need an actual
 /etc/gutterball/gutterball.conf. If so however, the properties you can use and their defaults can be viewed in
 [this file](https://github.com/candlepin/candlepin/blob/master/gutterball/src/main/java/org/candlepin/gutterball/config/ConfigProperties.java).
 

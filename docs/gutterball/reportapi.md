@@ -1,5 +1,5 @@
 ---
-categories: Developers
+categories: developers
 title: Reporting API
 ---
 {% include toc.md %}
