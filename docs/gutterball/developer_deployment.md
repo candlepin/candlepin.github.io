@@ -17,6 +17,8 @@ Instructions for deploying gutterball from source.
 
 ## Instructions
 
+All commands below are assumed relative to your candlepin project checkout: **$CHECKOUT_DIR**
+
 1. **Get The Code**
 
    You should already have the code from your candlepin setup, but if not, you can get it as follows.
@@ -25,13 +27,11 @@ Instructions for deploying gutterball from source.
    $ git clone https://github.com/candlepin/candlepin.git
    ```
 
-   All commands below are assumed relative to your candlepin project checkout.
-
 1. **Setup QPid**
 
    ```console
    $ sudo yum install qpid-cpp-server-store qpid-cpp-server qpid-tools
-   $ cd <checkout_dir>/gutterball/bin/qpid
+   $ cd $CHECKOUT_DIR/gutterball/bin/qpid
    $ ./configure-qpid.sh
    ```
 
@@ -46,7 +46,7 @@ Instructions for deploying gutterball from source.
 1. **Run the deploy script**
 
    ```console
-   $ cd <checkout_dir>/gutterball/
+   $ cd $CHECKOUT_DIR/gutterball/
    $ bin/deploy -g
    ```
 
