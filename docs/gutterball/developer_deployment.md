@@ -11,9 +11,9 @@ Instructions for deploying gutterball from source.
 
 ## Prerequisites
 
- * A functional Candlepin install [SOURCE](candlepin/developer_deployment.html) [RPM](candlepin/setup.html)
+ * A functional Candlepin install [SOURCE](/docs/candlepin/developer_deployment.html) [RPM](/docs/candlepin/setup.html)
  * Configured and setup a local [Qpid server](/docs/candlepin/amqp.html)
- * [PostgreSQL](/docs/candlepin/setup.html#sts=PostgreSQL) installed as per candlepin.
+ * [PostgreSQL](/docs/candlepin/setup.html#postgresql) installed as per candlepin.
 
 ## Instructions
 
