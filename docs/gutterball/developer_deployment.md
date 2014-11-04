@@ -21,7 +21,7 @@ Instructions for deploying gutterball from source.
 You should already have the code from your candlepin setup, but if not, you can get it as follows.
 
 ```console
-    $ git clone https://github.com/candlepin/candlepin.git
+$ git clone https://github.com/candlepin/candlepin.git
 ```
 
 All commands below are assumed relative to your candlepin project checkout.
@@ -29,9 +29,9 @@ All commands below are assumed relative to your candlepin project checkout.
 #### 2. Setup QPid
 
 ```console
-    $ sudo yum install qpid-cpp-server-store qpid-cpp-server qpid-tools
-    $ cd <checkout_dir>/gutterball/bin/qpid
-    $ ./configure-qpid.sh
+$ sudo yum install qpid-cpp-server-store qpid-cpp-server qpid-tools
+$ cd <checkout_dir>/gutterball/bin/qpid
+$ ./configure-qpid.sh
 ```
 
 **NOTE**: For instructions on how to completely wipe out all qpid configuration and start new, [READ](https://github.com/candlepin/candlepin/blob/master/gutterball/bin/qpid/README.md)
@@ -39,14 +39,14 @@ All commands below are assumed relative to your candlepin project checkout.
 #### 2. Create a DB user for gutterball
 
 ```console
-    $ sudo su - postgres -c 'createuser -dls gutterrball'
+$ sudo su - postgres -c 'createuser -dls gutterrball'
 ```
 
 #### 3. Run the deploy script
 
 ```console
-    $ cd <checkout_dir>/gutterball/
-    $ bin/deploy -g
+$ cd <checkout_dir>/gutterball/
+$ bin/deploy -g
 ```
 
 ## Configuration
