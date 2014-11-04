@@ -20,7 +20,7 @@ exclude:
 projects_dir: 'docs'
 
 # The tilde is YAML for nil.  Categories not in this map get nil and placed at the end.
-category-order: {usage: 1, developers: 2, design: 3, outdated: 4, uncategorized: ~}
+category-order: {usage: 1, developers: 2, design: 3, uncategorized: ~}
 
 permalink: /news/:year/:title.html
 paginate: 8
