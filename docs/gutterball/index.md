@@ -19,12 +19,12 @@ UI for viewing reporting data will be implemented in Katello/Satellite.
 
 Gutterball integrates with Candlepin by making use of Candlepin's event message bus. Gutterball will process any events candlepin puts on the bus by transforming the event data and storing it in a database using hibernate.
 
-[ [Read More](gutterball/events.html) ]
+[ [Read More](events.html) ]
 
 ### Reporting API
 
 Gutterball provides a REST API that allows consumers to run pre-canned reports against Gutterball's data store and is protected by OAuth. Each report provides various parameters that allow the caller to customize report results. Report results are returned as JSON.
 
-[ [Read More](gutterball/reportapi.html) ]
+[ [Read More](reportapi.html) ]
 
 {% project_index %}
