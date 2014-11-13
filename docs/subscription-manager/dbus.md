@@ -131,5 +131,6 @@ Entitlement Status also employs the standard Properties interface methods:
                          in_signature="s", out_signature="a{sv}")
     def GetAll(self, interface_name):
 ```
-
+<br>
+As the available information is read-only, no other access retrictions have been implemented. If the capabilities are expanded in the future to include system manipulation, then access control will be added.
 
