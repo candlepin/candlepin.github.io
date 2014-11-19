@@ -111,7 +111,7 @@ signal sender=:1.8 -> dest=(null destination) serial=5 path=/EntitlementStatus; 
 
 ## On Demand Message Production
 
-There is also a means to 'poke' the rhsm daemon to make it produce the above messages with the current status on demand:
+There is a means to 'poke' the rhsm daemon to make it produce the first message on demand:
 
 ```python
     @dbus.service.method(
@@ -120,7 +120,7 @@ There is also a means to 'poke' the rhsm daemon to make it produce the above mes
     def check_status(self):
 ```
 <br>
-Entitlement Status also employs the standard Properties interface methods:
+Entitlement Status employs the standard Properties interface methods:
 
 ```python
     @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
