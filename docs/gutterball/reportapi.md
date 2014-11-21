@@ -38,14 +38,14 @@ When a report is run, all specified parameters will be validated. GB will raise 
 
 Lists the latest compliance status of consumers who have reported compliance during a specified time period.
 
-#### **GET /reports/consumer_status_report**
+#### **GET /reports/consumer_status**
 
 Current details of the report parameters.
 
 ```json
 [
   {
-    "key" : "consumer_status_report",
+    "key" : "consumer_status",
     "description" : "List the status of all consumers",
     "parameters" : [ {
       "mandatory" : false,
@@ -78,7 +78,7 @@ Current details of the report parameters.
 2. When specifying the **on_date** paramter, results will be limited to compliance status records that were last reported before or on that date.
 3. Generally **status** values from candlepin will be one of: valid, partial, invalid
 
-#### **GET /reports/consumer_status_report/run?owner=ACME_Corporation**
+#### **GET /reports/consumer_status/run?owner=ACME_Corporation**
 
 An example of running the report filtering by owner key.
 
@@ -308,13 +308,13 @@ state of the consumer and its status at the time compliance was reported by cand
 
 Lists ALL compliance snapshots for consumers who have reported compliance status in the specified time period.
 
-#### **GET /reports/consumer_trend_report**
+#### **GET /reports/consumer_trend**
 
 Current details of the report parameters.
 
 ```json
 {
-  "key" : "consumer_trend_report",
+  "key" : "consumer_trend",
   "description" : "Lists the status of each consumer over a date range",
   "parameters" : [ {
     "mandatory" : false,
@@ -350,7 +350,7 @@ Current details of the report parameters.
 1. Report result is a map of consumer_uuid to list of compliance snapshots.
 2. Parameters allow limiting results to specific owners and consumers.
 
-#### **GET /reports/consumer_trend_report/run?owner=admin&hours=24**
+#### **GET /reports/consumer_trend/run?owner=admin&hours=24**
 
 An example of running the report filtering by owner and for the last 24 hours.
 
@@ -733,5 +733,187 @@ An example of running the report filtering by owner and for the last 24 hours.
     "entitlements" : [ ],
     "date" : "2014-10-24T19:18:33.689+0000"
   } ]
+}
+```
+
+### Status Trend Report
+
+The status trend report shows the per-day counts of consumers, grouped by status, optionally
+limited to a date range and/or filtered by select criteria.
+
+#### **GET /reports/status_trend**
+
+Current details of the report parameters.
+
+```json
+{
+  "key" : "status_trend",
+  "description" : "Lists the per-day status counts for all consumers",
+  "parameters" : [ {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The start date on which to filter.",
+    "name" : "start_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The end date on which to filter.",
+    "name" : "end_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "An owner key on which to filter.",
+    "name" : "owner"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The entitlement sku on which to filter.",
+    "name" : "sku"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The name of a subscription on which to filter.",
+    "name" : "subscription_name"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "[Boolean] Whether or not to filter on subscriptions which have management enabled.",
+    "name" : "management_enabled"
+  } ]
+}
+```
+
+**NOTES:**
+
+1. The status trend report returns a map of maps; the outer map using UTC dates as keys mapped to
+    maps of status strings to per-day counts.
+2. Statuses returned are always in lower case, and the date/times returned represent the time
+    relative to the server's local time, expressed in UTC.
+3. A consumer's status is counted on each day returned in the report; even if that consumer was not
+    able to submit a compliance report for that day. In such a case, the consumer's status is
+    extrapolated from their last known status.
+4. Start and end date don't need to be used in conjunction. When specifying only one, the boundries
+    of the resultant data will be used for the omitted part of the range.
+4. Parameters allow limiting results to specific date ranges or filtering by organization owner,
+    entitlement sku, subscription name or whether or not the consumer is using entitlements which
+    have management enabled.
+
+#### **GET /reports/status_trend/run?sku=awesomeos-instancebased**
+
+An example of running the report filtering by subscription sku.
+
+```json
+{
+  "2014-11-03T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-04T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-05T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-06T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-07T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-08T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-09T04:59:59.999+0000" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?subscription_name=Awesome%20OS%20Instance%20Based%20(Standard%20Support)**
+
+An example of running the report filtering by subscription name.
+
+```json
+{
+  "2014-11-03T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-04T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-05T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-06T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-07T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-08T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-09T04:59:59.999+0000" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?start_date=2014-11-05**
+
+An example of running the report filtering by start date.
+
+```json
+{
+  "2014-11-05T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-06T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-07T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-08T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-09T04:59:59.999+0000" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?end_date=2014-11-05**
+
+An example of running the report filtering by end date.
+
+```json
+{
+  "2014-11-03T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-04T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-05T04:59:59.999+0000" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?management_enabled=true**
+
+An example of running the report filtering by subscriptions with management enabled.
+
+```json
+{
+  "2014-11-07T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-08T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-09T04:59:59.999+0000" : {
+    "valid" : 1
+  }
 }
 ```
