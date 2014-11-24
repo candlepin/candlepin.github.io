@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/candlepin/candlepinproject.org.png?branch=master)](https://travis-ci.org/candlepin/candlepinproject.org)
 
 # Getting Started
-1. `yum install nodejs python-pygments ruby-devel libyaml libxslt-devel`
+1. `yum install nodejs python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel`
+
 1. Install RVM. Yes, I know RVM can be a pain when you first start using it, but OpenShift uses Ruby 1.9.3
    and the fact is there are some small compatibility issues between 2.0.0 and 1.9.3. Note: do **NOT** install
    RVM as root.
@@ -24,7 +25,7 @@
    RVM will detect the .ruby-version and .ruby-gemset files and switch to Ruby 1.9.3 and the candlepinproject.org
    gemset.  The documentation from RVM is extensive so don't be afraid to read it.
 1. Go into your checkout directory and run `bundle install`
-1. Install and configure Travis.  This will allow you to interact with the continuous integration 
+1. Install and configure Travis.  This will allow you to interact with the continuous integration
    environment from the command line.  Note that you have to do this separately because there is a
    gem conflict with the site's bundle.
 
