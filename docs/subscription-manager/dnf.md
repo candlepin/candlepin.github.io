@@ -24,6 +24,8 @@ Yum plugins currently are bundled up with the base subscription-manager package.
 
 Address the dependency on yum in our spec file. Conditional on RHEL / Fedora version?
 
+
+
 ## Product ID Yum Plugin
 
 Our product-id.py yum plugin uses a posttrans hook, which looks like it maps to the DNF transaction() hook.
