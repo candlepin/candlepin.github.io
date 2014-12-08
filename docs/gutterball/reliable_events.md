@@ -12,7 +12,7 @@ Candlepin events are dispatched first by submitting to an embedded Hornetq serve
 
 It is also worth noting that events to be dispatched are gathered up during a REST API request and only sent after successful completion, if an error is encountered in Candlepin code after some event has been sent, that message will never make it to Hornetq or the message bus.
 
-Our Hornetq messages are marked as 'durable', as our the queues they are sent to. By default hornetq stores it's journal in /var/lib/candlepin/hornetq/.
+Our Hornetq messages are marked as 'durable', as are the queues they are sent to. By default hornetq stores it's journal in /var/lib/candlepin/hornetq/.
 
 To communicate with AMQP we use the Qpid JMS client, and thus we're basically using JMS API.
 
@@ -22,9 +22,9 @@ Gutterball likewise uses the JMS API to receive the messages on the other end of
 
 ## Qpid Message Bus Down
 
-In this scenario, both Candlepin and Gutterball applications are live, but the Qpid message bus goes down for some reason. Both applications will log an error when this happens, they loes their connection to qpidd but continue to operate fine. Hornetq queues up messages in the durable queues we configure and will hold onto them, and re-attempt delivery the next time the application is restarted and qpidd is up.
+In this scenario, both Candlepin and Gutterball applications are live, but the Qpid message bus goes down for some reason. Both applications will log an error when this happens, they lose their connection to qpidd but continue to operate fine. Hornetq queues up messages in the durable queues we configure and will hold onto them, and re-attempt delivery the next time the application is restarted and qpidd is up.
 
-This behaviour should hold true for any exception thrown in an EventListener, and as such we should not ignore exceptions in these classes if it's important the event reach it's destination.
+This behaviour should hold true for any exception thrown in an EventListener, and as such we should not ignore exceptions in these classes if it's important the event reach its destination.
 
 #### Example Test
 
@@ -68,5 +68,5 @@ Really no options here other than to go to gutterball and insert explicit throw 
 
 #### Qpidd Capacity Exceeded
 
-A potential remaining problem if is the number of messages failing to import exceeds the amount qpidd is configured to store, which results in an exception: Enqueue capacity threshold exceeded. This exception seems to only surface in high volume scenarios (parallel spec tests) when events throw an exception when being received by gutterball. Because this is only possible in phase 1 now, and we do not know of any situations where this is possible, we are hopeful the two phase approach to message processing in gutterball will prevent this.
+A potential remaining problem is if the number of messages failing to import exceeds the amount qpidd is configured to store, which results in an exception: Enqueue capacity threshold exceeded. This exception seems to only surface in high volume scenarios (parallel spec tests) when events throw an exception when being received by gutterball. Because this is only possible in phase 1 now, and we do not know of any situations where this is possible, we are hopeful the two phase approach to message processing in gutterball will prevent this.
 
