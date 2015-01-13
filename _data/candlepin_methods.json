@@ -260,6 +260,31 @@
     ]
   },
   {
+    "method": "org.candlepin.resource.AdminResource.getQueueStats",
+    "url": "/admin/queues",
+    "verifiedParams": [
+
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": {
+      "type": "array"
+    },
+    "description": "",
+    "deprecated": null,
+    "returns": "Basic information on the HornetQ queues and how many messages are\n pending in each.\n\n NOTE: This does not report on any pending messages in the AMQP bus.",
+    "httpStatusCodes": [
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
     "method": "org.candlepin.resource.AdminResource.initialize",
     "url": "/admin/init",
     "verifiedParams": [
@@ -1149,6 +1174,10 @@
       {
         "name": "product",
         "type": "string"
+      },
+      {
+        "name": "regen",
+        "type": "boolean"
       }
     ],
     "returnType": {
