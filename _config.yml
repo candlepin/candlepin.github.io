@@ -44,6 +44,8 @@ defaults:
     values: { layout: "news" }
   - scope: { path: "_posts" }
     values: { layout: "news" }
+  - scope: { path: "presentations" }
+    values: { layout: "presentation" }
 
 gems:
   - jekyll-sitemap
