@@ -16,7 +16,7 @@ $selectionBackgroundColor: $solarized-magenta;
 $linkColor: $solarized-blue;
 $linkColorHover: lighten( $linkColor, 20% );
 
-$headingFont: $font-family-sans-serif;
+$headingFont: "Roboto", $font-family-sans-serif;
 $mainFont: $font-family-sans-serif;
 $headingTextTransform: none;
 $headingTextShadow: none;

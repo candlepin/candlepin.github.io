@@ -142,3 +142,30 @@
   font-weight: bold;
   font-style: normal;
 }
+
+@mixin roboto($directory, $prefix, $svg_id) {
+  font-family: 'Roboto';
+  $eot-ie9: "/assets/fonts/roboto/#{$directory}/#{$prefix}.eot";
+  $eot: "/assets/fonts/roboto/#{$directory}/#{$prefix}.eot?#iefix";
+  $woff: "/assets/fonts/roboto/#{$directory}/#{$prefix}.woff";
+  $ttf: "/assets/fonts/roboto/#{$directory}/#{$prefix}.ttf";
+  $svg: "/assets/fonts/roboto/#{$directory}/#{$prefix}.svg##{$svg_id}";
+  src: url($eot-ie9); // IE 9 compatibility mode
+  src:
+    url($eot) format('embedded-opentype'), //IE 6 to IE 8
+    url($woff) format('woff'), // Sane browsers
+    url($ttf) format('truetype'), // Safari, Android, iOS
+    url($svg) format('svg'); // Legacy iOS
+}
+
+@font-face {
+  @include roboto('bold', 'Roboto-Bold', 'robotobold');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  @include roboto('bolditalic', 'Roboto-BoldItalic', 'robotobold_italic');
+  font-weight: bold;
+  font-style: italic;
+}
