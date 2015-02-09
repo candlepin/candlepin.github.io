@@ -1,12 +1,12 @@
 ---
 no_date: true
 ---
-@import "reveal/mixins";
-@import "reveal/settings";
-
 @import "candlepin-fonts";
 @import "candlepin-variables";
 @import "solarized";
+
+@import "reveal/mixins";
+@import "reveal/settings";
 
 // Override Reveal.js variables
 $mainColor: $solarized-dark-primary;
@@ -14,10 +14,10 @@ $headingColor: $solarized-dark-secondary;
 $backgroundColor: $solarized-dark-bg;
 $selectionBackgroundColor: $solarized-magenta;
 $linkColor: $solarized-blue;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: lighten($linkColor, 20%);
 
 $mainFont: $font-family-sans-serif;
-$mainFontSize: 45px;
+$mainFontSize: 37px;
 
 $headingFont: "Roboto", $font-family-sans-serif;
 $headingTextTransform: none;
@@ -32,11 +32,28 @@ html * {
   rendering-intent: auto;
 }
 
-@import "reveal/theme";
+.reveal .slides {
+  top: 45% !important;
 
-.reveal {
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
+  section, section > section {
+    padding-top: 5px;
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: bold;
+    }
+
+    table {
+      margin-top: 30px;
+
+      tr {
+        border-bottom: 1px solid $solarized-dark-secondary;
+        background-color: $solarized-dark-bg;
+      }
+
+      thead tr, tr:nth-child(even) {
+        background-color: lighten($solarized-dark-bg, 5%);
+      }
+    }
   }
 }
 
@@ -127,3 +144,5 @@ html * {
 .hljs-link_reference {
   color: $solarized-yellow;
 }
+
+@import "reveal/theme";

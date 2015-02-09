@@ -26,12 +26,28 @@ html * {
   rendering-intent: auto;
 }
 
-@import "reveal/theme";
+.reveal .slides {
+  top: 45% !important;
 
-.reveal {
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
-    color: $solarized-base01;
+  section, section > section {
+    padding-top: 5px;
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: bold;
+    }
+
+    table {
+      margin-top: 30px;
+
+      tr {
+        border-bottom: 1px solid $solarized-light-secondary;
+        background-color: $solarized-light-bg;
+      }
+
+      thead tr, tr:nth-child(even) {
+        background-color: lighten($solarized-light-bg, 5%);
+      }
+    }
   }
 }
 
@@ -122,3 +138,5 @@ html * {
 .hljs-link_reference {
   color: $solarized-yellow;
 }
+
+@import "reveal/theme";
