@@ -4,27 +4,37 @@ author: Alex Wood
 description: A brief introduction to public key infrastructure
 theme: presentation-dark.css
 ---
-{% assign data-separator = "^\n----\n" %}
-{% assign data-separator-vertical = "^\n--\n" %}
+{% assign data-separator = "^----\n" %}
+{% assign data-separator-vertical = "^--\n" %}
 {% assign data-separator-notes = "^Note:" %}
 {% assign data-charset = "utf-8" %}
 
 <script type="text/javascript">
 Reveal.addEventListener("ready", function(event) {
   Reveal.configure({
-    parallaxBackgroundImage: "enigma.jpg",
-    parallaxBackgroundSize: "2100px 1400px"
+    parallaxBackgroundImage: "background.jpg",
+    parallaxBackgroundSize: "1920px 1080px"
   });
 })
 </script>
 
-{% assign files = "0-toc.md " | split: ' ' %}
+{% capture f %}
+0-toc.md,
+1-cryptography.md,
+2-pki.md,
+3-management.md,
+4-tools.md
+{% endcapture %}
+
+{% assign files = f | split: "," %}
 
 {% for file in files %}
-<section data-markdown="{{ file }}"
-  data-separator={{ data-separator }}
-  data-separator-vertical={{ data-separator-vertical }}
-  data-separator-notes={{ data-separator-notes }}
-  data-charset={{ data-charset }}>
-</section>
+  {% assign id = file | split: '-' | last | split: '.md' %}
+  <section id="{{ id }}"
+    data-markdown="{{ file }}"
+    data-separator={{ data-separator }}
+    data-separator-vertical={{ data-separator-vertical }}
+    data-separator-notes={{ data-separator-notes }}
+    data-charset={{ data-charset }}>
+  </section>
 {% endfor %}

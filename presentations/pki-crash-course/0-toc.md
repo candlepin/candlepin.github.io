@@ -1,44 +1,15 @@
-## Outline
+## PKI Crash Course
 
-- Cryptography
+By Alex Wood
+
+Copyright 2015
+
+Licensed Under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+
+----
+## Overview
+
+- [Cryptography](#/cryptography)
 - PKI Concepts
 - Management Concepts
 - Tools and Libraries
-
-----
-## Cryptography
-
-- Symmetric Ciphers
-- Asymmetric Ciphers
-- Signatures
-- Cryptographic Hashes
-
-----
-
-## PKI Concepts
-
-- Keys
-- Certificates
-- Certificate Authorities
-- Certificate Signing Requests
-- Certificate Extensions
-
-----
-
-## Management Concepts
-
-- ASN.1
-- Trust Stores
-- Key Stores
-- Certificate Revocation Lists
-
-----
-
-## Tools and Libraries
-
-- OpenSSL
-- NSS
-- Java
-- Others
-- Compatibility Issues
-
