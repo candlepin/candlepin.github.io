@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 {% capture reveal_home %}{{ site.baseurl }}/assets/reveal{% endcapture %}
+{% assign theme = page.theme or "presentation.css" %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -14,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
     <link rel="stylesheet" href="{{ reveal_home }}/css/reveal.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/presentation.css" id="theme"/>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/{{ theme }}" id="theme"/>
 
     <!-- Printing and PDF exports -->
     <script type="text/javascript">
