@@ -22,10 +22,10 @@ $mainFontSize: 37px;
 $headingFont: "Roboto", $font-family-sans-serif;
 $headingTextTransform: none;
 $headingTextShadow: none;
-// $heading1Size: 4em;
-// $heading2Size: 3em;
-// $heading3Size: 2em;
-// $heading4Size: 1em;
+$heading1Size: 70px;
+$heading2Size: 60px;
+$heading3Size: 50px;
+$heading4Size: 40px;
 
 html * {
   color-profile: sRGB;
@@ -40,6 +40,10 @@ html * {
 
     h1, h2, h3, h4, h5, h6 {
       font-weight: bold;
+    }
+
+    pre code {
+      max-height: 750px;
     }
 
     table {
@@ -59,8 +63,7 @@ html * {
 
 // Syntax highlighting.
 // See http://highlightjs.readthedocs.org/en/latest/css-classes-reference.html
-.hljs,
-.reveal pre code {
+.hljs, .hljs .none {
   padding: 10px;
   background: $solarized-dark-bg;
   color: $solarized-dark-primary;
@@ -68,81 +71,83 @@ html * {
   overflow-x: visible;
 }
 
-.hljs-function .hljs-params {
-  color: $solarized-dark-primary;
-}
+.hljs :not(.none) {
+  .hljs-function .hljs-params {
+    color: $solarized-dark-primary;
+  }
 
-.hljs-comment,
-.diff .hljs-header,
-.hljs-doctype,
-.hljs-pi,
-.hljs-javadoc {
-  color: $solarized-dark-secondary;
-}
+  .hljs-comment,
+  .diff .hljs-header,
+  .hljs-doctype,
+  .hljs-pi,
+  .hljs-javadoc {
+    color: $solarized-dark-secondary;
+  }
 
-.hljs-addition,
-.css .hljs-tag,
-.hljs-request,
-.hljs-status {
-  color: $solarized-green;
-}
+  .hljs-addition,
+  .css .hljs-tag,
+  .hljs-request,
+  .hljs-status {
+    color: $solarized-green;
+  }
 
-.hljs-number,
-.hljs-string,
-.hljs-tag .hljs-value,
-.hljs-rules .hljs-value,
-.hljs-hexcolor,
-.hljs-title,
-.hljs-link_url {
-  color: $solarized-cyan;
-}
+  .hljs-number,
+  .hljs-string,
+  .hljs-tag .hljs-value,
+  .hljs-rules .hljs-value,
+  .hljs-hexcolor,
+  .hljs-title,
+  .hljs-link_url {
+    color: $solarized-cyan;
+  }
 
-.hljs-command,
-.hljs-localvars,
-.hljs-chunk,
-.hljs-decorator,
-.hljs-annotation,
-.hljs-variable,
-.hljs-built_in,
-.hljs-class .hljs-title,
-.hljs-parent,
-.hljs-id,
-.hljs-keyword,
-.method,
-.hljs-function {
-  color: $solarized-blue;
-}
+  .hljs-command,
+  .hljs-localvars,
+  .hljs-chunk,
+  .hljs-decorator,
+  .hljs-annotation,
+  .hljs-variable,
+  .hljs-built_in,
+  .hljs-class .hljs-title,
+  .hljs-parent,
+  .hljs-id,
+  .hljs-keyword,
+  .method,
+  .hljs-function {
+    color: $solarized-blue;
+  }
 
-.hljs-preprocessor,
-.hljs-preprocessor .hljs-keyword,
-.hljs-pragma,
-.hljs-shebang,
-.hljs-symbol,
-.hljs-symbol .hljs-string,
-.diff .hljs-change,
-.hljs-special,
-.hljs-attr_selector,
-.hljs-subst,
-.hljs-cdata,
-.hljs-constant,
-.css .hljs-pseudo,
-.hljs-header {
-  color: $solarized-orange;
-}
+  .hljs-preprocessor,
+  .hljs-preprocessor .hljs-keyword,
+  .hljs-pragma,
+  .hljs-shebang,
+  .hljs-symbol,
+  .hljs-symbol .hljs-string,
+  .diff .hljs-change,
+  .hljs-special,
+  .hljs-attr_selector,
+  .hljs-subst,
+  .hljs-cdata,
+  .hljs-constant,
+  .css .hljs-pseudo,
+  .hljs-header {
+    color: $solarized-orange;
+  }
 
-.hljs-deletion,
-.hljs-type,
-.hljs-regexp,
-.hljs-important {
-  color: $solarized-red;
-}
+  .hljs-deletion,
+  .hljs-type,
+  .hljs-regexp,
+  .hljs-important {
+    color: $solarized-red;
+  }
 
-.hljs-link_label {
-  color: $solarized-violet;
-}
+  .hljs-link_label {
+    color: $solarized-violet;
+  }
 
-.hljs-link_reference {
-  color: $solarized-yellow;
+  .hljs-link_reference {
+    color: $solarized-yellow;
+  }
 }
 
 @import "reveal/theme";

@@ -1,5 +1,6 @@
-## Cryptography
+# Cryptography
 
+- Goals
 - Terms
 - Mechanics
 - Symmetric Ciphers
@@ -8,7 +9,14 @@
 - Signatures
 
 --
-## Terms
+# Goals
+
+- Confidentiality: outside parties can't decipher messages
+- Integrity: outside parties can't tamper with messages
+- Authenticity: outside parties can't masquerade as trusted parties
+
+--
+# Terms
 
 - Cipher
 
@@ -18,7 +26,6 @@
 - Cleartext
 
   The text of the message.
-
 - Plaintext
 
   Cleartext formatted for the encryption process.  The cipher encrypts the
@@ -42,7 +49,7 @@ in blocks of 16 bytes with padding on the end to fill up any short blocks).
 The plaintext is the formatted cleartext.
 
 --
-## Mechanics
+# Mechanics
 
 It all comes down to XOR because XOR is reversible.
 
@@ -66,37 +73,66 @@ plaintext is run through the algorithm; how the plaintext is sliced and
 diced), but ultimately everything arrives at XOR.
 
 --
-## Symmetric Ciphers
+# Symmetric Ciphers
 
+- Provide confidentiality
 - One key to do all the work
 
   Plaintext + Key = Ciphertext
 
   Ciphertext + Key = Plaintext
-
 - Fast
 - Best for communication between just two parties
 - Examples: AES (Rijndael), Blowfish, IDEA
 
 --
-## Asymmetric Ciphers
+# Asymmetric Ciphers
 
+- Provide confidentiality
 - Two keys: public and private
 
-  Plaintext + Private Key = Ciphertext
+  Plaintext + Public Key = Ciphertext
 
-  Ciphertext + Public Key = Plaintext
-
-- The public key should be (and often needs to be) widely distributed.
+  Ciphertext + Private Key = Plaintext
+- The public key should be (and often needs to be) widely distributed
 - All these public keys need a management infrastructure
 - Examples: RSA, ElGamal, ECDSA
 
 --
-## Cryptographic Hash Functions
+# Cryptographic Hash Functions
 
-- Send in some input and get a unique, fixed-length output.
+- Send in some input and get a unique, fixed-length output (a "digest")
 - One way trip: someone with just the hash can't work backward to get the
-  message.
-- A small variation in the message leads to large variation in the hash.
-
+  message
+- No collisions: No two messages produce the same hash and it should be
+  infeasible to specially craft a message that results in a targeted hash.
+- A small variation in the message leads to large variation in the hash
 - Examples: MD5 (don't use), SHA1 (don't use), SHA256
+
+--
+# Cryptographic Hash Functions
+
+- Provide message integrity (if the subsequent hash is encrypted)
+- Create unique fingerprints for files (or certificates)
+
+Note:
+The first point warrants further explanation.  Using a digest to verify
+message integrity is pointless if an attacker can manipulate the hash
+with impunity.  To counter this, many encryption protocols call for an HMAC
+(hash message authentication code) which mixes the key and message together
+and then takes the hash thus insuring that non-key-holders can't tamper with
+message digests.
+
+--
+# Signatures
+
+- Provide authenticity
+- For RSA, creating a signature is the inverse of encrypting a message:
+
+  Hash(Plaintext) + Private Key = Signature
+
+  Signature + Public Key = Hash(Plaintext)
+- Recipient compares the hash they calculate with the hash they decrypted.
+  If they match, we know the message could have only come from someone with
+  the private key.
+- Other algorithms use different signing methods
