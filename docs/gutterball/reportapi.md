@@ -87,7 +87,7 @@ Current details of the report parameters.
 
 **NOTES:**
 
-1. Uses a minimized result DTO meaning that by default it does not return all data associated with a compliance snapshot. This is done to minimize the amount of unneeded data serialized in the response, improving performance. If more data is required, you can use the attribute filtering feature. [ [Read More](gutterball/reportapi.html#custom-response-filtering-attribute-filtering) ]
+1. Uses a minimized result DTO meaning that by default it does not return all data associated with a compliance snapshot. This is done to minimize the amount of unneeded data serialized in the response, improving performance. If more data is required, you can use the attribute filtering feature. [ [Read More](reportapi.html#custom-response-filtering-attribute-filtering) ]
 2. Running the report with no paramters will return all compliance status records for all reported consumers.
 3. When specifying the **on_date** paramter, results will be limited to compliance status records that were last reported before or on that date.
 4. Generally **status** values from candlepin will be one of: valid, partial, invalid
@@ -177,7 +177,7 @@ Current details of the report parameters.
 
 **NOTES:**
 
-1. Uses a minimized result DTO meaning that by default it does not return all data associated with a compliance snapshot. This is done to minimize the amount of unneeded data serialized in the response, improving performance. If more data is required, you can use the attribute filtering feature. [ [Read More](gutterball/reportapi.html#custom-response-filtering-attribute-filtering) ]
+1. Uses a minimized result DTO meaning that by default it does not return all data associated with a compliance snapshot. This is done to minimize the amount of unneeded data serialized in the response, improving performance. If more data is required, you can use the attribute filtering feature. [ [Read More](reportapi.html#custom-response-filtering-attribute-filtering) ]
 2. Report result is a map of consumer_uuid to list of compliance snapshots.
 3. Parameters allow limiting results to a specific consumer during a period of time.
 4. Specifying no time period results in ALL known snapshots for the specified consumer.
