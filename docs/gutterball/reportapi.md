@@ -43,44 +43,421 @@ Lists the latest compliance status of consumers who have reported compliance dur
 Current details of the report parameters.
 
 ```json
-[
-  {
-    "key" : "consumer_status",
-    "description" : "List the status of all consumers",
-    "parameters" : [ {
-      "mandatory" : false,
-      "multiValued" : true,
-      "description" : "Filters the results by the specified consumer UUID.",
-      "name" : "consumer_uuid"
-    }, {
-      "mandatory" : false,
-      "multiValued" : true,
-      "description" : "The Owner key(s) to filter on.",
-      "name" : "owner"
-    }, {
-      "mandatory" : false,
-      "multiValued" : true,
-      "description" : "The subscription status to filter on.",
-      "name" : "status"
-    }, {
-      "mandatory" : false,
-      "multiValued" : false,
-      "description" : "The date to filter on. Defaults to NOW.",
-      "name" : "on_date"
-    } ]
-  }
-]
+{
+  "key" : "consumer_status",
+  "description" : "List the status of all consumers",
+  "parameters" : [ {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "Filters the results by the specified consumer UUID.",
+    "name" : "consumer_uuid"
+  }, {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "The Owner key(s) to filter on.",
+    "name" : "owner"
+  }, {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "The subscription status to filter on [valid, invalid, partial].",
+    "name" : "status"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The date to filter on. Defaults to NOW.",
+    "name" : "on_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "Enables/disables custom report result functionality via attribute filtering (boolean).",
+    "name" : "custom_results"
+  }, {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "Includes the specified attribute in the result JSON",
+    "name" : "include"
+  }, {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "Excludes the specified attribute in the result JSON",
+    "name" : "exclude"
+  } ]
+}
 ```
 
 **NOTES:**
 
-1. Running the report with no paramters will return all compliance status records for all reported consumers.
-2. When specifying the **on_date** paramter, results will be limited to compliance status records that were last reported before or on that date.
-3. Generally **status** values from candlepin will be one of: valid, partial, invalid
+1. Uses a minimized result DTO meaning that by default it does not return all data associated with a compliance snapshot. This is done to minimize the amount of unneeded data serialized in the response, improving performance. If more data is required, you can use the attribute filtering feature. [ [Read More](gutterball/reportapi.html#custom-response-filtering-attribute-filtering) ]
+2. Running the report with no paramters will return all compliance status records for all reported consumers.
+3. When specifying the **on_date** paramter, results will be limited to compliance status records that were last reported before or on that date.
+4. Generally **status** values from candlepin will be one of: valid, partial, invalid
 
-#### **GET /reports/consumer_status/run?owner=ACME_Corporation**
+#### **GET /reports/consumer_status/run?owner=acme_corporation**
 
 An example of running the report filtering by owner key.
+
+**Report Output**
+
+```json
+{
+  "status" : {
+    "status" : "valid",
+    "date" : "2015-02-09T13:27:40.652+0000"
+  },
+  "consumer" : {
+    "facts" : {
+        "cpu.core(s)_per_socket": "4",
+        "cpu.cpu(s)": "4",
+        "cpu.cpu_socket(s)": "1",
+        "cpu.thread(s)_per_core": "1"
+    },
+    "consumerState" : {
+      "created" : "2015-02-09T13:27:35.578+0000",
+      "deleted" : null
+    },
+    "name" : "test-consumer-BEcQrEdg",
+    "owner" : {
+      "displayName" : "ACME Corporation",
+      "key" : "acme_corporation"
+    },
+    "lastCheckin" : "2015-02-09T13:27:37.809+0000",
+    "uuid" : "0668eca4-2efe-4965-a2ea-610027164c4e"
+  }
+}
+```
+
+### Consumer Trend Report
+
+Lists ALL compliance snapshots for a consumer who has reported compliance status in the specified time period.
+
+#### **GET /reports/consumer_trend**
+
+Current details of the report parameters.
+
+```json
+  "key" : "consumer_trend",
+  "description" : "Lists the status of each consumer over a date range",
+  "parameters" : [ {
+    "mandatory" : true,
+    "multiValued" : false,
+    "description" : "Filters the results by the specified consumer UUID.",
+    "name" : "consumer_uuid"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The number of hours to filter on (used indepent of date range).",
+    "name" : "hours"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The start date to filter on (used with end_date).",
+    "name" : "start_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The end date to filter on (used with start_date)",
+    "name" : "end_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "Enables/disables custom report result functionality via attribute filtering (boolean).",
+    "name" : "custom_results"
+  }, {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "Includes the specified attribute in the result JSON",
+    "name" : "include"
+  }, {
+    "mandatory" : false,
+    "multiValued" : true,
+    "description" : "Excludes the specified attribute in the result JSON",
+    "name" : "exclude"
+  } ]
+```
+
+**NOTES:**
+
+1. Uses a minimized result DTO meaning that by default it does not return all data associated with a compliance snapshot. This is done to minimize the amount of unneeded data serialized in the response, improving performance. If more data is required, you can use the attribute filtering feature. [ [Read More](gutterball/reportapi.html#custom-response-filtering-attribute-filtering) ]
+2. Report result is a map of consumer_uuid to list of compliance snapshots.
+3. Parameters allow limiting results to a specific consumer during a period of time.
+4. Specifying no time period results in ALL known snapshots for the specified consumer.
+
+#### **GET /reports/consumer_trend/run?consumer_uuid=5c2e62d3-9e01-40ca-aa83-c02a8635a9e7&hours=24**
+
+An example of running the report for a consumer and returning snapshots for the last 24 hours.
+
+**Result Output**
+
+```json
+[ {
+  "status" : {
+    "status" : "invalid",
+    "reasons" : [ {
+      "message" : "Not supported by a valid subscription.",
+      "attributes" : {
+        "product_id" : "37060",
+        "name" : "Awesome OS Server Bits"
+      }
+    } ],
+    "date" : "2015-02-09T16:41:54.116+0000"
+  },
+  "consumer" : {
+    "lastCheckin" : null,
+    "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7"
+  }
+}, {
+  "status" : {
+    "status" : "valid",
+    "reasons" : [ ],
+    "date" : "2015-02-10T13:36:47.074+0000"
+  },
+  "consumer" : {
+    "lastCheckin" : "2015-02-10T13:36:44.104+0000",
+    "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7"
+  }
+} ]
+
+```
+
+### Status Trend Report
+
+The status trend report shows the per-day counts of consumers, grouped by status, optionally
+limited to a date range and/or filtered by select criteria.
+
+#### **GET /reports/status_trend**
+
+Current details of the report parameters.
+
+```json
+{
+  "key" : "status_trend",
+  "description" : "Lists the per-day status counts for all consumers",
+  "parameters" : [ {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The start date on which to filter",
+    "name" : "start_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The end date on which to filter",
+    "name" : "end_date"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "An owner key on which to filter",
+    "name" : "owner"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The entitlement sku on which to filter",
+    "name" : "sku"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The name of a subscription on which to filter",
+    "name" : "subscription_name"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "Whether or not to filter on subscriptions which have management enabled (boolean)",
+    "name" : "management_enabled"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
+    "description" : "The timezone to use when processing the request and returning results",
+    "name" : "timezone"
+  } ]
+}
+```
+
+**NOTES:**
+
+1. The status trend report returns a map of maps; the outer map using dates as keys mapped to
+    maps of status strings to per-day counts.
+2. Statuses returned are always in lower case, and the date/times returned represent the time
+    relative to the server's local time, by default.
+3. Timestamps can be returned in other time zones by using the 'timezone' query param.
+  *  Time zones must be recognized time zone names or offsets specified in the form of \"GMT[+-]HH:?MM\".
+3. A consumer's status is counted on each day returned in the report; even if that consumer was not
+    able to submit a compliance report for that day. In such a case, the consumer's status is
+    extrapolated from their last known status.
+4. Start and end date does not need to be used in conjunction. When specifying only one, the boundaries
+    of the resultant data will be used for the omitted part of the range.
+4. Parameters allow limiting results to specific date ranges or filtering by organization owner,
+    entitlement sku, subscription name or whether or not the consumer is using entitlements which
+    have management enabled.
+
+#### **GET /reports/status_trend/run?timezone=GMT&sku=awesomeos-instancebased**
+
+An example of running the report filtering by subscription sku, returning results in GMT.
+
+```json
+{
+  "2014-11-03T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-04T04:59:59.999+0000" : {
+    "valid" : 1
+  },
+  "2014-11-05T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-06T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-07T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-08T04:59:59.999+0000" : {
+    "valid" : 2
+  },
+  "2014-11-09T04:59:59.999+0000" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?subscription_name=Awesome%20OS%20Instance%20Based%20(Standard%20Support)**
+
+An example of running the report filtering by subscription name.
+
+```json
+{
+  "2014-11-03T04:59:59.999-0500" : {
+    "valid" : 1
+  },
+  "2014-11-04T04:59:59.999-0500" : {
+    "valid" : 1
+  },
+  "2014-11-05T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-06T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-07T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-08T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-09T04:59:59.999-0500" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?start_date=2014-11-05**
+
+An example of running the report filtering by start date.
+
+```json
+{
+  "2014-11-05T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-06T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-07T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-08T04:59:59.999-0500" : {
+    "valid" : 2
+  },
+  "2014-11-09T04:59:59.999-0500" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?end_date=2014-11-05**
+
+An example of running the report filtering by end date.
+
+```json
+{
+  "2014-11-03T04:59:59.999-0500" : {
+    "valid" : 1
+  },
+  "2014-11-04T04:59:59.999-0500" : {
+    "valid" : 1
+  },
+  "2014-11-05T04:59:59.999-0500" : {
+    "valid" : 2
+  }
+}
+```
+
+#### **GET /reports/status_trend/run?management_enabled=true**
+
+An example of running the report filtering by subscriptions with management enabled.
+
+```json
+{
+  "2014-11-07T04:59:59.999-0500" : {
+    "valid" : 1
+  },
+  "2014-11-08T04:59:59.999-0500" : {
+    "valid" : 1
+  },
+  "2014-11-09T04:59:59.999-0500" : {
+    "valid" : 1
+  }
+}
+```
+
+## Pagination
+
+Gutterball reports support paging via use of query parameters and the Link header in the response.
+
+You can specify four parameters that affect paging.
+
+page
+: The page to request.  Must be greater than zero.
+
+per_page
+: The number of results to include per page.  Defaults to 10.
+
+order
+: The order to sort the results in.  Can be "asc", "desc", "ascending", or
+"descending" (case insensitive).  Defaults to descending.
+
+sort_by
+: The field to sort the data by.  Defaults to the created date.
+
+The **_order_** and **_sort_by_** options can alternately be specified without the
+**_page_** and **_per_page_** parameters.  In this case, all the results will be
+returned sorted in the manner specified by the parameter values.
+
+### Warning
+{:.alert-bad .no_toc}
+
+When paging a report that specifies an open-ended date range (now), you run the risk of
+report data changing between page requests, since the value of 'now' changes each time the next page is
+requested -- fetching new data that gutterball may have collected between page requests.
+
+This can be alleviated by locking down the the date range of the report via its parameters. For example,
+the client might determine the value of '_now_' and specify it as an end date along with the paging detail.
+
+An example for the consumer status report might look like the following.
+
+```bash
+# Current client time
+$ date
+Wed Feb 11 07:56:16 AST 2015
+
+# The request can be made by substituting this date for each request.
+GET gutterball/reports/consumer_status/run?on_date=2015-02-11T07%3A56%3A16.000-0400&page=4
+
+```
+
+
+## Custom Response Filtering (attribute filtering)
+
+Generally, each report response returns a JSON representation of a compliance snapshot, whether it be a single
+snapshot or a collection of them.
 
 ```json
 [
@@ -93,140 +470,7 @@ An example of running the report filtering by owner key.
                 "cpu.core(s)_per_socket": "4",
                 "cpu.cpu(s)": "4",
                 "cpu.cpu_socket(s)": "1",
-                "cpu.thread(s)_per_core": "1",
-                "cpu.topology_source": "kernel /sys cpu sibling lists",
-                "distribution.id": "Heisenbug",
-                "distribution.name": "Fedora",
-                "distribution.version": "20",
-                "dmi.baseboard.manufacturer": "Dell Inc.",
-                "dmi.baseboard.product_name": "0CRH6C",
-                "dmi.baseboard.serial_number": "..CN1374014I00DC.",
-                "dmi.baseboard.version": "A01",
-                "dmi.bios.address": "0xf0000",
-                "dmi.bios.bios_revision": "0.0",
-                "dmi.bios.relase_date": "04/20/2011",
-                "dmi.bios.rom_size": "2048 KB",
-                "dmi.bios.runtime_size": "64 KB",
-                "dmi.bios.vendor": "Dell Inc.",
-                "dmi.bios.version": "A09",
-                "dmi.chassis.asset_tag": "",
-                "dmi.chassis.boot-up_state": "Warning",
-                "dmi.chassis.lock": "Not Present",
-                "dmi.chassis.manufacturer": "Dell Inc.",
-                "dmi.chassis.power_supply_state": "Safe",
-                "dmi.chassis.security_status": "None",
-                "dmi.chassis.serial_number": "6D109R1",
-                "dmi.chassis.thermal_state": "Safe",
-                "dmi.chassis.type": "Tower",
-                "dmi.chassis.version": "Not Specified",
-                "dmi.connector.external_connector_type": "Mini Jack (headphones)",
-                "dmi.connector.external_reference_designator": "Not Specified",
-                "dmi.connector.internal_connector_type": "None",
-                "dmi.connector.internal_reference_designator": "LINE-IN",
-                "dmi.connector.port_type": "Audio Port",
-                "dmi.memory.array_handle": "0x1000",
-                "dmi.memory.assettag": "02111461",
-                "dmi.memory.bank_locator": "Not Specified",
-                "dmi.memory.data_width": "64 bit",
-                "dmi.memory.error_correction_type": "Multi-bit ECC",
-                "dmi.memory.error_information_handle": "No Error",
-                "dmi.memory.form_factor": "DIMM",
-                "dmi.memory.location": "System Board Or Motherboard",
-                "dmi.memory.locator": "DIMM 4",
-                "dmi.memory.manufacturer": "80CE80B380CE",
-                "dmi.memory.maximum_capacity": "96 GB",
-                "dmi.memory.part_number": "M393B5773CH0-YH9",
-                "dmi.memory.serial_number": "8367C865",
-                "dmi.memory.size": "2048 MB",
-                "dmi.memory.speed": "1333 MHz (0.8ns)",
-                "dmi.memory.total_width": "72 bit",
-                "dmi.memory.type": "",
-                "dmi.memory.use": "System Memory",
-                "dmi.processor.asset_tag": "Not Specified",
-                "dmi.processor.family": "Xeon",
-                "dmi.processor.l1_cache_handle": "0x0702",
-                "dmi.processor.l2_cache_handle": "0x0703",
-                "dmi.processor.l3_cache_handle": "0x0705",
-                "dmi.processor.part_number": "Not Specified",
-                "dmi.processor.serial_number": "Not Specified",
-                "dmi.processor.socket_designation": "CPU2",
-                "dmi.processor.status": "Populated:No",
-                "dmi.processor.type": "Central Processor",
-                "dmi.processor.upgrade": "Socket LGA771",
-                "dmi.processor.version": "Not Specified",
-                "dmi.processor.voltage": " ",
-                "dmi.slot.current_usage": "In Use",
-                "dmi.slot.designation": "SLOT1",
-                "dmi.slot.slotid": "1",
-                "dmi.slot.slotlength": "Long",
-                "dmi.slot.type:slotbuswidth": "x8",
-                "dmi.slot.type:slottype": "PCI Express",
-                "dmi.system.family": "Not Specified",
-                "dmi.system.manufacturer": "Dell Inc.",
-                "dmi.system.product_name": "Precision WorkStation T5500",
-                "dmi.system.serial_number": "6D109R1",
-                "dmi.system.sku_number": "Not Specified",
-                "dmi.system.status": "No errors detected",
-                "dmi.system.uuid": "44454c4c-4400-1031-8030-b6c04f395231",
-                "dmi.system.version": "Not Specified",
-                "dmi.system.wake-up_type": "Power Switch",
-                "lscpu.architecture": "x86_64",
-                "lscpu.bogomips": "3192.05",
-                "lscpu.byte_order": "Little Endian",
-                "lscpu.core(s)_per_socket": "4",
-                "lscpu.cpu(s)": "4",
-                "lscpu.cpu_family": "6",
-                "lscpu.cpu_mhz": "1596.027",
-                "lscpu.cpu_op-mode(s)": "32-bit, 64-bit",
-                "lscpu.l1d_cache": "32K",
-                "lscpu.l1i_cache": "32K",
-                "lscpu.l2_cache": "256K",
-                "lscpu.l3_cache": "4096K",
-                "lscpu.model": "44",
-                "lscpu.model_name": "Intel(R) Xeon(R) CPU           E5603  @ 1.60GHz",
-                "lscpu.numa_node(s)": "1",
-                "lscpu.numa_node0_cpu(s)": "0-3",
-                "lscpu.on-line_cpu(s)_list": "0-3",
-                "lscpu.socket(s)": "1",
-                "lscpu.stepping": "2",
-                "lscpu.thread(s)_per_core": "1",
-                "lscpu.vendor_id": "GenuineIntel",
-                "lscpu.virtualization": "VT-x",
-                "memory.memtotal": "12296840",
-                "memory.swaptotal": "6168572",
-                "net.interface.em1.ipv4_address": "192.168.2.100",
-                "net.interface.em1.ipv4_broadcast": "192.168.2.255",
-                "net.interface.em1.ipv4_netmask": "24",
-                "net.interface.em1.ipv6_address.link": "fe80::16fe:b5ff:fee4:bd2e",
-                "net.interface.em1.ipv6_netmask.link": "64",
-                "net.interface.em1.mac_address": "14:fe:b5:e4:bd:2e",
-                "net.interface.lo.ipv4_address": "127.0.0.1",
-                "net.interface.lo.ipv4_broadcast": "Unknown",
-                "net.interface.lo.ipv4_netmask": "8",
-                "net.interface.lo.ipv6_address.host": "::1",
-                "net.interface.lo.ipv6_netmask.host": "128",
-                "net.interface.p1p1.mac_address": "00:10:18:a1:93:5b",
-                "net.interface.tun0.ipv4_address": "10.3.113.152",
-                "net.interface.tun0.ipv4_broadcast": "10.3.113.255",
-                "net.interface.tun0.ipv4_netmask": "24",
-                "net.interface.tun0.mac_address": "none",
-                "net.interface.virbr0-nic.mac_address": "52:54:00:f1:78:9f",
-                "net.interface.virbr0-nic.permanent_mac_address": "",
-                "net.interface.virbr0.ipv4_address": "192.168.122.1",
-                "net.interface.virbr0.ipv4_broadcast": "192.168.122.255",
-                "net.interface.virbr0.ipv4_netmask": "24",
-                "net.interface.virbr0.mac_address": "52:54:00:f1:78:9f",
-                "network.hostname": "boogady",
-                "network.ipv4_address": "127.0.0.1",
-                "network.ipv6_address": "::1",
-                "system.certificate_version": "3.2",
-                "uname.machine": "x86_64",
-                "uname.nodename": "boogady",
-                "uname.release": "3.16.6-200.fc20.x86_64",
-                "uname.sysname": "Linux",
-                "uname.version": "#1 SMP Wed Oct 15 13:06:51 UTC 2014",
-                "virt.host_type": "Not Applicable",
-                "virt.is_guest": "false"
+                "cpu.thread(s)_per_core": "1"
             },
             "guestIds": [],
             "hypervisorId": null,
@@ -297,623 +541,257 @@ An example of running the report filtering by owner key.
             "reasons": [],
             "status": "valid"
         }
-    }
+    },
+
+    ...
 ]
 ```
 
-Each result entry contains three key bits of information: **consumer**, **entitlements**, and **status**. Combined, they represent the
-state of the consumer and its status at the time compliance was reported by candlepin.
-
-### Consumer Trend Report
-
-Lists ALL compliance snapshots for consumers who have reported compliance status in the specified time period.
-
-#### **GET /reports/consumer_trend**
-
-Current details of the report parameters.
+Attribute filtering allows the client to customize the JSON representation of the compliance snapshot POJO.
 
 ```json
-{
-  "key" : "consumer_trend",
-  "description" : "Lists the status of each consumer over a date range",
-  "parameters" : [ {
-    "mandatory" : false,
-    "multiValued" : true,
-    "description" : "Filters the results by the specified consumer UUID.",
-    "name" : "consumer_uuid"
-  }, {
-    "mandatory" : false,
-    "multiValued" : true,
-    "description" : "The Owner key(s) to filter on.",
-    "name" : "owner"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The number of hours to filter on (used indepent of date range).",
-    "name" : "hours"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The start date to filter on (used with end_date).",
-    "name" : "start_date"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The end date to filter on (used with start_date)",
-    "name" : "end_date"
-  } ]
-}
+[
+    {
+        "consumer": {
+            "lastCheckin": "2014-10-24T18:37:50.498+0000",
+            "name": "boogady",
+            "owner": {
+                "key": "admin"
+            },
+            "uuid": "7d479cd5-6ebc-4203-bf90-9a5ea50dfdb2"
+        },
+        "date": "2014-10-24T18:37:50.802+0000",
+        "status": {
+            "status": "valid"
+        }
+    },
+
+    ...
+]
 ```
 
-**NOTES:**
+By default, reports utilize a minimized representation of a compliance snapshot to keep the overall size of
+the response data down. If more data is required, attribute filtering can be used.
 
-1. Report result is a map of consumer_uuid to list of compliance snapshots.
-2. Parameters allow limiting results to specific owners and consumers.
+Use the following query parameters to make use of attribute filtering.
 
-#### **GET /reports/consumer_trend/run?owner=admin&hours=24**
+custom_results
+: Enables/disables attribute filtering for the report (boolean).
 
-An example of running the report filtering by owner and for the last 24 hours.
+include
+: The name of an attribute to include. Can be a dotted path drilling down into the JSON structure.
+: For example: _consumer.uuid_
 
+exclude
+: The name of an attribute to include. Can be a dotted path drilling down into the JSON structure.
+: For example: _entitlements_
+
+### Other notes
+ * It is not possible to use both include and exclude in the same query
+   * However you may use multiple of either filer type.
+ * When the response is a list, a filter is applied to each member of the list
+   * This is also applied on nested properties.
+ * This works the same way as it does in candlepin.
+
+
+### Some Examples
+
+```console
+# Enabling filtering without include/exclude parameters will result in the complete JSON representation.
+$ curl -k "https://localhost:8443/gutterball/reports/consumer_status/run?consumer_uuid=5c2e62d3-9e01-40ca-aa83-c02a8635a9e7&custom_results=1"
+
+```
 ```json
-{
-  "f2ac42dc-e4c4-4a9d-8181-eb7f995b0b9f" : [ {
-    "consumer" : {
-      "uuid" : "f2ac42dc-e4c4-4a9d-8181-eb7f995b0b9f",
-      "name" : "boogady",
-      "username" : "admin",
-      "entitlementStatus" : "invalid",
-      "serviceLevel" : "",
-      "releaseVer" : null,
-      "type" : {
-        "label" : "system",
-        "manifest" : false
+[
+    {
+      "consumer" : {
+        "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7",
+        "consumerState" : {
+          "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7",
+          "owner" : "admin",
+          "created" : "2015-02-09T16:41:53.151+0000"
+        },
+        "name" : "boogady",
+        "username" : "admin",
+        "entitlementStatus" : "invalid",
+        "serviceLevel" : "",
+        "releaseVer" : null,
+        "type" : {
+          "label" : "system",
+          "manifest" : false
+        },
+        "owner" : {
+          "key" : "admin",
+          "displayName" : "Admin Owner"
+        },
+        "entitlementCount" : 0,
+        "lastCheckin" : "2015-02-10T13:36:44.104+0000",
+        "facts" : {
+          "lscpu.vendor_id" : "GenuineIntel",
+          "dmi.chassis.power_supply_state" : "Safe",
+          "dmi.bios.rom_size" : "2048 KB",
+          "network.ipv4_address" : "127.0.0.1",
+          "dmi.slot.type:slotbuswidth" : "x8",
+          "net.interface.lo.ipv6_netmask.host" : "128",
+          "cpu.topology_source" : "kernel /sys cpu sibling lists",
+          "dmi.processor.l1_cache_handle" : "0x0702",
+          "dmi.chassis.thermal_state" : "Safe",
+          "lscpu.l1i_cache" : "32K",
+          "distribution.version" : "20",
+          "dmi.bios.runtime_size" : "64 KB",
+
+          ...
+        },
+        "installedProducts" : [ {
+          "productId" : "37060",
+          "productName" : "Awesome OS Server Bits",
+          "version" : "6.1",
+          "arch" : "ALL",
+          "status" : null,
+          "startDate" : null,
+          "endDate" : null
+        } ],
+        "guestIds" : [ ],
+        "hypervisorId" : null,
+        "environment" : null
       },
-      "owner" : {
-        "key" : "admin",
-        "displayName" : "Admin Owner"
+      "status" : {
+        "status" : "valid",
+        "reasons" : [ ],
+        "nonCompliantProducts" : [ ],
+        "compliantProducts" : [ "37060" ],
+        "partiallyCompliantProducts" : [ ],
+        "partialStacks" : [ ],
+        "date" : "2015-02-10T13:36:47.074+0000"
       },
-      "entitlementCount" : 0,
-      "lastCheckin" : null,
-      "facts" : {
-        "lscpu.vendor_id" : "GenuineIntel",
-        "dmi.chassis.power_supply_state" : "Safe",
-        "network.ipv4_address" : "127.0.0.1",
-        "dmi.bios.rom_size" : "2048 KB",
-        "dmi.slot.type:slotbuswidth" : "x8",
-        "net.interface.lo.ipv6_netmask.host" : "128",
-        "cpu.topology_source" : "kernel /sys cpu sibling lists",
-        "dmi.processor.l1_cache_handle" : "0x0702",
-        "dmi.chassis.thermal_state" : "Safe",
-        "lscpu.l1i_cache" : "32K",
-        "distribution.version" : "20",
-        "dmi.bios.runtime_size" : "64 KB",
-        "dmi.bios.bios_revision" : "0.0",
-        "dmi.memory.array_handle" : "0x1000",
-        "dmi.system.version" : "Not Specified",
-        "virt.is_guest" : "false",
-        "memory.swaptotal" : "6168572",
-        "dmi.memory.total_width" : "72 bit",
-        "net.interface.lo.ipv6_address.host" : "::1",
-        "net.interface.em1.ipv4_address" : "192.168.2.100",
-        "dmi.system.product_name" : "Precision WorkStation T5500",
-        "dmi.slot.slotlength" : "Long",
-        "system.certificate_version" : "3.2",
-        "dmi.memory.size" : "2048 MB",
-        "dmi.baseboard.version" : "A01",
-        "uname.version" : "#1 SMP Wed Oct 15 13:06:51 UTC 2014",
-        "dmi.bios.version" : "A09",
-        "dmi.chassis.version" : "Not Specified",
-        "lscpu.cpu(s)" : "4",
-        "dmi.processor.part_number" : "Not Specified",
-        "lscpu.numa_node0_cpu(s)" : "0-3",
-        "uname.nodename" : "boogady",
-        "dmi.chassis.security_status" : "None",
-        "dmi.memory.speed" : "1333 MHz (0.8ns)",
-        "dmi.processor.asset_tag" : "Not Specified",
-        "net.interface.tun0.mac_address" : "none",
-        "net.interface.em1.ipv6_netmask.link" : "64",
-        "net.interface.em1.ipv4_netmask" : "24",
-        "dmi.processor.l2_cache_handle" : "0x0703",
-        "dmi.system.wake-up_type" : "Power Switch",
-        "net.interface.virbr0.mac_address" : "52:54:00:f1:78:9f",
-        "dmi.memory.assettag" : "02111461",
-        "net.interface.tun0.ipv4_netmask" : "24",
-        "dmi.chassis.asset_tag" : "",
-        "memory.memtotal" : "12296840",
-        "lscpu.on-line_cpu(s)_list" : "0-3",
-        "dmi.memory.form_factor" : "DIMM",
-        "net.interface.em1.ipv6_address.link" : "fe80::16fe:b5ff:fee4:bd2e",
-        "dmi.processor.socket_designation" : "CPU2",
-        "lscpu.numa_node(s)" : "1",
-        "net.interface.em1.mac_address" : "14:fe:b5:e4:bd:2e",
-        "lscpu.socket(s)" : "1",
-        "dmi.memory.data_width" : "64 bit",
-        "dmi.system.status" : "No errors detected",
-        "lscpu.virtualization" : "VT-x",
-        "net.interface.lo.ipv4_address" : "127.0.0.1",
-        "dmi.baseboard.product_name" : "0CRH6C",
-        "lscpu.stepping" : "2",
-        "net.interface.virbr0.ipv4_address" : "192.168.122.1",
-        "dmi.memory.maximum_capacity" : "96 GB",
-        "dmi.memory.manufacturer" : "80CE80B380CE",
-        "lscpu.cpu_family" : "6",
-        "net.interface.lo.ipv4_netmask" : "8",
-        "dmi.processor.type" : "Central Processor",
-        "lscpu.byte_order" : "Little Endian",
-        "lscpu.cpu_op-mode(s)" : "32-bit, 64-bit",
-        "dmi.memory.type" : "",
-        "network.hostname" : "boogady",
-        "dmi.memory.part_number" : "M393B5773CH0-YH9",
-        "lscpu.core(s)_per_socket" : "4",
-        "dmi.memory.serial_number" : "8367C865",
-        "network.ipv6_address" : "::1",
-        "dmi.chassis.manufacturer" : "Dell Inc.",
-        "dmi.connector.external_reference_designator" : "Not Specified",
-        "dmi.baseboard.manufacturer" : "Dell Inc.",
-        "lscpu.cpu_mhz" : "1596.027",
-        "dmi.system.uuid" : "44454c4c-4400-1031-8030-b6c04f395231",
-        "lscpu.model" : "44",
-        "dmi.memory.error_correction_type" : "Multi-bit ECC",
-        "dmi.processor.upgrade" : "Socket LGA771",
-        "lscpu.model_name" : "Intel(R) Xeon(R) CPU           E5603  @ 1.60GHz",
-        "dmi.processor.family" : "Xeon",
-        "lscpu.bogomips" : "3192.05",
-        "net.interface.virbr0-nic.mac_address" : "52:54:00:f1:78:9f",
-        "net.interface.virbr0.ipv4_broadcast" : "192.168.122.255",
-        "cpu.thread(s)_per_core" : "1",
-        "net.interface.p1p1.mac_address" : "00:10:18:a1:93:5b",
-        "dmi.system.sku_number" : "Not Specified",
-        "lscpu.l3_cache" : "4096K",
-        "dmi.processor.serial_number" : "Not Specified",
-        "dmi.connector.internal_reference_designator" : "LINE-IN",
-        "net.interface.virbr0-nic.permanent_mac_address" : "",
-        "dmi.memory.location" : "System Board Or Motherboard",
-        "distribution.id" : "Heisenbug",
-        "dmi.bios.vendor" : "Dell Inc.",
-        "dmi.chassis.type" : "Tower",
-        "dmi.slot.designation" : "SLOT1",
-        "dmi.slot.type:slottype" : "PCI Express",
-        "cpu.cpu(s)" : "4",
-        "cpu.core(s)_per_socket" : "4",
-        "dmi.chassis.serial_number" : "6D109R1",
-        "lscpu.l1d_cache" : "32K",
-        "dmi.slot.slotid" : "1",
-        "virt.host_type" : "Not Applicable",
-        "dmi.memory.error_information_handle" : "No Error",
-        "dmi.system.manufacturer" : "Dell Inc.",
-        "dmi.system.serial_number" : "6D109R1",
-        "cpu.cpu_socket(s)" : "1",
-        "net.interface.virbr0.ipv4_netmask" : "24",
-        "lscpu.thread(s)_per_core" : "1",
-        "dmi.bios.relase_date" : "04/20/2011",
-        "dmi.chassis.boot-up_state" : "Warning",
-        "net.interface.tun0.ipv4_address" : "10.3.113.152",
-        "dmi.connector.port_type" : "Audio Port",
-        "lscpu.architecture" : "x86_64",
-        "dmi.memory.use" : "System Memory",
-        "dmi.connector.internal_connector_type" : "None",
-        "dmi.processor.version" : "Not Specified",
-        "dmi.memory.bank_locator" : "Not Specified",
-        "lscpu.l2_cache" : "256K",
-        "net.interface.em1.ipv4_broadcast" : "192.168.2.255",
-        "net.interface.lo.ipv4_broadcast" : "Unknown",
-        "dmi.system.family" : "Not Specified",
-        "dmi.processor.voltage" : " ",
-        "dmi.processor.l3_cache_handle" : "0x0705",
-        "distribution.name" : "Fedora",
-        "dmi.baseboard.serial_number" : "..CN1374014I00DC.",
-        "uname.sysname" : "Linux",
-        "uname.release" : "3.16.6-200.fc20.x86_64",
-        "dmi.connector.external_connector_type" : "Mini Jack (headphones)",
-        "dmi.processor.status" : "Populated:No",
-        "uname.machine" : "x86_64",
-        "net.interface.tun0.ipv4_broadcast" : "10.3.113.255",
-        "dmi.memory.locator" : "DIMM 4",
-        "dmi.bios.address" : "0xf0000",
-        "dmi.slot.current_usage" : "In Use",
-        "dmi.chassis.lock" : "Not Present"
-      },
-      "installedProducts" : [ {
-        "productId" : "37060",
-        "productName" : "Awesome OS Server Bits",
-        "version" : "6.1",
-        "arch" : "ALL",
-        "status" : null,
-        "startDate" : null,
-        "endDate" : null
+      "entitlements" : [ {
+        "quantity" : 1,
+        "startDate" : "2015-02-09T00:00:00.000+0000",
+        "endDate" : "2016-02-09T00:00:00.000+0000",
+        "productId" : "awesomeos-virt-4",
+        "derivedProductId" : null,
+        "productName" : "Awesome OS with up to 4 virtual guests",
+        "derivedProductName" : null,
+        "restrictedToUsername" : null,
+        "contractNumber" : "4",
+        "accountNumber" : "12331131231",
+        "orderNumber" : "order-8675309",
+        "attributes" : {
+          "arch" : "ALL",
+          "multi-entitlement" : "yes",
+          "virt_limit" : "4",
+          "type" : "MKT",
+          "variant" : "ALL",
+          "version" : "6.1"
+        },
+        "providedProducts" : {
+          "37060" : "Awesome OS Server Bits"
+        },
+        "derivedProductAttributes" : { },
+        "derivedProvidedProducts" : { }
       } ],
-      "guestIds" : [ ],
-      "hypervisorId" : null,
-      "environment" : null
+      "date" : "2015-02-10T13:36:47.074+0000"
+    },
+
+    ...
+
+]
+```
+
+```console
+# Include only the consumer UUID and all of the status information
+$ curl -k "https://localhost:8443/gutterball/reports/consumer_status/run?custom_results=1&include=consumer.uuid&include=status.status"
+```
+```json
+[
+  {
+    "consumer" : {
+      "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7"
     },
     "status" : {
-      "status" : "invalid",
-      "reasons" : [ {
-        "key" : "NOTCOVERED",
-        "message" : "Not supported by a valid subscription.",
-        "attributes" : {
-          "product_id" : "37060",
-          "name" : "Awesome OS Server Bits"
-        }
-      } ],
-      "nonCompliantProducts" : [ "37060" ],
-      "compliantProducts" : [ ],
+      "status" : "valid",
+      "reasons" : [ ],
+      "nonCompliantProducts" : [ ],
+      "compliantProducts" : [ "37060" ],
       "partiallyCompliantProducts" : [ ],
       "partialStacks" : [ ],
-      "date" : "2014-10-24T19:18:35.143+0000"
-    },
-    "entitlements" : [ ],
-    "date" : "2014-10-24T19:18:35.143+0000"
-  }, {
-    "consumer" : {
-      "uuid" : "f2ac42dc-e4c4-4a9d-8181-eb7f995b0b9f",
-      "name" : "boogady",
-      "username" : "admin",
-      "entitlementStatus" : "invalid",
-      "serviceLevel" : "",
-      "releaseVer" : null,
-      "type" : {
-        "label" : "system",
-        "manifest" : false
+      "date" : "2015-02-10T13:36:47.074+0000"
+    }
+  },
+
+  ...
+]
+```
+
+```console
+# Exclude entitlement data only
+$ curl -k "https://localhost:8443/gutterball/reports/consumer_status/run?custom_results=1&exclude=entitlements"
+```
+```json
+[
+    {
+      "consumer" : {
+        "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7",
+        "consumerState" : {
+          "uuid" : "5c2e62d3-9e01-40ca-aa83-c02a8635a9e7",
+          "owner" : "admin",
+          "created" : "2015-02-09T16:41:53.151+0000"
+        },
+        "name" : "boogady",
+        "username" : "admin",
+        "entitlementStatus" : "invalid",
+        "serviceLevel" : "",
+        "releaseVer" : null,
+        "type" : {
+          "label" : "system",
+          "manifest" : false
+        },
+        "owner" : {
+          "key" : "admin",
+          "displayName" : "Admin Owner"
+        },
+        "entitlementCount" : 0,
+        "lastCheckin" : "2015-02-10T13:36:44.104+0000",
+        "facts" : {
+          "lscpu.vendor_id" : "GenuineIntel",
+          "dmi.chassis.power_supply_state" : "Safe",
+          "dmi.bios.rom_size" : "2048 KB",
+          "network.ipv4_address" : "127.0.0.1",
+          "dmi.slot.type:slotbuswidth" : "x8",
+          "net.interface.lo.ipv6_netmask.host" : "128",
+          "cpu.topology_source" : "kernel /sys cpu sibling lists",
+          "dmi.processor.l1_cache_handle" : "0x0702",
+          "dmi.chassis.thermal_state" : "Safe",
+
+          ...
+        },
+        "installedProducts" : [ {
+          "productId" : "37060",
+          "productName" : "Awesome OS Server Bits",
+          "version" : "6.1",
+          "arch" : "ALL",
+          "status" : null,
+          "startDate" : null,
+          "endDate" : null
+        } ],
+        "guestIds" : [ ],
+        "hypervisorId" : null,
+        "environment" : null
       },
-      "owner" : {
-        "key" : "admin",
-        "displayName" : "Admin Owner"
+      "status" : {
+        "status" : "valid",
+        "reasons" : [ ],
+        "nonCompliantProducts" : [ ],
+        "compliantProducts" : [ "37060" ],
+        "partiallyCompliantProducts" : [ ],
+        "partialStacks" : [ ],
+        "date" : "2015-02-10T13:36:47.074+0000"
       },
-      "entitlementCount" : 0,
-      "lastCheckin" : null,
-      "facts" : {
-        "lscpu.vendor_id" : "GenuineIntel",
-        "dmi.chassis.power_supply_state" : "Safe",
-        "network.ipv4_address" : "127.0.0.1",
-        "dmi.bios.rom_size" : "2048 KB",
-        "dmi.slot.type:slotbuswidth" : "x8",
-        "net.interface.lo.ipv6_netmask.host" : "128",
-        "cpu.topology_source" : "kernel /sys cpu sibling lists",
-        "dmi.processor.l1_cache_handle" : "0x0702",
-        "dmi.chassis.thermal_state" : "Safe",
-        "lscpu.l1i_cache" : "32K",
-        "distribution.version" : "20",
-        "dmi.bios.runtime_size" : "64 KB",
-        "dmi.bios.bios_revision" : "0.0",
-        "dmi.memory.array_handle" : "0x1000",
-        "dmi.system.version" : "Not Specified",
-        "virt.is_guest" : "false",
-        "memory.swaptotal" : "6168572",
-        "dmi.memory.total_width" : "72 bit",
-        "net.interface.lo.ipv6_address.host" : "::1",
-        "net.interface.em1.ipv4_address" : "192.168.2.100",
-        "dmi.system.product_name" : "Precision WorkStation T5500",
-        "dmi.slot.slotlength" : "Long",
-        "system.certificate_version" : "3.2",
-        "dmi.memory.size" : "2048 MB",
-        "dmi.baseboard.version" : "A01",
-        "uname.version" : "#1 SMP Wed Oct 15 13:06:51 UTC 2014",
-        "dmi.bios.version" : "A09",
-        "dmi.chassis.version" : "Not Specified",
-        "lscpu.cpu(s)" : "4",
-        "dmi.processor.part_number" : "Not Specified",
-        "lscpu.numa_node0_cpu(s)" : "0-3",
-        "uname.nodename" : "boogady",
-        "dmi.chassis.security_status" : "None",
-        "dmi.memory.speed" : "1333 MHz (0.8ns)",
-        "dmi.processor.asset_tag" : "Not Specified",
-        "net.interface.tun0.mac_address" : "none",
-        "net.interface.em1.ipv6_netmask.link" : "64",
-        "net.interface.em1.ipv4_netmask" : "24",
-        "dmi.processor.l2_cache_handle" : "0x0703",
-        "dmi.system.wake-up_type" : "Power Switch",
-        "net.interface.virbr0.mac_address" : "52:54:00:f1:78:9f",
-        "dmi.memory.assettag" : "02111461",
-        "net.interface.tun0.ipv4_netmask" : "24",
-        "dmi.chassis.asset_tag" : "",
-        "memory.memtotal" : "12296840",
-        "lscpu.on-line_cpu(s)_list" : "0-3",
-        "dmi.memory.form_factor" : "DIMM",
-        "net.interface.em1.ipv6_address.link" : "fe80::16fe:b5ff:fee4:bd2e",
-        "dmi.processor.socket_designation" : "CPU2",
-        "lscpu.numa_node(s)" : "1",
-        "net.interface.em1.mac_address" : "14:fe:b5:e4:bd:2e",
-        "lscpu.socket(s)" : "1",
-        "dmi.memory.data_width" : "64 bit",
-        "dmi.system.status" : "No errors detected",
-        "lscpu.virtualization" : "VT-x",
-        "net.interface.lo.ipv4_address" : "127.0.0.1",
-        "dmi.baseboard.product_name" : "0CRH6C",
-        "lscpu.stepping" : "2",
-        "net.interface.virbr0.ipv4_address" : "192.168.122.1",
-        "dmi.memory.maximum_capacity" : "96 GB",
-        "dmi.memory.manufacturer" : "80CE80B380CE",
-        "lscpu.cpu_family" : "6",
-        "net.interface.lo.ipv4_netmask" : "8",
-        "dmi.processor.type" : "Central Processor",
-        "lscpu.byte_order" : "Little Endian",
-        "lscpu.cpu_op-mode(s)" : "32-bit, 64-bit",
-        "dmi.memory.type" : "",
-        "network.hostname" : "boogady",
-        "dmi.memory.part_number" : "M393B5773CH0-YH9",
-        "lscpu.core(s)_per_socket" : "4",
-        "dmi.memory.serial_number" : "8367C865",
-        "network.ipv6_address" : "::1",
-        "dmi.chassis.manufacturer" : "Dell Inc.",
-        "dmi.connector.external_reference_designator" : "Not Specified",
-        "dmi.baseboard.manufacturer" : "Dell Inc.",
-        "lscpu.cpu_mhz" : "1596.027",
-        "dmi.system.uuid" : "44454c4c-4400-1031-8030-b6c04f395231",
-        "lscpu.model" : "44",
-        "dmi.memory.error_correction_type" : "Multi-bit ECC",
-        "dmi.processor.upgrade" : "Socket LGA771",
-        "lscpu.model_name" : "Intel(R) Xeon(R) CPU           E5603  @ 1.60GHz",
-        "dmi.processor.family" : "Xeon",
-        "lscpu.bogomips" : "3192.05",
-        "net.interface.virbr0-nic.mac_address" : "52:54:00:f1:78:9f",
-        "net.interface.virbr0.ipv4_broadcast" : "192.168.122.255",
-        "cpu.thread(s)_per_core" : "1",
-        "net.interface.p1p1.mac_address" : "00:10:18:a1:93:5b",
-        "dmi.system.sku_number" : "Not Specified",
-        "lscpu.l3_cache" : "4096K",
-        "dmi.processor.serial_number" : "Not Specified",
-        "dmi.connector.internal_reference_designator" : "LINE-IN",
-        "net.interface.virbr0-nic.permanent_mac_address" : "",
-        "dmi.memory.location" : "System Board Or Motherboard",
-        "distribution.id" : "Heisenbug",
-        "dmi.bios.vendor" : "Dell Inc.",
-        "dmi.chassis.type" : "Tower",
-        "dmi.slot.designation" : "SLOT1",
-        "dmi.slot.type:slottype" : "PCI Express",
-        "cpu.cpu(s)" : "4",
-        "cpu.core(s)_per_socket" : "4",
-        "dmi.chassis.serial_number" : "6D109R1",
-        "lscpu.l1d_cache" : "32K",
-        "dmi.slot.slotid" : "1",
-        "virt.host_type" : "Not Applicable",
-        "dmi.memory.error_information_handle" : "No Error",
-        "dmi.system.manufacturer" : "Dell Inc.",
-        "dmi.system.serial_number" : "6D109R1",
-        "cpu.cpu_socket(s)" : "1",
-        "net.interface.virbr0.ipv4_netmask" : "24",
-        "lscpu.thread(s)_per_core" : "1",
-        "dmi.bios.relase_date" : "04/20/2011",
-        "dmi.chassis.boot-up_state" : "Warning",
-        "net.interface.tun0.ipv4_address" : "10.3.113.152",
-        "dmi.connector.port_type" : "Audio Port",
-        "lscpu.architecture" : "x86_64",
-        "dmi.memory.use" : "System Memory",
-        "dmi.connector.internal_connector_type" : "None",
-        "dmi.processor.version" : "Not Specified",
-        "dmi.memory.bank_locator" : "Not Specified",
-        "lscpu.l2_cache" : "256K",
-        "net.interface.em1.ipv4_broadcast" : "192.168.2.255",
-        "net.interface.lo.ipv4_broadcast" : "Unknown",
-        "dmi.system.family" : "Not Specified",
-        "dmi.processor.voltage" : " ",
-        "dmi.processor.l3_cache_handle" : "0x0705",
-        "distribution.name" : "Fedora",
-        "dmi.baseboard.serial_number" : "..CN1374014I00DC.",
-        "uname.sysname" : "Linux",
-        "uname.release" : "3.16.6-200.fc20.x86_64",
-        "dmi.connector.external_connector_type" : "Mini Jack (headphones)",
-        "dmi.processor.status" : "Populated:No",
-        "uname.machine" : "x86_64",
-        "net.interface.tun0.ipv4_broadcast" : "10.3.113.255",
-        "dmi.memory.locator" : "DIMM 4",
-        "dmi.bios.address" : "0xf0000",
-        "dmi.slot.current_usage" : "In Use",
-        "dmi.chassis.lock" : "Not Present"
-      },
-      "installedProducts" : [ {
-        "productId" : "37060",
-        "productName" : "Awesome OS Server Bits",
-        "version" : "6.1",
-        "arch" : "ALL",
-        "status" : null,
-        "startDate" : null,
-        "endDate" : null
-      } ],
-      "guestIds" : [ ],
-      "hypervisorId" : null,
-      "environment" : null
+      "date" : "2015-02-10T13:36:47.074+0000"
     },
-    "status" : {
-      "status" : "invalid",
-      "reasons" : [ {
-        "key" : "NOTCOVERED",
-        "message" : "Not supported by a valid subscription.",
-        "attributes" : {
-          "product_id" : "37060",
-          "name" : "Awesome OS Server Bits"
-        }
-      } ],
-      "nonCompliantProducts" : [ "37060" ],
-      "compliantProducts" : [ ],
-      "partiallyCompliantProducts" : [ ],
-      "partialStacks" : [ ],
-      "date" : "2014-10-24T19:18:33.689+0000"
-    },
-    "entitlements" : [ ],
-    "date" : "2014-10-24T19:18:33.689+0000"
-  } ]
-}
-```
 
-### Status Trend Report
+    ...
+]
 
-The status trend report shows the per-day counts of consumers, grouped by status, optionally
-limited to a date range and/or filtered by select criteria.
 
-#### **GET /reports/status_trend**
-
-Current details of the report parameters.
-
-```json
-{
-  "key" : "status_trend",
-  "description" : "Lists the per-day status counts for all consumers",
-  "parameters" : [ {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The start date on which to filter.",
-    "name" : "start_date"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The end date on which to filter.",
-    "name" : "end_date"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "An owner key on which to filter.",
-    "name" : "owner"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The entitlement sku on which to filter.",
-    "name" : "sku"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "The name of a subscription on which to filter.",
-    "name" : "subscription_name"
-  }, {
-    "mandatory" : false,
-    "multiValued" : false,
-    "description" : "[Boolean] Whether or not to filter on subscriptions which have management enabled.",
-    "name" : "management_enabled"
-  } ]
-}
-```
-
-**NOTES:**
-
-1. The status trend report returns a map of maps; the outer map using UTC dates as keys mapped to
-    maps of status strings to per-day counts.
-2. Statuses returned are always in lower case, and the date/times returned represent the time
-    relative to the server's local time, expressed in UTC.
-3. A consumer's status is counted on each day returned in the report; even if that consumer was not
-    able to submit a compliance report for that day. In such a case, the consumer's status is
-    extrapolated from their last known status.
-4. Start and end date don't need to be used in conjunction. When specifying only one, the boundries
-    of the resultant data will be used for the omitted part of the range.
-4. Parameters allow limiting results to specific date ranges or filtering by organization owner,
-    entitlement sku, subscription name or whether or not the consumer is using entitlements which
-    have management enabled.
-
-#### **GET /reports/status_trend/run?sku=awesomeos-instancebased**
-
-An example of running the report filtering by subscription sku.
-
-```json
-{
-  "2014-11-03T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-04T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-05T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-06T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-07T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-08T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-09T04:59:59.999+0000" : {
-    "valid" : 2
-  }
-}
-```
-
-#### **GET /reports/status_trend/run?subscription_name=Awesome%20OS%20Instance%20Based%20(Standard%20Support)**
-
-An example of running the report filtering by subscription name.
-
-```json
-{
-  "2014-11-03T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-04T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-05T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-06T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-07T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-08T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-09T04:59:59.999+0000" : {
-    "valid" : 2
-  }
-}
-```
-
-#### **GET /reports/status_trend/run?start_date=2014-11-05**
-
-An example of running the report filtering by start date.
-
-```json
-{
-  "2014-11-05T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-06T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-07T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-08T04:59:59.999+0000" : {
-    "valid" : 2
-  },
-  "2014-11-09T04:59:59.999+0000" : {
-    "valid" : 2
-  }
-}
-```
-
-#### **GET /reports/status_trend/run?end_date=2014-11-05**
-
-An example of running the report filtering by end date.
-
-```json
-{
-  "2014-11-03T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-04T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-05T04:59:59.999+0000" : {
-    "valid" : 2
-  }
-}
-```
-
-#### **GET /reports/status_trend/run?management_enabled=true**
-
-An example of running the report filtering by subscriptions with management enabled.
-
-```json
-{
-  "2014-11-07T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-08T04:59:59.999+0000" : {
-    "valid" : 1
-  },
-  "2014-11-09T04:59:59.999+0000" : {
-    "valid" : 1
-  }
-}
 ```
