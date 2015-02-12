@@ -148,6 +148,8 @@ with PGP.  It's a fun bit of trivia, but not relevant in the modern era.
 - Signed by a trusted party or self-signed which means "trust me"
 - Used for identification since the private key is only known by the cert
   owner
+- Most frequently used with SSL/TLS to ensure you are connecting to the
+  server you think you're connecting to.
 
 --
 # X509 - Anatomy
@@ -286,11 +288,12 @@ the Fedora Project CA, everything works.
 
 --
 # Truststores - The Devil is in the Details
-- There are a half dozen different ways of trusting a CA
-  - Path to the PEM for the CA cert
+- A repository of trusted CAs
+- There are a half dozen different ways used to add CAs
+  - Path to the PEM for the CA cert (curl)
   - Various types of binary stores
     - PKCS12
-    - JKS
-    - NSS DB
-  - Add to the system truststore
+    - JKS (Tomcat)
+    - NSS DB (Firefox)
   - Place CA PEM in special directory (Docker)
+  - Add to the system truststore (nuclear option)
