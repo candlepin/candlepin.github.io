@@ -122,6 +122,7 @@ slide for a private key.
   - Base64 encoded DER with header and footer
   - Most common format
   - Example:
+
     ```none
     -----BEGIN CERTIFICATE-----
     MIIK6zCCBt+gAwIBAgIJAMXcvW[...]
@@ -232,6 +233,7 @@ plain vanilla certificate identifying a server.
 - Commercial CAs will externally verify you before signing (and charge you
   some money)
 - CAs sign certificates with other, special certificates
+
   ```none
   X509v3 extensions:
     X509v3 Basic Constraints:
@@ -261,6 +263,7 @@ DNS.
   list of commercial CA certificates
 - When clients try to make a connection using certificates (e.g. SSL/TLS)
   and the Issuer of the server cert is unknown, the client aborts the connection
+
   ```none
   % curl https://koji.fedoraproject.org
   curl: (60) Peer's certificate issuer has been marked as not trusted by the user.
@@ -285,6 +288,7 @@ DNS.
   organizations (and much cheaper)
 - The trick is to make sure everyone in your organization has and trusts the
   CA certificate
+
   ```none
   % curl --cacert ~/.fedora-server-ca.cert https://koji.fedoraproject.org
   <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
@@ -321,6 +325,7 @@ the Fedora Project CA, everything works.
 - System truststore managed with the `ca-certificates` package in Fedora
 - ***Do not add CAs casually!***
 - Adding to it is simple:
+
   ```none
   # curl https://admin.fedoraproject.org/accounts/fedora-server-ca.cert -o
 /etc/pki/ca-trust/source/anchors/cert
@@ -406,6 +411,7 @@ CAs not including extensions will be discussed with OpenSSL
 - Very useful extension
 - In SSL/TLS, the hostname you connect to *must* be the same as the CN in the
   subject of the certificate
+
   ```none
   Subject: C=US, ST=Washington, L=Seattle, O=Amazon.com, Inc., CN=www.amazon.com
   ```
@@ -414,6 +420,7 @@ CAs not including extensions will be discussed with OpenSSL
 - **It's not enough that a certificate is signed; it must also actually identify
   the entity presenting it!**
 - SubjectAltName extensions allow multiple identities per cert
+
   ```none
   X509v3 Subject Alternative Name:
     DNS:www.amazon.com,
@@ -429,6 +436,7 @@ CAs not including extensions will be discussed with OpenSSL
 # Certificate Extensions - BasicConstraints
 
 - Identifies whether a certificate can be used as a CA or not
+
   ```none
   X509v3 Basic Constraints:
     CA:FALSE
@@ -445,6 +453,7 @@ CAs not including extensions will be discussed with OpenSSL
   CA certs)
 - Name Constraints: namespaces the certificates the CA can sign
 - Key Usage/Extended Key Usage: place restrictions on the cert's key
+
   ```none
   X509v3 Key Usage: critical
     Digital Signature, Key Encipherment
