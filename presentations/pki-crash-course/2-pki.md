@@ -5,9 +5,10 @@
 - X509 Certificates
 - Certificate Authorities
 - Trust Stores
+- Keys
 - Certificate Signing Requests
-- Certificate Extensions
 - Certificate Revocation Lists
+- Certificate Extensions
 - Key Stores
 
 --
@@ -122,12 +123,15 @@ slide for a private key.
   - Most common format
   - Example:
     ```none
-    -----BEGIN RSA PRIVATE KEY-----
-    MIICXQIBAAKBgQDCb3IURscbZ75C/0b...
-    eTi8ffmPntD2YDWYJknOY1vf0NpeKH8...
+    -----BEGIN CERTIFICATE-----
+    MIIK6zCCBt+gAwIBAgIJAMXcvW[...]
+    VQQGEwJVUzEXMBUGA1UECBMOTm[...]
     [...]
-    -----END RSA PRIVATE KEY-----
+    -----END CERTIFICATE-----
     ```
+- Anything can be in these formats: keys, certificates, signing requests
+- Don't name your files ".pem".  It doesn't provide any information about
+  what is actually in the file.
 
 Note:
 You've got all the components you need to define something in ASN.1.  Now
@@ -143,27 +147,32 @@ with PGP.  It's a fun bit of trivia, but not relevant in the modern era.
 --
 # X509 Certificates
 
-- "Certificates" or "certs" for short
+*Traditional file extension: ".crt" or ".cert"*
+
+- *Certificate* or *cert* for short
 - An ASN.1 object with a public key and metadata
-- Signed by a trusted party or self-signed which means "trust me"
+- Signed by
+  - Trusted third party
+  - Self-signed (which means "trust me; I wouldn't lie to you")
 - Used for identification since the private key is only known by the cert
   owner
 - Most frequently used with SSL/TLS to ensure you are connecting to the
   server you think you're connecting to.
+- Defined in [RFC 5280](https://tools.ietf.org/html/rfc5280)
 
 --
 # X509 - Anatomy
 
-- Version: "3" is the latest
-- Serial Number: Of limited interest.  Use a SHA1 fingerprint for
+- *Version*: "3" is the latest
+- *Serial Number*: Of limited interest.  Use a SHA1 fingerprint for
   identification
-- Issuer: Entity that vouches for this certificate
-- Validity: How long is this certificate good?
-- Subject: Who the certificate owner claims to be
-- Extensions: Many and varied.  We'll get back to these
-- Certificate Signature: An unforgeable signature from the Issuer to prove
+- *Issuer*: Entity that vouches for this certificate
+- *Validity*: How long is this certificate good?
+- *Subject*: Who the certificate owner claims to be
+- *Extensions*: Many and varied.  We'll get back to these
+- *Certificate Signature*: An unforgeable signature from the Issuer to prove
   the certificate hasn't been tampered with
-- Subject Public Key Info: The components of the public key
+- *Subject Public Key Info*: The components of the public key
 
 Note:
 We'll talk about the purpose of the Validity when we get to certificate
@@ -208,13 +217,20 @@ Certificate:
        95:62:87:c9:c6:4d[...]
 ```
 
+(Taken from Fedora's Koji build system)
+
+Note:
+The validity period on this certificate is more than one would expect for a
+plain vanilla certificate identifying a server.
+
 --
 # Certificate Authorities
 
-- "CAs" for short
+- *CA* for short
 - Trusted third-parties that put their seal of approval on a certificate
 - The "seal of approval" is based on the CA's private key
-- Commercial CAs will externally verify you before signing
+- Commercial CAs will externally verify you before signing (and charge you
+  some money)
 - CAs sign certificates with other, special certificates
   ```none
   X509v3 extensions:
@@ -237,14 +253,14 @@ DNS.
 - Trust has to begin somewhere, so root CA certs are self-signed
 
 --
-# Truststores
+# Trust
 
 - A CA is useless if no one trusts it, so the certificates for commercial CAs
   need to be disseminated somehow
-- Systems (e.g. Fedora, Firefox, Chrome) contain a truststore with a
-  database of CA certificates
-- When clients try to make a connection using certificates (e.g. SSL/TLS),
-  if the CA the server returns is unknown, the client aborts the connection
+- Systems (e.g. Fedora, Firefox, Chrome) contain a *truststore* with a
+  list of commercial CA certificates
+- When clients try to make a connection using certificates (e.g. SSL/TLS)
+  and the Issuer of the server cert is unknown, the client aborts the connection
   ```none
   % curl https://koji.fedoraproject.org
   curl: (60) Peer's certificate issuer has been marked as not trusted by the user.
@@ -288,12 +304,170 @@ the Fedora Project CA, everything works.
 
 --
 # Truststores - The Devil is in the Details
+
 - A repository of trusted CAs
 - There are a half dozen different ways used to add CAs
   - Path to the PEM for the CA cert (curl)
   - Various types of binary stores
     - PKCS12
-    - JKS (Tomcat)
+    - JKS (Tomcat, other Java tools)
     - NSS DB (Firefox)
   - Place CA PEM in special directory (Docker)
   - Add to the system truststore (nuclear option)
+
+--
+# Truststores - Adding to the System Truststore
+
+- System truststore managed with the `ca-certificates` package in Fedora
+- ***Do not add CAs casually!***
+- Adding to it is simple:
+  ```none
+  # curl https://admin.fedoraproject.org/accounts/fedora-server-ca.cert -o
+/etc/pki/ca-trust/source/anchors/cert
+  # update-ca-trust extract
+  ```
+- You can also blacklist certificates by placing them in
+  `/etc/pki/ca-trust/source/blacklist`
+
+Note:
+A Fedora system has a CA bundle (based on the Mozilla database of CAs)
+courtesy of the `ca-certificates` package.
+
+--
+# Keys
+
+*Traditional file extension: ".key"*
+
+- The signee's private key
+- Guarded with utmost care
+- RSA is most common currently for certificates
+- 2048-bit is the minimum you should use and good for around 20 years
+  worth of security
+- 4096-bit isn't a bad choice for high value items (e.g. CA keys)
+
+--
+# Certificate Signing Requests
+
+*Traditional file extension: ".csr"*
+
+- *CSR* for short
+- Means of communication between a signee and a CA
+- Contains requester's public key, the identity the requester is asserting,
+  additional extensions the requester wants
+- Send it off to the CA
+- CA requires you to prove you have the identity in the CSR
+- CA sends you back a signed certificate
+- The CSR file can generally be discarded at this point
+
+Note:
+A CSR can even be signed by multiple CAs.  This practice is called
+"cross-signing".  You end up with two equally valid certificates because a
+certificate can only have one Issuer.
+
+--
+# Certificate Revocation Lists
+
+*Traditional file extension: ".crl"*
+
+- *CRL* for short
+- What happens when a signee loses or leaks their private key?
+    - The certificate is no longer secure
+    - People need to be informed of the breach
+- CAs maintain a certificate revocation list
+- CRLs are ASN.1 lists of revoked certificate serial numbers and digitally
+  signed by the CAs
+- Weakness is that clients have to check the CRL!
+- Other revocation mechanism is *Online Certificate Status Protocol* (OCSP)
+- Validity periods on certificates keep the CRL from growing without bound
+
+Note:
+Digitally signing CRLs allows CAs to serve them over HTTP.  Why?  If they
+were served over HTTPS, clients would end up having to check the revocation
+status of the CRL server resulting in a vicious cycle
+
+--
+# Certificate Extensions
+
+- Various sorts of metadata added to certificates
+- Sent in the CSR, *but the CA doesn't have to include them in the signed
+  cert!*
+  - Always double check the cert you get back if you asked for special
+    extensions
+- Two types: critical (must be parsed) and non-critical (may be ignored if
+  not understood)
+- If you are a wizard, you can even write your own
+
+Note:
+CAs not including extensions will be discussed with OpenSSL
+
+--
+# Certificate Extensions - SubjectAltName
+
+- Very useful extension
+- In SSL/TLS, the hostname you connect to *must* be the same as the CN in the
+  subject of the certificate
+  ```none
+  Subject: C=US, ST=Washington, L=Seattle, O=Amazon.com, Inc., CN=www.amazon.com
+  ```
+- Why?  Otherwise a man in the middle (MITM) can get a cert signed for any
+  domain and then use it to impersonate someone else
+- **It's not enough that a certificate is signed; it must also actually identify
+  the entity presenting it!**
+- SubjectAltName extensions allow multiple identities per cert
+  ```none
+  X509v3 Subject Alternative Name:
+    DNS:www.amazon.com,
+    DNS:www.amzn.com,
+    DNS:amzn.com,
+    DNS:uedata.amazon.com,
+    DNS:amazon.com
+  ```
+- Don't worry with these unless you need to.  OpenSSL makes it tedious to add
+  these extensions
+
+--
+# Certificate Extensions - BasicConstraints
+
+- Identifies whether a certificate can be used as a CA or not
+  ```none
+  X509v3 Basic Constraints:
+    CA:FALSE
+  ```
+- Can also set the length of the trust chain for a CA with "pathlen"
+- `pathlen: 0` means this certificate cannot sign other CAs
+
+--
+# Certificate Extensions - Miscellaneous
+
+- CRL Distribution Points: On CA certs to point to the CRL
+- Authority Key Identifier: fingerprint of public key that signed the cert
+- Subject Key Identifier: fingerprint of public key of cert (required for
+  CA certs)
+- Name Constraints: namespaces the certificates the CA can sign
+- Key Usage/Extended Key Usage: place restrictions on the cert's key
+  ```none
+  X509v3 Key Usage: critical
+    Digital Signature, Key Encipherment
+  X509v3 Extended Key Usage:
+    TLS Web Server Authentication, TLS Web Client Authentication
+  ```
+- These extensions are generally either taken care of for you by tooling or
+  not commonly needed in development environments
+
+--
+# Keystores
+
+- For important keys, you don't want to leave it laying around on the filesystem
+    - Solution?  Encrypt the key with a symmetric cipher using a passphrase
+- Some programs just won't read keys from the filesystem (e.g. Tomcat)
+    - Encryption is optional if you just need a container for the key
+- Types:
+  - PKCS12
+  - JKS
+  - NSS DB
+- Same formats as the truststores discussed earlier
+- Generally painful
+
+Note:
+If you are really security conscious, you'll store the private key on a
+hardware device and keep the device locked up.
