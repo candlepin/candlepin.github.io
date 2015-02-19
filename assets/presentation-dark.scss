@@ -42,8 +42,13 @@ html * {
       font-weight: bold;
     }
 
-    pre code {
+    code {
+      background-color: transparentize($solarized-dark-bg, 0.6);
+    }
+
+    pre > code {
       max-height: 750px;
+      background-color: transparentize($solarized-dark-bg, 0.3);
     }
 
     table {

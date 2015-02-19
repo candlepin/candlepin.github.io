@@ -151,7 +151,7 @@ with PGP.  It's a fun bit of trivia, but not relevant in the modern era.
 *Traditional file extension: ".crt" or ".cert"*
 
 - *Certificate* or *cert* for short
-- An ASN.1 object with a public key and metadata
+- An ASN.1 object with a public key and other data
 - Signed by
   - Trusted third party
   - Self-signed (which means "trust me; I wouldn't lie to you")
@@ -358,7 +358,7 @@ courtesy of the `ca-certificates` package.
 - *CSR* for short
 - Means of communication between a signee and a CA
 - Contains requester's public key, the identity the requester is asserting,
-  additional extensions the requester wants
+  additional extensions the requester wants, and a signature
 - Send it off to the CA
 - CA requires you to prove you have the identity in the CSR
 - CA sends you back a signed certificate
@@ -393,9 +393,9 @@ status of the CRL server resulting in a vicious cycle
 --
 # Certificate Extensions
 
-- Various sorts of metadata added to certificates
-- Sent in the CSR, *but the CA doesn't have to include them in the signed
-  cert!*
+- Various sorts of data added to certificates
+- Sent in the CSR, **but the CA doesn't have to include them in the signed
+  cert!**
   - Always double check the cert you get back if you asked for special
     extensions
 - Two types: critical (must be parsed) and non-critical (may be ignored if
@@ -410,14 +410,14 @@ CAs not including extensions will be discussed with OpenSSL
 
 - Very useful extension
 - In SSL/TLS, the hostname you connect to *must* be the same as the CN in the
-  subject of the certificate
+  subject of the certificate (although wildcards are allowed)
 
   ```none
   Subject: C=US, ST=Washington, L=Seattle, O=Amazon.com, Inc., CN=www.amazon.com
   ```
 - Why?  Otherwise a man in the middle (MITM) can get a cert signed for any
-  domain and then use it to impersonate someone else
-- **It's not enough that a certificate is signed; it must also actually identify
+  domain and then use it to impersonate someone else if.
+- **It's not enough that a certificate is signed; it must also correctly identify
   the entity presenting it!**
 - SubjectAltName extensions allow multiple identities per cert
 
@@ -431,6 +431,11 @@ CAs not including extensions will be discussed with OpenSSL
   ```
 - Don't worry with these unless you need to.  OpenSSL makes it tedious to add
   these extensions
+
+Note:
+In this case, we can see that a wildcard would not have helped Amazon since
+they want the same certificate to identify two top-level domains, "amazon.com"
+and "amzn.com"
 
 --
 # Certificate Extensions - BasicConstraints
