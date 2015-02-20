@@ -40,15 +40,35 @@ html * {
 
     h1, h2, h3, h4, h5, h6 {
       font-weight: bold;
+      margin-bottom: 10px;
     }
 
     code {
       background-color: transparentize($solarized-dark-bg, 0.6);
     }
 
+    & > pre {
+      margin-top: 30px;
+      margin-bottom: 0px;
+    }
+
     pre > code {
       max-height: 750px;
       background-color: transparentize($solarized-dark-bg, 0.3);
+      padding: 10px;
+    }
+
+    p {
+      text-align: left;
+    }
+
+    li > p {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    & > ul, & > ol {
+      display: inline;
     }
 
     table {

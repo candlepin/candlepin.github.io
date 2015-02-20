@@ -14,13 +14,13 @@
   - The `man` pages for a subcommand are accessed directly
 
     ```none
-    # man x509
-    # man genrsa
+    % man x509
+    % man genrsa
     ```
 - Contrary to convention, all long options use a single hyphen
 
   ```none
-  # openssl x509 -in foo.pem -text
+  % openssl x509 -in foo.pem -text
   ```
 - Generally works with PEM files
 
@@ -40,16 +40,16 @@
   trailing newlines (use `echo -n`)!
     - OpenSSL will tolerate a newline, others may not
       ```none
-      # echo  "hello" > secret.txt ; openssl rsa -in foo.key -passin file:secret.txt -noout -check
+      % echo  "hello" > secret.txt ; openssl rsa -in foo.key -passin file:secret.txt -noout -check
       RSA key ok
-      # echo -n "hello" > secret.txt ; openssl rsa -in foo.key -passin file:secret.txt -noout -check
+      % echo -n "hello" > secret.txt ; openssl rsa -in foo.key -passin file:secret.txt -noout -check
       RSA key ok
       ```
 --
 # OpenSSL - Generating Keys
 
 ```none
-# openssl genrsa -out foo.key 2048
+% openssl genrsa -out foo.key 2048
 ```
 
 - Last number is the number of bits in the key
@@ -60,14 +60,14 @@
   - Public key can be derived if you need it
 
     ```none
-    # openssl rsa -in foo.key -out foo.pub -pubout
+    % openssl rsa -in foo.key -out foo.pub -pubout
     ```
 
 --
 # OpenSSL - Creating a CSR (Simple)
 
 ```none
-# openssl req -new -key foo.key -out foo.csr
+% openssl req -new -key foo.key -out foo.csr
 ```
 
 - Will ask you lots of questions to build the certificate Subject
@@ -94,20 +94,29 @@ use it and it does not add any additional security to the CSR.
 # OpenSSL - Creating a CSR (Advanced)
 
 ```none
-
-# cat /etc/pki/tls/openssl.cnf - <<CONF > san.cnf
+% cat /etc/pki/tls/openssl.cnf - <<CONF > san.cnf
 [ my_extensions ]
 subjectAltName=DNS:www.example.com,DNS:www.example.org
 CONF
-# openssl req -new -key foo.key -out foo.csr -extensions my_extensions -config san.cnf
-
+% openssl req -new -key foo.key -out foo.csr -subj '/CN=Example Corp Cert' -config san.cnf -reqexts my_extensions
 ```
+
+- Begin with a valid OpenSSL config file
+- Add a section with your extensions
+- Use the `-reqexts` option to request that section be used in the CSR
+
+Notice that I am not using a host name as the CN since the hostnames are
+within the SubjectAltNames.  [RFC 2818, Section 3.1](http://tools.ietf.org/html/rfc2818#section-3.1)
+says if a cert has SubjectAltNames, the CN is ***ignored*** by the client.
+
+There would be no harm in using a hostname for the CN, but it might be
+confusing to others who don't know the CN gets ignored.
 
 --
 # OpenSSL - Creating a CA/Self-Signed Certificate
 
 ```none
-# openssl req -new -x509 -key my_ca.key -out my_ca.crt -days 3650
+% openssl req -new -x509 -key my_ca.key -out my_ca.crt -days 3650
 ```
 
 - Useful for smoke tests, rapid development
@@ -121,16 +130,17 @@ CONF
 # OpenSSL - Creating a Self-Signed Cert Fast
 
 ```none
-#  openssl req -new -x509 -newkey rsa:2048 -nodes -days 365 -subj '/CN=localhost' -out x.crt -keyout x.key
+%  openssl req -new -x509 -newkey rsa:2048 -nodes -days 365 -subj '/CN=localhost' -out x.crt -keyout x.key
 ```
 
 - Creates the key inline
+- `-nodes` prevents the default key encryption
 
 --
 # OpenSSL - Signing Certificates (Ad Hoc)
 
 ```none
-# openssl x509 -req -days 365 -in foo.csr -out foo.crt -CA my_ca.crt -CAkey my_ca.key -CAcreateserial
+% openssl x509 -req -days 365 -in foo.csr -out foo.crt -CA my_ca.crt -CAkey my_ca.key -CAcreateserial
 ```
 
 - Great for development.  Not great for managing large numbers of certificates
@@ -167,6 +177,56 @@ CONF
   - Prevents the case where an unwitting operator creates and issues a sub-CA
     from a malicious CSR
 
+--
+# OpenSSL - Looking at Existing Things
+
+```none
+% openssl rsa -in foo.key -noout -text
+% openssl req -in foo.csr -noout -text
+% openssl x509 -in foo.crt -noout -text
+```
+
+- `-noout` stops OpenSSL from printing the PEM
+- `-text` is everything interesting
+- Other arguments let you narrow things down
+  - `-fingerprint` is the definitive way to identify a cert
+
+    ```none
+    % openssl x509 -in fedora-ca.cert -noout -fingerprint
+    SHA1 Fingerprint=92:9C:BF:A0:5E:70:99:2C:2C:7A:2C:41:83:DC:09:74:E4:8F:D7:B4
+    ```
+--
+# OpenSSL - PKCS12
+
+```none
+% openssl pkcs12 -export -in foo.crt -inkey foo.key -name Foo -out foo.p12
+```
+
+- What? A binary storage container for keys and certs
+- Why? Because NSS and Java will not import/export keys in PEM format but will
+  with PKCS12s
+- Also lets you import client certificates and keys into Firefox
+
+--
+# OpenSSL - So Much More
+
+- Convert PEM to DER and back
+- `s_client` Telnet over SSL
+- `s_server` netcat -l over SSL and poor man's HTTP server
+- Encrypt things with symmetric ciphers
+- Read CRLs
+
+--
+# OpenSSL - Gotchas
+
+- Sometimes people put multiple ASN.1 objects of the same type in a file.
+  Classic example is people building a chain of certificates.  OpenSSL will
+  only look at the ***first*** ASN1 object of the type you ask for.
+
+Note:
+You can of course put a key and cert together in a file because those are
+different ASN1 objects and OpenSSL will read the key with the "rsa"
+subcommand and the cert with the "x509" subcommand.
 
 --
 # Compatibility Issues - Java

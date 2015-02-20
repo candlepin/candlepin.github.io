@@ -327,9 +327,9 @@ the Fedora Project CA, everything works.
 - Adding to it is simple:
 
   ```none
-  # curl https://admin.fedoraproject.org/accounts/fedora-server-ca.cert -o
+  % curl https://admin.fedoraproject.org/accounts/fedora-server-ca.cert -o
 /etc/pki/ca-trust/source/anchors/cert
-  # update-ca-trust extract
+  % update-ca-trust extract
   ```
 - You can also blacklist certificates by placing them in
   `/etc/pki/ca-trust/source/blacklist`
