@@ -416,7 +416,7 @@ CAs not including extensions will be discussed with OpenSSL
   Subject: C=US, ST=Washington, L=Seattle, O=Amazon.com, Inc., CN=www.amazon.com
   ```
 - Why?  Otherwise a man in the middle (MITM) can get a cert signed for any
-  domain and then use it to impersonate someone else if.
+  domain and then use it to impersonate someone else.
 - **It's not enough that a certificate is signed; it must also correctly identify
   the entity presenting it!**
 - SubjectAltName extensions allow multiple identities per cert
@@ -436,6 +436,11 @@ Note:
 In this case, we can see that a wildcard would not have helped Amazon since
 they want the same certificate to identify two top-level domains, "amazon.com"
 and "amzn.com"
+
+Man in the middle attacks are a serious concern.  If you aren't doing hostname
+verification and only checking that a certificate is signed by an accepted CA,
+it's the equivalent of asking for someone's driver's license, ignoring the
+name, and only checking that it has four corners and a hologram on it.
 
 --
 # Certificate Extensions - BasicConstraints
@@ -480,6 +485,7 @@ and "amzn.com"
   - JKS
   - NSS DB
 - Same formats as the truststores discussed earlier
+- The keystore itself is encrypted **and** each individual key is encrypted
 - Generally painful
 
 Note:

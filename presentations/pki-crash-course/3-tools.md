@@ -229,6 +229,301 @@ different ASN1 objects and OpenSSL will read the key with the "rsa"
 subcommand and the cert with the "x509" subcommand.
 
 --
+# NSS
+
+- Mozilla's PKI solution
+- CLI tool is `certutil`
+- Instead of PEM files, everything is stored in sqlite databases (`cert9.db`,
+  `key4.db`)
+  - But there is also a legacy format!  To be unambiguous `certutil` let's you
+    specify a database type prefix
+- First option is always a capital letter that specifies the subcommand
+- Certificates in the database have different levels of trust
+- Databases have different "tokens" that segment them
+- Way more command line options for extensions than OpenSSL
+- Much harder to use that OpenSSL in my opinion
+
+--
+# NSS - Creating a Database
+
+```none
+% mkdir mynss
+% certutil -N -d ~/mynss
+```
+
+- `-N` for "new"
+- Will ask for a password for the database, but you can give it an empty string
+
+--
+# NSS - Viewing the Database
+
+```none
+% certutil -L -d ~/mynss
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
+
+% certutil -L -d sql:~/mynss
+certutil: function failed: SEC_ERROR_BAD_DATABASE: security library: bad database.
+
+% certutil -L -d sql:$HOME/mynss
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
+```
+
+- `-L` for "list"
+- Can be maddeningly picky about paths
+
+--
+# NSS - Importing a Certificate
+
+```none
+% certutil -A -d ~/mynss -n "Fedora CA" -t "CT,," -i ~/fedora-server-ca.cert
+```
+
+- `-A` for "add"
+- `-n` is a nickname for the cert
+- `-t` is the trust level
+  - Broken into three fields
+    - SSL/TLS (probably the one you will care about most)
+    - S/MIME
+    - Code Signing
+  - Many different values
+    - `p` prohibited (for a compromised cert)
+    - `c` valid CA
+    - `T` CA trusted to issue client certs (implies `c`)
+    - `C` CA trusted to issue server certs (implies `c`)
+    - `u` user certificate
+    - Even more.  See man page
+
+--
+# NSS - Viewing Specific Items
+
+```none
+% certutil -L -d ~/mynss
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
+
+Fedora CA                                                    CT,,
+
+% certutil -L -d ~/mynss -n "Fedora CA"
+[ Text view of certificate ]
+
+% certutil -L -d ~/mynss -n "Fedora CA" -a
+[ PEM output ]
+```
+
+- `-a` is for ASCII output
+
+--
+# NSS - Deleting Certificates
+
+```none
+% certutil -D -d ~/mynss -n "Fedora CA"
+```
+
+- `-D` for "delete"
+
+--
+# NSS - Importing a Certificate **and** Key
+
+```none
+% openssl pkcs12 -export -in foo.crt -inkey foo.key -name Foo -out foo.p12
+Enter Export Password:
+Verifying - Enter Export Password:
+
+% pk12util -i foo.p12 -d ~/mynss
+Enter password for PKCS12 file:
+pk12util: PKCS12 IMPORT SUCCESSFUL
+
+% certutil -L -d ~/mynss
+[...]
+Foo                                                          u,u,u
+
+% certutil -M -d ~/mynss -n Foo -t 'CT,,'
+```
+
+- Have to use `pk12util` to convert from PKCS12 to NSSDB
+- Certificate is initially imported with no trust
+- Use `-M` to modify the trust levels on the certificate
+
+--
+# NSS - Getting a Key Out
+
+```none
+% pk12util -o out.p12 -n Foo -d ~/mynss
+% openssl pkcs12 -in out.p12 -out key_and_cert.pem -nodes
+% cat out.p12
+Bag Attributes
+    friendlyName: Foo
+    localKeyID: 7C 2E 29 2E F8 DF 1E 75 9D C2 07 74 B7 FF 53 D3 E9 D3 2D CC
+Key Attributes: <No Attributes>
+[ Key PEM here ]
+
+Bag Attributes
+    friendlyName: Foo
+    localKeyID: 7C 2E 29 2E F8 DF 1E 75 9D C2 07 74 B7 FF 53 D3 E9 D3 2D CC
+subject=/CN=arkham.usersys.redhat.com/C=US/L=Raleigh
+issuer=/CN=arkham.usersys.redhat.com/C=US/L=Raleigh
+[ Cert PEM here ]
+```
+
+- Opposite of importing
+- Everything gets dumped into one big PEM file along with some
+  other metadata
+
+--
+# NSS - Even more
+
+- Generate keys
+- Generate CSRs
+- Sign certificates
+- Tedious to use
+  - Extensions are easier than OpenSSL (especially SubjectAltNames)
+  - But having to work through the database means you always have to remember
+    the nicknames and moving, deleting, copying are more complicated
+  - Gets very confusing when dealing with multiple tokens
+- My recommendation: for development situations, OpenSSL is just fine.  For
+  high volume and/or high security situations, NSS is a better choice.
+
+--
+# NSS - Gotchas
+
+- Importing a cert already in the DB with a name that is also already in
+  the DB silently fails with return code 0
+
+  ```none
+  % certutil -A -d ~/mynss -n X -t ,,, -i amazon.crt
+  % certutil -A -d ~/mynss -n X -t ,,, -i fedora-ca.crt
+    certutil: could not add certificate to token or database: SEC_ERROR_ADDING_CERT: Error adding certificate to database.
+  % certutil -A -d ~/mynss -n Fedora -t ,,, -i fedora-ca.crt
+  % certutil -A -d ~/mynss -n X -t ,,, -i fedora-ca.crt
+  % echo $?
+  0
+  % certutil -L -d ~/mynss -n X
+  [...]
+  Subject: "CN=www.amazon.com,O="Amazon.com, Inc.",L=Seattle,ST=Washing
+            ton,C=US"
+  [...]
+  ```
+- Surprisingly easy to run into this situation during development when names and certs
+  are in flux
+
+--
+# Java
+
+- Java has its own special binary format: JKS
+- Java has its own special CA bundle: `$JAVA_HOME/jre/lib/security/cacerts`
+- On Fedora the bundle is a symlink to `/etc/pki/java/cacerts`
+- Default password to the CA bundle is "changeit"
+- CLI command is `keytool`
+- Same restriction as NSS on importing and exporting keys
+- `keytool` can perform some operations on PKCS12s natively
+
+--
+# Java - Viewing Items
+
+```none
+% keytool -list -keystore /etc/pki/java/cacerts
+Enter keystore password:
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 165 entries
+[...]
+Certificate fingerprint (SHA1): 43:13:BB:96:F1:D5:86:9B:C1:4E:6A:92:F6:CF:F6:34:69:87:82:37
+geotrustprimarycertificationauthority, Jan 26, 2015, trustedCertEntry,
+[...]
+```
+
+- Like NSS, every item has a name called an alias
+
+--
+# Java - Importing Items
+
+```none
+% keytool -importkeystore -destkeystore my_keystore.jks -srckeystore foo.p12 -srcstoretype pkcs12 -alias Foo -srcstorepass ""
+Enter destination keystore password:
+Re-enter new password:
+```
+
+- Very picky about passwords.  Not using a password on the PKCS12 requires
+  passing in `-srcstorepass ''`
+- Password on destination keystore is mandatory
+
+--
+# Java - Exporting Items
+
+```none
+% keytool -importkeystore -destkeystore out.p12 -srckeystore my_keystore.jks -deststoretype pkcs12 -alias Foo
+Enter destination keystore password:
+Re-enter new password:
+Enter source keystore password:
+Enter key password for <Foo>
+Enter key password for <Foo>
+Enter key password for <Foo>
+keytool error: java.lang.Exception: Too many failures - try later
+
+% keytool -importkeystore -destkeystore out.p12 -srckeystore my_keystore.jks -deststoretype pkcs12  -alias Foo -srckeypass ''
+Enter destination keystore password:
+Re-enter new password:
+Enter source keystore password:
+```
+
+- Note that I had to provide a password for the key even though the key didn't
+  actually have one on it.  Just hitting return at the prompt won't work
+- Result is a PKCS12 that can me manipulated using friendlier tools
+
+--
+# Keytool - Even more
+
+- Generate keys
+- Sign certificates
+- Generally low on features with weak documentation
+- Why bother?  Just use OpenSSL or NSS
+
+--
+# Other Tools - Bouncy Castle
+
+- The de facto Java crypto library
+- Fairly easy to work with
+- Not FIPS certified
+  - Things sold to the US government often need FIPS
+    certification
+
+--
+# Other Tools - Portecle
+
+- Java based GUI for PKI
+- Perfect for browsing PKCS12s, JKSs, PEM bundles
+- Easy to add and remove things from PKCS12s and JKSs
+- Can't do NSS DBs
+- I highly recommended it
+
+![Screenshot of Portecle](portecle.png "Portecle")
+
+--
+# Other Tools - Dogtag
+
+- Red Hat sponsored open source project
+- Enterprise level PKI
+- Enterprise level of complexity
+- Use if you are dealing with hundreds of certificates, keys, CSRs, etc.
+
+--
+# Other Tools - TinyCA
+
+- GUI for CA management
+- Create CAs
+- Manage signing and revocations
+
+![Screenshot of Tiny CA](tinyca.png "Tiny CA")
+
+--
 # Compatibility Issues - Java
 
 - OpenSSL outputs PKCS1 formated RSA keys.  Java only wants to read PKCS8.
+  - Solution: Use Bouncy Castle
+  - Can't use Bouncy Castle? Prepare for a painful experience of reading in the PEM,
+    converting to ASN1 and reading out RSA primatives.
+

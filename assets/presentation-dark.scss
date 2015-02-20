@@ -49,7 +49,7 @@ html * {
 
     & > pre {
       margin-top: 30px;
-      margin-bottom: 0px;
+      margin-bottom: 15px;
     }
 
     pre > code {
@@ -68,7 +68,13 @@ html * {
     }
 
     & > ul, & > ol {
-      display: inline;
+      display: block;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     table {
