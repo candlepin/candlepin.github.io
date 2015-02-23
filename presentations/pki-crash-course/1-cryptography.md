@@ -271,8 +271,8 @@ VbvGyyrIlfhwpaQYHtqggUto+Yj011rTOIXfRnk4NxDq3MHQHsJmQ2dm9hnveJI4
 ![Bob](bob-small.png "Bob")
 
 <pre><code>
-% sed '1d' lyrics.txt > signature.txt
-% sed '1!d' lyrics.txt > message.txt
+% sed -n '1p' lyrics.txt > message.txt
+% sed -n '2,$p' lyrics.txt > signature.txt
 % openssl base64 -d -in signature.txt | openssl rsautl -inkey alice.pub -pubin -verify
 SHA256(lyrics.txt)= 6c4fc3b953f7ad20a087b6d24b3dc16bb70a6ce1ac5cce51c369fed2e97faf92
 % openssl sha256 message.txt
@@ -319,8 +319,8 @@ w79xz1P9Tm4aUb7QCkhX9ypPYoX8B7h4CH0ld+SQLx0Z0bIiHsIgvAlvqF45OH7S
 O/0beCncXmef4O4T2xQcJMbjxrNWVDdl7aMgaeDf4tYxdbzuuusacVqw/uU9L1hu
 RTXEpPxpppTG+DQ7dFIzCOQI6fusCCYSmC6iVHRBX97yfodpIkP2qt1dDdxBvAQv
 ibi8ab815W62xEjhUrbXSA==
-% sed '1d' lyrics-strange.txt > signature.txt
-% sed '1!d' lyrics-strange.txt > message.txt
+% sed -n '1p' lyrics-strange.txt > message.txt
+% sed -n '2,$p' lyrics-strange.txt > signature.txt
 % openssl base64 -d -in signature.txt | openssl rsautl -inkey alice.pub -pubin -verify
 SHA256(lyrics2.txt)= 7bb2c4647ab5b0002e1de8686e1d8e1cc5568f85b0866006dfa60025966e64c3
 % openssl sha256 message.txt
