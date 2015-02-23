@@ -71,10 +71,52 @@ html * {
       display: block;
     }
 
+    p.caption {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     img {
       display: block;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    div.two_column {
+      float: left;
+      width: 40%;
+    }
+
+    div.left_float {
+      float: left;
+      margin-left: 10%;
+    }
+
+    div.right_float {
+      float: right;
+      margin-right: 10%;
+    }
+
+    div.action_block {
+      margin-top: 50px;
+      vertical-align: middle;
+
+      & > pre, & > img {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      & > img {
+        display: inline;
+        float: left;
+        margin-right: 30px;
+      }
+
+      & > pre > code {
+        text-align: left;
+        padding-top: 0px;
+      }
     }
 
     table {
