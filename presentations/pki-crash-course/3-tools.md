@@ -23,6 +23,7 @@
   % openssl x509 -in foo.pem -text
   ```
 - Generally works with PEM files
+- Notorious for vague and confusing error messages
 
 --
 # OpenSSL - General Concepts
@@ -42,8 +43,14 @@
       ```none
       % echo  "hello" > secret.txt ; openssl rsa -in foo.key -passin file:secret.txt -noout -check
       RSA key ok
+
       % echo -n "hello" > secret.txt ; openssl rsa -in foo.key -passin file:secret.txt -noout -check
       RSA key ok
+
+      % echo "goodbye" > secret.txt; openssl rsa -in foo.key -passin file:secret.txt -noout -check
+        unable to load Private Key
+        140405449365376:error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt:evp_enc.c:596:
+        140405449365376:error:0906A065:PEM routines:PEM_do_header:bad decrypt:pem_lib.c:483:
       ```
 --
 # OpenSSL - Generating Keys
@@ -241,7 +248,7 @@ subcommand and the cert with the "x509" subcommand.
 - Certificates in the database have different levels of trust
 - Databases have different "tokens" that segment them
 - Way more command line options for extensions than OpenSSL
-- Much harder to use that OpenSSL in my opinion
+- Much harder to use than OpenSSL in my opinion
 
 --
 # NSS - Creating a Database
@@ -472,7 +479,7 @@ Enter source keystore password:
 
 - Note that I had to provide a password for the key even though the key didn't
   actually have one on it.  Just hitting return at the prompt won't work
-- Result is a PKCS12 that can me manipulated using friendlier tools
+- Result is a PKCS12 that can be manipulated using friendlier tools
 
 --
 # Keytool - Even more

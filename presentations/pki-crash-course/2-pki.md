@@ -14,6 +14,7 @@
 --
 # ASN.1
 
+- Abstract Syntax Notation
 - Similar in concept to Backus-Naur Form
 - A way to describe data and data-types
 - Start simple and move up
