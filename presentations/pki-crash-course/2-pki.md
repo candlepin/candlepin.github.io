@@ -256,6 +256,13 @@ DNS.
 - Trust has to begin somewhere, so root CA certs are self-signed
 
 --
+# Example - Trust
+
+![Crudely hand drawn certificate](untrusted.png "Would you trust this?")
+
+"Excuse me, I would like to withdraw $100,000.  Here is my identification." <!-- .element class="caption" -->
+
+--
 # Trust
 
 - A CA is useless if no one trusts it, so the certificates for commercial CAs
@@ -371,6 +378,40 @@ A CSR can even be signed by multiple CAs.  This practice is called
 certificate can only have one Issuer.
 
 --
+# Certificate Subject
+
+- Part of the CSR
+- Made up of various components like country, organization, etc.
+- Most important is the Common Name (CN)
+- In SSL/TLS, the hostname you connect to *must* be the same as the CN in the
+  subject of the certificate (although wildcards are allowed)
+
+  ```none
+  Subject: C=US, ST=North Carolina, L=Raleigh, O=Red Hat, Inc., CN=*.fedoraproject.org
+  ```
+- Why?  Otherwise a man in the middle (MITM) can get a cert signed for any
+  domain and then use it to impersonate someone else.
+- **It's not enough that a certificate is signed; it must also correctly identify
+  the entity presenting it!**
+
+Note:
+Man in the middle attacks are a serious concern.  If you aren't doing hostname
+verification and only checking that a certificate is signed by an accepted CA,
+it's the equivalent of asking for someone's driver's license, ignoring the
+name, and only checking that it has four corners and a hologram on it.
+
+--
+# Example - Certificate Subject
+
+![Authentic certificate issued to sketchyhobo.example.com](cn_mismatch.png "Looks legit to me...")
+
+"Hi, Amazon.com here.  I would like to withdraw $100,000 from my account." <!-- .element class="caption" -->
+
+- Certificate legitimately issued by a trusted authority
+- With no CN verification, we would accept this and end up connecting to
+  sketchyhobo.example.com
+
+--
 # Certificate Revocation Lists
 
 *Traditional file extension: ".crl"*
@@ -410,16 +451,6 @@ CAs not including extensions will be discussed with OpenSSL
 # Certificate Extensions - SubjectAltName
 
 - Very useful extension
-- In SSL/TLS, the hostname you connect to *must* be the same as the CN in the
-  subject of the certificate (although wildcards are allowed)
-
-  ```none
-  Subject: C=US, ST=Washington, L=Seattle, O=Amazon.com, Inc., CN=www.amazon.com
-  ```
-- Why?  Otherwise a man in the middle (MITM) can get a cert signed for any
-  domain and then use it to impersonate someone else.
-- **It's not enough that a certificate is signed; it must also correctly identify
-  the entity presenting it!**
 - SubjectAltName extensions allow multiple identities per cert
 
   ```none
@@ -432,16 +463,12 @@ CAs not including extensions will be discussed with OpenSSL
   ```
 - Don't worry with these unless you need to.  OpenSSL makes it tedious to add
   these extensions
+- SubjectAltNames supersede the CN!
 
 Note:
 In this case, we can see that a wildcard would not have helped Amazon since
 they want the same certificate to identify two top-level domains, "amazon.com"
 and "amzn.com"
-
-Man in the middle attacks are a serious concern.  If you aren't doing hostname
-verification and only checking that a certificate is signed by an accepted CA,
-it's the equivalent of asking for someone's driver's license, ignoring the
-name, and only checking that it has four corners and a hologram on it.
 
 --
 # Certificate Extensions - BasicConstraints
