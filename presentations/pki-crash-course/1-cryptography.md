@@ -277,9 +277,8 @@ VbvGyyrIlfhwpaQYHtqggUto+Yj011rTOIXfRnk4NxDq3MHQHsJmQ2dm9hnveJI4
 SHA256(lyrics.txt)= 6c4fc3b953f7ad20a087b6d24b3dc16bb70a6ce1ac5cce51c369fed2e97faf92
 % openssl sha256 message.txt
 SHA256(message.txt)= 6c4fc3b953f7ad20a087b6d24b3dc16bb70a6ce1ac5cce51c369fed2e97faf92
-% diff -q <(!! | cut -d' ' -f2) <(!-2 | cut -d' ' -f2)
-% echo $?
-0
+% diff -s -q <(!! | cut -d' ' -f2) <(!-2 | cut -d' ' -f2)
+% Files /proc/self/fd/11 and /proc/self/fd/12 are identical
 </code></pre>
 </div>
 
@@ -292,10 +291,10 @@ Lemmy Kilmister gives Bob a message from Alice but it doesn't sound like Alice..
 ![Alice](alice-small.png "Alice")
 
 <pre><code>
-% echo "No more Mr. Nice Guy" > lyrics.txt
-% openssl sha256 lyrics.txt | openssl rsautl -inkey alice.key -sign | openssl base64 >> lyrics.txt
+% echo "No more Mr. Nice Guy" > lyrics2.txt
+% openssl sha256 lyrics2.txt | openssl rsautl -inkey alice.key -sign | openssl base64 >> lyrics2.txt
 % openssl rsautl -inkey alice.key -sign -in lyrics2.txt | openssl base64 >> lyrics2.txt
-% cat lyrics.txt
+% cat lyrics2.txt
 No more Mr. Nice Guy
 XLNoxhulst///d1gDGIrx5OcjVRJqlfuNl0fi3i212Y/K8ams/qOKn9pnYWXD7dv
 RMkZJmebSzl7yy+y9koNSMJFRtNy5kd95Lt6nZjXwaJ1HO+Xhauo0McGKirs4teP
@@ -325,7 +324,7 @@ ibi8ab815W62xEjhUrbXSA==
 SHA256(lyrics2.txt)= 7bb2c4647ab5b0002e1de8686e1d8e1cc5568f85b0866006dfa60025966e64c3
 % openssl sha256 message.txt
 SHA256(message.txt)= e4f97ede052cb671344553e8dff2b1b61ed077548a5dce9a575b9fd0af37b0b1
-% diff -q <(!! | cut -d' ' -f2) <(!-2 | cut -d' ' -f2)
+% diff -s -q <(!! | cut -d' ' -f2) <(!-2 | cut -d' ' -f2)
 Files /proc/self/fd/11 and /proc/self/fd/12 differ
 </code></pre>
 </div>
