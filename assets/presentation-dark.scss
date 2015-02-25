@@ -1,0 +1,226 @@
+---
+no_date: true
+---
+@import "candlepin-fonts";
+@import "candlepin-variables";
+@import "solarized";
+
+@import "reveal/mixins";
+@import "reveal/settings";
+
+// Override Reveal.js variables
+$mainColor: $solarized-dark-primary;
+$headingColor: $solarized-dark-secondary;
+$backgroundColor: $solarized-dark-bg;
+$selectionBackgroundColor: $solarized-magenta;
+$linkColor: $solarized-blue;
+$linkColorHover: lighten($linkColor, 20%);
+
+$mainFont: $font-family-sans-serif;
+$mainFontSize: 37px;
+
+$headingFont: "Roboto", $font-family-sans-serif;
+$headingTextTransform: none;
+$headingTextShadow: none;
+$heading1Size: 70px;
+$heading2Size: 60px;
+$heading3Size: 50px;
+$heading4Size: 40px;
+
+html * {
+  color-profile: sRGB;
+  rendering-intent: auto;
+}
+
+.reveal .slides {
+  top: 45% !important;
+
+  section, section > section {
+    padding-top: 5px;
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    code {
+      background-color: transparentize($solarized-dark-bg, 0.6);
+    }
+
+    & > pre {
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    pre > code {
+      max-height: 750px;
+      background-color: transparentize($solarized-dark-bg, 0.3);
+      padding: 10px;
+    }
+
+    p {
+      text-align: left;
+    }
+
+    li > p {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    & > ul, & > ol {
+      display: block;
+    }
+
+    .caption {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    div.two_column {
+      float: left;
+      width: 40%;
+    }
+
+    div.left_float {
+      float: left;
+      margin-left: 10%;
+    }
+
+    div.right_float {
+      float: right;
+      margin-right: 10%;
+    }
+
+    div.action_block {
+      margin-top: 50px;
+      vertical-align: middle;
+
+      & > pre, & > img {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      & > img {
+        display: inline;
+        float: left;
+        margin-right: 30px;
+      }
+
+      & > pre > code {
+        text-align: left;
+        padding-top: 0px;
+      }
+    }
+
+    table {
+      margin-top: 30px;
+
+      tr {
+        border-bottom: 1px solid $solarized-dark-secondary;
+        background-color: $solarized-dark-bg;
+      }
+
+      thead tr, tr:nth-child(even) {
+        background-color: lighten($solarized-dark-bg, 5%);
+      }
+    }
+  }
+}
+
+// Syntax highlighting.
+// See http://highlightjs.readthedocs.org/en/latest/css-classes-reference.html
+.hljs, .hljs .none {
+  padding: 10px;
+  background: $solarized-dark-bg;
+  color: $solarized-dark-primary;
+  font-family: $font-family-monospace;
+  overflow-x: visible;
+}
+
+.hljs :not(.none) {
+  .hljs-function .hljs-params {
+    color: $solarized-dark-primary;
+  }
+
+  .hljs-comment,
+  .diff .hljs-header,
+  .hljs-doctype,
+  .hljs-pi,
+  .hljs-javadoc {
+    color: $solarized-dark-secondary;
+  }
+
+  .hljs-addition,
+  .css .hljs-tag,
+  .hljs-request,
+  .hljs-status {
+    color: $solarized-green;
+  }
+
+  .hljs-number,
+  .hljs-string,
+  .hljs-tag .hljs-value,
+  .hljs-rules .hljs-value,
+  .hljs-hexcolor,
+  .hljs-title,
+  .hljs-link_url {
+    color: $solarized-cyan;
+  }
+
+  .hljs-command,
+  .hljs-localvars,
+  .hljs-chunk,
+  .hljs-decorator,
+  .hljs-annotation,
+  .hljs-variable,
+  .hljs-built_in,
+  .hljs-class .hljs-title,
+  .hljs-parent,
+  .hljs-id,
+  .hljs-keyword,
+  .method,
+  .hljs-function {
+    color: $solarized-blue;
+  }
+
+  .hljs-preprocessor,
+  .hljs-preprocessor .hljs-keyword,
+  .hljs-pragma,
+  .hljs-shebang,
+  .hljs-symbol,
+  .hljs-symbol .hljs-string,
+  .diff .hljs-change,
+  .hljs-special,
+  .hljs-attr_selector,
+  .hljs-subst,
+  .hljs-cdata,
+  .hljs-constant,
+  .css .hljs-pseudo,
+  .hljs-header {
+    color: $solarized-orange;
+  }
+
+  .hljs-deletion,
+  .hljs-type,
+  .hljs-regexp,
+  .hljs-important {
+    color: $solarized-red;
+  }
+
+  .hljs-link_label {
+    color: $solarized-violet;
+  }
+
+  .hljs-link_reference {
+    color: $solarized-yellow;
+  }
+}
+
+@import "reveal/theme";

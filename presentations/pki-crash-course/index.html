@@ -1,0 +1,40 @@
+---
+title: The PKI Crash Course
+author: Alex Wood
+description: A brief introduction to public key infrastructure
+theme: presentation-dark.css
+---
+{% assign data-separator = "^----\n" %}
+{% assign data-separator-vertical = "^--\n" %}
+{% assign data-separator-notes = "^Note:" %}
+{% assign data-charset = "utf-8" %}
+
+<script type="text/javascript">
+Reveal.addEventListener("ready", function(event) {
+  Reveal.configure({
+    parallaxBackgroundImage: "background.jpg",
+    parallaxBackgroundSize: "1920px 1080px"
+  });
+})
+</script>
+
+{% capture f %}
+0-toc.md,
+1-cryptography.md,
+2-pki.md,
+3-tools.md,
+4-conclusion.md
+{% endcapture %}
+
+{% assign files = f | split: "," %}
+
+{% for file in files %}
+  {% assign id = file | split: '-' | last | split: '.md' %}
+  <section id="{{ id }}"
+    data-markdown="{{ file }}"
+    data-separator={{ data-separator }}
+    data-separator-vertical={{ data-separator-vertical }}
+    data-separator-notes={{ data-separator-notes }}
+    data-charset={{ data-charset }}>
+  </section>
+{% endfor %}
