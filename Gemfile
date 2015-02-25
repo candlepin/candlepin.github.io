@@ -18,6 +18,7 @@ gem 'rack-jekyll', :git => 'https://github.com/awood/rack-jekyll'
 gem 'nokogiri', "~> 1.5.2"
 gem 'stringex'
 gem 'rack'
+gem 'rack-rewrite'
 gem 'thin'
 
 group :development do
