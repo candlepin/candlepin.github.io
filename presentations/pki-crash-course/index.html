@@ -9,13 +9,89 @@ theme: presentation-dark.css
 {% assign data-separator-notes = "^Note:" %}
 {% assign data-charset = "utf-8" %}
 
+<audio controls id="player">
+  <source src="narration.ogg" type="audio/ogg"/>
+  Your browser does not support Ogg audio
+</audio>
+
 <script type="text/javascript">
 Reveal.addEventListener("ready", function(event) {
   Reveal.configure({
     parallaxBackgroundImage: "background.jpg",
     parallaxBackgroundSize: "1920px 1080px"
   });
-})
+});
+
+// Inspired by https://github.com/klamping/deck.narrator.js
+function toArray(o) {
+  return Array.prototype.slice.call(o);
+}
+
+// Function to stop the player at a certain time
+function checkTime() {
+  if (player.currentTime >= segmentEnd) {
+    player.pause();
+  }
+}
+
+// The end time of a slide in seconds
+var segmentEnd;
+
+var player = document.getElementById("player");
+player.addEventListener('timeupdate', checkTime, false);
+
+Reveal.addEventListener("ready", function(event) {
+  var position = 0;
+
+  /* Reveal doesn't have any way that I can find to just iterate through all
+   * the slides.  The slides are on an X and Y axis and in the DOM the slides
+   * on the Y axis are elements of the ones of the X axis, so it is not trivial
+   * to find each one.  Luckily, I am using markdown and each slide has a data-markdown
+   * attribute that I can rely on.  I don't know how you would do it otherwise */
+  var slides = toArray(document.querySelectorAll("section[data-markdown]"));
+
+  for (var i = 0; i < slides.length; i++) {
+    var slide = slides[i];
+    var duration;
+
+    duration = parseInt(slide.dataset.narrationTime) || 0;
+    slide.dataset.narrationTime = duration;
+
+    slide.dataset.seekTime = position;
+    position += duration;
+  }
+
+  var seekTime = parseInt(event.currentSlide.dataset.seekTime);
+  try {
+    player.currentTime = seekTime;
+    console(player.currentTime);
+  } catch(e) {
+    // The audio is not ready yet
+    player.addEventListener('canplay', function(ev) {
+      player.currentTime = seekTime;
+      this.removeEventListener('canplay', arguments.callee, false);
+    });
+  }
+
+  segmentEnd = parseInt(event.currentSlide.dataset.narrationTime) || seekTime;
+
+  var onChange = function(changeEvent) {
+    var slide = changeEvent.currentSlide;
+    var duration = parseInt(slide.dataset.narrationTime);
+    var seekTime = parseInt(slide.dataset.seekTime);
+
+    if (player) {
+      player.currentTime = seekTime;
+      segmentEnd = duration + seekTime;
+      if (duration > 0) {
+        player.play();
+      }
+    }
+  };
+
+  Reveal.addEventListener("slidechanged", onChange);
+  onChange(event);
+});
 </script>
 
 {% capture f %}

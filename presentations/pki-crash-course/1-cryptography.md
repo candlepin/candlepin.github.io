@@ -1,3 +1,4 @@
+<!-- .slide: data-narration-time="4" -->
 # Cryptography
 
 - Goals
@@ -10,6 +11,7 @@
 - Signatures
 
 --
+<!-- .slide: data-narration-time="10" -->
 # Goals
 
 - Confidentiality: outside parties can't decipher messages
@@ -18,6 +20,7 @@
 - Non-repudiation: provable that a message originated from a single source
 
 --
+<!-- .slide: data-narration-time="11" -->
 # Terms
 
 - Cipher
