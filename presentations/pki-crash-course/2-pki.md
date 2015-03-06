@@ -111,7 +111,8 @@ From [RFC 3447](https://www.ietf.org/rfc/rfc3447.txt)
 ```
 
 And we can see that corresponds to the schema described in the previous
-slide for a private key.
+slide for a private key.  The version is set to "0" and "010001" is hex
+for 65537, a common value for an RSA public exponent.
 
 --
 # Formats
@@ -133,7 +134,8 @@ slide for a private key.
     ```
 - Anything can be in these formats: keys, certificates, signing requests
 - Don't name your files ".pem".  It doesn't provide any information about
-  what is actually in the file.
+  what is actually in the file and forces others to have to inspect the file
+  to determine its purpose.
 
 Note:
 You've got all the components you need to define something in ASN.1.  Now
@@ -166,7 +168,7 @@ with PGP.  It's a fun bit of trivia, but not relevant in the modern era.
 # X509 - Anatomy
 
 - *Version*: "3" is the latest
-- *Serial Number*: Of limited interest.  Use a SHA1 fingerprint for
+- *Serial Number*: Of limited interest.  Use a SHA256 fingerprint for
   identification
 - *Issuer*: Entity that vouches for this certificate
 - *Validity*: How long is this certificate good?
@@ -230,7 +232,7 @@ plain vanilla certificate identifying a server.
 
 - *CA* for short
 - Trusted third-parties that put their seal of approval on a certificate
-- The "seal of approval" is based on the CA's private key
+- The "seal of approval" is a digital signature based on the CA's private key
 - Commercial CAs will externally verify you before signing (and charge you
   some money)
 - CAs sign certificates with other, special certificates
@@ -240,6 +242,11 @@ plain vanilla certificate identifying a server.
     X509v3 Basic Constraints:
       CA:TRUE
   ```
+- Clients decrypt the signature on each certificate using the public key of the
+  issuer
+- The decrypted signature hash is compared against the hash the client
+  computes for the certificate.  On a match, the client can be certain of the
+  certificate's integrity
 
 Note:
 If you are getting a certificate for a domain name for example, the CA will
@@ -252,7 +259,8 @@ DNS.
   - Sometimes there are two links: subject and issuer.
   - Many CAs have sub-CAs, so you could have: subject, sub-sub-CA, sub-CA,
     root CA
-- Clients walk the chain until they find a CA they trust
+- Clients walk the chain, verifying along the way, until they find a CA they
+  trust
 - Trust has to begin somewhere, so root CA certs are self-signed
 
 --
@@ -440,9 +448,9 @@ status of the CRL server resulting in a vicious cycle
   cert!**
   - Always double check the cert you get back if you asked for special
     extensions
-- Two types: critical (must be parsed) and non-critical (may be ignored if
-  not understood)
-- If you are a wizard, you can even write your own
+- Two types: critical (must be understood or cert is rejected) and
+  non-critical (may be ignored if not understood)
+- If you are brave and daring, you can even write your own
 
 Note:
 CAs not including extensions will be discussed with OpenSSL
@@ -463,7 +471,7 @@ CAs not including extensions will be discussed with OpenSSL
   ```
 - Don't worry with these unless you need to.  OpenSSL makes it tedious to add
   these extensions
-- SubjectAltNames supersede the CN!
+- In SSL/TLS, SubjectAltNames obviate the CN
 
 Note:
 In this case, we can see that a wildcard would not have helped Amazon since
@@ -473,6 +481,7 @@ and "amzn.com"
 --
 # Certificate Extensions - BasicConstraints
 
+- Critical extension
 - Identifies whether a certificate can be used as a CA or not
 
   ```none

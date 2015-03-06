@@ -278,7 +278,7 @@ SHA256(lyrics.txt)= 6c4fc3b953f7ad20a087b6d24b3dc16bb70a6ce1ac5cce51c369fed2e97f
 % openssl sha256 message.txt
 SHA256(message.txt)= 6c4fc3b953f7ad20a087b6d24b3dc16bb70a6ce1ac5cce51c369fed2e97faf92
 % diff -s -q <(!! | cut -d' ' -f2) <(!-2 | cut -d' ' -f2)
-% Files /proc/self/fd/11 and /proc/self/fd/12 are identical
+Files /proc/self/fd/11 and /proc/self/fd/12 are identical
 </code></pre>
 </div>
 

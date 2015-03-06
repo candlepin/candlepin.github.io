@@ -81,7 +81,7 @@
   - Most important is the Common Name (CN).  If you are generating a server
     certificate, this value should match the server's hostname (unless you
     are using SubjectAltNames).
-  - Common Names can contain wildcards: "*.fedoraproject.org"
+  - Common Names can contain wildcards: "\*.fedoraproject.org"
 - Will ask for a "challenge password".  Don't bother
 - Tedious to answer these questions. Two options:
   - Default answers can be specified in an OpenSSL conf file and the file
@@ -114,7 +114,7 @@ CONF
 
 Notice that I am not using a host name as the CN since the hostnames are
 within the SubjectAltNames.  [RFC 2818, Section 3.1](http://tools.ietf.org/html/rfc2818#section-3.1)
-says if a cert has SubjectAltNames, the CN is ***ignored*** by the client.
+says if a cert has SubjectAltNames, the CN is ***ignored*** by the client in SSL/TLS.
 
 There would be no harm in using a hostname for the CN, but it might be
 confusing to others who don't know the CN gets ignored.
@@ -198,10 +198,10 @@ confusing to others who don't know the CN gets ignored.
 - Other arguments let you narrow things down
   - `-fingerprint` is the definitive way to identify a cert
 
-    ```none
-    % openssl x509 -in fedora-ca.cert -noout -fingerprint
-    SHA1 Fingerprint=92:9C:BF:A0:5E:70:99:2C:2C:7A:2C:41:83:DC:09:74:E4:8F:D7:B4
-    ```
+  ```none
+  % openssl x509 -in fedora-ca.cert -noout -fingerprint -sha256
+  SHA256 Fingerprint=7F:0F:FE:F0:D2:9C:A0:18:2B:59:5B:8E:3F:19:CF:83:40:53:35:86:68:18:74:5A:8C:BB:81:84:DD:8F:F3:23
+  ```
 --
 # OpenSSL - PKCS12
 
