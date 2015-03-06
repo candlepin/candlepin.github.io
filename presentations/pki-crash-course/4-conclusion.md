@@ -19,6 +19,22 @@ Now you know enough to look at the Technical Details section and make an educate
 should never ignore these if the appear on a site that you don't have control over.
 
 --
+# Further Reading
+
+- [Bulletproof SSL and TLS](https://www.feistyduck.com/books/bulletproof-ssl-and-tls/) by Ivan Ristić
+  - Very thorough and eminently readable.  Highly recommended
+- [A Layman's Guide to a Subset of ASN.1, BER, and DER](http://luca.ntop.org/Teaching/Appunti/asn1.html)
+- [The First Few Milliseconds of an HTTPS Connection](http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html)
+- [Mozilla CA Certificate Policy](https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/)
+- [X509 - RFC 5280](https://tools.ietf.org/html/rfc5280)
+- [OCSP - RFC 6960](https://tools.ietf.org/html/rfc6960)
+- [TLS 1.2 - RFC 5246](https://tools.ietf.org/html/rfc5246)
+- [RSA - RFC 3447](https://tools.ietf.org/html/rfc3447)
+- [Legion of the Bouncy Castle](https://www.bouncycastle.org/)
+- [NSS](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS)
+- [OpenSSL](https://www.openssl.org/)
+
+--
 # Credits
 
 - [Image of Alice Cooper](http://commons.wikimedia.org/wiki/File:Alice_Cooper_Live_in_London_2012-10-28.jpg)
