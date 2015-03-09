@@ -531,6 +531,28 @@ Enter source keystore password:
 
 - OpenSSL outputs PKCS1 formated RSA keys.  Java only wants to read PKCS8.
   - Solution: Use Bouncy Castle
-  - Can't use Bouncy Castle? Prepare for a painful experience of reading in the PEM,
-    converting to ASN1 and reading out RSA primatives.
+  - Alternative: Convert PKCS1 to unencrypted PKCS8 DER with OpenSSL's `pkcs8`
+    ```none
+    openssl pkcs8 -topk8 -in foo.key -nocrypt -outform DER -out foo.p8
+    ```
+  - Read RSA PKCS8 like so:
+    ```java
+    byte[] key;
+
+    // Get key bytes here.  Probably will use FileInputStream and
+    // read the input stream into a ByteArrayOutputStream
+
+    KeyFactory kf = KeyFactory.getInstance("RSA");
+    KeySpec keySpec = new PKCS8EncodedKeySpec(key);
+    PrivateKey privateKey = kf.generatePrivate(keySpec);
+    RSAPrivateCrtKey rsaPrivateKey = (RSAPrivateCrtKey) privateKey;
+
+    // Note that I am having to build the public key myself
+    KeySpec publicKeySpec = new RSAPublicKeySpec(rsaPrivateKey.getModulus(), rsaPrivateKey.getPublicExponent());
+    PublicKey publicKey = kf.generatePublic(publicKeySpec);
+    System.out.println("Public key: " + publicKey);
+    ```
+  - Last resort: Prepare for a painful experience of reading in the PEM,
+    base64 decoding, converting to ASN1, and rebuilding the key with the RSA
+    primitives.
 
