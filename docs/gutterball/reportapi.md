@@ -69,6 +69,11 @@ Current details of the report parameters.
   }, {
     "mandatory" : false,
     "multiValued" : false,
+    "description" : "Filter on subscriptions which have management enabled set to this value (boolean)",
+    "name" : "management_enabled"
+  }, {
+    "mandatory" : false,
+    "multiValued" : false,
     "description" : "Enables/disables custom report result functionality via attribute filtering (boolean).",
     "name" : "custom_results"
   }, {
