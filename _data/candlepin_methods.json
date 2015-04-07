@@ -4181,7 +4181,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.getProductStats",
-    "url": "/products/{prod_id}/statistics/{vtype}",
+    "url": "/products/{prod_id}/statistics",
     "verifiedParams": [
 
     ],
