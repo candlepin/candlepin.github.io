@@ -97,6 +97,8 @@
    build fails correct it.  Otherwise, when the PR is merged into master, Travis will run and deploy the
    site.
 1. Travis configuration is in `.travis.yml` and in a few files located in the `\_travis` directory.
+1. If you need to work more extensively with Travis, I recommend installing
+   the `travis` gem.  See <https://github.com/travis-ci/travis.rb#readme>.
 
 # Syntax Highlighting
 Syntax highlighting is provided by [Pygments](http://pygments.org) (more specifically by
