@@ -28,7 +28,19 @@ Candlepin 1.0 will involve a massive data model change affecting how products, s
 
 ## Database Upgrade
 
- TODO: Outline the exact steps the database upgrade will perform.
+To facilitate storing products and product content in a per-org manner, several changes to the database and object model have been made. While the normal deployment process will make these changes automatically, any existing tooling and/or scripts will need to be updated in accordance with the changes listed below.
+
+TODO: Add a proper note about hosted deployments needing to use the admin API call to prime the database for migration.
+
+ 1. Several per-org versions of existing tables are created. These tables are created with a "cpo\_" prefix rather than the "cp\_" prefix. The new tables also somewhat standardize table name pluralization and column name underscore usage. Affected tables include: *cp\_activation\_key\_product, cp\_branding, cp\_content, cp\_content\_modified\_products, cp\_env\_content, cp\_installed\_products, cp\_pool\_branding, cp\_pool\_products, cp\_pool\_source\_sub, cp\_product\_attribute, cp\_product\_certificate, cpo\_product, cp\_sub\_derivedprods, cp\_sub\_branding, cp\_subscription\_products, cp\_subscription*
+ 1. *cp\_pool* is updated with several new fields to hold information previously owned by subscriptions.
+ 1. For each organization, existing products referenced by pools or subscriptions owned by the current organization are copied to the new *cpo\_products* table with a reference to the new org and a new UUID. Any reference within the database to a product is made using the UUID with enforced referential integrity.
+ 1. Any per-product data are then copied to the new per-org tables for each product in the current organization. This currently includes product attributes and content, certificates and activation keys.
+ 1. Next, per-org pool data, such as branding, are migrated.
+ 1. Finally, data which were previously only associated with subscriptions are migrated to the new fields in *cp\_pool*. This includes upstream object references, subscription certificates and CDN details.
+
+At the time of writing, the deprecated tables, and any data contained therein, are left as-is in the database. While these tables will be entirely unused, they will be retained for a period to ensure a failed or incomplete migration can be manually fixed or completed if necessary. These tables will be dropped in a future update.
+Additionally, the *cpo_subscription\** tables may be dropped entirely, as the new import and general maintenance tasks do not appear to make use of the Subscription objects in any capacity beyond temporary, transient data stores.
 
 
 # Changes for Customer Portal
