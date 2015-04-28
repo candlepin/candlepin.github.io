@@ -33,11 +33,12 @@ Candlepin 1.0 will involve a massive data model change affecting how products, s
 
 # Changes for Customer Portal
 
- 1. A pre-upgrade process will be provided which pulls down a single copy of all products into the Candlepin database tables which already exist, but are empty today in hosted. This will be to seed the data so we can re-use the main upgrade we developed for Satellite here as well, which will copy each of these products into every org which has pools that use them.
+ 1. A pre-upgrade API call is provided that will populate the currently empty and unused cp_product and cp_content tables in Candlepin.
+   * This iterates all known product IDs and their content, and stores them directly in Candlepin's database. (these tables exist today but are empty in production) This will be to seed the data so we can re-use the main upgrade we developed for Satellite here as well, which will copy each of these products into every org which has pools that use them.
+   * Will need to coordinate closely to figure out how best to roll this out.
  1. We would like to test the database upgrade against a copy of the production database sooner rather than later as it's difficult for us to anticipate what will happen with full mysql prod data.
  1. API call to refresh pools may change. (TBD)
  1. Refresh pools will now pull latest subscription *and* product data in for the org. Product service adapter memcached layer may be able to go away if you wish.
- 1.
 
 
 # Changes for Satellite
