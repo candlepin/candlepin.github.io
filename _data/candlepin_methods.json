@@ -310,6 +310,28 @@
     ]
   },
   {
+    "method": "org.candlepin.resource.AdminResource.populatedHostedDB",
+    "url": "/admin/pophosteddb",
+    "verifiedParams": [
+
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": {
+      "type": "object"
+    },
+    "description": "",
+    "deprecated": null,
+    "returns": null,
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
     "method": "org.candlepin.resource.AtomFeedResource.getFeed",
     "url": "/atom",
     "verifiedParams": [
@@ -2617,7 +2639,7 @@
     "method": "org.candlepin.resource.JobResource.cancel",
     "url": "/jobs/{job_id}",
     "verifiedParams": [
-
+      "job_id"
     ],
     "httpVerbs": [
       "DELETE"
@@ -2675,7 +2697,7 @@
     "method": "org.candlepin.resource.JobResource.getStatus",
     "url": "/jobs/{job_id}",
     "verifiedParams": [
-
+      "job_id"
     ],
     "httpVerbs": [
       "GET"
@@ -2700,7 +2722,7 @@
     "method": "org.candlepin.resource.JobResource.getStatusAndDeleteIfFinished",
     "url": "/jobs/{job_id}",
     "verifiedParams": [
-
+      "job_id"
     ],
     "httpVerbs": [
       "POST"
@@ -2790,50 +2812,6 @@
       },
       {
         "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.MigrationResource.createMigration",
-    "url": "/migrations",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "POST"
-    ],
-    "queryParams": [
-      {
-        "name": "entity",
-        "type": "string"
-      },
-      {
-        "name": "id",
-        "type": "string"
-      },
-      {
-        "name": "uri",
-        "type": "string"
-      },
-      {
-        "name": "delete",
-        "type": "boolean"
-      }
-    ],
-    "returnType": {
-      "type": "object"
-    },
-    "description": "Creates a Migration",
-    "deprecated": null,
-    "returns": "a JobDetail object",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 202,
         "description": ""
       }
     ]
@@ -3213,6 +3191,53 @@
   },
   {
     "method": "org.candlepin.resource.OwnerResource.getStatistics",
+    "description": "Retrieves a list of Statistics for an Owner\n <p>\n By Types",
+    "deprecated": null,
+    "returns": "a list of Statistic objects",
+    "httpStatusCodes": [
+      {
+        "statusCode": 400,
+        "description": ""
+      },
+      {
+        "statusCode": 404,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "method": "org.candlepin.resource.OwnerResource.getStatistics(java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
+    "url": "/owners/{owner_key}/statistics",
+    "verifiedParams": [
+      "owner_key"
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
+      {
+        "name": "from",
+        "type": "string"
+      },
+      {
+        "name": "to",
+        "type": "string"
+      },
+      {
+        "name": "days",
+        "type": "string"
+      }
+    ],
+    "returnType": {
+      "type": "array"
+    }
+  },
+  {
+    "method": "org.candlepin.resource.OwnerResource.getStatistics(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
     "url": "/owners/{owner_key}/statistics/{type}",
     "verifiedParams": [
       "owner_key"
@@ -3240,24 +3265,38 @@
     ],
     "returnType": {
       "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for an Owner\n <p>\n By Types",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
+    }
+  },
+  {
+    "method": "org.candlepin.resource.OwnerResource.getStatistics(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
+    "url": "/owners/{owner_key}/statistics/{qtype}/{vtype}",
+    "verifiedParams": [
+      "owner_key"
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
       {
-        "statusCode": 400,
-        "description": ""
+        "name": "reference",
+        "type": "string"
       },
       {
-        "statusCode": 404,
-        "description": ""
+        "name": "from",
+        "type": "string"
       },
       {
-        "statusCode": 200,
-        "description": ""
+        "name": "to",
+        "type": "string"
+      },
+      {
+        "name": "days",
+        "type": "string"
       }
-    ]
+    ],
+    "returnType": {
+      "type": "array"
+    }
   },
   {
     "method": "org.candlepin.resource.OwnerResource.getSubscriptions",
@@ -3919,6 +3958,45 @@
   },
   {
     "method": "org.candlepin.resource.PoolResource.getPoolStats",
+    "description": "Retrieve a list of Statistics for a Pool\n <p>\n By Type",
+    "deprecated": null,
+    "returns": "a list of Statistic objects",
+    "httpStatusCodes": [
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "method": "org.candlepin.resource.PoolResource.getPoolStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
+    "url": "/pools/{pool_id}/statistics",
+    "verifiedParams": [
+      "pool_id"
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
+      {
+        "name": "from",
+        "type": "string"
+      },
+      {
+        "name": "to",
+        "type": "string"
+      },
+      {
+        "name": "days",
+        "type": "string"
+      }
+    ],
+    "returnType": {
+      "type": "array"
+    }
+  },
+  {
+    "method": "org.candlepin.resource.PoolResource.getPoolStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
     "url": "/pools/{pool_id}/statistics/{vtype}",
     "verifiedParams": [
       "pool_id"
@@ -3942,16 +4020,7 @@
     ],
     "returnType": {
       "type": "array"
-    },
-    "description": "Retrieve a list of Statistics for a Pool\n <p>\n By Type",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
+    }
   },
   {
     "method": "org.candlepin.resource.PoolResource.list",
@@ -4210,6 +4279,22 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.getProductStats",
+    "description": "Retrieves a list of Statistics for a Product\n <p>\n By Statistic type",
+    "deprecated": null,
+    "returns": "a list of Statistic objects",
+    "httpStatusCodes": [
+      {
+        "statusCode": 400,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "method": "org.candlepin.resource.ProductResource.getProductStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
     "url": "/products/{prod_id}/statistics",
     "verifiedParams": [
 
@@ -4233,20 +4318,34 @@
     ],
     "returnType": {
       "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for a Product\n <p>\n By Statistic type",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
+    }
+  },
+  {
+    "method": "org.candlepin.resource.ProductResource.getProductStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
+    "url": "/products/{prod_id}/statistics/{vtype}",
+    "verifiedParams": [
+
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
       {
-        "statusCode": 400,
-        "description": ""
+        "name": "from",
+        "type": "string"
       },
       {
-        "statusCode": 200,
-        "description": ""
+        "name": "to",
+        "type": "string"
+      },
+      {
+        "name": "days",
+        "type": "string"
       }
-    ]
+    ],
+    "returnType": {
+      "type": "array"
+    }
   },
   {
     "method": "org.candlepin.resource.ProductResource.list",
