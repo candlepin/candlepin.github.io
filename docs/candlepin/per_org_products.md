@@ -45,17 +45,21 @@ Additionally, the *cpo_subscription\** tables may be dropped entirely, as the ne
 
 # Changes for Customer Portal
 
+ 1. IT must first roll out the most last 0.9.x build.
+   * This build contains an API call which will "prime" the product/content tables in Candlepin, which are currently empty. It should be safe to call this API repeatedly to pickup new products and content.
+   * The data in these tables is not used by Candlepin at this time, it will be used during the Candlepin 2.0 upgrade however.
+   * This should be tested in stage to make sure it can successfully import all products and content from the product service.
  1. A pre-upgrade API call is provided that will populate the currently empty and unused cp_product and cp_content tables in Candlepin.
    * This iterates all known product IDs and their content, and stores them directly in Candlepin's database. (these tables exist today but are empty in production) This will be to seed the data so we can re-use the main upgrade we developed for Satellite here as well, which will copy each of these products into every org which has pools that use them.
    * Will need to coordinate closely to figure out how best to roll this out.
  1. We would like to test the database upgrade against a copy of the production database sooner rather than later as it's difficult for us to anticipate what will happen with full mysql prod data.
- 1. API call to refresh pools may change. (TBD)
  1. Refresh pools will now pull latest subscription *and* product data in for the org. Product service adapter memcached layer may be able to go away if you wish.
 
 
 # Changes for Satellite
 
- 1. API calls for creating custom products have changed to owner specific URLs. (i.e. POST /owners/{key}/products instead of POST /products)
- 1. You no longer create a custom "subscription" for custom content and then call refresh pools, you can just create the pool you want directly. (POST /owners/{key}/pools)
- 1. Refresh pools API is no longer relevant in Satellite and may not even be usable. Usage of it will need to be removed.
+ 1. API calls for creating custom products and content have changed to owner specific URLs. (i.e. POST /owners/{key}/products instead of POST /products)
+ 1. Refresh pools API is no longer relevant in Satellite will no-op. Uses of it should be removed.
+ 1. You may continue creating custom Subscription objects. Each subscription will be assigned an ID which you can store, or later find by looking for the master pool for the subscription. Issuing a delete or update on this subscription ID can be used to control all pools created for the Subscription.
+ 1. Subscription created/updated/deleted events will no longer be sent on the bus. If you're listening for these in any capacity, that code should be switched to listen for pool events.
 
