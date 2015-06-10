@@ -1,5 +1,5 @@
 ---
-categories: usage developers
+categories: usage, developers
 title: The Candlepin Migration Validation (cmv) Tool
 ---
 {% include toc.md %}
@@ -58,7 +58,7 @@ Verifying a snapshot is just as easy. After performing the migration, simply run
 
 If all went well with the migration, cmv will output a general success message:
 
-```Deployment successfully verified against snapshot: snapshot.zip"```
+```Deployment successfully verified against snapshot: snapshot.zip```
 
 However, if cmv detected a change in the data, warnings or errors will be displayed:
 
