@@ -47,45 +47,65 @@ Current details of the report parameters.
   "key" : "consumer_status",
   "description" : "List the status of all consumers",
   "parameters" : [ {
-    "mandatory" : false,
     "multiValued" : true,
-    "description" : "Filters the results by the specified consumer UUID.",
-    "name" : "consumer_uuid"
-  }, {
     "mandatory" : false,
+    "name" : "consumer_uuid",
+    "description" : "Filters the results by the specified consumer UUID."
+  }, {
     "multiValued" : true,
-    "description" : "The Owner key(s) to filter on.",
-    "name" : "owner"
-  }, {
     "mandatory" : false,
+    "name" : "owner",
+    "description" : "The Owner key(s) to filter on."
+  }, {
     "multiValued" : true,
-    "description" : "The subscription status to filter on [valid, invalid, partial].",
-    "name" : "status"
-  }, {
     "mandatory" : false,
+    "name" : "status",
+    "description" : "The subscription status to filter on [valid, invalid, partial]."
+  }, {
     "multiValued" : false,
-    "description" : "The date to filter on. Defaults to NOW.",
-    "name" : "on_date"
-  }, {
     "mandatory" : false,
+    "name" : "on_date",
+    "description" : "The date to filter on. Defaults to NOW."
+  }, {
     "multiValued" : false,
-    "description" : "Filter on subscriptions which have management enabled set to this value (boolean)",
-    "name" : "management_enabled"
-  }, {
     "mandatory" : false,
+    "name" : "product_name",
+    "description" : "The name of a product on which to filter"
+  }, {
     "multiValued" : false,
-    "description" : "Enables/disables custom report result functionality via attribute filtering (boolean).",
-    "name" : "custom_results"
-  }, {
     "mandatory" : false,
-    "multiValued" : true,
-    "description" : "Includes the specified attribute in the result JSON",
-    "name" : "include"
+    "name" : "sku",
+    "description" : "The entitlement sku on which to filter"
   }, {
+    "multiValued" : false,
     "mandatory" : false,
+    "name" : "subscription_name",
+    "description" : "The name of a subscription on which to filter"
+  }, {
+    "multiValued" : false,
+    "mandatory" : false,
+    "name" : "management_enabled",
+    "description" : "Filter on subscriptions which have management enabled set to this value (boolean)"
+  }, {
+    "multiValued" : false,
+    "mandatory" : false,
+    "name" : "custom_results",
+    "description" : "Enables/disables custom report result functionality via attribute filtering (boolean)."
+  }, {
+    "multiValued" : false,
+    "mandatory" : false,
+    "name" : "include_reasons",
+    "description" : "Include status reasons in results"
+  }, {
     "multiValued" : true,
-    "description" : "Excludes the specified attribute in the result JSON",
-    "name" : "exclude"
+    "mandatory" : false,
+    "name" : "include",
+    "description" : "Includes the specified attribute in the result JSON"
+  }, {
+    "multiValued" : true,
+    "mandatory" : false,
+    "name" : "exclude",
+    "description" : "Excludes the specified attribute in the result JSON"
   } ]
 }
 ```
@@ -238,40 +258,50 @@ Current details of the report parameters.
   "key" : "status_trend",
   "description" : "Lists the per-day status counts for all consumers",
   "parameters" : [ {
-    "mandatory" : false,
     "multiValued" : false,
-    "description" : "The start date on which to filter",
-    "name" : "start_date"
+    "mandatory" : false,
+    "name" : "start_date",
+    "description" : "The start date on which to filter"
   }, {
-    "mandatory" : false,
     "multiValued" : false,
-    "description" : "The end date on which to filter",
-    "name" : "end_date"
+    "mandatory" : false,
+    "name" : "end_date",
+    "description" : "The end date on which to filter"
   }, {
+    "multiValued" : true,
     "mandatory" : false,
-    "multiValued" : false,
-    "description" : "An owner key on which to filter",
-    "name" : "owner"
+    "name" : "consumer_uuid",
+    "description" : "The consumer UUID(s) on which to filter"
   }, {
-    "mandatory" : false,
     "multiValued" : false,
-    "description" : "The entitlement sku on which to filter",
-    "name" : "sku"
+    "mandatory" : false,
+    "name" : "owner",
+    "description" : "An owner key on which to filter"
   }, {
-    "mandatory" : false,
     "multiValued" : false,
-    "description" : "The name of a subscription on which to filter",
-    "name" : "subscription_name"
+    "mandatory" : false,
+    "name" : "product_name",
+    "description" : "The name of a product on which to filter"
   }, {
-    "mandatory" : false,
     "multiValued" : false,
-    "description" : "Whether or not to filter on subscriptions which have management enabled (boolean)",
-    "name" : "management_enabled"
+    "mandatory" : false,
+    "name" : "sku",
+    "description" : "The entitlement sku on which to filter"
   }, {
-    "mandatory" : false,
     "multiValued" : false,
-    "description" : "The timezone to use when processing the request and returning results",
-    "name" : "timezone"
+    "mandatory" : false,
+    "name" : "subscription_name",
+    "description" : "The name of a subscription on which to filter"
+  }, {
+    "multiValued" : false,
+    "mandatory" : false,
+    "name" : "management_enabled",
+    "description" : "Filter on subscriptions which have management enabled set to this value (boolean)"
+  }, {
+    "multiValued" : false,
+    "mandatory" : false,
+    "name" : "timezone",
+    "description" : "The timezone to use when processing the request and returning results"
   } ]
 }
 ```
@@ -290,8 +320,8 @@ Current details of the report parameters.
 4. Start and end date does not need to be used in conjunction. When specifying only one, the boundaries
     of the resultant data will be used for the omitted part of the range.
 4. Parameters allow limiting results to specific date ranges or filtering by organization owner,
-    entitlement sku, subscription name or whether or not the consumer is using entitlements which
-    have management enabled.
+    product name, entitlement sku, subscription name or whether or not the consumer is using
+    entitlements which have management enabled.
 
 #### **GET /reports/status_trend/run?timezone=GMT&sku=awesomeos-instancebased**
 
