@@ -52,9 +52,10 @@ At the time of writing, the deprecated tables, and any data contained therein, a
 
 # Changes for Satellite
 
- 1. API calls for creating custom products have changed to owner specific URLs. (i.e. POST /owners/{key}/products instead of POST /products)
- 1. You no longer create a custom "subscription" for custom content and then call refresh pools, you can just create the pool you want directly. (POST /owners/{key}/pools)
+ 1. API calls for creating custom products have changed to owner specific URLs. (i.e. ```POST /owners/{key}/products``` instead of ```POST /products```)
+ 1. You no longer create a custom "subscription" for custom content and then call refresh pools, you can just create the pool you want directly. (```POST /owners/{key}/pools```)
  1. Refresh pools API is no longer relevant in Satellite and may not even be usable. Usage of it will need to be removed.
+ 1. Retreiving product certificates should be done with an org-specific call (```GET owners/{key}/products/{product_id}/certificate``` instead of ```GET products/{pid}/certificate```). Omitting the owner may not pull the proper certificate and may eventually be disabled entirely.
 
 
 # Migrating to Candlepin 2.0
@@ -70,7 +71,7 @@ you're unsure whether or not it's necessary.
 
 ```curl -k -u admin:admin "https://localhost:8443/candlepin/admin/pophosteddb"```
 
-Wait a bit for the task to finish (or periodically check the job status via /jobs/&lt;job id&gt;),
+Wait a bit for the task to finish (or periodically check the job status via /jobs/{job_id}),
 then take a snapshot of the environment with the [cmv](cmv.html) utility.
 
 ```
