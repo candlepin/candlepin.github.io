@@ -1204,6 +1204,14 @@
       {
         "name": "regen",
         "type": "boolean"
+      },
+      {
+        "name": "matches",
+        "type": "string"
+      },
+      {
+        "name": "attribute",
+        "type": "list"
       }
     ],
     "returnType": {
@@ -2117,6 +2125,14 @@
       {
         "name": "consumer",
         "type": "string"
+      },
+      {
+        "name": "matches",
+        "type": "string"
+      },
+      {
+        "name": "attribute",
+        "type": "list"
       }
     ],
     "returnType": {
@@ -4487,38 +4503,6 @@
     ]
   },
   {
-    "method": "org.candlepin.resource.ProductResource.getActiveProductOwners",
-    "url": "/products/owners",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "product",
-        "type": "string[]"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Owners by Product",
-    "deprecated": null,
-    "returns": "a list of Owner objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 200,
-        "description": ""
-      },
-      {
-        "statusCode": 400,
-        "description": ""
-      }
-    ]
-  },
-  {
     "method": "org.candlepin.resource.ProductResource.getProduct",
     "url": "/products/{product_id}",
     "verifiedParams": [
@@ -4572,6 +4556,38 @@
       },
       {
         "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
+    "method": "org.candlepin.resource.ProductResource.getProductOwners",
+    "url": "/products/owners",
+    "verifiedParams": [
+
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
+      {
+        "name": "product",
+        "type": "list"
+      }
+    ],
+    "returnType": {
+      "type": "array"
+    },
+    "description": "Retrieves a list of Owners by Product",
+    "deprecated": null,
+    "returns": "a list of Owner objects",
+    "httpStatusCodes": [
+      {
+        "statusCode": 200,
+        "description": ""
+      },
+      {
+        "statusCode": 400,
         "description": ""
       }
     ]
@@ -4648,7 +4664,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.refreshPoolsForProduct",
-    "url": "/products/{product_id}/subscriptions",
+    "url": "/products/subscriptions",
     "verifiedParams": [
 
     ],
@@ -4657,12 +4673,19 @@
     ],
     "queryParams": [
       {
+        "name": "product",
+        "type": "list"
+      },
+      {
         "name": "lazy_regen",
         "type": "boolean"
       }
     ],
     "returnType": {
-      "type": "object"
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
     },
     "description": "Refreshes Pools by Product",
     "deprecated": null,
