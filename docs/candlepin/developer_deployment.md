@@ -28,7 +28,7 @@ For more information on working with Git, checkout the [Spacewalk](https://fedor
 
 ## Install Dependencies
 
-Instructions for Fedora 20.
+Instructions for Fedora 22.
 
 Candlepin uses [buildr](http://buildr.apache.org) as its build tool
 (primarily because we don't like maven).
@@ -36,8 +36,11 @@ Candlepin uses [buildr](http://buildr.apache.org) as its build tool
 * Install dependencies.
 
   ```console
-  $ sudo yum install ruby rubygems ruby-devel gcc make gettext tomcat java-1.7.0-openjdk-devel liquibase postgresql-jdbc openssl libxml2-python
+  $ sudo dnf install ruby rubygems ruby-devel gcc make gettext tomcat java-1.8.0-openjdk-devel liquibase postgresql-jdbc openssl libxml2-python
   ```
+
+  NOTE: You may want to install Java 1.6.0 or 1.7.0 depending on OS version.
+  {:.alert-bad}
 
 * Update rubygems.
 
@@ -54,10 +57,10 @@ Candlepin uses [buildr](http://buildr.apache.org) as its build tool
 * Set `JAVA_HOME`
 
   ```console
-  # export JAVA_HOME=/usr/lib/jvm/java-1.7.0/
+  # export JAVA_HOME=/usr/lib/jvm/java-1.8.0/
   ```
 
-  WARNING: you may want 1.6.0 depending on OS version
+  NOTE: This should match the Java version specified above.
   {:.alert-bad}
 
 * Install bundler.
@@ -81,7 +84,8 @@ Make sure your tomcat directory within /var/cache has group permissions (`chmod 
 If you have multiple JVMs on your system and are getting `RuntimeError : can't
 create Java VM`, you may need to set your JVM via `alternatives --config java`
 and `alternatives --config javac`. Additionally, you may need to use this
-JAVA_HOME path: `/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64/`
+JAVA_HOME path: `/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.**.x86_64/`, where the ** should be filled in
+with the appropriate build version (matching the proper directory from `ls /usr/lib/jvm/`).
 
 The following will compile and package candlepin into a war and api jar in `target/`.
 Testing will be covered below hence the `test=no` param.
@@ -100,7 +104,7 @@ Candlepin is typically deployed against PostgreSQL, but schema is provided for O
 1. Install PostgresSQL.
 
    ```console
-   $ sudo yum install -y postgresql-server postgresql
+   $ sudo dnf install -y postgresql-server postgresql
    ```
 
 1. Initialize PostgreSQL.
@@ -115,13 +119,14 @@ Candlepin is typically deployed against PostgreSQL, but schema is provided for O
    # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
    local   all         all                               trust
    host    all         all         127.0.0.1/32          trust
+   host    all         all         ::1/128               trust
    ```
 
 1. Enable and start the PostgreSQL server.
 
    ```console
-   $ sudo chkconfig postgresql on
-   $ sudo /sbin/service postgresql start
+   $ sudo systemctl enable postgresql
+   $ sudo systemctl start postgresql
    ```
 
 1. Create the candlepin user:
@@ -133,7 +138,7 @@ Candlepin is typically deployed against PostgreSQL, but schema is provided for O
 ## Deploy Candlepin
 
 The preferred method for deploying Candlepin from source is using the
-supplied `buildconf/scripts/deploy` script. This script will generate
+supplied `deploy` script in the `server/bin` directory. This script will generate
 the database schema, populate your PostgreSQL database, create the certs
 for Tomcat, deploy the war file, and restart tomcat. It can also be used to deploy to a Oracle/MySQL databases, and pre-load our test data.
 
@@ -154,25 +159,25 @@ $ curl -k -u admin:admin "https://localhost:8443/candlepin/status"
 
 The deploy script can be customized with a number of environment variables, or you can set these permanently in ```~/.candlepinrc```.
 
+#### Environment Variables
+
 GENDB=1
-: if set, this enables schema generation and population. Can also be achieved with -g argument to deploy script.
+: if set, this enables schema generation and population. Can also be achieved with the `-g` argument to deploy script.
 
 FORCECERT=1
-: if set, will always regenerate new ssl certificates (both for the ca used in
-creating client certificates, and for the server cert).
+: if set, will always regenerate new ssl certificates (both for the ca used in creating client certificates, and for the server cert). Can also be achieved with the `-f` argument to the deploy script.
 
 HOSTNAME
-: use this to force the CN in your certificate. ie, set it to localhost if
-you're only running a client from your machine.
+: use this to force the CN in your certificate. ie, set it to localhost if you're only running a client from your machine.
 
 TESTDATA=1
-: if set, will load the candlepin db with sample data
+: set to 1 to automatically load our test data as defined in ```server/bin/test_data.json```. This is a selection of product, subscription, and org info that nicely covers all the functionality of Candlepin. Subscriptions point to fake content however and thus cannot be used with an actual client. Can also be specified with the `-t` argument to the deploy script.
 
 LOGDRIVER=logdriver
-: if set, will use the jdbc [logdriver](logdriver.html) for logging SQL calls
+: if set, will use the jdbc [logdriver](logdriver.html) for logging SQL calls. This can also be specified with the `-l` argument to the deploy script.
 
 AUTOCONF=1
-: if set, will use [AutoConf](auto_conf.html) to automatically generate `candlepin.conf`
+: if set, will use [AutoConf](auto_conf.html) to automatically generate `candlepin.conf`. Can also be specified with the `-a` argument to the deploy script.
 
 NOTIFY=1
 : if set, will use `notify-send` to notify you when deployment has finished
@@ -180,8 +185,31 @@ NOTIFY=1
 TC_HOME
 : set to the location of your tomcat installation, /opt/apache-tomcat-6.0.20 or /var/lib/tomcat (default).
 
-TESTDATA
-: set to 1 to automatically load our test data as defined in ```buildconf/scripts/test_data.json```. This is a selection of product, subscription, and org info that nicely covers all the functionality of Candlepin. Subscriptions point to fake content however and thus cannot be used with an actual client.
+#### Script Arguments
+The deploy script may also be customized/configured by providing command-line arguments during invocation. Some of these overlap with those triggered by environment variables, providing shorter alternatives to triggering the options above.
+
+-f
+: Alternate to the FORCECERT variable. If set, the deploy script will generate new SSL certificates.
+
+-g
+: Alternate to the GENDB variable. If set, the current database, if any, will be dropped and a new schema will be generated.
+
+-t
+: Alternate to the TESTDATA variable. If set, the database will be populated with the test data defined in ```server/bin/test_data.json``` after a successful deployment.
+
+-l &lt;log_driver&gt;
+: Alternate to the LOGDRIVER variable. If set, Candlepin will use the specified log driver for logging SQL calls.
+
+-o, -m
+: Specifies alternate database backends to use instead of PostgreSQL; `-o` for Oracle and `-m` for MySQL. Only one alternate should be specified for a given invocation.
+
+-a
+: Alternate to the AUTOCONF variable. If set, [AutoConf](auto_conf.html) will be used to automatically generate a new `candlepin.conf` file.
+
+-v
+: Enabled verbose/noisy output. Useful, primarily, for debugging issues that may arise during deployment.
+
+
 
 ### Manual Deployment
 
