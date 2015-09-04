@@ -3978,7 +3978,18 @@
       "GET"
     ],
     "queryParams": [
-
+      {
+        "name": "product",
+        "type": "string"
+      },
+      {
+        "name": "matches",
+        "type": "string"
+      },
+      {
+        "name": "attribute",
+        "type": "list"
+      }
     ],
     "returnType": {
       "type": "array"
