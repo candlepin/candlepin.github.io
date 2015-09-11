@@ -15,16 +15,29 @@ Prevent some jobs from running concurrently. For example, if I call refresh pool
 
 ## Current list of job classes
 
-|Jobname | Schedule | Description |
--|-
-| TransactionalPinsetterJob | N/A | wrapper of jobs with a UnitOfWork |
-| RefreshPoolsForProductJob | async | refreshes the pools  |
-| ExpiredPoolsJob | cron 0 0 0/4 * * ? | deletes expired pools |
-| ImportRecordJob | cron 0 0 12 * * ? | truncates the import record table |
-| RefreshPoolsJob | async | refresh the pools for the given owner |
-| RegenEnvEntitlementCertsJob | async | regenerates the entitlements for the environment |
-| MigrateOwnerJob | async | migrates the given owner to a new shard (uses API of another candlepin) |
-| RegenProductEntitlementCertsJob | async | regenerate entitlements for pools that provide the given product |
-| EntitlerJob | async | bind by pool, product, heal entire org |
-| CancelJobJob | cron 0/5 * * * * ? | deletes the specified job from the scheduler |
+| Jobname | Cron/Async | Description |
+---|---|---
+| KingpinJob | N/A | A supertype between actual jobs and the Quartz Job. Gives us more freedom to define behavior. Every candlepin job must extend KingpinJob. |
+| UniqueByOwnerJob | N/A | A supertype between actual jobs and KingpinJob. Can by extended by jobs that should not be run concurrently per owner. A job will wait for the running job to finish before beginning execution. Additional scheduled jobs will be given the status of the waiting job ( and hence ignored). |
+| ActiveEntitlementJob | 0 0 0/1 * * ? | Recalculates compliance for consumers when entitlements become active. |
+| CancelJobJob | 0/5 * * * * ? | Deletes the specified job from the scheduler. |
+| CertificateRevocationListTask | 0 0 12 * * ? | Synchronizes the CRL with the DB. |
+| EntitleByProductsJob | async | Bind by pool, product for an entitle date. |
+| EntitlerJob | async | Bind by pool, product, heal entire org. |
+| ExpiredPoolsJob | 0 0 0/4 * * ? | Looks for any pools past their expiration date. If found we clean up the subscription, pool, and it's entitlements. This is primarily done on a scheduled basis to make sure we re-source derived pools if the stack has other still valid entitlements. |
+| ExportCleaner | 0 0 12 * * ? | Examines the directory where the exporter compiles its information and resultant zip file. Data that is more that a day old will be expunged. |
+| HealEntireOrgJob | async | Heals an entire org. Extends UniqueByOwnerJob. |
+| HypervisorUpdateJob | async | Refreshes the entitlement pools for specific org. |
+| ImportRecordJob | 0 0 12 * * ? | Deletes all but N oldest records from the import record table. |
+| JobCleaner | 0 0 12 * * ? | Removes finished jobs older than yesterday, and failed jobs from 4 days ago. |
+| PopulateHostedDBTask | async | Worker implementation for populating Hosted's DB. |
+| RefreshPoolsForProductJob | async | Refreshes the pools for the given owner, product. |
+| RefreshPoolsJob | async | Refreshes the pools for the given owner. Extends UniqueByOwnerJob. |
+| RegenEnvEntitlementCertsJob | async | Regenerates entitlements within an environment which are affected by the promotion/demotion of the given content sets. |
+| RegenProductEntitlementCertsJob | async | Regenerate entitlements for pools that provide the given product |
+| StatisticHistoryTask | 0 0 1 * * ? | Calculates the statistics for an owner. |
+| SweepBarJob | 0 0/5 * * * ? | Marks non-finished/failed/canceled job status ( orphaned jobs ) that do not correspond to a quartz jobs as "canceled". |
+| UndoImportsJob | async | Removing pools created during manifest import. Extends UniqueByOwnerJob. |
+| UnmappedGuestEntitlementCleanerJob | 0 0 3/12 * * ? | Removes 24 hour unmapped guest entitlements after the entitlement has expired. Entitlements normally last until a pool expires. |
+| UnpauseJob | 0/5 * * * * ? | Prompts each paused job to check if it is safe to continue executing. |
 {:.table-striped .table-bordered}
