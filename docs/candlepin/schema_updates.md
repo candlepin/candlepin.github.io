@@ -29,10 +29,11 @@ confused about what has been applied and what hasn't.
 
 ## Authoring A Database Change
 1. Edit the Java classes and Hibernate annotations as before.
-1. Run the script to generate a timestamped changeset template and include it in both create and update changelogs:
+1. Run the buildr task to generate a timestamped changeset template and include it in the relevant changelogs:
 
    ```
-   $ buildconf/scripts/gen-db-update.py short-description-for-filename-goes-here
+   $ cd $HOME/src/candlepin/server
+   $ buildr "changeset: short-description-for-filename-goes-here"
    ```
 1. Edit the resulting file to perform the actual changes. The liquibase
    documentation on [refactoring commands](http://www.liquibase.org/documentation/changes) and
@@ -40,7 +41,7 @@ confused about what has been applied and what hasn't.
 1. Test applying your change: (may have to adjust this command slightly for your system)
 
    ```
-   $ liquibase --driver=org.postgresql.Driver --classpath=$HOME/src/candlepin/src/main/resources:/usr/share/java/postgresql-jdbc.jar --changeLogFile=db/changelog/changelog-update.xml --url="jdbc:postgresql:candlepin" --username=candlepin --password="" update
+   $ liquibase --driver=org.postgresql.Driver --classpath=$HOME/src/candlepin/server/src/main/resources:/usr/share/java/postgresql-jdbc.jar --changeLogFile=db/changelog/changelog-update.xml --url="jdbc:postgresql:candlepin" --username=candlepin --password="" update
    ```
 1. Test rolling back your changes. If using the standard liquibase supported
    instructions for your change (as opposed to doing raw SQL), we do not need
@@ -48,6 +49,6 @@ confused about what has been applied and what hasn't.
    us in most cases.
 
    ```
-   $ liquibase --driver=org.postgresql.Driver --classpath=$HOME/src/candlepin/src/main/resources:/usr/share/java/postgresql-jdbc.jar --changeLogFile=db/changelog/changelog-update.xml --url="jdbc:postgresql:candlepin" --username=candlepin --password="" rollbackCount 1
+   $ liquibase --driver=org.postgresql.Driver --classpath=$HOME/src/candlepin/server/src/main/resources:/usr/share/java/postgresql-jdbc.jar --changeLogFile=db/changelog/changelog-update.xml --url="jdbc:postgresql:candlepin" --username=candlepin --password="" rollbackCount 1
    ```
 1. git add, and commit.
