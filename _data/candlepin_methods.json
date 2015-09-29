@@ -2677,6 +2677,10 @@
       {
         "name": "create_missing",
         "type": "boolean"
+      },
+      {
+        "name": "reporter_id",
+        "type": "string"
       }
     ],
     "returnType": {
@@ -5185,10 +5189,12 @@
         "type": "string"
       }
     ],
-    "returnType": null,
+    "returnType": {
+      "type": "object"
+    },
     "description": "Activates a Subscription",
     "deprecated": null,
-    "returns": null,
+    "returns": "A Response object (with status code 202)",
     "httpStatusCodes": [
       {
         "statusCode": 400,
@@ -5199,7 +5205,7 @@
         "description": ""
       },
       {
-        "statusCode": 200,
+        "statusCode": 202,
         "description": ""
       }
     ]
