@@ -27,6 +27,7 @@ should never ignore these if the appear on a site that you don't have control ov
 - [A Layman's Guide to a Subset of ASN.1, BER, and DER](http://luca.ntop.org/Teaching/Appunti/asn1.html)
 - [The First Few Milliseconds of an HTTPS Connection](http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html)
 - [Mozilla CA Certificate Policy](https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/)
+- [Server Side TLS](https://wiki.mozilla.org/Security/Server_Side_TLS)
 - [X509 - RFC 5280](https://tools.ietf.org/html/rfc5280)
 - [OCSP - RFC 6960](https://tools.ietf.org/html/rfc6960)
 - [TLS 1.2 - RFC 5246](https://tools.ietf.org/html/rfc5246)

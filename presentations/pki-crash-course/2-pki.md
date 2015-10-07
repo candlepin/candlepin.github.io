@@ -362,9 +362,9 @@ courtesy of the `ca-certificates` package.
 - The signee's private key
 - Guarded with utmost care
 - RSA is most common currently for certificates
-- 2048-bit is the minimum you should use and good for around 20 years
-  worth of security
-- 4096-bit isn't a bad choice for high value items (e.g. CA keys)
+- 2048-bit is the minimum you should use and good for around [10-15 years
+  worth of security](http://www.keylength.com)
+- 4096-bit should be used unless you have a compelling reason not to
 
 --
 # Certificate Signing Requests
