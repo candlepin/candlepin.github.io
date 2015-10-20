@@ -3832,6 +3832,18 @@
       {
         "name": "fact",
         "type": "list"
+      },
+      {
+        "name": "sku",
+        "type": "list"
+      },
+      {
+        "name": "subscription_id",
+        "type": "list"
+      },
+      {
+        "name": "contract",
+        "type": "list"
       }
     ],
     "returnType": {
