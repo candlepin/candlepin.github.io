@@ -9,6 +9,12 @@ theme: presentation-dark.css
 {% assign data-separator-notes = "^Note:" %}
 {% assign data-charset = "utf-8" %}
 
+<noscript>
+This presentation requires JavaScript.  If you're not able
+to use JavaScript, you can still view the source files
+<a href="https://github.com/candlepin/candlepinproject.org/tree/master/presentations/pki-crash-course">here</a>.
+</noscript>
+
 <script type="text/javascript">
 Reveal.addEventListener("ready", function(event) {
   Reveal.configure({
@@ -32,9 +38,9 @@ Reveal.addEventListener("ready", function(event) {
   {% assign id = file | split: '-' | last | split: '.md' %}
   <section id="{{ id }}"
     data-markdown="{{ file }}"
-    data-separator={{ data-separator }}
-    data-separator-vertical={{ data-separator-vertical }}
-    data-separator-notes={{ data-separator-notes }}
-    data-charset={{ data-charset }}>
+    data-separator="{{ data-separator }}"
+    data-separator-vertical="{{ data-separator-vertical }}"
+    data-separator-notes="{{ data-separator-notes }}"
+    data-charset="{{ data-charset }}">
   </section>
 {% endfor %}

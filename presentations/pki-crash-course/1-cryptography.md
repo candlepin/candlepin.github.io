@@ -28,6 +28,7 @@
 - Cleartext
 
   The text of the message.
+
 - Plaintext
 
   Cleartext formatted for the encryption process.  The cipher encrypts the
@@ -36,7 +37,7 @@
 - Ciphertext
 
   The outcome of applying the cipher to the plaintext.  Should be
-  indistinguishable from gobbledygook.
+  indistinguishable from gibberish.
 
 - Key
 
@@ -102,10 +103,13 @@ Alice <!-- .element: class="caption" -->
 Bob <!-- .element: class="caption" -->
 </div>
 
+Alice and Bob are on tour together and decide they want to collaborate but
+they don't want the paparazzi to find out.
+
 --
 # Example - Symmetric
 
-Alice and Bob agreed on the key "heavymetal" before departing the tour
+Alice and Bob agree on the key "heavymetal" before departing the tour
 
 <div class="action_block">
 ![Alice](alice-small.png "Alice")
@@ -160,7 +164,7 @@ key hasn't been leaked).
 --
 # Example - Asymmetric
 
-Alice and Bob exchanged public keys before departing the tour
+Alice and Bob exchange public keys before departing the tour
 
 <div class="action_block">
 ![Alice](alice-small.png "Alice")
@@ -248,7 +252,7 @@ with impunity.
 --
 # Example - Signatures
 
-Alice sends a message to a mailing list and Bob wants to verify who wrote it
+Alice sent a message to a mailing list and Bob wants to verify that Alice wrote it
 
 <div class="action_block">
 ![Alice](alice-small.png "Alice")

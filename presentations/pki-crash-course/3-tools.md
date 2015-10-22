@@ -61,7 +61,6 @@
 
 - Last number is the number of bits in the key
 - Key can be encrypted immediately with `-idea`, `-aes192`, `-aes256`
-  - AES options are not in the man pages as of Fedora 20
   - There is a `-des` option to encrypt with DES.  Do **not** use it.  DES is old
 - Results in PKCS1 file containing the **private key**
   - Public key can be derived if you need it
@@ -93,9 +92,9 @@
     ```
 
 Note:
-The "challenge password" was meant to be an additional means of
-authenticating to CAs if a certificate needed to be revoked.  Most CAs do not
-use it and it does not add any additional security to the CSR.
+The "challenge password" was meant to be an additional means of authenticating
+to CAs if a certificate needed to be revoked.  Most CAs do not use it and it
+does not add any additional security to the CSR.
 
 --
 # OpenSSL - Creating a CSR (Advanced)
@@ -154,9 +153,9 @@ confusing to others who don't know the CN gets ignored.
 - A serial number must be provided (decimal or hex with `0x`)
   - By default, expects a file named `<crt file basename>.srl`
     containing a hex number.  E.g. `my_ca.srl`
-  - `-CAserial my_serial_list.srl` lets you use an arbitrary file
   - `-CAcreateserial` auto-generates a serial number for the cert and
     creates the srl file for later use
+  - `-CAserial my_serial_list.srl` lets you use an arbitrary file
   - `-set_serial 0xDEADBEEF` works if you want to specify the serial on the
     CLI
 - After a serial is used, OpenSSL increments the value in the `.srl` file
@@ -228,7 +227,22 @@ confusing to others who don't know the CN gets ignored.
 
 - Sometimes people put multiple ASN.1 objects of the same type in a file.
   Classic example is people building a chain of certificates.  OpenSSL will
-  only look at the ***first*** ASN1 object of the type you ask for.
+  only look at the ***first*** ASN1 object of the type you ask for and silently
+  ignore the rest.
+
+  ```none
+  % cat x.pem
+  -----BEGIN CERTIFICATE-----
+  MIICVDCCAb2gAwIBAgIJANcPWMR[...]
+  [...]
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  MIICVDCCAb2gAwIBAgIJAJiqBeE[...]
+  [...]
+  -----END CERTIFICATE-----
+  % openssl x509 -in x.pem -noout -subject
+  subject= [...]
+  ```
 
 Note:
 You can of course put a key and cert together in a file because those are
@@ -278,7 +292,8 @@ Certificate Nickname                                         Trust Attributes
 ```
 
 - `-L` for "list"
-- Can be maddeningly picky about paths
+- Using the DB type prefix (as is often seen in docs) can result in weird
+  problems with the shell.
 
 --
 # NSS - Importing a Certificate
@@ -358,8 +373,8 @@ Foo                                                          u,u,u
 
 ```none
 % pk12util -o out.p12 -n Foo -d ~/mynss
-% openssl pkcs12 -in out.p12 -out key_and_cert.pem -nodes
-% cat out.p12
+% openssl pkcs12 -in out.p12 -out everything.pem -nodes
+% cat everything.pem
 Bag Attributes
     friendlyName: Foo
     localKeyID: 7C 2E 29 2E F8 DF 1E 75 9D C2 07 74 B7 FF 53 D3 E9 D3 2D CC
@@ -369,8 +384,8 @@ Key Attributes: <No Attributes>
 Bag Attributes
     friendlyName: Foo
     localKeyID: 7C 2E 29 2E F8 DF 1E 75 9D C2 07 74 B7 FF 53 D3 E9 D3 2D CC
-subject=/CN=arkham.usersys.redhat.com/C=US/L=Raleigh
-issuer=/CN=arkham.usersys.redhat.com/C=US/L=Raleigh
+subject=/CN=localhost/C=US/L=Raleigh
+issuer=/CN=localhost/C=US/L=Raleigh
 [ Cert PEM here ]
 ```
 
@@ -390,7 +405,7 @@ issuer=/CN=arkham.usersys.redhat.com/C=US/L=Raleigh
     the nicknames and moving, deleting, copying are more complicated
   - Gets very confusing when dealing with multiple tokens
 - My recommendation: for development situations, OpenSSL is just fine.  For
-  high volume and/or high security situations, NSS is a better choice.
+  high volume and/or high security situations, NSS could be a better choice.
 
 --
 # NSS - Gotchas
@@ -399,21 +414,21 @@ issuer=/CN=arkham.usersys.redhat.com/C=US/L=Raleigh
   the DB silently fails with return code 0
 
   ```none
-  % certutil -A -d ~/mynss -n X -t ,,, -i amazon.crt
-  % certutil -A -d ~/mynss -n X -t ,,, -i fedora-ca.crt
+  % certutil -A -d ~/mynss -n CertX -t ,,, -i amazon.crt
+  % certutil -A -d ~/mynss -n CertX -t ,,, -i fedora-ca.crt
     certutil: could not add certificate to token or database: SEC_ERROR_ADDING_CERT: Error adding certificate to database.
   % certutil -A -d ~/mynss -n Fedora -t ,,, -i fedora-ca.crt
-  % certutil -A -d ~/mynss -n X -t ,,, -i fedora-ca.crt
+  % certutil -A -d ~/mynss -n CertX -t ,,, -i fedora-ca.crt
   % echo $?
   0
-  % certutil -L -d ~/mynss -n X
+  % certutil -L -d ~/mynss -n CertX
   [...]
   Subject: "CN=www.amazon.com,O="Amazon.com, Inc.",L=Seattle,ST=Washing
             ton,C=US"
   [...]
   ```
-- Surprisingly easy to run into this situation during development when names and certs
-  are in flux
+- Surprisingly easy to run into this situation during development when names and
+  certs are in flux
 
 --
 # Java
@@ -494,9 +509,10 @@ Enter source keystore password:
 
 - The de facto Java crypto library
 - Fairly easy to work with
-- Not FIPS certified
-  - Things sold to the US government often need FIPS
-    certification
+- Not FIPS-140 certified (yet!)
+  - Things sold to the US government often need FIPS certification
+  - FIPS certification costs thousands of dollars and takes months.
+  - You can [help](https://www.bouncycastle.org/donate/index.cgi)!
 
 --
 # Other Tools - Portecle

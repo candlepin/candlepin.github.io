@@ -31,27 +31,28 @@ requests, etc.
 Widget ::= SEQUENCE {
     model IA5String,
     serialNumber INTEGER,
-    inspections InspectionInfo
+    inspections SEQUENCE OF InspectionInfo
 }
 
 InspectionInfo ::= SEQUENCE {
     inspectorName IA5String,
-    inspectionDates SEQUENCE OF DATE
+    inspectionDate DATE
 }
 ```
 
 Note: Let's say we have a Widget.  Every Widget has a model name, a serial
 number, and some inspection information with the name of the inspector and
-the dates of the inspections.  Here's how we represent that in ASN.1.
+the date of the inspections.  Here's how we represent that in ASN.1.
 
 Now let's go over that.  A SEQUENCE is one of the four ASN.1 structured types
-and it's just an ordered collection of items.  Inside that sequence we have
-an IA5String (International Alphabet 5 — basically ASCII), an INTEGER, and
-then an item of InspectionInfo type.  We continue down and see InspectionInfo
-is also a SEQUENCE containing the inspector's name and the inspection dates.
-The inspection dates are a SEQUENCE OF, another structured type that holds
-zero or more occurrences of a given type. In this case, the given type is
-DATE.
+and it's just an ordered collection of items.  Inside that sequence we have an
+IA5String (International Alphabet 5 — basically ASCII), an INTEGER, and another
+sequence.  The inspections item is a SEQUENCE OF, another structured type that
+holds zero or more occurrences of a given type. In this case, the given type is
+InspectionInfo.
+
+We continue down and see InspectionInfo is also a SEQUENCE containing the
+inspector's name and the inspection date.
 
 --
 # ASN.1 - Real Example
@@ -344,7 +345,7 @@ the Fedora Project CA, everything works.
 
   ```none
   % curl https://admin.fedoraproject.org/accounts/fedora-server-ca.cert -o
-/etc/pki/ca-trust/source/anchors/cert
+/etc/pki/ca-trust/source/anchors/cert/fedora-server-ca.cert
   % update-ca-trust extract
   ```
 - You can also blacklist certificates by placing them in
@@ -432,8 +433,10 @@ name, and only checking that it has four corners and a hologram on it.
 - CRLs are ASN.1 lists of revoked certificate serial numbers and digitally
   signed by the CAs
 - Weakness is that clients have to check the CRL!
-- Other revocation mechanism is *Online Certificate Status Protocol* (OCSP)
 - Validity periods on certificates keep the CRL from growing without bound
+- Other revocation mechanism is *Online Certificate Status Protocol* (OCSP)
+  where a client connects a third-party server (usually run by the CA) to ask
+  if the certificate in question is still valid.
 
 Note:
 Digitally signing CRLs allows CAs to serve them over HTTP.  Why?  If they
