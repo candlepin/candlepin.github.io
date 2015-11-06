@@ -1,0 +1,47 @@
+---
+title: Using Mead
+author: Alex Wood
+description: A brief introduction to using the MEAD build system
+theme: presentation-dark.css
+---
+{% assign data-separator = "^----\n" %}
+{% assign data-separator-vertical = "^--\n" %}
+{% assign data-separator-notes = "^Note:" %}
+{% assign data-charset = "utf-8" %}
+
+<noscript>
+This presentation requires JavaScript.
+</noscript>
+
+<style type="text/css">
+html.background-centered div.backgrounds {
+  background-position: center top !important;
+}
+</style>
+
+<script type="text/javascript">
+Reveal.addEventListener("ready", function(event) {
+  Reveal.configure({
+    parallaxBackgroundImage: "background.jpg",
+    parallaxBackgroundSize: "1920px 1080px"
+  });
+})
+</script>
+
+{% capture f %}
+0-mead.md
+{% endcapture %}
+
+{% assign files = f | split: "," %}
+
+{% for file in files %}
+  {% assign id = file | split: '-' | last | split: '.md' %}
+  <section id="{{ id }}"
+    data-state="background-centered"
+    data-markdown="{{ file }}"
+    data-separator="{{ data-separator }}"
+    data-separator-vertical="{{ data-separator-vertical }}"
+    data-separator-notes="{{ data-separator-notes }}"
+    data-charset="{{ data-charset }}">
+  </section>
+{% endfor %}
