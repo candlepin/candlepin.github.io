@@ -185,6 +185,9 @@ NOTIFY=1
 TC_HOME
 : set to the location of your tomcat installation, /opt/apache-tomcat-6.0.20 or /var/lib/tomcat (default).
 
+HOSTEDTEST=hostedtest
+: if set, includes the resources for testing candlepin in hosted mode. Can also be specified with the `-h` argument to the deploy script. If used with `AUTOCONF`, the default adapters will be overriden by hostedtest adapters in `candlepin.conf`
+
 #### Script Arguments
 The deploy script may also be customized/configured by providing command-line arguments during invocation. Some of these overlap with those triggered by environment variables, providing shorter alternatives to triggering the options above.
 
@@ -209,6 +212,8 @@ The deploy script may also be customized/configured by providing command-line ar
 -v
 : Enabled verbose/noisy output. Useful, primarily, for debugging issues that may arise during deployment.
 
+-h
+: Alternate to the HOSTEDTEST variable. If set, resources to test candlepin in hosted mode will be included in the candlepin war. If used with `-a`, the default adapters will be overriden by hostedtest adapters in `candlepin.conf`
 
 
 ### Manual Deployment
