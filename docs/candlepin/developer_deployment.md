@@ -185,7 +185,8 @@ NOTIFY=1
 TC_HOME
 : set to the location of your tomcat installation, /opt/apache-tomcat-6.0.20 or /var/lib/tomcat (default).
 
-HOSTEDTEST=hostedtest
+HOSTEDTEST=
+hostedtest
 : if set, includes the resources for testing candlepin in hosted mode. Can also be specified with the `-h` argument to the deploy script. If used with `AUTOCONF`, the default adapters will be overriden by hostedtest adapters in `candlepin.conf`
 
 #### Script Arguments
