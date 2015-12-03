@@ -5,6 +5,11 @@ rvm:
 branches:
   only:
     - master
+addons:
+  apt:
+    packages:
+    - graphviz
+    - openjdk-7-jre
 script: ./_travis/build
 bundler_args: --without development --deployment
 before_deploy:

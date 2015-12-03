@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/candlepin/candlepinproject.org.png?branch=master)](https://travis-ci.org/candlepin/candlepinproject.org)
 
 # Getting Started
-1. `yum install nodejs python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel`
+1. `yum install nodejs python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
 
 1. Install RVM. Yes, I know RVM can be a pain when you first start using it, but OpenShift uses Ruby 1.9.3
    and the fact is there are some small compatibility issues between 2.0.0 and 1.9.3. Note: do **NOT** install
@@ -182,6 +182,11 @@ print "Hello World"
   modal dialog functions.
 
 # Openshift Details
+
+We require two extra gears for our application to run. Both gears are used to provide
+diagram support using plantuml. The first is openshift-graphviz-cartridge from <https://github.com/puzzle/openshift-graphviz-cartridge>.
+The second is openshift-plantuml-cartridge from <https://github.com/candlepin/openshift-plantuml-cartridge>.
+
 Right now, we have the BUNDLE_WITHOUT environment variable set to "development"
 to exclude gems that are in the development group in the Gemfile.  If you ever
 need to change that then run the following in your Openshift app checkout.
