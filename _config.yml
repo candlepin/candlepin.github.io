@@ -49,3 +49,4 @@ defaults:
 
 gems:
   - jekyll-sitemap
+  - jekyll-plantuml

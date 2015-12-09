@@ -5,3 +5,7 @@ _site/
 
 # Travis deployment cache directory
 .dpl
+.idea
+
+# generated directory for plantuml diagrams
+uml/

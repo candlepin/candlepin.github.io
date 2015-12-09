@@ -29,3 +29,5 @@ group :development do
   # Until https://github.com/imathis/guard-jekyll-plus/issues/25 is accepted
   gem 'guard-jekyll-plus', :git => 'https://github.com/awood/guard-jekyll-plus'
 end
+
+gem 'jekyll-plantuml'
