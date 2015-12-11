@@ -50,3 +50,4 @@ defaults:
 gems:
   - jekyll-sitemap
   - jekyll-plantuml
+  - jekyll-paginate

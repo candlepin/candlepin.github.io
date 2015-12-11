@@ -22,7 +22,7 @@ require_relative 'mixins.rb'
 module Jekyll
   # Items of this class will never be written to the rendered site, but we
   # will keep track of their modification times so we know whether to call
-  # generate on dependant items again.
+  # generate on dependent items again.
   class SilentStaticFile < StaticFile
     def write(dest)
       @@mtimes[path] = mtime
@@ -82,8 +82,11 @@ module Jekyll
     def generate(site)
       site.pages.clone.select { |p| p.data.has_key?("additional_json") }.each do |page|
         site.pages.delete(page)
-        json_file = SilentStaticFile.new(site, site.source,
-                                    site.config['data_source'], page.data['additional_json'])
+        json_file = SilentStaticFile.new(
+                      site,
+                      site.source,
+                      site.config['data_dir'],
+                      page.data['additional_json'])
         begin
           File.open(json_file.path)
         rescue

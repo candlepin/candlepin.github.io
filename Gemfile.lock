@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/awood/guard-jekyll-plus
-  revision: 5acce96bc6cd099db4221def76b68145b9c62f2a
-  specs:
-    guard-jekyll-plus (1.4.11)
-      guard (~> 2.0)
-      jekyll (~> 2.0)
-
-GIT
   remote: https://github.com/awood/rack-jekyll
   revision: 84ee1b85a369d0ca9834e83b4bc714ee8e3a5650
   specs:
@@ -17,123 +9,115 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    blankslate (2.1.2.4)
-    celluloid (0.15.2)
-      timers (~> 1.1.0)
-    classifier (1.3.4)
-      fast-stemmer (>= 1.0.0)
     coderay (1.1.0)
-    coffee-script (2.2.0)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.7.0)
     colorator (0.1)
-    daemons (1.1.9)
+    daemons (1.2.3)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
-    eventmachine (1.0.3)
-    execjs (2.2.1)
-    fast-stemmer (1.0.2)
-    ffi (1.9.3)
+    eventmachine (1.0.8)
+    ffi (1.9.10)
     formatador (0.2.5)
-    git (1.2.7)
-    guard (2.6.1)
+    git (1.2.9.1)
+    guard (2.13.0)
       formatador (>= 0.2.4)
-      listen (~> 2.7)
+      listen (>= 2.7, <= 4.0)
       lumberjack (~> 1.0)
+      nenv (~> 0.1)
+      notiffany (~> 0.0)
       pry (>= 0.9.12)
+      shellany (~> 0.0)
       thor (>= 0.18.1)
-    guard-livereload (2.3.0)
+    guard-compat (1.2.1)
+    guard-jekyll-plus (2.0.2)
+      guard (~> 2.10, >= 2.10.3)
+      guard-compat (~> 1.1)
+      jekyll (>= 1.0.0)
+    guard-livereload (2.5.1)
       em-websocket (~> 0.5)
-      guard (~> 2.0)
+      guard (~> 2.8)
+      guard-compat (~> 1.0)
       multi_json (~> 1.8)
     http_parser.rb (0.6.0)
-    jekyll (2.1.0)
-      classifier (~> 1.3)
+    jekyll (3.0.1)
       colorator (~> 0.1)
-      jekyll-coffeescript (~> 1.0)
-      jekyll-gist (~> 1.0)
-      jekyll-paginate (~> 1.0)
       jekyll-sass-converter (~> 1.0)
-      jekyll-watch (~> 1.0)
+      jekyll-watch (~> 1.1)
       kramdown (~> 1.3)
-      liquid (~> 2.6.1)
+      liquid (~> 3.0)
       mercenary (~> 0.3.3)
-      pygments.rb (~> 0.6.0)
-      redcarpet (~> 3.1)
+      rouge (~> 1.7)
       safe_yaml (~> 1.0)
-      toml (~> 0.1.0)
-    jekyll-coffeescript (1.0.0)
-      coffee-script (~> 2.2)
-    jekyll-gist (1.1.0)
-    jekyll-paginate (1.0.0)
+    jekyll-paginate (1.1.0)
     jekyll-plantuml (1.1)
       jekyll (> 2.0)
-    jekyll-sass-converter (1.0.0)
+    jekyll-sass-converter (1.3.0)
       sass (~> 3.2)
-    jekyll-sitemap (0.5.1)
-    jekyll-watch (1.0.0)
-      listen (~> 2.7)
-    kramdown (1.4.0)
-    liquid (2.6.1)
-    listen (2.7.9)
-      celluloid (>= 0.15.2)
+    jekyll-sitemap (0.9.0)
+    jekyll-watch (1.3.0)
+      listen (~> 3.0)
+    kramdown (1.9.0)
+    liquid (3.0.6)
+    listen (3.0.5)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
-    mercenary (0.3.3)
+    mercenary (0.3.5)
     method_source (0.8.2)
-    multi_json (1.10.1)
-    nokogiri (1.5.11)
-    parslet (1.5.0)
-      blankslate (~> 2.0)
-    posix-spawn (0.3.8)
-    pry (0.10.0)
+    mini_portile2 (2.0.0)
+    multi_json (1.11.2)
+    nenv (0.2.0)
+    nokogiri (1.6.7)
+      mini_portile2 (~> 2.0.0.rc2)
+    notiffany (0.0.8)
+      nenv (~> 0.1)
+      shellany (~> 0.0)
+    posix-spawn (0.3.11)
+    pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pygments.rb (0.6.0)
+    pygments.rb (0.6.3)
       posix-spawn (~> 0.3.6)
-      yajl-ruby (~> 1.1.0)
+      yajl-ruby (~> 1.2.0)
     rack (1.5.2)
-    rack-livereload (0.3.15)
+    rack-livereload (0.3.16)
       rack
     rack-rewrite (1.5.1)
-    rb-fsevent (0.9.4)
+    rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    redcarpet (3.1.2)
+    rouge (1.10.1)
     rubypants (0.2.0)
-    safe_yaml (1.0.3)
-    sass (3.3.9)
-    slop (3.5.0)
+    safe_yaml (1.0.4)
+    sass (3.4.20)
+    shellany (0.0.1)
+    slop (3.6.0)
     stringex (2.5.2)
-    thin (1.6.2)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
+    thin (1.6.4)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (~> 1.0)
     thor (0.19.1)
-    timers (1.1.0)
-    toml (0.1.1)
-      parslet (~> 1.5.0)
-    typogruby (1.0.16)
+    typogruby (1.0.18)
       rubypants
-    yajl-ruby (1.1.0)
+    yajl-ruby (1.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  git (~> 1.2)
-  guard-jekyll-plus!
+  git
+  guard-jekyll-plus
   guard-livereload
-  jekyll (~> 2.0)
+  jekyll (~> 3.0)
+  jekyll-paginate
   jekyll-plantuml
   jekyll-sitemap
-  kramdown (~> 1.3)
-  nokogiri (~> 1.5.2)
-  rack
+  kramdown
+  nokogiri
+  pygments.rb
+  rack (= 1.5.2)
   rack-jekyll!
   rack-livereload
   rack-rewrite
@@ -141,7 +125,7 @@ DEPENDENCIES
   stringex
   thin
   thor
-  typogruby (~> 1.0)
+  typogruby
 
 BUNDLED WITH
    1.10.6
