@@ -1,10 +1,24 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Exit on errors
 set -e
 
-cd $OPENSHIFT_REPO_DIR
+pushd $OPENSHIFT_DEPENDENCIES_DIR
+# Get the plantuml jar file from our github repository
+wget --no-clobber https://github.com/candlepin/openshift-plantuml-cartridge/raw/master/usr/lib/plantuml.jar
+printf '#!/bin/bash\n\njava -jar $OPENSHIFT_DEPENDENCIES_DIR/plantuml.jar $@\n' > plantuml
+chmod 700 plantuml
+popd
+
+# Create the shell script required to run plantuml and add it to the path
+export PATH=$PATH:$OPENSHIFT_DEPENDENCIES_DIR
+
+# Check the plantuml version
+plantuml -v
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+
+pushd $OPENSHIFT_REPO_DIR
 bundle exec jekyll build
+popd
