@@ -4,6 +4,11 @@ categories: Designs
 ---
 {% include toc.md %}
 
+# PR for review
+Please use the PR located [here](https://github.com/candlepin/candlepinproject.org/pull/67)
+for any review and / or discussion of open questions or requirements
+
+
 ## Problem
 
 Presently we have no way of tracking entitlements for each running instance of a virtual machine provided that each virtual machine has the same bios uuid. Tracking of entitlements is made even more difficult by technologies like vmware vLockstep etc that provide fault tolerant configurations. In these configurations there is a live backup vm that exactly duplicates the present state of the primary vm, meaning it cannot register to candlepin directly or have a different consumer_id. These fault tolerant configurations require the primary and backup vm to be on different hypervisors, meaning each vms compliance status could legitimately be quite different.
