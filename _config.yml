@@ -22,7 +22,6 @@ projects_dir: 'docs'
 # The tilde is YAML for nil.  Categories not in this map get nil and placed at the end.
 category-order: {usage: 1, developers: 2, design: 3, uncategorized: ~}
 
-permalink: /news/:year/:title.html
 paginate: 8
 paginate_path: /news/page:num
 
@@ -38,14 +37,26 @@ kramdown:
 
 # See http://jekyllrb.com/docs/configuration/#frontmatter-defaults
 defaults:
-  - scope: { path: "docs" }
-    values: { layout: "default" }
-  - scope: { path: "news" }
-    values: { layout: "news" }
-  - scope: { path: "_posts" }
-    values: { layout: "news" }
-  - scope: { path: "presentations" }
-    values: { layout: "presentation" }
+  - scope:
+      path: "docs"
+    values:
+      layout: "default"
+
+  - scope:
+      path: "news"
+    values:
+      layout: "news"
+
+  - scope:
+      path: "_posts"
+    values:
+      layout: "news"
+      permalink: "/news/:year/:title.html"
+
+  - scope:
+      path: "presentations"
+    values:
+      layout: "presentation"
 
 gems:
   - jekyll-sitemap
