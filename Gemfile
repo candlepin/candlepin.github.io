@@ -1,11 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-# rack-jekyll fails to install under US_ASCII which is what the Jenkins slaves are
-# set to.
-# Encoding.default_external=Encoding::UTF_8
-# Encoding.default_internal=Encoding::UTF_8
-
 gem 'git'
 gem 'typogruby'
 gem 'jekyll', "~> 3.0"
