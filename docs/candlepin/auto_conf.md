@@ -25,7 +25,7 @@ your candlepin.conf file every time, then:
 * Run
 
   ```console
-  $ buildconf/scripts/deploy
+  $ bin/deploy
   ```
 
 ## The buildr erb task
@@ -89,7 +89,7 @@ The candlepin.conf.erb template has a few special properties.
       "org.candlepin.servlet.filter": "DEBUG"
   ```
 
-  will render to 
+  will render to
 
   ```properties
   #log4j.logger.org.hibernate.SQL=DEBUG
@@ -141,7 +141,7 @@ The candlepin.conf.erb template has a few special properties.
   ```yaml
   postgresql:
     driver_class: "org.postgresql.Driver"
-  
+
   oracle:
     driver_class: "oracle.jdbc.OracleDriver"
   ```
@@ -154,7 +154,7 @@ The candlepin.conf.erb template has a few special properties.
     username: "candlepin"
     password: ""
     logdriver_class: "net.rkbloom.logdriver.LogDriver"
-  
+
   postgresql:
     <<: *common
     driver_class: "org.postgresql.Driver"
@@ -217,7 +217,7 @@ The candlepin.conf.erb template has a few special properties.
   <%= get("my_optional_value") { |v| v.upcase } || "some default" %>
   ```
 
-  If you instead ran 
+  If you instead ran
 
   ```erb
   <%= my_optional_value.upcase || "some default" %>
