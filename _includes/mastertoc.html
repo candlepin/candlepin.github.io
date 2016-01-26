@@ -1,0 +1,44 @@
+<!-- Requires JQuery loaded!  -->
+  <script type="text/javascript">
+  		  var plus="+ "
+  		  var minus="- "
+  		  <!-- Which level should be collapsed by default -->
+  		  var default_level_collapse = 2;
+  		  
+  		  $(function() {
+  			  
+			  var lev3_items = $("p:has(span[data-level])").filter(function() {
+				    <!-- Close all subsections that are on level > default_level_collapse -->
+				    return $(this).find("span").attr('data-level') > default_level_collapse;
+			  })
+			  
+			  <!-- 0 means: slide up quickly :-) -->
+			  lev3_items.slideUp(0);
+			  
+			  <!-- Set all hide_links to 'minus' by default -->
+			  $('span.hide_link').text(minus);
+			  <!-- Set all hide links on level 'default_level_collapse' to '[+]' -->
+			  var lev2_hide_links = "span[data-level = '"+default_level_collapse+"'] > span.hide_link"
+			  $( lev2_hide_links ).text(plus);
+			  
+		  });
+		  
+		  $( ".hide_link" ).click(function(event) {
+			  <!-- Class of wrapper span.-->
+			  $this_level_class = $(this).parent().attr('class');
+			  var sublevels = "p:has(span[class*='"+$this_level_class+".'])"
+			  var sublevels_hide_links = "span[class*='"+$this_level_class+".'] > span.hide_link"
+			  
+			  
+			  if ($(this).text()==plus) {
+			  	$(this).text(minus);
+			  	$( sublevels ).slideDown( "slow" );
+			  	<!-- when sliding down, we always have to change the hide_links to '+' -->
+			  	$( sublevels_hide_links ).text(minus);
+			  }
+			  else {
+	   		    $(this).text(plus);
+	   		 	$( sublevels ).slideUp( "slow" );
+			  }
+		  });
+  </script>
