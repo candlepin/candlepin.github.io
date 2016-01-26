@@ -1,0 +1,16 @@
+
+<h2>Table of Contents</h2>
+{% for tocitem in tocitems %}
+<span data-level="{{tocitem.level}}" class="tocitem section-{{tocitem.number}}">{% for i in (2..tocitem.level) %}&nbsp; &nbsp; &nbsp;{%endfor%}{{tocitem.number}}
+{% if tocitem.has_sublevels %}<span class="hide_link" style="color:red ;cursor: pointer;">X </span>{% endif %}<a href="{{ site.baseurl }}{{ tocitem.link }}">{{tocitem.name}}</a></span>
+<br/>
+{% endfor %}
+
+<h2>Uncategorized</h2>
+<ul>
+{% for u in uncategorized %}
+<li><a href="{{ site.baseurl }}{{ u.link }}">{{ u.name }}</a></li>
+{% endfor %}
+</ul>
+
+

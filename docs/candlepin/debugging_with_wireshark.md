@@ -2,7 +2,7 @@
 categories: developers
 title: Debugging SSL/TLS with Wireshark
 ---
-# Debugging SSL/TLS with Wireshark
+## Debugging SSL/TLS with Wireshark
 Sometimes I want to see what Candlepin is really doing, so I use Wireshark to
 sniff the packets.  With just the default settings, this isn't too useful
 because everything is encrypted; however, Wireshark can dissect SSL and show
