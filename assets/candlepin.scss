@@ -126,6 +126,14 @@ $toc-border: darken($toc-color, 10%);
 $toc-text: white;
 $toc-heading-padding: 12px;
 $toc-body-padding: 5px 12px;
+.toc-icon {
+  @extend .small;
+  color: $gray;
+  cursor: pointer;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 .panel-toc {
   @include panel-variant($toc-border, $toc-text, $toc-color, $toc-border);
 
