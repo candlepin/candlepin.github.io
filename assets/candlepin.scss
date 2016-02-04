@@ -119,19 +119,24 @@ div#search div.form-group form input.form-control {
   margin: 0px;
 }
 
-
 // TABLE OF CONTENTS
 $toc-color: lighten($navbar-default-bg, 25%);
 $toc-border: darken($toc-color, 10%);
 $toc-text: white;
 $toc-heading-padding: 12px;
 $toc-body-padding: 5px 12px;
+
 .toc-icon {
   @extend .small;
   color: $gray;
   cursor: pointer;
   padding-left: 2px;
   padding-right: 2px;
+}
+
+div.tocitem[data-level="1"],
+div.tocitem[data-level="2"] {
+  font-weight: bold;
 }
 
 .panel-toc {
