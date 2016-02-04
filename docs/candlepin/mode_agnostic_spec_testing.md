@@ -27,7 +27,7 @@ One of the ways that the two modes differ is in the manner by which pools are cr
 * The most convinient way to deploy candlepin in hosted mode is to simply use the deploy script:
 
   ```console
-  $ ./server/bin/deploy -ha
+  $ ./server/bin/deploy -Ha
   ```
 
 * Which auto-generates the candlepin.conf with the following content ( it overrides whatever is specified in custom.yaml ):
