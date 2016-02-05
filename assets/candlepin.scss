@@ -134,9 +134,18 @@ $toc-body-padding: 5px 12px;
   padding-right: 2px;
 }
 
-div.tocitem[data-level="1"],
-div.tocitem[data-level="2"] {
+li.tocitem[data-level="1"],
+li.tocitem[data-level="2"] {
   font-weight: bold;
+}
+
+ul.outline-numbered {
+  list-style: none;
+  padding-left: 0px;
+
+  & > & {
+    padding-left: 20px;
+  }
 }
 
 .panel-toc {
