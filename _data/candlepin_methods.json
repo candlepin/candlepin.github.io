@@ -1,5 +1,68 @@
 [
   {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.createSubscription",
+    "description": "Creates a new subscription from the subscription JSON provided. Any UUID\n provided in the JSON will be ignored when creating the new subscription.",
+    "deprecated": null,
+    "returns": "The newly created Subscription object",
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.deleteAllSubscriptions",
+    "description": "Deletes all subscriptions.",
+    "deprecated": null,
+    "returns": null,
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.deleteSubscription",
+    "description": "Deletes the specified subscription.",
+    "deprecated": null,
+    "returns": "True if the subscription was deleted successfully; false\n         otherwise",
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.getSubscription",
+    "description": "Retrieves the subscription for the specified subscription id. If the\n subscription id cannot be found, this method returns null.",
+    "deprecated": null,
+    "returns": "The requested Subscription object, or null if the subscription\n         could not be found",
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.isAlive",
+    "description": "API to check if resource is alive",
+    "deprecated": null,
+    "returns": "always returns true",
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.listSubscriptions",
+    "description": "Lists all known subscriptions currently maintained by the subscription service.",
+    "deprecated": null,
+    "returns": "A collection of subscriptions maintained by the subscription service",
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
+    "method": "org.candlepin.hostedtest.HostedTestSubscriptionResource.updateSubscription",
+    "description": "Updates the specified subscription with the provided subscription data.",
+    "deprecated": null,
+    "returns": "The updated Subscription object",
+    "httpStatusCodes": [
+
+    ]
+  },
+  {
     "method": "org.candlepin.resource.ActivationKeyResource.addPoolToKey",
     "url": "/activation_keys/{activation_key_id}/pools/{pool_id}",
     "verifiedParams": [
@@ -1400,6 +1463,37 @@
     ]
   },
   {
+    "method": "org.candlepin.resource.ConsumerResource.unbindByPool",
+    "url": "/consumers/{consumer_uuid}/entitlements/pool/{pool_id}",
+    "verifiedParams": [
+      "consumer_uuid"
+    ],
+    "httpVerbs": [
+      "DELETE"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": null,
+    "description": "Removes all Entitlements from a Consumer\n <p>\n By Pool Id",
+    "deprecated": null,
+    "returns": null,
+    "httpStatusCodes": [
+      {
+        "statusCode": 403,
+        "description": ""
+      },
+      {
+        "statusCode": 404,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
     "method": "org.candlepin.resource.ConsumerResource.unbindBySerial",
     "url": "/consumers/{consumer_uuid}/certificates/{serial}",
     "verifiedParams": [
@@ -1841,7 +1935,7 @@
 
     ],
     "returnType": {
-      "type": "string"
+      "type": "object"
     },
     "description": "Retrieves the Certificate Revocation List",
     "deprecated": null,
@@ -3212,7 +3306,7 @@
     "returnType": {
       "type": "object"
     },
-    "description": "Creates a custom pool for an Owner.\n\n Floating pools are not tied to any upstream subscription, and are most commonly\n used for custom content delivery in Satellite.",
+    "description": "Creates a custom pool for an Owner. Floating pools are not tied to any\n upstream subscription, and are most commonly used for custom content\n delivery in Satellite.\n Also helps in on-site deployment testing",
     "deprecated": null,
     "returns": "a Pool object",
     "httpStatusCodes": [
@@ -3748,10 +3842,12 @@
         "type": "string[]"
       }
     ],
-    "returnType": null,
+    "returnType": {
+      "type": "object"
+    },
     "description": "Imports a manifest zip file for the given organization.\n\n This will bring in any products, content, and subscriptions that were assigned to\n the distributor who generated the manifest.",
     "deprecated": null,
-    "returns": null,
+    "returns": "a ImportRecord object if the import is successful.",
     "httpStatusCodes": [
       {
         "statusCode": 400,
@@ -3903,6 +3999,10 @@
       },
       {
         "name": "product",
+        "type": "string"
+      },
+      {
+        "name": "subscription",
         "type": "string"
       },
       {
@@ -4164,6 +4264,33 @@
     ]
   },
   {
+    "method": "org.candlepin.resource.OwnerResource.updatePool",
+    "url": "/owners/{owner_key}/pools",
+    "verifiedParams": [
+      "owner_key"
+    ],
+    "httpVerbs": [
+      "PUT"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": null,
+    "description": "Updates a pool for an Owner.\n assumes this is a normal pool, and errors out otherwise cause we cannot\n create master pools from bonus pools\n TODO: while this method replaces the now deprecated updateSubsciption, it\n still uses it underneath. We need to re-implement the wheel like we did\n in createPool",
+    "deprecated": null,
+    "returns": null,
+    "httpStatusCodes": [
+      {
+        "statusCode": 404,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
     "method": "org.candlepin.resource.OwnerResource.updateSubscription",
     "url": "/owners/subscriptions",
     "verifiedParams": [
@@ -4177,7 +4304,7 @@
     ],
     "returnType": null,
     "description": "Updates a Subscription for an Owner",
-    "deprecated": null,
+    "deprecated": "Please update pools directly with POST /pools.",
     "returns": null,
     "httpStatusCodes": [
       {
