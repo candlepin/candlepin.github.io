@@ -4,6 +4,9 @@ sections:
  - section: getting_started
    subs:
     - section: amqp
+    - section: entitlements
+      subs: 
+       - section: revoke_entitlements
  - section: user_guide
    subs: 
     - section: general_use_cases
@@ -16,6 +19,9 @@ sections:
     - section: debugging
       subs: 
        - section: logdriver
+    - section: implementation_details
+      subs: 
+       - section: revoke_entitlements_implementation
  - section: reference
  - section: old_layout
    subs:
