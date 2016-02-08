@@ -32,7 +32,7 @@
     {% if tocitem.has_sublevels %}
       <span class="hide_link toc-icon"></span>
     {% endif %}
-    <a href="{{ site.baseurl }}{{ tocitem.link }}">{{tocitem.name}}</a>
+    <a href="{{ site.baseurl }}{{ tocitem.link }}.html">{{tocitem.name}}</a>
   </li>
   {% if forloop.last %}
     {% for t in (1..depth) %}
@@ -44,6 +44,6 @@
 <h2>Uncategorized</h2>
 <ul>
 {% for u in uncategorized %}
-  <li><a href="{{ site.baseurl }}{{ u.link }}">{{ u.name }}</a></li>
+  <li><a href="{{ site.baseurl }}{{ u.link }}.html">{{ u.name }}</a></li>
 {% endfor %}
 </ul>
