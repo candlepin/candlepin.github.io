@@ -1,54 +1,72 @@
 ---
 title: Introduction 
 sections:
- - section: getting_started
+ - section: getting_started 
    subs:
-    - section: amqp
+    - section: overview
+    - section: glossary	
+    - section: how_subscriptions_work 
+      subs:
+       - section: subscription_types
+       - section: subscription_management
+       - section: storage_band_subscriptions
+       - section: constraints
+    - section: entitlements
+      subs:
+       - section: autobind
+       - section: server_side_entitlement_status
+    - section: virtualization_entitlements
+      subs:
+       - section: virt_guest_limit_design
  - section: user_guide
    subs: 
     - section: general_use_cases
+      subs:
+       - section: consumer_fact_lookup
+       - section: json_response_filtering 
     - section: standalone_deployment
     - section: hosted_deployment
+    - section: reporting_an_error
  - section: administration_guide
+   subs: 
+    - section: configuration
+    - section: setup
+    - section: cmv
+    - section: running_on_mysql
+    - section: running_on_oracle
+    - section: common_issues
+    - section: quartz_setup
  - section: development 
    subs:
+    - section: architecture
+      subs:
+       - section: pinsetter
+    - section: java_coding_conventions
     - section: developer_deployment
     - section: debugging
       subs: 
-       - section: logdriver
+       - section: logdriver 
+       - section: debugging_with_wireshark
+    - section: developer_plantuml
+    - section: building_rpms_with_tito
+    - section: i18n
+    - section: developer_notes
+    - section: auto_conf
+    - section: batch_engine
+    - section: checkstyle
+    - section: cpc_tips
+    - section: generate_certificates
+    - section: logging
+    - section: mode_agnostic_spec_testing
+    - section: oauth
+    - section: pagination
+    - section: schema_updates 
  - section: reference
+   subs: 
+    - section: database
+    - section: product_attributes
  - section: old_layout
    subs:
-    - section: usage
-      subs:
-       - section: cmv
-       - section: configuration
-       - section: consumer_fact_lookup
-       - section: json_response_filtering
-       - section: quartz_setup
-       - section: reporting_an_error
-       - section: running_on_mysql
-       - section: running_on_oracle
-       - section: setup
-    - section: developers
-      subs:
-       - section: auto_conf
-       - section: batch_engine
-       - section: building_rpms_with_tito
-       - section: checkstyle
-       - section: cpc_tips
-       - section: debugging_with_wireshark
-       - section: developer_notes
-       - section: developer_plantuml
-       - section: generate_certificates
-       - section: i18n
-       - section: java_coding_conventions
-       - section: logging
-       - section: mode_agnostic_spec_testing
-       - section: oauth
-       - section: pagination
-       - section: pinsetter
-       - section: schema_updates
     - section: design
       subs:
        - section: compliance_snapshots
@@ -64,9 +82,7 @@ sections:
        - section: per_org_products
        - section: plugins
        - section: policy_design
-       - section: server_side_entitlement_status
        - section: servlet_container
-       - section: virt_guest_limit_design
 
 ---
 # Candlepin
