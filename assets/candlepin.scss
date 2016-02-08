@@ -134,7 +134,10 @@ $toc-body-padding: 5px 12px;
   padding-right: 2px;
 }
 
-li.tocitem[data-level="1"],
+li.tocitem[data-level="1"] {
+  font-size: 17px;
+  font-weight: bold;
+}
 li.tocitem[data-level="2"] {
   font-weight: bold;
 }
