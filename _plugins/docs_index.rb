@@ -102,10 +102,12 @@ module Jekyll
       tocitems = DocsIndexTag.build_toc_items(sections_yaml, 1, "")
 
       uncat=[]
+      
       all_pages.each do |k, v|
+        logger.warn("Detected uncategorized page '#{k}'. Please categorize all your pages in index.md")
         uncat << UncatPage.new(v[:title], k)
       end
-
+      
       #Signal to the template, so that it can include necessary Javascript
       page['mastertoc'] = true
       payload = Utils.deep_merge_hashes(site.site_payload, { 'tocitems' => tocitems, 'uncategorized' => uncat})
