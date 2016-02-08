@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Developer Notes
 ---
 {% include toc.md %}

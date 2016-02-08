@@ -1,5 +1,5 @@
 ---
-title: How Subscriptions Work
+title: Subscriptions and Engineering Products
 ---
 {% include toc.md %}
 

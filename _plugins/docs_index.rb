@@ -28,8 +28,7 @@ module Jekyll
       @tokens = tokens
     end
 
-    # Adds titles of pages to Master Table of Contents and also
-    # adds headings of pages to Master Table of Contents.
+    # Adds titles of pages to Master Table of Contents.
     # When a page info is extracted from project_pages hash,
     # the page is removed from project_pages. This way we can track
     # uncategorized pages
@@ -46,11 +45,6 @@ module Jekyll
 
         # Each sub is an existing page, add title to each one
         DocsIndexTag.add_titles_and_subsections(s['subs'], project_pages)
-
-        # As the last thing, add all the anchors to page headings
-        page[:headings].each do |heading|
-          s['subs'] << { 'section' => "#{section_name}##{heading[:id]}", 'section-title' => heading[:text] }
-        end
       end
     end
 
@@ -79,36 +73,16 @@ module Jekyll
     # Excludes this_page.
     #
     # Returns a hash indexed by page name. Each element of the hash
-    # contains title (:title) of the page and an array of headings (:headings) in that page
-    # This method parses the page using regex. I think its
-    # much faster than parsing the whole page using Kramdown parser when
-    # we only need heading names.
+    # contains title (:title)
     def self.pages_by_name(site, this_page)
       result = {}
       project_pages = site.pages.select do |p|
         File.dirname(p.path) == File.dirname(this_page['path']) && p.url != this_page['url']
       end
       project_pages.each do |p|
-        h = []
-        p.content.each_line do |line|
-          # Remove span tags from the line
-          line = line.gsub(/\<span[^>]*\>/,'')
-          line = line.gsub(/\<\/span\>/,'')
-          # Regex finds <h1 and extracts the id attribute and the inner of the
-          # h1 tag
-          match = line.match(/\<h1[ ]+id=\"([^\"]+)\"\>([^\<]+)/)
-          unless match.nil?
-            if match.captures.length < 2
-              raise "The following line in page #{p.name} appears to be an h1 " +
-                "tag, but I couldn't extract id and heading text:\n#{line}"
-            end
-            h << { :id => match.captures[0], :text => match.captures[1] }
-          end
-        end
-
-        # Hash key is page name without .md suffix
-        # Each page contains array of headings and each page has a title
-        result[p.name[0..-4]] = { :headings =>  h, :title => p.data['title'] }
+        # Hash key is page name without .md or .html suffix
+        clean_name = p.name.gsub(/(\.html$)|(\.md$)/,'')
+        result[clean_name] = { :title => p.data['title'] }
       end
       return result
     end
@@ -128,10 +102,12 @@ module Jekyll
       tocitems = DocsIndexTag.build_toc_items(sections_yaml, 1, "")
 
       uncat=[]
+      
       all_pages.each do |k, v|
+        logger.warn("Detected uncategorized page '#{k}'. Please categorize all your pages in index.md")
         uncat << UncatPage.new(v[:title], k)
       end
-
+      
       #Signal to the template, so that it can include necessary Javascript
       page['mastertoc'] = true
       payload = Utils.deep_merge_hashes(site.site_payload, { 'tocitems' => tocitems, 'uncategorized' => uncat})
