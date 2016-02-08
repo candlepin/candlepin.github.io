@@ -1,5 +1,4 @@
 ---
-title: Development
+title: High Availability
 ---
 {% include toc.md %}
-

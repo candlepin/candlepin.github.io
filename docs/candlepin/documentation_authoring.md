@@ -1,5 +1,5 @@
 ---
-title: Development
+title: Documentation
 ---
 {% include toc.md %}
 

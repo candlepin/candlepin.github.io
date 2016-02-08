@@ -4,7 +4,8 @@ sections:
  - section: getting_started 
    subs:
     - section: overview
-    - section: glossary	
+      subs:
+       - section: glossary	
     - section: how_subscriptions_work 
       subs:
        - section: subscription_types
@@ -15,9 +16,11 @@ sections:
       subs:
        - section: autobind
        - section: server_side_entitlement_status
+       - section: expired_entitlements
     - section: virtualization_entitlements
       subs:
        - section: virt_guest_limit_design
+       - section: virtualization_host_and_guest_association
  - section: user_guide
    subs: 
     - section: general_use_cases
@@ -29,60 +32,77 @@ sections:
     - section: reporting_an_error
  - section: administration_guide
    subs: 
-    - section: configuration
     - section: setup
+      subs:
+       - section: configuration
+       - section: quartz_setup
+       - section: running_on_mysql
+       - section: running_on_oracle
     - section: cmv
-    - section: running_on_mysql
-    - section: running_on_oracle
     - section: common_issues
-    - section: quartz_setup
- - section: development 
+    - section: high_availability
+    - section: data_transfer_format
+ - section: developer_notes 
    subs:
     - section: architecture
       subs:
+       - section: per_org_products
        - section: pinsetter
-    - section: java_coding_conventions
-    - section: developer_deployment
+       - section: batch_engine
+       - section: event_model
+       - section: amqp
+       - section: javascript_rules
+       - section: authentication_and_authorization
+         subs:
+          - section: oauth
+    - section: development
+      subs: 
+       - section: developer_deployment
+       - section: auto_conf
+       - section: java_coding_conventions
+       - section: checkstyle
+       - section: logging
+       - section: i18n
+       - section: pagination
+       - section: schema_updates    
+       - section: json_jaxb
+       - section: crl
     - section: debugging
       subs: 
+       - section: cpc_tips
+       - section: generate_certificates
        - section: logdriver 
        - section: debugging_with_wireshark
-    - section: developer_plantuml
-    - section: building_rpms_with_tito
-    - section: i18n
-    - section: developer_notes
-    - section: auto_conf
-    - section: batch_engine
-    - section: checkstyle
-    - section: cpc_tips
-    - section: generate_certificates
-    - section: logging
-    - section: mode_agnostic_spec_testing
-    - section: oauth
-    - section: pagination
-    - section: schema_updates 
+    - section: testing
+      subs:
+       - section: mode_agnostic_spec_testing
+    - section: documentation_authoring
+      subs:
+       - section: developer_plantuml
+    - section: packaging
+      subs:
+       - section: building_rpms_with_tito
  - section: reference
    subs: 
+    - section: api
     - section: database
     - section: product_attributes
  - section: old_layout
    subs:
-    - section: design
-      subs:
-       - section: compliance_snapshots
-       - section: environments_design
-       - section: event_model
-       - section: jython_rules
-       - section: lazy_cert_regen
-       - section: manifest_consumer_association
-       - section: multi_cdn_design
-       - section: multi_owner_users
-       - section: multi_version_products_design
-       - section: owner_hierarchy
-       - section: per_org_products
-       - section: plugins
-       - section: policy_design
-       - section: servlet_container
+    - section: compliance_snapshots
+    - section: environments_design
+    - section: jython_rules
+    - section: lazy_cert_regen
+    - section: manifest_consumer_association
+    - section: multi_cdn_design
+    - section: multi_owner_users
+    - section: multi_version_products_design
+    - section: owner_hierarchy
+    - section: plugins
+    - section: policy_design
+    - section: servlet_container
+    - section: api_version_design
+    - section: federated_certificate_management
 
 ---
 # Candlepin
