@@ -13,5 +13,9 @@
   </div>
   {% include footer.html %}
   {% include bootstrap.html %}
+  <!-- If Master Table of Content tag is used is present-->
+  {% if page.mastertoc %}
+  	{% include mastertoc.html %}
+  {% endif %}
 </body>
 </html>
