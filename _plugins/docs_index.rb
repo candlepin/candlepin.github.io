@@ -81,7 +81,8 @@ module Jekyll
       end
       project_pages.each do |p|
         # Hash key is page name without .md or .html suffix
-        result[p.name[0..-4]] = { :title => p.data['title'] }
+        clean_name = p.name.gsub(/(\.html$)|(\.md$)/,'')
+        result[clean_name] = { :title => p.data['title'] }
       end
       return result
     end
