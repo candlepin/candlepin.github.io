@@ -1,6 +1,6 @@
 {% assign depth = 1 %}
 <ul class="outline-numbered">
-{% for tocitem in tocitems %}
+{% for entry in entries %}
   {% comment %}
   Depth should always increase by ones, but can decrease by an arbitrary
   amount.  If depth has increased, we need to increment our depth counter and
@@ -14,23 +14,23 @@
   the nested structure is a lot more difficult especially since the logical
   operations available in Liquid are very limited.
   {% endcomment %}
-  {% if depth < tocitem.level %}
+  {% if depth < entry.level %}
     {% assign depth = depth | plus: 1 %}
     <ul class="outline-numbered">
   {% endif %}
-  {% if depth > tocitem.level %}
-    {% capture diff %}{{ depth | minus: tocitem.level }}{% endcapture %}
+  {% if depth > entry.level %}
+    {% capture diff %}{{ depth | minus: entry.level }}{% endcapture %}
     {% for t in (1..diff) %}
       </ul>
     {% endfor %}
-    {% assign depth = tocitem.level %}
+    {% assign depth = entry.level %}
   {% endif %}
-  <li data-level="{{tocitem.level}}" class="tocitem section-{{tocitem.number}}">
-    {{ tocitem.number }}
-    {% if tocitem.has_sublevels %}
-      <span class="hide_link toc-icon"></span>
+  <li data-level="{{entry.level}}" class="index-entry section-{{entry.number}}">
+    {{ entry.number }}
+    {% if entry.has_sublevels %}
+      <span class="hide_link index-icon"></span>
     {% endif %}
-    <a href="{{ site.baseurl }}{{ tocitem.link }}.html">{{tocitem.name}}</a>
+    <a href="{{ site.baseurl }}{{ entry.link }}.html">{{entry.name}}</a>
   </li>
   {% if forloop.last %}
     {% for t in (1..depth) %}
@@ -39,9 +39,4 @@
   {% endif %}
 {% endfor %}
 
-<h4>Uncategorized</h4>
-<ul>
-{% for u in uncategorized %}
-  <li><a href="{{ site.baseurl }}{{ u.link }}.html">{{ u.name }}</a></li>
-{% endfor %}
-</ul>
+
