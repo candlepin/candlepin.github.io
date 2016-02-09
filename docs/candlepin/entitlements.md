@@ -1,6 +1,5 @@
 ---
 title: Entitlements
 ---
-{% include toc.md %}
 
-What is entitlement?
+TODO: What is entitlement?
