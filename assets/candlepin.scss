@@ -1,6 +1,7 @@
 ---
 # Add YAML front matter to ensure Jekyll transforms this file
 no_date: true
+toc_display: false
 ---
 @import "candlepin-variables";
 
@@ -119,37 +120,67 @@ div#search div.form-group form input.form-control {
   margin: 0px;
 }
 
-// TABLE OF CONTENTS
-$toc-color: lighten($navbar-default-bg, 25%);
-$toc-border: darken($toc-color, 10%);
-$toc-text: white;
-$toc-heading-padding: 12px;
-$toc-body-padding: 5px 12px;
+// LEFT-HAND NAV COLUMN
+div.index-column {
+  background-color: $navbar-default-bg;
+  color: $navbar-default-link-color;
+  padding-top: 15px;
+  padding-bottom: 5px;
 
-.toc-icon {
-  @extend .small;
-  color: $gray;
-  cursor: pointer;
-  padding-left: 2px;
-  padding-right: 2px;
+  a {
+    color: $navbar-default-link-color;
+    &:hover,
+    &:focus {
+      color: $navbar-default-link-hover-color;
+      background-color: $navbar-default-link-hover-bg;
+      text-decoration: none;
+    }
+
+    &:active {
+     color: $navbar-default-link-active-color;
+    }
+
+    &:disabled {
+      color: $navbar-default-link-disabled-color;
+    }
+  }
+
+  span.index-icon {
+    color: darken($navbar-default-link-color, 60%);
+    cursor: pointer;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  li.index-entry {
+    font-size: 90%;
+  }
+
+  li.index-entry[data-level="1"] {
+    font-weight: bold;
+  }
+
+  li.index-entry[data-level="2"] {
+    font-weight: bold;
+  }
 }
 
-li.tocitem[data-level="1"] {
-  font-size: 17px;
-  font-weight: bold;
-}
-li.tocitem[data-level="2"] {
-  font-weight: bold;
-}
 
 ul.outline-numbered {
   list-style: none;
   padding-left: 0px;
 
   & > & {
-    padding-left: 20px;
+    padding-left: 12px;
   }
 }
+
+// TABLE OF CONTENTS
+$toc-color: lighten($navbar-default-bg, 25%);
+$toc-border: darken($toc-color, 10%);
+$toc-text: white;
+$toc-heading-padding: 12px;
+$toc-body-padding: 5px 12px;
 
 .panel-toc {
   @include panel-variant($toc-border, $toc-text, $toc-color, $toc-border);
