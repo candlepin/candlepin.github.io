@@ -1,6 +1,6 @@
 ---
 categories: usage, developers
-title: The Candlepin Migration Validation (cmv) Tool
+title: Migration Validation Tool
 ---
 {% include toc.md %}
 
