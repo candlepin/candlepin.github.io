@@ -1,21 +1,24 @@
 {% include top.html %}
+{% include bootstrap.html %}
 </head>
 <body>
   {% include header.html %}
   <div id="page-content" class="container-fluid">
-    {{ content }}
-
-    {% unless page.no_date %}
-      <div id="date_modified">
-        Last modified on {% date_modified format:'%-d %B %Y' %}
+    <div class="row">
+      <div class="col-sm-4 col-md-3 index-column">
+        {% index side_index %}
       </div>
-    {% endunless %}
+
+      <div class="col-sm-8 col-md-9 content-column">
+        {{ content }}
+        {% unless page.no_date %}
+          <div id="date_modified">
+            Last modified on {% date_modified format:'%-d %B %Y' %}
+          </div>
+        {% endunless %}
+      </div>
+    </div>
   </div>
   {% include footer.html %}
-  {% include bootstrap.html %}
-  <!-- If Master Table of Content tag is used is present-->
-  {% if page.mastertoc %}
-  	{% include mastertoc.html %}
-  {% endif %}
 </body>
 </html>
