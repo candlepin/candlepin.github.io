@@ -1,6 +1,6 @@
 {% assign depth = 1 %}
 <ul class="outline-numbered">
-{% for entry in entries %}
+{% for entry in site.data.toc.entries %}
   {% comment %}
   Depth should always increase by ones, but can decrease by an arbitrary
   amount.  If depth has increased, we need to increment our depth counter and
@@ -25,7 +25,8 @@
     {% endfor %}
     {% assign depth = entry.level %}
   {% endif %}
-  <li data-level="{{entry.level}}" class="index-entry section-{{entry.number}}">
+  {% assign page_slug = page.name | split:"." | first %}
+  <li data-level="{{entry.level}}" class="index-entry section-{{entry.number}}{% if page_slug == entry.link %} highlight-node{% endif %}">
     {{ entry.number }}
     {% if entry.has_sublevels %}
       <span class="hide_link index-icon"></span>
