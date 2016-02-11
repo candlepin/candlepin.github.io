@@ -127,6 +127,16 @@ div.index-column {
   padding-top: 15px;
   padding-bottom: 5px;
 
+  li.highlight-node {
+    color: $rh-red;
+    $navbar-default-bg-gradient-mid: darken($navbar-default-bg, 50%);
+    @include gradient-horizontal-three-colors(
+      $start-color: $navbar-default-bg,
+      $mid-color: $navbar-default-bg-gradient-mid,
+      $color-stop: 25%,
+      $end-color: $navbar-default-bg);
+  }
+
   a {
     color: $navbar-default-link-color;
     &:hover,

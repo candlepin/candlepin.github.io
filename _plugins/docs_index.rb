@@ -48,6 +48,9 @@ module Jekyll
         else
           secnum = "#{number}.#{section_num.to_s}"
         end
+        # This is a little brittle.  We're using the value specified in the YAML file to build the href in the
+        # anchor tag, but the values in the YAML files don't have any directory information associated with them.
+        # I would prefer to match the s['section'] values to actual Page objects and then use page.url
         result << TocItem.new(level, secnum, s['section-title'], s['section'], s.key?('subs') && s['subs'].length > 0)
         if s.key?('subs')
           result.concat(build_toc_entries(s['subs'], level + 1, secnum))
@@ -113,9 +116,11 @@ module Jekyll
 
     def render(context)
       site = context.registers[:site]
+      page = context.registers[:page]
       logger.abort_with("FATAL:", "Could not find layout named '#{@text}'") unless site.layouts.key?(@text)
       layout = site.layouts[@text]
-      Liquid::Template.parse(layout.content).render!(site.data[IndexGenerator::INDEX_KEY])
+      payload = Utils.deep_merge_hashes(site.site_payload, { "page" => page })
+      Liquid::Template.parse(layout.content).render!(payload)
     end
   end
 end
