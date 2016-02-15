@@ -1,5 +1,5 @@
 ---
-title: Developer Notes
+title: Developers
 ---
 {% include toc.md %}
 
