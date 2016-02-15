@@ -3,6 +3,7 @@
   Tag to create a documentation index.
 =end
 
+require 'pathname'
 require_relative 'mixins.rb'
 
 module Jekyll
@@ -66,12 +67,28 @@ module Jekyll
     # Returns a hash indexed by page name. Each element of the hash
     # contains title (:title)
     def pages_by_name(site)
-      result = {}
+      result = Hash.new { |h, k| h[k] = {} }
+      doc_root = Pathname.new('docs')
       site.pages.each do |p|
+        path = Pathname.new(p.path)
+
+        # Check to see that the page is underneath the docs directory
+        # This would be much tidier if ascend returned an enumerator
+        matches = false
+        path.ascend do |dir|
+          matches ||= (dir == doc_root)
+        end
+        next unless matches
+
+        project = ''
+        path.relative_path_from(doc_root).ascend do |dir|
+          project = dir.to_s
+        end
+
         # Hash key is page name without .md or .html suffix
         clean_name = p.name.gsub(/(\.html$)|(\.md$)/,'')
         next if p.data['toc_display'] == false
-        result[clean_name] = { :title => p.data['title'] || p.name }
+        result[project][clean_name] = { :title => p.data['title'] || p.name }
       end
       result
     end
@@ -84,12 +101,18 @@ module Jekyll
       all_pages = pages_by_name(site)
 
       # After this method is called, all unused pages will stay in all_pages
-      add_titles_and_subsections(sections_yaml, all_pages)
-      toc_entries = build_toc_entries(sections_yaml, 1, "")
+      toc_entries = {}
+      sections_yaml.each do |project|
+        project.each do |name, sections|
+          logger.abort_with("FATAL:", "Could not find project named '#{name}'") unless all_pages.key?(name)
+          add_titles_and_subsections(sections, all_pages[name])
+          toc_entries[name] = build_toc_entries(project[name], 1, "")
+        end
+      end
 
-      uncat=[]
+      uncat = []
       all_pages.each do |k, v|
-        logger.warn("Detected uncategorized page '#{k}'. Please categorize pages in _data/#{INDEX_KEY}.yaml")
+        logger.warn("Detected uncategorized page '#{k} - #{v.flatten[0]}'. Please categorize pages in _data/#{INDEX_KEY}.yaml")
         uncat << UncatPage.new(v[:title], k)
       end
 

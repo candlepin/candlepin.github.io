@@ -1,6 +1,7 @@
 {% assign depth = 1 %}
+{% assign project = page.url | split:"/" %}
 <ul class="outline-numbered">
-{% for entry in site.data.toc.entries %}
+{% for e in site.data.toc.entries %}
   {% comment %}
   Depth should always increase by ones, but can decrease by an arbitrary
   amount.  If depth has increased, we need to increment our depth counter and
@@ -14,28 +15,33 @@
   the nested structure is a lot more difficult especially since the logical
   operations available in Liquid are very limited.
   {% endcomment %}
-  {% if depth < entry.level %}
-    {% assign depth = depth | plus: 1 %}
-    <ul class="outline-numbered">
-  {% endif %}
-  {% if depth > entry.level %}
-    {% capture diff %}{{ depth | minus: entry.level }}{% endcapture %}
-    {% for t in (1..diff) %}
-      </ul>
-    {% endfor %}
-    {% assign depth = entry.level %}
-  {% endif %}
-  {% assign page_slug = page.name | split:"." | first %}
-  <li data-level="{{entry.level}}" class="index-entry section-{{entry.number}}{% if page_slug == entry.link %} highlight-node{% endif %}">
-    {{ entry.number }}
-    {% if entry.has_sublevels %}
-      <span class="hide_link index-icon"></span>
-    {% endif %}
-    <a href="{{ site.baseurl }}{{ entry.link }}.html">{{entry.name}}</a>
-  </li>
-  {% if forloop.last %}
-    {% for t in (1..depth) %}
-      </ul>
+  {% if project contains e[0] %}
+  <div id="index-column-title">{{ e[0] | capitalize }}</div>
+    {% for entry in e[1] %}
+      {% if depth < entry.level %}
+        {% assign depth = depth | plus: 1 %}
+        <ul class="outline-numbered">
+      {% endif %}
+      {% if depth > entry.level %}
+        {% capture diff %}{{ depth | minus: entry.level }}{% endcapture %}
+        {% for t in (1..diff) %}
+          </ul>
+        {% endfor %}
+        {% assign depth = entry.level %}
+      {% endif %}
+      {% assign page_slug = page.name | split:"." | first %}
+      <li data-level="{{entry.level}}" class="index-entry section-{{entry.number}}{% if page_slug == entry.link %} highlight-node{% endif %}">
+        {{ entry.number }}
+        {% if entry.has_sublevels %}
+          <span class="hide_link index-icon"></span>
+        {% endif %}
+        <a href="{{ site.baseurl }}{{ entry.link }}.html">{{entry.name}}</a>
+      </li>
+      {% if forloop.last %}
+        {% for t in (1..depth) %}
+          </ul>
+        {% endfor %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 {% endfor %}

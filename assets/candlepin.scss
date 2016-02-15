@@ -127,6 +127,11 @@ div.index-column {
   padding-top: 15px;
   padding-bottom: 5px;
 
+  #index-column-title {
+    @extend .text-center;
+    font-size: 130%;
+  }
+
   li.highlight-node {
     color: $rh-red;
     $navbar-default-bg-gradient-mid: darken($navbar-default-bg, 50%);
