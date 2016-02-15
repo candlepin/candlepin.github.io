@@ -20,7 +20,7 @@
         - section: virtualization_host_and_guest_association
 - section: user_guide
   subs:
-    - section: general_use_cases
+    - section: basic_how_to
       subs:
         - section: consumer_fact_lookup
         - section: json_response_filtering
@@ -39,7 +39,7 @@
     - section: common_issues
     - section: high_availability
     - section: data_transfer_format
-- section: developer_notes
+- section: developers
   subs:
     - section: architecture
       subs:
@@ -84,7 +84,7 @@
     - section: api
     - section: database
     - section: product_attributes
-- section: old_layout
+- section: design
   subs:
     - section: compliance_snapshots
     - section: environments_design
