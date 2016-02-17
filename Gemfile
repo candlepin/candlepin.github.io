@@ -3,7 +3,7 @@ ruby '2.0.0'
 
 gem 'git'
 gem 'typogruby'
-gem 'jekyll', "~> 3.0"
+gem 'jekyll'
 gem 'jekyll-paginate'
 gem 'jekyll-plantuml'
 gem 'jekyll-sitemap'
