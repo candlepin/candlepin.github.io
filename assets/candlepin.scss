@@ -199,6 +199,7 @@ $toc-body-padding: 5px 12px;
 
 .panel-toc {
   @include panel-variant($toc-border, $toc-text, $toc-color, $toc-border);
+  margin-top: 20px;
 
   .panel-heading {
     padding: $toc-heading-padding;
