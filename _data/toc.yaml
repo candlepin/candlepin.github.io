@@ -24,6 +24,7 @@
       subs:
         - section: consumer_fact_lookup
         - section: json_response_filtering
+        - section: batch_binding
     - section: standalone_deployment
     - section: hosted_deployment
     - section: reporting_an_error
