@@ -1,6 +1,7 @@
 ---
 # Add YAML front matter to ensure Jekyll transforms this file
 no_date: true
+toc_display: false
 ---
 @import "candlepin-variables";
 
@@ -119,6 +120,75 @@ div#search div.form-group form input.form-control {
   margin: 0px;
 }
 
+// LEFT-HAND NAV COLUMN
+div.index-column {
+  background-color: $navbar-default-bg;
+  color: $navbar-default-link-color;
+  padding-top: 15px;
+  padding-bottom: 5px;
+
+  #index-column-title {
+    @extend .text-center;
+    font-size: 130%;
+  }
+
+  li.highlight-node {
+    color: $rh-red;
+    $navbar-default-bg-gradient-mid: darken($navbar-default-bg, 50%);
+    @include gradient-horizontal-three-colors(
+      $start-color: $navbar-default-bg,
+      $mid-color: $navbar-default-bg-gradient-mid,
+      $color-stop: 25%,
+      $end-color: $navbar-default-bg);
+  }
+
+  a {
+    color: $navbar-default-link-color;
+    &:hover,
+    &:focus {
+      color: $navbar-default-link-hover-color;
+      background-color: $navbar-default-link-hover-bg;
+      text-decoration: none;
+    }
+
+    &:active {
+     color: $navbar-default-link-active-color;
+    }
+
+    &:disabled {
+      color: $navbar-default-link-disabled-color;
+    }
+  }
+
+  span.index-icon {
+    color: darken($navbar-default-link-color, 60%);
+    cursor: pointer;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  li.index-entry {
+    font-size: 90%;
+  }
+
+  li.index-entry[data-level="1"] {
+    font-weight: bold;
+  }
+
+  li.index-entry[data-level="2"] {
+    font-weight: bold;
+  }
+}
+
+
+ul.outline-numbered {
+  list-style: none;
+  padding-left: 0px;
+
+  & > & {
+    padding-left: 12px;
+  }
+}
 
 // TABLE OF CONTENTS
 $toc-color: lighten($navbar-default-bg, 25%);
@@ -126,8 +196,10 @@ $toc-border: darken($toc-color, 10%);
 $toc-text: white;
 $toc-heading-padding: 12px;
 $toc-body-padding: 5px 12px;
+
 .panel-toc {
   @include panel-variant($toc-border, $toc-text, $toc-color, $toc-border);
+  margin-top: 20px;
 
   .panel-heading {
     padding: $toc-heading-padding;

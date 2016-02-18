@@ -12,7 +12,7 @@ Optionally, if you wish to transform your JSON in some way, create a file with t
 name as your JSON file but with a ".rb" extension.  In the ".rb" file, create a Module named
 "Mutate" that defines a "mutate" method.  When the page object is created, the plugin will load
 the Mutate module, call the mutate method on the JSON, and then unload the Mutate module.  The
-mutationed JSON is cached so it will only regenerate if the underlying JSON file is modified.
+mutated JSON is cached so it will only regenerate if the underlying JSON file is modified.
 =end
 
 require 'pathname'
