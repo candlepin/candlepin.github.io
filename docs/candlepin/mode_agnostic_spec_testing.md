@@ -57,6 +57,8 @@ so that we can revert back to hosted mode by :
   $ ./server/bin/deploy -a
   ```
 
+* Note: Hosted spec tests do not run successfully in parallel mode. Please run them only in serial mode!
+
 ## How to create pools in a mode agnostic manner
 The candlepin_scenarios.rb utility has the following methods to help developers spec test in a mode agnostic manner:
 
