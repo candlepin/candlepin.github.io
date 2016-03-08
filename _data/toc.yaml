@@ -87,6 +87,7 @@
           - section: schema_updates
           - section: json_jaxb
           - section: crl
+          - section: hibernate
       - section: debugging
         subs:
           - section: cpc_tips
