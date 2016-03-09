@@ -2,6 +2,7 @@ _site/
 .isolation_config.yml
 *.swp
 .sass-cache
+.jekyll-metadata
 
 # Travis deployment cache directory
 .dpl
