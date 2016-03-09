@@ -11,25 +11,14 @@ module Kramdown
       def convert_codeblock(el, indent)
         attr = el.attr.dup
         lang = extract_code_language!(attr) || @options[:coderay_default_lang]
-        code = pygmentize(el.value, lang)
-        code_attr = {}
-
-        if lang
-          css_class = "language-#{lang}"
-          code_attr['class'] = css_class
-          if attr.has_key?('class')
-            attr['class'] += " #{css_class}"
-          else
-            attr['class'] = css_class
-          end
-        end
-        "#{' '*indent}<pre#{html_attributes(attr)}><code#{html_attributes(code_attr)}>#{code}</code></pre>\n"
+        code = pygmentize(el.value, lang, :classes => attr['class'])
+        "#{code}\n"
       end
 
       def convert_codespan(el, indent)
         attr = el.attr.dup
         lang = extract_code_language!(attr) || @options[:coderay_default_lang]
-        code = pygmentize(el.value, lang)
+        code = pygmentize(el.value, lang, :wrap => false)
         if lang
           if attr.has_key?('class')
             attr['class'] += " language-#{lang}"
@@ -40,14 +29,25 @@ module Kramdown
         "<code#{html_attributes(attr)}>#{code}</code>"
       end
 
-      def pygmentize(code, lang)
-        if lang
-          Pygments.highlight(code,
-            :lexer => lang,
-            :options => { :encoding => 'utf-8', :nowrap => true })
-        else
-          escape_html(code)
+      def pygmentize(code, lang, opts)
+        wrap = (opts.key?(:wrap)) ? opts[:wrap] : true
+        classes = (opts.key?(:classes)) ? opts[:classes] : nil
+        lang ||= 'text'
+
+        pyg_opts = {
+          :encoding => 'utf-8',
+          :nowrap => (!wrap).to_s,
+          # cssclass and line number options only apply if nowrap is false
+          :cssclass => "language-#{lang} highlight #{classes}",
+        }
+
+        if classes =~ /\bnumbered\b/
+          pyg_opts[:lineanchors] = 'line'
         end
+
+        Pygments.highlight(code,
+          :lexer => lang,
+          :options => pyg_opts)
       end
     end
   end

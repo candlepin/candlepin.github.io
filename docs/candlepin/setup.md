@@ -113,7 +113,7 @@ Error running command: dropdb -U candlepin candlepin
 Status code: 256
 Command output: dropdb: could not connect to database postgres: could not connect to server: 
 ```
-{:.alert-bad .output-only}
+{:.output-only}
 <!--
   These error message blocks are marked as text because if they were marked as 'console', Pygments
   would interpret the hash mark as a prompt and highlight it incorrectly.  We use the .output-only
@@ -125,7 +125,6 @@ then start PostgreSQL:
 ```console
 $ sudo /sbin/service postgresql start
 ```
-{:.alert-good}
 
 ## PostgreSQL user does not exist
 
@@ -137,14 +136,13 @@ Error running command: dropdb -U candlepin candlepin
 Status code: 256
 Command output: dropdb: could not connect to database postgres: FATAL:  Ident authentication failed for user "candlepin"
 ```
-{:.alert-bad .output-only}
+{:.output-only}
 
 then create the PostgreSQL user:
 
 ```console
 $ sudo su - postgres -c 'createuser -dls candlepin'
 ```
-{:.alert-good}
 
 ## Candlepin database being used by another process
 Sometimes re-running `cpsetup` might result in the following error meaning that
@@ -160,21 +158,19 @@ Status code: 256
 Command output: dropdb: database removal failed: ERROR:  database "candlepin" is being accessed by other users
 DETAIL:  There are 1 other session(s) using the database.
 ```
-{:.alert-bad .output-only}
+{:.output-only}
 
 Most of the time this is a result of the candlepin webapp still running, restart tomcat
 
 ```console
 $ sudo /sbin/service tomcat6 stop
 ```
-{:.alert-good}
 
 If you are using a database client, quit the database client.
 
 ```psql
 candlepin=# \q
 ```
-{:.alert-good}
 
 ## PostgreSQL not configured for trust
 Candlepin currently expects that the database is configured in trust mode (i.e.
@@ -183,13 +179,13 @@ no password required).  If you see the following error, please check the
 
 ```text
 Dropping candlepin database
- 
+
 ########## ERROR ############
 Error running command: dropdb -U candlepin candlepin
 Status code: 256
 Command output: dropdb: could not connect to database postgres: FATAL:  Ident authentication failed for user "candlepin"
 ```
-{:.alert-bad .output-only}
+{:.output-only}
 
 ## Wrong Java version and incorrect tomcat6 permissions
 tomcat6 installs java-1.5.0-gcj instead of java-1.6.0-openjdk and sets some
@@ -199,7 +195,7 @@ incorrect permissions which may lead to the following error during cpsetup:
 ########## ERROR ############
 Error running command: wget -qO- http://localhost:8080/candlepin/admin/init
 Status code: 2048
-Command output: 
+Command output:
 Traceback (most recent call last):
   File "/usr/share/candlepin/cpsetup", line 215, in <module>
     main(sys.argv[1:])
@@ -209,7 +205,7 @@ Traceback (most recent call last):
     raise Exception("Error running command")
 Exception: Error running command
 ```
-{:.alert-bad .output-only}
+{:.output-only}
 
 Please make sure that you have installed java-1.6.x-openjdk and check if
 permissions are correct for tomcat6, as noted in [Red Hat Bugzilla

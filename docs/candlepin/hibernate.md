@@ -70,19 +70,22 @@ The test method happily passes. Now lets comment out a few lines in implementati
 [3]
 
 ```java
-    @Override  
-    @Transactional  
-    public void deletePool(Pool pool) {  
-       Event event = eventFactory.poolDeleted(pool);  
-       // Must do a full revoke for all entitlements:  
-    // for (Entitlement e : poolCurator.entitlementsIn(pool)) {  
-    //    revokeEntitlement(e);  
-    //    e.getCertificates().clear();  
-    // }  
-       poolCurator.delete(pool);  
-       sink.sendEvent(event);  
-    }  
+@Override
+@Transactional
+public void deletePool(Pool pool) {
+   Event event = eventFactory.poolDeleted(pool);
+   // Must do a full revoke for all entitlements:
+   /*
+   for (Entitlement e : poolCurator.entitlementsIn(pool)) {
+     revokeEntitlement(e);
+     e.getCertificates().clear();
+   }
+   */
+   poolCurator.delete(pool);
+   sink.sendEvent(event);
+}
 ```
+{:.numbered}
 
 And you get exception [0] which indicates that you entitlements are still in the database. This is kinda surprising, because Pool.entitlements have cascade set to ALL which means it should delete them together with the pool. The reason they are not cascade deleted is because in [1] we didn't make sure we maintain runtime consistency (we didn't added the entitlement to pool's collection). So one solution to this problem is add new line 7:
 

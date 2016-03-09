@@ -16,7 +16,7 @@ Ephemeral.  You need to either change the cipher suites supported by the
 server (the `SSLCipherSuite` directive in Apache[^2] and controlled in the
 `Connector` element in Tomcat's `server.xml`) or set the client to not tell
 the server that it supports any DHE suites.
-{:.alert-bad .output-only}
+{:.alert-bad}
 
 Here's how:
 
