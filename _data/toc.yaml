@@ -97,6 +97,7 @@
       - section: testing
         subs:
           - section: mode_agnostic_spec_testing
+          - section: spec_test_migration
       - section: documentation_authoring
         subs:
           - section: developer_plantuml
