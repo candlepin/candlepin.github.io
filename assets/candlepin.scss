@@ -352,9 +352,36 @@ footer {
 // SYNTAX HIGHLIGHTING STYLE
 pre {
   @extend .solarized-light;
+  white-space: pre-wrap;
+  padding: 5px;
 }
 
-pre.language-console {
+div.highlight.numbered pre {
+  counter-reset: line-numbering;
+
+  a[name*="line"]::before {
+    content: counter(line-numbering);
+    counter-increment: line-numbering;
+    padding-right: 10px;
+    opacity: 0.7;
+    display: inline-block;
+    // This should be enough for any number less than four digits
+    // Four digit numbers will probably wrap inside the block and
+    // look strange.
+    width: 35px;
+    color: $solarized-base1;
+    cursor: default;
+    // Exclude the line numbers when selecting text.  Easier copy-paste.
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+div.highlight.language-console pre {
   @extend .solarized-dark;
 
   // Pygments marks bash builtins with the nb class.  Just show them like generic text.
@@ -366,19 +393,11 @@ pre.language-console {
   .gp {
     color: $solarized-green;
   }
-
-  // Provide x-axis scrolling for long lines
-  code {
-    word-wrap: normal;
-    white-space: pre;
-  }
 }
 
-pre.output-only {
+div.highlight.output-only pre {
   @extend .solarized-dark;
 
   // Print all code as Generic.Output
-  code {
-    @extend .go;
-  }
+  @extend .go;
 }
