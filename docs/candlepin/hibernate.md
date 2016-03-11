@@ -31,6 +31,7 @@ Caused by: java.sql.SQLException: Integrity constraint violation FK_ENTITLEMENT_
     at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:133)  
     ... 41 more 
 ```
+{:.numbered}
 
 [1]
 
@@ -50,6 +51,7 @@ Imagine a simple functional (a test that uses in memory database) test in our Po
         poolManager.deletePool(pool);  
     }  
 ```
+{:.numbered}
 
 The createEntitlement method just creates and persists entitlement:
 
@@ -64,6 +66,8 @@ The createEntitlement method just creates and persists entitlement:
             return ent;          
         }  
 ```
+{:.numbered}
+
 The test method happily passes. Now lets comment out a few lines in implementation of deletePool method:
 
 
@@ -102,6 +106,10 @@ And you get exception [0] which indicates that you entitlements are still in the
         poolManager.deletePool(pool);  
     }  
 ```
+{:.numbered}
+
+
+
 Now the entitlements will be cascade deleted. Now lets uncomment lines 6-9 of [3] and change line 6 to:
 
 [4]
@@ -125,6 +133,9 @@ This will work only if the runtime consistency is maintained on line 7 of [3b]. 
         poolManager.deletePool(pool);  
     }
 ```
+{:.numbered}
+
+
 This won't work, because poolCurator.find returns the object instantiated on line 3. To make this approach work, one would have to detach the pool from entity manager on line before the line 8 (or call refresh):
 
 ```java
@@ -156,6 +167,7 @@ So the complete test method now looks like this:
         poolManager.deletePool(pool);  
     }  
 ```
+{:.numbered}
 
 Given the refresh on line 09, you would expect the code will pass. It wont. Instead you will get [0] again. Now the problem why this code doesn't work is much more intricate. The implementation of on createEntitlement (our standard functional test prepare method) on line 6 is:
 
@@ -176,6 +188,8 @@ Given the refresh on line 09, you would expect the code will pass. It wont. Inst
         return toReturn;  
     }  
 ```
+{:.numbered}
+
 As you can see createEntitlement is maintaining runtime consistency (puting toReturn to consumer's entitlements) so on the first sight everything looks ok. However, an important fact to realize with this code is that we use @Id to implement equals/hashCode. As you can see on line 7 we add the pool into consumer.entitlements. This is before entitlement (toReturn) is actually persisted. So the consumer.entitlements contains the entitlement but hashed by null value of @Id. After this method finishes, the line 10 of [5] will persist entitlement. After that the ent gets @Id populated.
 
  
@@ -196,4 +210,6 @@ After that the deletePool method on line 11 of [5] will try to revoke the entitl
             pool = poolCurator.lockAndLoad(pool);  
             consumer.removeEntitlement(entitlement);  
 ```
+{:.numbered}
+
 
