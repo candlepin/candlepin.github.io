@@ -18,7 +18,3 @@ plantuml -v
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-pushd $OPENSHIFT_REPO_DIR
-bundle exec jekyll build
-popd
