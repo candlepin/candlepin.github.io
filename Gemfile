@@ -8,7 +8,7 @@ gem 'jekyll-paginate'
 gem 'jekyll-plantuml'
 gem 'jekyll-sitemap'
 gem 'kramdown'
-# Until https://github.com/adaoraul/rack-jekyll/pull/22 is accepted
+# Until https://github.com/adaoraul/rack-jekyll/pull/46 is accepted
 gem 'rack-jekyll', :git => 'https://github.com/awood/rack-jekyll'
 gem 'nokogiri'
 gem 'pygments.rb'
