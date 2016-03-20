@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: Batch binding exact pools
 ---
 {% include toc.md %}
@@ -184,5 +183,5 @@ title: Batch binding exact pools
 * Maximum number of pools allowed to be requested per bind request:
 
   ```text
-  candlepin.batch.bind.max.size = 100
+  candlepin.batch.bind.number_of_pools_limit = 100
   ```
