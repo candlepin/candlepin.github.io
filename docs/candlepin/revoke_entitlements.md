@@ -1,5 +1,4 @@
 ---
-categories: core
 title: Revoke Entitlements
 ---
 {% include toc.md %}
