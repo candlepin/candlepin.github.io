@@ -37,6 +37,7 @@
           - section: autobind
           - section: server_side_entitlement_status
           - section: expired_entitlements
+          - section: revoke_entitlements
       - section: virtualization_entitlements
         subs:
           - section: virt_guest_limit_design
@@ -89,6 +90,9 @@
           - section: json_jaxb
           - section: crl
           - section: hibernate
+      - section: implementation_details
+        subs:
+          - section: revoke_entitlements_implementation 
       - section: debugging
         subs:
           - section: cpc_tips
