@@ -6,7 +6,7 @@ title: D-Bus use in Subscription Manager
 
 # D-Bus
 
-Subscription Manger creates D-Bus messages when the entitlement staus changes. 
+Subscription Manager creates D-Bus messages when the entitlement status changes. 
 
 <br>
 <br>
@@ -33,7 +33,7 @@ There are 2 signals that correspond to the messages that are sent:
 
 ## Messages
 
-The first contains a code with the status of the machine. It is consumed by the process rhsm_icon. This is the alert bubble that informs the user of the entitlement status. The messages displayed there are keyed from the interger value. Those messages are not specific to actual installed products.
+The first contains a code with the status of the machine. It is consumed by the process rhsm_icon. This is the alert bubble that informs the user of the entitlement status. The messages displayed there are keyed from the integer value. Those messages are not specific to actual installed products.
 
 The second contains a dictionary that contains 3 parameters: Version, Status, and Entitlements. Version and Status [enum below] have single string values. Entitlements is a dictionary that uses the unique identifier [SKU] of each installed product as a key. The value is a tuple that contains the name of the installed product, a state code [enum below], and the compliance message for the product. All installed products will appear in this data set.
 
@@ -133,4 +133,3 @@ Entitlement Status employs the standard Properties interface methods:
 ```
 <br>
 As the available information is read-only, no other access retrictions have been implemented. If the capabilities are expanded in the future to include system manipulation, then access control will be added.
-
