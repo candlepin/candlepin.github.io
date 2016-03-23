@@ -22,6 +22,8 @@ until version 1 of the API is officially released/accepted in upstream.
 - Address: com.redhat.Subscriptions1.Facts
   - Objects:
     - Path: /com/redhat/Subscriptions1/Facts/Host
+      - Interfaces: org.freedesktop.DBus.Introspectable,
+        org.freedesktop.DBus.Properties
       - Interface: com.redhat.Subscriptions1.Facts
       - Methods:
         - GetFacts () -> (Dict of {String, String))
@@ -32,3 +34,7 @@ until version 1 of the API is officially released/accepted in upstream.
         - String last_update (read)
           - The last time the facts were updated
         - String name (read)
+        - String polkit_auth_action (read)
+        - String version (read)
+        - UInt64 cacheExpiryTime (read)
+        - UInt64 lastUpdatedTime (read)
