@@ -24,20 +24,11 @@
   - section: getting_started
     subs:
       - section: overview
-        subs:
-          - section: glossary
-      - section: how_subscriptions_work
+      - section: products_and_subscriptions
         subs:
           - section: subscription_types
-          - section: subscription_management
-          - section: storage_band_subscriptions
-          - section: constraints
-      - section: entitlements
-        subs:
-          - section: autobind
-          - section: server_side_entitlement_status
-          - section: expired_entitlements
-          - section: revoke_entitlements
+          - section: pool_types
+          - section: product_attributes
       - section: virtualization_entitlements
         subs:
           - section: virt_guest_limit_design
@@ -92,6 +83,7 @@
           - section: hibernate
       - section: implementation_details
         subs:
+          - section: storage_band_subscriptions
           - section: revoke_entitlements_implementation 
       - section: debugging
         subs:
@@ -113,7 +105,12 @@
     subs:
       - section: api
       - section: database
-      - section: product_attributes
+      - section: entitlements
+        subs:
+          - section: autobind
+          - section: server_side_entitlement_status
+          - section: expired_entitlements
+          - section: revoke_entitlements
   - section: design
     subs:
       - section: compliance_snapshots
@@ -130,3 +127,7 @@
       - section: servlet_container
       - section: api_version_design
       - section: federated_certificate_management
+      - section: constraints
+      - section: subscription_management
+      - section: how_subscriptions_work
+      - section: glossary

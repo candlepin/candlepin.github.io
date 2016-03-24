@@ -1,5 +1,5 @@
 ---
-title: Virtualization Entitlements
+title: Virtualization 
 ---
 This page may be out of date
 {:.alert-bad}
