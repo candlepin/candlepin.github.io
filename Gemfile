@@ -18,11 +18,6 @@ gem 'rack', "= 1.5.2"
 gem 'rack-rewrite'
 gem 'thin'
 
-group :development do
-  gem 'thor'
-  gem 'safe_yaml'
-  gem 'rack-livereload'
-  gem 'guard-livereload'
-  gem 'guard-jekyll-plus'
+group :jekyll_plugins do
+  gem 'hawkins', "~> 2.0"
 end
-

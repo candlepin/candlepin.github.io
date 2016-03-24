@@ -1,6 +1,7 @@
 _site/
 .isolation_config.yml
 *.swp
+*.patch
 .sass-cache
 .jekyll-metadata
 
