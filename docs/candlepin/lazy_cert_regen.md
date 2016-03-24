@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Lazy Certificate Regeneration
 ---
 {% include toc.md %}

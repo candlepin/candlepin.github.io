@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Debugging SSL/TLS with Wireshark
 ---
 ## Debugging SSL/TLS with Wireshark

@@ -1,5 +1,4 @@
 ---
-categories: thumbslug
 title: Getting Started
 ---
 {% include toc.md %}

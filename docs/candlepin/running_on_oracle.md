@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: Configuring Candlepin to Use Oracle
 ---
 {% include toc.md %}

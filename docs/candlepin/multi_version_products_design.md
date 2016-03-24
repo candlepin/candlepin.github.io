@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Multi-Version Product Design
 ---
 # Multi-Version Products Design

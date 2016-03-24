@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Policy Design
 ---
 {% include toc.md %}

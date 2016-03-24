@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Paginating Results
 ---
 {% include toc.md %}

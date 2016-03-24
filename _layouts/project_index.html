@@ -1,8 +1,0 @@
-{% sorted_for cat in project_categories sort_by:order %}
-<h2>{{ cat.name | capitalize}}</h2>
-  <ul>
-  {% sorted_for page in cat.pages sort_by:title %}
-     <li><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></li>
-  {% endsorted_for %}
-  </ul>
-{% endsorted_for %}

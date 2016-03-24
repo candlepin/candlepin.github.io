@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Owner Hierarchy
 ---
 {% include toc.md %}

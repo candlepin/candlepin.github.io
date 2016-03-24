@@ -1,5 +1,4 @@
 ---
-categories: thumbslug
 title: Testing
 ---
 {% include toc.md %}

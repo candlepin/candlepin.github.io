@@ -1,5 +1,4 @@
 ---
-categories: thumbslug
 title: How Thumbslug Works
 ---
 {% include toc.md %}

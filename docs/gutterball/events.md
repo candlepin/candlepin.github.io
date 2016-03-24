@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Event Processing
 ---
 {% include toc.md %}

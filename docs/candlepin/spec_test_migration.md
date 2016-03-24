@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Spec test migration
 ---
 {% include toc.md %}

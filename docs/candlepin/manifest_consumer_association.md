@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Manifest Consumer Association
 ---
 {% include toc.md %}

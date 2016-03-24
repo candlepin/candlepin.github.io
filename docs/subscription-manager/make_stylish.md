@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Make's 'stylish' Target
 ---
 {% include toc.md %}

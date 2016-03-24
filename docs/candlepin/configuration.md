@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: Candlepin Configuration
 ---
 {% include toc.md %}

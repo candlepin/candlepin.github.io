@@ -1,5 +1,4 @@
 ---
-categories: uncategorized
 title: Reliable Event Delivery
 ---
 {% include toc.md %}

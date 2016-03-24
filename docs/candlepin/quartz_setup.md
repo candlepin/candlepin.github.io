@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: Quartz Configuration
 ---
 {% include toc.md %}

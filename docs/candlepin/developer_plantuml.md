@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Diagramming with PlantUml
 ---
 

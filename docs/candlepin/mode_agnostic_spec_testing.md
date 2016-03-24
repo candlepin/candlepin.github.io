@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Mode agnostic spec testing
 ---
 {% include toc.md %}

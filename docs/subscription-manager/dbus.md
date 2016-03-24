@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: D-Bus use in Subscription Manager
 ---
 {% include toc.md %}

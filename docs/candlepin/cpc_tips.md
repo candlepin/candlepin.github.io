@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Using cpc
 ---
 {% include toc.md %}

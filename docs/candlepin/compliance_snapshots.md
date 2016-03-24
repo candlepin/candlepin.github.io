@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Compliance Snapshots
 ---
 {% include toc.md %}

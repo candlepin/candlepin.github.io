@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: JSON Response Filtering
 ---
 {% include toc.md %}

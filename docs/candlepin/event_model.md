@@ -1,5 +1,4 @@
 ---
-categories: design
 title: HornetQ Event Model
 ---
 {% include toc.md %}

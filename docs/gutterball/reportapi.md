@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Reporting API
 ---
 {% include toc.md %}

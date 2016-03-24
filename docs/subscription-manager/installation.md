@@ -1,6 +1,5 @@
 ---
 title: Installation
-categories: usage, developers
 ---
 {% include toc.md %}
 
