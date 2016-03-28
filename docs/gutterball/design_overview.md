@@ -1,5 +1,4 @@
 ---
-categories: uncategorized
 title: Initial Design Notes
 ---
 {% include toc.md %}

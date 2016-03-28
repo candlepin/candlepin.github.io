@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: Reporting an Error
 ---
 If you have encountered an error or stack trace from Candlepin, the following

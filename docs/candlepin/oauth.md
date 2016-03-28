@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: OAuth Authentication
 ---
 {% include toc.md %}

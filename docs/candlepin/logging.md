@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Logging in Candlepin
 ---
 {% include toc.md %}

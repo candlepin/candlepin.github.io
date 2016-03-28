@@ -1,5 +1,4 @@
 ---
-categories: usage, developers
 title: Migration Validation Tool
 ---
 {% include toc.md %}

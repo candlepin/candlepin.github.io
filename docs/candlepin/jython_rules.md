@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Jython Rules
 ---
 {% include toc.md %}

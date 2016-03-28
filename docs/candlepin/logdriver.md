@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Debugging with LogDriver
 ---
 # LogDriver

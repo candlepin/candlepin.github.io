@@ -1,6 +1,5 @@
 ---
 layout: default
-categories: administrative
 title: Contact Us
 ---
 # Contact Us

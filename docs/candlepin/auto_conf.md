@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Auto Generating candlepin.conf
 ---
 {% include toc.md %}

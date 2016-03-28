@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Generating Test Certificates
 ---
 Regenerating test certs with 1024 keys. Required due to changes in new Java security policies.

@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Building RPMs with Tito
 ---
 {% include toc.md %}

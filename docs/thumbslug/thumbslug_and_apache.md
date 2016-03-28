@@ -1,5 +1,4 @@
 ---
-categories: thumbslug
 title: Thumbslug and Apache
 ---
 Currently, yum clients connect directly to thumbslug, on the port thumbslug is

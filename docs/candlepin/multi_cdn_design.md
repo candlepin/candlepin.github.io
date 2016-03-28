@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Thumbslug Multi-CDN Design
 ---
 {% include toc.md %}

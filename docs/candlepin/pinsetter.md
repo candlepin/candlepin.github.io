@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Pinsetter
 ---
 {% include toc.md %}

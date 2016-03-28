@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Server-Side Entitlement Status
 ---
 {% include toc.md %}

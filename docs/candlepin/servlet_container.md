@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Supporting Multiple Servlet Containers
 ---
 {% include toc.md %}

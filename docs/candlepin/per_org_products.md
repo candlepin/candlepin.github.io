@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Per-Org Products
 ---
 {% include toc.md %}

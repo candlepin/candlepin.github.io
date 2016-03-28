@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: DNF Package Manager
 ---
 {% include toc.md %}

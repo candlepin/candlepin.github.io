@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Batch Engine
 ---
 {% include toc.md %}

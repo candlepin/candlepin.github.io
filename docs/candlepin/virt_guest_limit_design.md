@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Virt Guest Limit Design
 ---
 {% include toc.md %}

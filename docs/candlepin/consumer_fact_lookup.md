@@ -1,5 +1,4 @@
 ---
-categories: usage
 title: Lookup Consumers By Facts
 ---
 {% include toc.md %}

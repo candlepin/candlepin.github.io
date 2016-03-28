@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Multi-Owner Users Design
 ---
 {% include toc.md %}

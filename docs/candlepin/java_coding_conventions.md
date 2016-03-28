@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Coding Conventions
 ---
 {% include toc.md %}

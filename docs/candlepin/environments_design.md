@@ -1,5 +1,4 @@
 ---
-categories: design
 title: Environments Design
 ---
 {% include toc.md %}

@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Database Schema Updates
 ---
 {% include toc.md %}

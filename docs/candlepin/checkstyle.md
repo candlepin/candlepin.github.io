@@ -1,5 +1,4 @@
 ---
-categories: developers
 title: Checkstyle
 ---
 {% include toc.md %}
