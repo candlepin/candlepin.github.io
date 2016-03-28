@@ -8,13 +8,10 @@ encoding: utf-8
 baseurl: ''
 
 exclude:
-  - 'bin'
   - 'vendor'
   - 'Gemfile*'
   - 'README.md'
   - 'config.ru'
-  - 'guard.ru'
-  - 'Guardfile'
 
 projects_dir: 'docs'
 
