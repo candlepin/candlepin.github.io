@@ -1,5 +1,5 @@
 ---
-title: Per-Org Products
+title: Candlepin 2.0 Changes
 ---
 {% include toc.md %}
 
@@ -59,6 +59,8 @@ At the time of writing, the deprecated tables, and any data contained therein, a
  1. You may continue creating custom Subscription objects. Each subscription will be assigned an ID which you can store, or later find by looking for the master pool for the subscription. Issuing a delete or update on this subscription ID can be used to control all pools created for the Subscription.
  1. Subscription created/updated/deleted events will no longer be sent on the bus. If you're listening for these in any capacity, that code should be switched to listen for pool events.
  1. Retreiving product certificates should be done with an org-specific call (```GET owners/{key}/products/{product_id}/certificate``` instead of ```GET products/{pid}/certificate```). Omitting the owner may not pull the proper certificate and may eventually be disabled entirely.
+ 1. Hypervisor Checkins can now be submitted asynchronously. The call is (```POST hypervisors/{owner}```) and must have the header Content-type:text/plain.
+    * Calls like this will return a job status similar to our our async apis.
 
 
 # Migrating to Candlepin 2.0
