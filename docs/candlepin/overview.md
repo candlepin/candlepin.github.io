@@ -22,6 +22,36 @@ Candlepin has built in exention points for the concept of "Subscriptions",
 specific vendor need only integrate to these extension points and then they can
 take advantage of the core engine functionality.
 
+## Basic List of Candlepin Terms
+These are some high level descriptions of terms in the Candlepin data model. More detailed descriptions are in the next parts of the documentation
+
+Owner
+: an organization who has purchased subscriptions to products.
+
+Marketing Product
+: A piece of software or service which can be used by an owner.
+
+Subscription
+: The right to consume a given Marketing Product. Subscriptions must be imported into Candlepin, there are several methods to import, based on the deployment type of Candlepin.
+
+Subscription Pool
+: The right to consume a given Marketing Product. It is essentially a copy of Subscription with additional metadata added by Candlepin. Candlepin chooses to operate with Subscription Pools instead of with Subscriptions directly.
+
+Consumer
+: An entity (person, system, etc) within the owner who may wish to make use of the products.
+
+Entitlement
+: Consumption of a Subscription Pool by a Consumer. Entitlement is an abstract entity that is created when a Consumer uses (consumes) Subscription Pool.
+
+You will also see the other terms used throughout the wiki
+
+Entitlement Certificate
+: By default, an x.509 certficate which represents you right to consume a subscription. This certificate can be used to access software.
+
+Identity Certificate
+: By default, an x.509 certificate which unique identifies a single consumer.
+
+
 # Deployment
 In the simplest case Candlepin is deployed in an ISV's hosted environment, and
 has a feed (or calls out to get) Order and Product Data. Then, remote clients
@@ -82,9 +112,6 @@ Clients (called consumers) go through the following standard lifecycle:
 1. Clients can retrieve updated certificates to handle cases where data has changed server side.
 1. Clients can unbind, or stop consuming certificates.
 1. Clients can unregister, or delete themselves from the system.
-
-# Terms
-See the [Candlepin glossary](glossary.html).
 
 # API
 The engine exposes an API over REST. The API [description](api.html) provides details about what can be done.

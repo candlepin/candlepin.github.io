@@ -3,7 +3,7 @@ title: Subscription Types
 ---
 {% include toc.md %}
 
-Candlepin supports a number of different subscription types which are defined by the attributes on the marketing/SKU product on the subscription. You can view the list of [product attributes](product_attributes.html), this document will outline at a higher level how they can be combined to create the various major types of subscriptions Candlepin supports.
+Candlepin supports a number of different subscription types which are defined by the attributes on the marketing product that is bundled in the subscription. You can view the list of [product attributes](product_attributes.html), this document will outline at a higher level how they can be combined to create the various major types of subscriptions Candlepin supports.
 
 ## Plain
 
@@ -26,13 +26,13 @@ CPU socket stacking is by far the most common, but Candlepin also supports stack
 
 ## Virt Limit
 
-Virt limit subscriptions are used to entitle a physical host, as well as some quantity of guests running on that specific host.
+Virt limit subscriptions are used in virtualized environment. To entitle a host, as well as some quantity of guests running on that specific host.
 
 Example:
 
  * virt_limit: 4 / unlimited
 
-When a physical host consumes a virt_limit subscription, a sub-pool is created that is only visible/usable by guests who are running on that host. The virt-who utitlity is typically what reports the host/guest mapping information and allows this functionality to work. Revoking the physical host entitlement will result in revoking the sub-pool and all it's existing entitlements.
+When a host consumes a virt_limit subscription, a sub-pool is created that is only visible/usable by guests who are running on that host. The virt-who utitlity is typically what reports the host/guest mapping information and allows this functionality to work. Revoking the physical host entitlement will result in revoking the sub-pool and all it's existing entitlements.
 
 Note that guests can still consume the main pool, provided the product does not also carry the physical_only attribute.
 
@@ -55,6 +55,25 @@ A physical system will require quantity 2 per socket pair.
 The subscriptions cannot be broken down for physical systems if they were to have just 1 socket, that system would still require the minimum quantity of 2.
 
 i.e. A physical system with 8 sockets will require quantity 8 (system sockets / product sockets * instance_multiplier)
+
+## Storage Band 
+Storage Band Subscriptions are used to cover file system subscriptions where an owner wants to cover certain amount of disk space for a consumer. Example of such software solution is CEPH. Marketing product of such subscription contains storage_band attribute and integer valued *multiplier* property (not an attribute but actual property of a product). The total quantity (disk space) of Subscription Pool that is created from Storage Band subscription is calculated as follows
+
+```
+ pool_quantity = subscription_qty * mkt_product_multiplier 
+```
+
+It is also required that Marketing Products of Storage Band Subscription have the following attributes set:
+
+```
+storage_band=1
+multi-entitlement='yes'
+stacking_id: <some_product_stack_id>
+```
+
+One quantity of Storage Band Subscription Pool means coverage of 1 TB of storage capacity. So Subscription that has marketing product with multilier 512 can be used to sell multiples of 512 TB of storage.
+
+The fact that Storage Band Subscriptions are multi-entitlement and that they have stacking_id means that its easy to cumulatively cover the storage space. 
 
 
 ## Derived

@@ -4,27 +4,25 @@ title: Glossary
 # Candlepin Terms
 It is helpful to understand the high level terms in the candlepin data model. A basic diagram of the model is:
 
-![]({{ site.baseurl }}/images/model.png){:.center-block}
 
-In that diagram you will see the following terms
 
 Owner
 : an organization who has purchased subscriptions to products.
 
-Subscription
-: The right to consume a given product.
+Marketing Product
+: A piece of software or service which can be used by the owner.
 
-Product
-: An item or service which can be subscribed to by the owner.
+Subscription
+: The right to consume a given Marketing Product.
+
+Subscription Pool
+: The right to consume a given Marketing Product. It is essentially a copy of Subscription with additional processing done by Candlepin. Candlepin chooses to operate with Subscription Pools instead of with Subscriptions directly.
 
 Consumer
 : An entity (person, system, etc) within the owner who may wish to make use of products.
 
 Entitlement
-: The right to use a product
-
-Entitlement Pool
-: The collection of entitlements which are available to be consumed based on a subscription
+: Consumption of a Subscription Pool by a Consumer.
 
 You will also see the other terms used throughout the wiki
 
