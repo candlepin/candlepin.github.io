@@ -57,7 +57,7 @@ The subscriptions cannot be broken down for physical systems if they were to hav
 i.e. A physical system with 8 sockets will require quantity 8 (system sockets / product sockets * instance_multiplier)
 
 ## Storage Band 
-Storage Band Subscriptions are used to cover CEPH (distributed file system) software solutions. Marketing product of such subscription contains storage_band attribute and integer valued *multiplier* property (not an attribute but actual property of a product). The total quantity of Subscription Pool that is created from Storage Band subscription is calculated as follows
+Storage Band Subscriptions are used to cover file system subscriptions where an owner wants to cover certain amount of disk space for a consumer. Example of such software solution is CEPH. Marketing product of such subscription contains storage_band attribute and integer valued *multiplier* property (not an attribute but actual property of a product). The total quantity (disk space) of Subscription Pool that is created from Storage Band subscription is calculated as follows
 
 ```
  pool_quantity = subscription_qty * mkt_product_multiplier 
@@ -71,9 +71,10 @@ multi-entitlement='yes'
 stacking_id: <some_product_stack_id>
 ```
 
+One quantity of Storage Band Subscription Pool means coverage of 1 TB of storage capacity. So Subscription that has marketing product with multilier 512 can be used to sell multiples of 512 TB of storage.
+
 The fact that Storage Band Subscriptions are multi-entitlement and that they have stacking_id means that its easy to cumulatively cover the storage space. 
 
-One quantity of Subscription Pool means coverage of 1 TB of CEPH storage capacity. So for example Subscription that has marketing product with multilier 512 can be used to sell multiples of 512 TB of CEPH storage.
 
 ## Derived
 

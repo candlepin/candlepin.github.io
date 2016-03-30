@@ -22,7 +22,7 @@ On the other hand, the attributes placed on Subscription Pools usually play tech
 | requires_host | pool | Host consumer UUID | Indicates that only guests whose host consumer matches the given UUID can use this subscription.  |
 | sockets | product | number of cpu sockets | The number of sockets which a subscription can cover. |
 | support_level | product | human readable description of support level | Used to match a usrs preference to make a machine a certain support level. |
-| storage_band | product | 1 or 0 | 1 if and only if the marketing product is to be used to cover CEPH software. |
+| storage_band | product | 1 or 0 | 1 if and only if the marketing product is to be used to cover disk storage software. |
 | support_type | product | human readable description of support type | Passed down to the certificate. |
 | user_license | product | "unlimited", int | Indicates that when an entitlement is granted, a new pool is created of the indicated size, which is only available to consumers registered by the same user account. This is used to model "developer subscriptions"  |
 | user_license_product | product | product ID | Indicates what product the new pool should be for in the above scenario. If not specified, the same product is used from the original subscription/pool. |
