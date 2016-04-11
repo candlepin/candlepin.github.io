@@ -68,7 +68,7 @@
     subs:
       - section: architecture
         subs:
-          - section: per_org_products
+          - section: cp2_migration
           - section: pinsetter
           - section: batch_engine
           - section: event_model
@@ -92,7 +92,7 @@
           - section: hibernate
       - section: implementation_details
         subs:
-          - section: revoke_entitlements_implementation 
+          - section: revoke_entitlements_implementation
       - section: debugging
         subs:
           - section: cpc_tips
