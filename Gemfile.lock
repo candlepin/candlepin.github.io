@@ -89,6 +89,3 @@ DEPENDENCIES
   stringex
   thin
   typogruby
-
-BUNDLED WITH
-   1.11.2
