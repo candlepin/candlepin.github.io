@@ -4,6 +4,9 @@ title: Configuring Candlepin to Use Oracle
 {% include toc.md %}
 
 # Oracle Tips For Developers
+WARNING: Mysql automatically creates an index when adding a foreign key constraint, while Oracle does not. When adding a new foreign key constraint in a liquibase changelog, each `addForeignKeyConstraint` should be accompanied by a `createIndex` specifically for the Oracle database. Not only does this make deployment accross databases consistent, but more importantly it is critical to avoid deadlocks, as Oracle tends to lock the entire child table on exclusive locks on the parent, in the absense of that index.
+{:.alert-bad}
+
 * Everything must be less than 30 characters long.  This restriction includes table names, column names, indexes, foreign keys, etc.
 * Liquibase scripts must be written with Oracle in mind.
    * If a script is using a PostgreSQL datatype (e.g. bytea or boolean), make sure to mark the changeSet with the dbms="postgresql" attribute.  Create a corresponding changeSet for Oracle and mark it with dbms="oracle".
