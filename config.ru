@@ -10,4 +10,4 @@ use Rack::Rewrite do
   moved_permanently %r{(/.*/)((?!.+?\.|.+/$).+)}, '$1$2/'
 end
 
-run Rack::Jekyll.new(:auto => true)
+run Rack::Jekyll.new(:auto => false)

@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/awood/rack-jekyll
-  revision: 8526b50ce4db3e7f7e6004e82144afc4fdaabb9a
+  revision: 3f3e50376cae566946d9d6fb65d44f8354b5c9e0
   specs:
     rack-jekyll (0.4.5)
       jekyll (>= 1.3)
@@ -89,3 +89,6 @@ DEPENDENCIES
   stringex
   thin
   typogruby
+
+BUNDLED WITH
+   1.11.2
