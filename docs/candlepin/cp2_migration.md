@@ -54,11 +54,11 @@ At the time of writing, the deprecated tables, and any data contained therein, a
 
 # Changes for Satellite
 
- 1. API calls for creating custom products and content have changed to owner-/org-specific URLs. (i.e. ```POST /owners/:key/products/:product_id``` instead of ```POST /products/:product_id```). Products and content can still be retrieved without the organization, but it only using the product's or content's UUID and an admin-level account (```GET /products/:product_uuid```).
+ 1. API calls for creating custom products and content have changed to owner-/org-specific URLs. (i.e. ```POST /owners/:key/products/:product_id``` instead of ```POST /products/:product_id```). Products and content can still be retrieved without the organization, but it only using the product's or content's UUID (```GET /products/:product_uuid```). When fetching content using its UUID, the request must be made with an admin-level account.
  1. Refresh pools API is no longer relevant in Satellite will no-op. Uses of it should be removed.
  1. You may continue creating custom Subscription objects. Each subscription will be assigned an ID which you can store, or later find by looking for the master pool for the subscription. Issuing a delete or update on this subscription ID can be used to control all pools created for the Subscription.
  1. Subscription created/updated/deleted events will no longer be sent on the bus. If you're listening for these in any capacity, that code should be switched to listen for pool events.
- 1. Retreiving product certificates should be done with an org-specific call (```GET owners/:owner_key/products/:product_id/certificate``` instead of ```GET products/:product_id/certificate```). The owner may be omitted, but only if the product is referenced by its UUID and an admin-level account (```GET /products/:product_uuid/certificate```).
+ 1. Retreiving product certificates should be done with an org-specific call (```GET owners/:owner_key/products/:product_id/certificate``` instead of ```GET products/:product_id/certificate```). The owner may be omitted, but only if the product is referenced by its UUID (```GET /products/:product_uuid/certificate```).
 
 
 # Migrating to Candlepin 2.0
@@ -136,8 +136,7 @@ include milliseconds.
 * orgs.products.productContent.content.uuid
 
 In the transition to per-organization products and content, both objects received a new identifier to allow
-multiple organizations to represent different states of the same products. This field is not currently used
-for any API requests and may be removed from output in future versions.
+multiple organizations to represent different states of the same products.
 
 * orgs.products.href
 
