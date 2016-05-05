@@ -253,7 +253,7 @@
 
     ],
     "returnType": {
-      "type": "array"
+      "type": "object"
     },
     "description": "Retrieves a list of Activation Keys",
     "deprecated": null,
@@ -459,28 +459,6 @@
         "statusCode": 200,
         "description": ""
       }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.AdminResource.populatedHostedDB",
-    "url": "/admin/pophosteddb",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-
-    ],
-    "returnType": {
-      "type": "object"
-    },
-    "description": "",
-    "deprecated": null,
-    "returns": null,
-    "httpStatusCodes": [
-
     ]
   },
   {
@@ -1019,7 +997,7 @@
         "type": "any"
       }
     },
-    "description": "Retrieves a Compliance Status list for a Consumer",
+    "description": "Retrieves a Compliance Status list for a list of Consumers",
     "deprecated": null,
     "returns": "a list of ComplianceStatus objects",
     "httpStatusCodes": [
@@ -1909,7 +1887,7 @@
   },
   {
     "method": "org.candlepin.resource.ContentResource.getContent",
-    "url": "/content/{content_id}",
+    "url": "/content/{content_uuid}",
     "verifiedParams": [
 
     ],
@@ -1959,7 +1937,7 @@
   },
   {
     "method": "org.candlepin.resource.ContentResource.remove",
-    "url": "/content/{content_id}",
+    "url": "/content/{content_uuid}",
     "verifiedParams": [
 
     ],
@@ -1982,7 +1960,7 @@
   },
   {
     "method": "org.candlepin.resource.ContentResource.updateContent",
-    "url": "/content/{content_id}",
+    "url": "/content/{content_uuid}",
     "verifiedParams": [
 
     ],
@@ -3112,7 +3090,7 @@
     "method": "org.candlepin.resource.OwnerContentResource.getContent",
     "url": "/owners/{owner_key}/content/{content_id}",
     "verifiedParams": [
-
+      "owner_key"
     ],
     "httpVerbs": [
       "GET"
@@ -3137,7 +3115,7 @@
     "method": "org.candlepin.resource.OwnerContentResource.list",
     "url": "/owners/{owner_key}/content",
     "verifiedParams": [
-
+      "owner_key"
     ],
     "httpVerbs": [
       "GET"
@@ -3316,8 +3294,7 @@
     "method": "org.candlepin.resource.OwnerProductResource.getProduct",
     "url": "/owners/{owner_key}/products/{product_id}",
     "verifiedParams": [
-      "owner_key",
-      "product_id"
+      "owner_key"
     ],
     "httpVerbs": [
       "GET"
@@ -3363,86 +3340,6 @@
     "httpStatusCodes": [
       {
         "statusCode": 404,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.OwnerProductResource.getProductStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/owners/{owner_key}/products/{product_id}/statistics",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for a Product",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.OwnerProductResource.getProductStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/owners/{owner_key}/products/{product_id}/statistics/{vtype}",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for a Product\n <p>\n By Statistic type",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
         "description": ""
       },
       {
@@ -3962,146 +3859,6 @@
     ]
   },
   {
-    "method": "org.candlepin.resource.OwnerResource.getStatistics(java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/owners/{owner_key}/statistics",
-    "verifiedParams": [
-      "owner_key"
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for an Owner",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 404,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.OwnerResource.getStatistics(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/owners/{owner_key}/statistics/{type}",
-    "verifiedParams": [
-      "owner_key"
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "reference",
-        "type": "string"
-      },
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for an Owner\n <p>\n By Type",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 404,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.OwnerResource.getStatistics(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/owners/{owner_key}/statistics/{qtype}/{vtype}",
-    "verifiedParams": [
-      "owner_key"
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "reference",
-        "type": "string"
-      },
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for an Owner\n <p>\n By Types",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 404,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
     "method": "org.candlepin.resource.OwnerResource.getSubscriptions",
     "url": "/owners/{owner_key}/subscriptions",
     "verifiedParams": [
@@ -4455,7 +4212,10 @@
       "GET"
     ],
     "queryParams": [
-
+      {
+        "name": "name",
+        "type": "string"
+      }
     ],
     "returnType": {
       "type": "array"
@@ -4787,6 +4547,35 @@
     ]
   },
   {
+    "method": "org.candlepin.resource.PoolResource.getPoolCdn",
+    "url": "/pools/{pool_id}/cdn",
+    "verifiedParams": [
+      "pool_id"
+    ],
+    "httpVerbs": [
+      "GET"
+    ],
+    "queryParams": [
+
+    ],
+    "returnType": {
+      "type": "object"
+    },
+    "description": "Retrieve a CDN for a Pool",
+    "deprecated": null,
+    "returns": "the cdn for a pool",
+    "httpStatusCodes": [
+      {
+        "statusCode": 400,
+        "description": ""
+      },
+      {
+        "statusCode": 200,
+        "description": ""
+      }
+    ]
+  },
+  {
     "method": "org.candlepin.resource.PoolResource.getPoolEntitlements",
     "url": "/pools/{pool_id}/entitlements",
     "verifiedParams": [
@@ -4809,82 +4598,6 @@
         "statusCode": 400,
         "description": ""
       },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.PoolResource.getPoolStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/pools/{pool_id}/statistics",
-    "verifiedParams": [
-      "pool_id"
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieve a list of Statistics for a Pool",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.PoolResource.getPoolStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/pools/{pool_id}/statistics/{vtype}",
-    "verifiedParams": [
-      "pool_id"
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieve a list of Statistics for a Pool\n <p>\n By Type",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
       {
         "statusCode": 200,
         "description": ""
@@ -4949,7 +4662,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.addBatchContent",
-    "url": "/products/{product_id}/batch_content",
+    "url": "/products/{product_uuid}/batch_content",
     "verifiedParams": [
 
     ],
@@ -4963,7 +4676,7 @@
       "type": "object"
     },
     "description": "Adds Content to a Product\n <p>\n Batch mode",
-    "deprecated": null,
+    "deprecated": "Use per-org version",
     "returns": "a Product object",
     "httpStatusCodes": [
       {
@@ -4974,7 +4687,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.addContent",
-    "url": "/products/{product_id}/content/{content_id}",
+    "url": "/products/{product_uuid}/content/{content_id}",
     "verifiedParams": [
 
     ],
@@ -4991,7 +4704,7 @@
       "type": "object"
     },
     "description": "Adds Content to a Product\n <p>\n Single mode",
-    "deprecated": null,
+    "deprecated": "Use per-org version",
     "returns": "a Product object",
     "httpStatusCodes": [
       {
@@ -5016,7 +4729,7 @@
       "type": "object"
     },
     "description": "Creates a Product\n <p>\n Returns either the new created Product or the Product that already existed.",
-    "deprecated": null,
+    "deprecated": "Use per-org version",
     "returns": "a Product object",
     "httpStatusCodes": [
       {
@@ -5027,7 +4740,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.deleteProduct",
-    "url": "/products/{product_id}",
+    "url": "/products/{product_uuid}",
     "verifiedParams": [
 
     ],
@@ -5039,7 +4752,7 @@
     ],
     "returnType": null,
     "description": "Removes a Product",
-    "deprecated": null,
+    "deprecated": "Use per-org version",
     "returns": null,
     "httpStatusCodes": [
       {
@@ -5058,7 +4771,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.getProduct",
-    "url": "/products/{product_id}",
+    "url": "/products/{product_uuid}",
     "verifiedParams": [
 
     ],
@@ -5071,7 +4784,7 @@
     "returnType": {
       "type": "object"
     },
-    "description": "Retrieves a single Product\n <p>\n <pre>\n {\n   \"id\" : \"product_id\",\n   \"name\" : \"product_name\",\n   \"multiplier\" : 1,\n   \"attributes\" : [ {\n     \"name\" : \"version\",\n     \"value\" : \"1.0\",\n     \"created\" : [date],\n     \"updated\" : [date]\n   } ],\n   \"productContent\" : [ ],\n   \"dependentProductIds\" : [ ],\n   \"href\" : \"/products/product_id\",\n   \"created\" : [date],\n   \"updated\" : [date]\n }\n </pre>",
+    "description": "Retrieves a single Product\n <p>\n <pre>\n {\n   \"id\" : \"product_uuid\",\n   \"name\" : \"product_name\",\n   \"multiplier\" : 1,\n   \"attributes\" : [ {\n     \"name\" : \"version\",\n     \"value\" : \"1.0\",\n     \"created\" : [date],\n     \"updated\" : [date]\n   } ],\n   \"productContent\" : [ ],\n   \"dependentproductUuids\" : [ ],\n   \"href\" : \"/products/product_uuid\",\n   \"created\" : [date],\n   \"updated\" : [date]\n }\n </pre>",
     "deprecated": null,
     "returns": "a Product object",
     "httpStatusCodes": [
@@ -5087,7 +4800,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.getProductCertificate",
-    "url": "/products/{product_id}/certificate",
+    "url": "/products/{product_uuid}/certificate",
     "verifiedParams": [
 
     ],
@@ -5147,86 +4860,6 @@
     ]
   },
   {
-    "method": "org.candlepin.resource.ProductResource.getProductStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/products/{product_id}/statistics",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for a Product",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.ProductResource.getProductStats(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)",
-    "url": "/products/{product_id}/statistics/{vtype}",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "GET"
-    ],
-    "queryParams": [
-      {
-        "name": "from",
-        "type": "string"
-      },
-      {
-        "name": "to",
-        "type": "string"
-      },
-      {
-        "name": "days",
-        "type": "string"
-      }
-    ],
-    "returnType": {
-      "type": "array"
-    },
-    "description": "Retrieves a list of Statistics for a Product\n <p>\n By Statistic type",
-    "deprecated": null,
-    "returns": "a list of Statistic objects",
-    "httpStatusCodes": [
-      {
-        "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
     "method": "org.candlepin.resource.ProductResource.refreshPoolsForProduct",
     "url": "/products/subscriptions",
     "verifiedParams": [
@@ -5260,7 +4893,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.removeContent",
-    "url": "/products/{product_id}/content/{content_id}",
+    "url": "/products/{product_uuid}/content/{content_id}",
     "verifiedParams": [
 
     ],
@@ -5272,7 +4905,7 @@
     ],
     "returnType": null,
     "description": "Removes Content from a Product",
-    "deprecated": null,
+    "deprecated": "Use per-org version",
     "returns": null,
     "httpStatusCodes": [
       {
@@ -5283,7 +4916,7 @@
   },
   {
     "method": "org.candlepin.resource.ProductResource.updateProduct",
-    "url": "/products/{product_id}",
+    "url": "/products/{product_uuid}",
     "verifiedParams": [
 
     ],
@@ -5297,7 +4930,7 @@
       "type": "object"
     },
     "description": "Updates a Product",
-    "deprecated": null,
+    "deprecated": "Use per-org version",
     "returns": "a Product object",
     "httpStatusCodes": [
       {
@@ -5655,33 +5288,6 @@
     "httpStatusCodes": [
       {
         "statusCode": 400,
-        "description": ""
-      },
-      {
-        "statusCode": 200,
-        "description": ""
-      }
-    ]
-  },
-  {
-    "method": "org.candlepin.resource.StatisticResource.execute",
-    "url": "/statistics/generate",
-    "verifiedParams": [
-
-    ],
-    "httpVerbs": [
-      "PUT"
-    ],
-    "queryParams": [
-
-    ],
-    "returnType": null,
-    "description": "Gathers statistics in system\n <p>\n Records them in Statistic History table",
-    "deprecated": null,
-    "returns": null,
-    "httpStatusCodes": [
-      {
-        "statusCode": 503,
         "description": ""
       },
       {
