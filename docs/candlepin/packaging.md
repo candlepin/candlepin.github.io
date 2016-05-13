@@ -1,5 +1,5 @@
 ---
-title: Building & Packaging
+title: Releasing
 ---
-TODO: How to build RPM? How to build a docker image? What other options to build our software do we have?
+TODO: How to build a docker image? What other options to build our software do we have?
 
