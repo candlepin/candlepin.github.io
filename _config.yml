@@ -7,6 +7,9 @@ encoding: utf-8
 # Change this if we ever need the site to reside in a sub-directory
 baseurl: ''
 
+include:
+  - '.well-known'
+
 exclude:
   - 'vendor'
   - 'Gemfile*'

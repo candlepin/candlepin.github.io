@@ -1,5 +1,8 @@
 require 'rack/jekyll'
 require 'rack/rewrite'
+require 'rack/static'
+
+use Rack::Static, :urls => ["/.well-known"]
 
 use Rack::Rewrite do
   rewrite "/favicon.ico", "/images/favicon.ico"
