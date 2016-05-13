@@ -1,6 +1,7 @@
 - subscription-manager:
   - section: installation
   - section: testing
+  - section: bugzilla_process
   - section: design_overview
     subs:
       - section: dbus
@@ -109,6 +110,7 @@
       - section: packaging
         subs:
           - section: building_rpms_with_tito
+          - section: bugzilla_process
   - section: reference
     subs:
       - section: api
