@@ -6,6 +6,7 @@ title: Bugzila process
 # Bugzilla process
 
  * A developer picks a bug in the order of priority and severity, and "takes" it ( `assigns` it to one's self )
+ * All pull requests against a bug filed in bugzilla must have a commit message of the format "<BUGID>: Description"
  * Once the developer is done working and has submitted a pull request for the same, the developer adds a private comment[1] on the bug with a link to the pull request, and changes the state of the bug to `POST`
  * Before the reviewer starts to review the pull request, the reviewer assigns the pull request to self, and adds the `Needs Second Review` label if necessary.
  * After the pull request is merged to master,
