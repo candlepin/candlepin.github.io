@@ -70,6 +70,7 @@
       - section: architecture
         subs:
           - section: cp2_migration
+          - section: cp2_product_versioning
           - section: pinsetter
           - section: batch_engine
           - section: event_model
