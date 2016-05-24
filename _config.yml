@@ -34,6 +34,10 @@ kramdown:
 # See http://jekyllrb.com/docs/configuration/#frontmatter-defaults
 defaults:
   - scope:
+      path: "swagger"
+    values:
+      layout: "swagger"
+  - scope:
       path: "docs"
     values:
       layout: "default"

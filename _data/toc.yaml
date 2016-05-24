@@ -113,7 +113,7 @@
           - section: bugzilla_process
   - section: reference
     subs:
-      - section: api
+      - section: swaggerapi
       - section: database
       - section: product_attributes
   - section: design
