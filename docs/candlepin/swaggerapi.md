@@ -1,5 +1,5 @@
 ---
-title: Swagger API
+title: REST API
 ---
 # Swagger API
 Candlepin exposes Swagger file as a documentation of the service. When using deployed candlepin the swagger file can be accessed at:
