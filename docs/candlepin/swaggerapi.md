@@ -18,6 +18,6 @@ We also host the Swagger file and the UI statically on this site:
 
 | Version | Swagger file | Interactive documentation |
 |-
-| 2.0.13 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.0.13.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger?url=candlepin/swagger-2.0.13.json){:target="_blank"} |
+| 2.0.13 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.0.13.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.13.json){:target="_blank"} |
 |=
 
