@@ -14,6 +14,12 @@ An interactive user interface that allows running Candlepin methods can be acces
 https://HOST:8443/candlepin/docs/
 ```
 
+If you do not want to serve Swagger, you can turn it off with the following configuration property:
+
+```
+candlepin.swagger.enabled=false
+```
+
 We also host the Swagger file and the UI statically on this site: 
 
 | Version | Swagger file | Interactive documentation |
