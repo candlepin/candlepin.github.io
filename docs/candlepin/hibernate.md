@@ -5,6 +5,34 @@ title: Hibernate Gotchas
 
 # Hibernate Gotchas
 
+## Refreshing Data when Locking  
+In Candlepin we use pessimistic locking by using LockModeType.PESSIMISTIC_WRITE: 
+
+```
+Query query = this.getEntityManager()
+                .createQuery("...")
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE);
+```
+Locking is important to mitigate lost update issues. Specific example is entitlement of a Pool. When request X wants to entitle a Pool, in code we must load Pool.consumed value to find out if there is any quantity left. To do so, X needs to lock the Pool and retrieve up to date value of Pool.consumed field. Without locking, another parallel request could interleave and consume the Pool, which would change Pool.consumed value, the request X would act on old value of Pool.consumed and would overconsume the Pool. 
+
+The locking example shown above is translated by Hibernate to SELECT FOR UPDATE clause. This SQL clause achieves two things:
+
+ 1. Rows are locked. No other thread can update the rows or issue another SELECT FOR UPDATE - it must wait before the locking transaction commits
+ 1. Data retrieved by SELECT FOR UPDATE are sufficiently up to date (not old under repeatable read semantics)
+
+There are several gotchas associated with Hibernate behavior that has been observed on MySQL. Suppose you want to query for Pool entity and you plan to use Pool.consumed field - you would like to make sure that the Pool.consumed is up to date and none of the parallel requests change the value. Possible problems that may arise:
+ 
+ 1. If the Pool is already loaded in the persistence context (even by an earlier transaction in the same request), you will get the cached (from persistence context) instance. Not the up to date one from SELECT FOR UPDATE result set!
+ 2. Any query that is not SELECT FOR UPDATE (even EntityManager.refresh() without the lock mode) may retrieve old data due to database repeatable read semantics. By 'old' I mean data that has been loaded earlier in the transaction.
+ 3. If some of your fields are loaded by @Formula, e.g. Pool.consumed, and you are locking parent entity (Pool), the field will be loaded without SELECT FOR UPDATE. That means old data may be loaded.
+
+To dodge all of the above, it is important to make sure the developer understands what needs to be locked and up to date (all the particular fields that he needs during his business logic). Steps to mitigate above gotchas follow naturally: 
+
+ 1. Before locking either make sure the entity is not in persistence context, or refresh it directly after loading.
+ 2. After successfully locking an entity, the only values that can be relied upon (to be up to date) are those directly loaded by SELECT FOR UPDATE statements. To force SELECT FOR UPDATE it is necessary to query with locking mode PESSIMISTIC_WRITE. EntityManager.refresh also allows setting the LockMode.
+ 3. You can't really rely on any Formula queried value, because Hibernate doesn't add "FOR UPDATE" clause to inline SQL queries (it just inserts Formula into the SELECT part of the parent query).
+ 4. If you are absolutely sure that a value that you rely upon such as Pool.consumed has been loaded by query X and you know that X has not been issued earlier in the transaction, you can rely on that value, because repeatable read guarantee is not giving you the old value. Obviously this is extremelly haphazard implementation - it's hard to predict what Hibernate runs and when and it's impossible to make sure that nobody will reuse your data access method and runs X earlier. Also keep in mind that X doesn't have to be exact JQPL/Criteria/HQL that you run inside your code - what counts is the final SQL that RDBMS runs and caches as a repeatable read result. 
+
 ## Do not add unpersisted entity to a persistent collection
 Because we use @Id to implement equals() and hashCode() methods, the @Id must be populated before adding an entity into persistent collection. You can read more about this [here](https://developer.jboss.org/wiki/EqualsandHashCode)
 
@@ -17,7 +45,7 @@ TRACE DefaultPersistEventListener[219] - un-scheduling entity deletion [[org.can
 
 Note that this gotcha is sometimes hard to predict, because if the collection was not loaded in the first place, hibernate will not unschedule the entity from deletion.
 
-## Codebase example
+## Runtime Consistency Example
 This section shows several, above mentioned, gotchas by walking through part of our codebase.
 
 Sometimes you might encounter the following error [0] 
