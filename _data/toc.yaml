@@ -111,6 +111,7 @@
         subs:
           - section: building_rpms_with_tito
           - section: bugzilla_process
+      - section: useful_queries
   - section: reference
     subs:
       - section: swaggerapi
