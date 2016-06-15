@@ -64,6 +64,11 @@
       - section: cmv
       - section: common_issues
       - section: high_availability
+      - section: manifests
+        subs:
+          - section: manifest_export
+          - section: manifest_import
+          - section: manifest_extensions
       - section: data_transfer_format
   - section: developers
     subs:
