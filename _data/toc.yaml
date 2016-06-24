@@ -107,11 +107,11 @@
       - section: documentation_authoring
         subs:
           - section: developer_plantuml
-      - section: packaging
-        subs:
-          - section: building_rpms_with_tito
-          - section: bugzilla_process
       - section: useful_queries
+        subs:
+          - section: cleanup_db_backup
+      - section: building_rpms_with_tito
+      - section: bugzilla_process
   - section: reference
     subs:
       - section: swaggerapi
