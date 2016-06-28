@@ -91,6 +91,7 @@
           - section: json_jaxb
           - section: crl
           - section: hibernate
+          - section: ruby_bindings
       - section: implementation_details
         subs:
           - section: revoke_entitlements_implementation
