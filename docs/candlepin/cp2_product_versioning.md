@@ -30,15 +30,13 @@ another organization. If that version already exists, the new instance will be d
 will be mapped to the existing version already in the Candlepin database. Otherwise, if it does not already
 exist, a new instance will be created as normal.
 
-TODO: Insert pretty creation graphic here
-{:.alert-notice}
+![]({{ site.baseurl }}/images/versioning_creation.png)
 
 Similarly, when an organization updates a product, the same version check is made. If the update would change
 the product to a version Candlepin is already maintaining, the organization's existing product will be
 silently discarded and they will be mapped to the existing version instead.
 
-TODO: Insert convergence graphic
-{:.alert-notice}
+![]({{ site.baseurl }}/images/versioning_convergence.png)
 
 However, if the update would result in a new version of the product, things get a bit more complex. First,
 Candlepin checks how many organizations are using the product being updated. If that organization is the only
@@ -46,29 +44,15 @@ one using it, the product will be updated in place. But if multiple organization
 forked into two entities, the organization performing the update is mapped to one, and the other organizations
 to the other. Then, the update is performed for the organization as if it were an in-place update.
 
-TODO: Insert divergence graphic
-{:.alert-notice}
+![]({{ site.baseurl }}/images/versioning_divergence.png)
 
 Product deletion is handled in a similar manner. When an organization deletes a product, Candlepin checks the
 number of organizations using that version of the product. If there are many organizations, the mapping is
 simply updated to remove the organization that requested the deletion. Otherwise, if the organization
 requesting the delete is the sole owner, the product is deleted from the database entirely.
 
-TODO: Insert deletion graphic
-{:.alert-notice}
+![]({{ site.baseurl }}/images/versioning_deletion.png)
 
 The convergent and divergent behavior of the CRUD operations allows Candlepin to reduce the total number of
 product instances in the database dramatically in the general case, while having a worst-case identical to the
 naive approach where each organization has its own product instance.
-
-
-
-# Candlepin Implementation Details
-Though the design is fairly straight-forward, there are some things to keep in mind while working with the
-model objects within Candlepin itself. This list will be updated as more "gotchas" are encountered.
-
-* ```.get/setOwners``` is largely read-only, and is outright ignored by the manager.
-  ```.getOwners``` may be used to get the list of products, but changes made to the collection of owners will
-  be overridden by the product manager. The product changes are applied only for the owner specified during
-  the call to create, update or delete.
-
