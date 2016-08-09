@@ -9,7 +9,7 @@ title: Bugzila process
    * "takes" it ( `assigns` it to one's self )
    * Checks if the bug is dev-ack-ed appropriately
  * Commit messages must be of the format "BUGID: Description"
- * Once the developer is done working and has submitted a pull request for the same, the developer adds a github tracker on the bug to link the pull request ( format: candlepin/subscritpion-manager/pull/<PR_NUMBER> ).
+ * Once the developer is done working and has submitted a pull request for the same, the developer adds a github tracker on the bug to link the pull request ( format: candlepin/subscription-manager/pull/PR_NUMBER ).
  * If the release split[1] has already happened:
    * After the pull request is merged to master, the author of the pull request changes the state of the bug to `POST`. The release nanny will change the state to `MODIFIED` after cherry-picking your commits.
    * else, after the pull request is merged to master, the author of the pull request changes the state of the bug to `MODIFIED`.
