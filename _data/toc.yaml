@@ -93,6 +93,7 @@
           - section: crl
           - section: hibernate
           - section: ruby_bindings
+          - section: caching
       - section: implementation_details
         subs:
           - section: revoke_entitlements_implementation
