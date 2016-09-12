@@ -44,6 +44,6 @@ both the Entitlement Proxy and Entitlement Service.
 
  * [JSON-RPC](http://json-rpc.org/)
  * [JBoss RESTEasy](http://www.jboss.org/resteasy/)
- * [Smugmug API](http://wiki.smugmug.net/display/SmugMug/API)
+ * [Smugmug API](https://smugmug.atlassian.net/wiki/display/API)
  * [JSON+REST vs. XML+SOAP](http://blog.feedly.com/2009/03/03/jsonrest-vs-xmlsoap/)
  * [Flickr API](http://www.flickr.com/services/api/)
