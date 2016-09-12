@@ -6,7 +6,7 @@ title: Setting Up Candlepin
 # Candlepin Setup
 
 This page describes how to install Candlepin using the rpms. If you are building from source, please
-see [wiki:Deployment].
+see [Developer Deployment](developer_deployment.html).
 
 # PostgreSQL
 
