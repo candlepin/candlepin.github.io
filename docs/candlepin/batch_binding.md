@@ -6,7 +6,7 @@ title: Batch binding exact pools
 ## Overview
 * Candlepin 2.0 provides a convinience API to bind a batch of exact pools by respective quantities. This document shows the usage and example responses of that API.
 * Batch bind requests are asynchronous only.
-* The requests are atomic. If any of the pools and respective quantities requested fails for any reason ( including java script validation ), the entire operation fails and none of the pools are consumed.
+* The requests are atomic. If any of the pools and respective quantities requested fails for any reason ( including JavaScript validation ), the entire operation fails and none of the pools are consumed.
 
 ## Request
 * The request takes in an array of `PoolIdAndQuantity` objects, which associate the id of the pool requested to be consumed and the respective requested quantity
@@ -95,7 +95,7 @@ title: Batch binding exact pools
 
 ## Failure Response
 * If the job fails, the `result` section on the `JobStatus` returns the failure message.
-* Note: The job is considered `FAILED` only if the bind process results in unexpected errors, Which is not the same as if the request fails pre-entitlement java script rules check ( view next section ).
+* Note: The job is considered `FAILED` only if the bind process results in unexpected errors, which is not the same as if the request fails pre-entitlement JavaScript rules check ( view next section ).
 
   ```text
   {
@@ -118,7 +118,7 @@ title: Batch binding exact pools
   ```
 
 ## Validation Errors
-* If any of the `PoolIdAndQuantity` requested to be consumed fails java script validation for pre-entitlement rules check, the `resultData` on the `JobStatus` enlists a `PoolIdAndErrors` for each pool that failed validation.
+* If any of the `PoolIdAndQuantity` requested to be consumed fails JavaScript validation for pre-entitlement rules check, the `resultData` on the `JobStatus` enlists a `PoolIdAndErrors` for each pool that failed validation.
 * Each `PoolIdAndErrors` contains the pool id of the pool that failed validation, and ALL the reasons due to which that pool failed validation
 
   ```text
