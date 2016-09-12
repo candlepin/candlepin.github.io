@@ -11,7 +11,7 @@ Candlepin events are dispatched first by submitting to an embedded Hornetq serve
 
 It is also worth noting that events to be dispatched are gathered up during a REST API request and only sent after successful completion, if an error is encountered in Candlepin code after some event has been sent, that message will never make it to Hornetq or the message bus.
 
-Our Hornetq messages are marked as 'durable', as are the queues they are sent to. By default hornetq stores it's journal in /var/lib/candlepin/hornetq/.
+Our Hornetq messages are marked as 'durable', as are the queues they are sent to. By default hornetq stores its journal in /var/lib/candlepin/hornetq/.
 
 To communicate with AMQP we use the Qpid JMS client, and thus we're basically using JMS API.
 
@@ -68,4 +68,3 @@ Really no options here other than to go to gutterball and insert explicit throw 
 #### Qpidd Capacity Exceeded
 
 A potential remaining problem is if the number of messages failing to import exceeds the amount qpidd is configured to store, which results in an exception: Enqueue capacity threshold exceeded. This exception seems to only surface in high volume scenarios (parallel spec tests) when events throw an exception when being received by gutterball. Because this is only possible in phase 1 now, and we do not know of any situations where this is possible, we are hopeful the two phase approach to message processing in gutterball will prevent this.
-
