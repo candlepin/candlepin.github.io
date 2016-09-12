@@ -9,7 +9,7 @@ when that content is not available in pulp.
 
 Examples:
 
-* System binds to a subscription which has not yet had (all of) it's content promoted to the system's environment.
+* System binds to a subscription which has not yet had (all of) its content promoted to the system's environment.
 * Org 1 imports a manifest with product P, later on org 2 imports a manifest
   with product P, but P now has new content sets from Red Hat. Org 1's
   entitlements would all get regenerated, go out to client systems, all of whom
@@ -88,7 +88,7 @@ rectify the problem.
     
 # Questions
 1. Are $org and $env still needed? It looks like the above can do away with
-   them as Candlepin will now know exactly what content to include and it's
+   them as Candlepin will now know exactly what content to include and its
    full URL. We can hopefully implement the above without using these variables,
    meaning the yum performance hit client side goes away, as does with the issue
    this introduces client side where yum must be run as root to look these up on

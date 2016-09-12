@@ -23,7 +23,7 @@ title: Owner Hierarchy
   * Refresh pools will be the most challenging aspect of this. 
     * When refreshing a pool from a subscription, we cannot just blindly copy
       the quantity onto the associated pool because that pool could have
-      reduced it's quantity and allocated some to a sub-pool. 
+      reduced its quantity and allocated some to a sub-pool.
     * If that quantity were reduced we have a messy situation and need to
       determine not just how to clean up outstanding entitlements, but also to
       clean up outstanding sub-pools (possibly multiple levels deep) and their

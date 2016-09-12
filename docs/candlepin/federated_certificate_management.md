@@ -5,7 +5,7 @@ title: Federated Certificate Management
 
 # Overview
 This is an overview of the issues around Federated Certificate Generation. This
-is fancy name for what the On Premise Candlepin will need to do.
+is fancy name for what the On Premises Candlepin will need to do.
 
 # Background
 RHUI, Hosted Candlepin/CDN, and Katello all follow a similar pattern:
@@ -18,7 +18,7 @@ In the case of Hosted Candlepin/CDN Red Hat holds the CA. In the case of RHUI
 and Kalpana, the customer would use their own CA. However, in all cases the CA
 is used to grant certificates and control access to locally managed Content.
 
-For on premise Candlepin, we would like to have an on premise tool which can
+For on premises Candlepin, we would like to have an on premises tool which can
 manage certificates but not mirror content. The content would be accessed from
 the upstream CDN.
 
@@ -35,16 +35,16 @@ other certificates which are on the box. Therefore, it would be difficult to
 pre-generate all the valid combination which could be used.
 
 ## Sub CAs
-A second model would be for the on-premise tool to be a sub CA of the upstream
+A second model would be for the on-premises tool to be a sub CA of the upstream
 CA. Technically this is possible. However, this would mean that anyone with a
-On premise Candlepin can create certs which can pull content from the upstream
+On premises Candlepin can create certs which can pull content from the upstream
 CDN. Red Hat would need to create some robust fraud detection tools to ensure
 that we are not giving away the bits. In addition, to support revocation of
 certificate, the client would need to send Revoked certificated to the content
 provider in order to add to the corporate Certificate Revocation List.
 
 ## Proxy Model
-A third approach would be for the on premise tool to generate certificate using
+A third approach would be for the on premises tool to generate certificate using
 a local CA. Some intelligent proxy would need to emit a CDN API, and to
 transmorgify a content request using a local certificate into a similar request
 which can be handled by the upstream CDN. This would need to include some sort
@@ -55,7 +55,7 @@ of certificate replacement.
 ![]({{ site.baseurl }}/images/cs-proxy.png)
 
 One possible solution, following the proxy model, would be be for the On
-Premise Server to provide 2 bits of data to a Content Proxy. These are:
+Premises Server to provide 2 bits of data to a Content Proxy. These are:
 
 1. The Content Certificates which have been loaded into Candlepin from a Subscription Manifest. 
 1. Certificate Revocation data in the form of either a CRL or OCSPD.
