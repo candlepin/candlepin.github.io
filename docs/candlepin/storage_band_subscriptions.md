@@ -27,7 +27,7 @@ The resulting pool will have a quantity of 512, which can cover 512TB of storage
 
 
 
-**NOTE:** The “storage_band” attribute is enables storage counting. It is important to note that this is NOT an on/off switch. To the rules framework, this is the value of a single entitlement (or how the entitlement will be evaluated for coverage) and it will be used to determine coverage of a consumer. For CEPH, this will equate to 1TB per entitlement.  Thus the user must “stack” on enough 1 TB entitlements to cover the storage capacity on the system assigned to Ceph.
+**NOTE:** The “storage_band” attribute enables storage counting. It is important to note that this is NOT an on/off switch. To the rules framework, this is the value of a single entitlement (or how the entitlement will be evaluated for coverage) and it will be used to determine coverage of a consumer. For CEPH, this will equate to 1TB per entitlement.  Thus the user must “stack” on enough 1 TB entitlements to cover the storage capacity on the system assigned to Ceph.
 
 
 ## Generating Status (Rules)
@@ -47,5 +47,3 @@ Coverage will be calculated by considering each entitlement as 1TB of coverage, 
 *  quantity < 128 entitlements will partially cover the system (yellow)
 *  2+ stacked entitlements whose quantities total < 128 (yellow)
 *  no entitlements (red)
-
-

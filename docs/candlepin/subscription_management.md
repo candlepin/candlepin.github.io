@@ -22,28 +22,28 @@ Entered
 Active
 : The subscription is currently active
 
-Termintated
-: The subscription has been stoped becuase of operations or customer choices.
+Terminated
+: The subscription has been stopped because of operations or customer choices.
 
 Expired
-: The customer allowed the subcription to lapse
+: The customer allowed the subscription to lapse
 
 # Transitions and Their Effects
 1. As time passes, the current day is greater than or equal to the begin date,
    the subscription becomes "Active"
-1. Any back office activited could cause an update to the end date or the
+1. Any back office activation could cause an update to the end date or the
    quantity. It is assumed that neither the ID nor the Product will change.
-1. During Renewals (Wether done before the end date or after the end date) will
-   result in a new end date. The ID will not change becuase of a renewal.
+1. Renewals (whether done before the end date or after the end date) will
+   result in a new end date. The ID will not change because of a renewal.
 1. Termination is a result of some back office process. In this case, the end
    date is changed to reflect the date of the termination.
-1. As time passes, a subscriptions end date may be in the past. It is no longer
+1. As time passes, a subscription's end date may be in the past. It is no longer
    active.  No data changes occur here.
-1. If an entered subscription is cancelled, the end ate is changed to the start
+1. If an entered subscription is canceled, the end date is changed to the start
    date and never becomes active.
 
 # New Entitlement Generation 
-Based on the above states, when consumer asks for a new entitlement and the
+Based on the above states, when a consumer asks for a new entitlement and the
 pool is backed by subscription data the following steps are done
 
 * Query all subscriptions for the given owner/product.
@@ -77,7 +77,7 @@ In each case, we need to determine what to do.
     starting with those most recently given out.
   * For each revoked entitlement:
     * Trigger a request for an entitlement for the exact same product.
-    * Request will land in the javascript rules as usual to determine if the
+    * Request will land in the JavaScript rules as usual to determine if the
       entitlement can be granted.
     * Modify rules engine to provide a list of all available entitlement pools
       to the rules.

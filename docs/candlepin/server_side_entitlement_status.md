@@ -27,7 +27,7 @@ For disconnected systems, the client will report that entitlement status is
 effectively "unknown". We will likely indicate whether we have access to the
 content for an installed product however. (pending mockups) The only compliance
 logic remaining in subscription manager will be this check if a product has a
-certificate that grants access to it's content, and some rudimentary date
+certificate that grants access to its content, and some rudimentary date
 comparisons in some situations when we need to display a certificate is expired
 or about to expire. All calculations of socket/ram coverage and
 red/yellow/green will defer to the server.
@@ -60,7 +60,7 @@ event the server is temporarily unreachable.
    1. Display prominently in UI and CLI that the system is not registered and
    do not show entitlement status. (pending mockups from mreid) 
       * May also need a way to show that a product is technically covered in
-        that we can access it's content, but we can't use red/green/yellow as
+        that we can access its content, but we can't use red/green/yellow as
         this will be confusing to users.
 1. Eliminate all old entitlement status calculation code in client, and all
 tests for it.

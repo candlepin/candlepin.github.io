@@ -4,7 +4,7 @@ title: Revoke Entitlements
 {% include toc.md %}
 
 ## Revoke Entitlements Overview
-Revoking an entitlement is an operation that will remove an entitlement from it's consumer. This might happen for a number of reasons:
+Revoking an entitlement is an operation that will remove an entitlement from its consumer. This might happen for a number of reasons:
 
  * user no longer wants to consume the pool
  * when a pool is being deleted, all entitlements associated with the pool are are revoked 
@@ -57,4 +57,3 @@ Consumers that have an entitlement in entSet;
 stop
 @enduml
 {% endplantuml %}
-

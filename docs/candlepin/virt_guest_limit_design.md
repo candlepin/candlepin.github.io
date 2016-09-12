@@ -56,7 +56,7 @@ consumer probably isn't actually using a hypervisor that supports more than 4
 guests.
 
 ### virt-who
-It looks like its only immediately important to report active/inactive on the
+It looks like it's only immediately important to report active/inactive on the
 kvm hypervisor.  It's probably a good idea to hold hypervisor-type in the
 GuestID class, in addition to isActive.  We can check for the guest_limit
 capability before sending the extra information to avoid breaking old

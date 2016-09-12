@@ -14,7 +14,7 @@ Candlepin does however check for expired subscriptions during a refresh pools
 operation for an organization. If any are found they (and their outstanding
 entitlements) will be cleaned up.
 
-This implies that at any given point in time, when a system requests it's
+This implies that at any given point in time, when a system requests its
 certificates it should have to perform a sync, it could see expired
 certificates if a refresh pools has not yet been run for that org.
 

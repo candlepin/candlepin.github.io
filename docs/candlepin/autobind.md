@@ -53,11 +53,11 @@ If the entitlement group is not a stack, we can check overall validity based on
 whether the single pool (max available quantity) is compliant.
 
 Otherwise, in the stacked case, it is a little bit more difficult.  In some
-situations, a partial stack can be made compliant by removing entitlemnts.  For
+situations, a partial stack can be made compliant by removing entitlements.  For
 example, if I have a stack of 4 socket entitlements, and add one entitlement
 that covers 1GB of ram, my entire stack will be partial.  We first need to
 check if the stack, with already-attached subscriptions, is compliant.  If it
-is, we can say the group is valid However if it is not compliant, we must
+is, we can say the group is valid. However if it is not compliant, we must
 remove all pools that enforce stackable attributes that have caused problems
 (taken from compliance reason keys) After removing those pools, we run a final
 compliance check, the result of which is the groups validity.
@@ -107,10 +107,10 @@ quantity for candlepin to interpret.
 ## Accomodating Guests
 When a guest attempts to autobind, the host will first attempt to autobind, with some significant changes:
 
-  1. The host will be handed the guests list of installed products, and attempt to autobind with these
-    1. Products are removed from this list if they're already provided by other virt-only pools
-  1. The host will be restricted to using subscriptions that will create bonus pools
-    1. Right now this means only pools with the virt_limit attribute with a
+1. The host will be handed the guests list of installed products, and attempt to autobind with these
+  * Products are removed from this list if they're already provided by other virt-only pools
+1. The host will be restricted to using subscriptions that will create bonus pools
+  * Right now this means only pools with the virt_limit attribute with a
        value not equal to "0"
 
 TODO: Do we need to consider quantity here? If there is already a virt_only

@@ -32,7 +32,7 @@ Example:
 
  * virt_limit: 4 / unlimited
 
-When a physical host consumes a virt_limit subscription, a sub-pool is created that is only visible/usable by guests who are running on that host. The virt-who utitlity is typically what reports the host/guest mapping information and allows this functionality to work. Revoking the physical host entitlement will result in revoking the sub-pool and all it's existing entitlements.
+When a physical host consumes a virt_limit subscription, a sub-pool is created that is only visible/usable by guests who are running on that host. The virt-who utitlity is typically what reports the host/guest mapping information and allows this functionality to work. Revoking the physical host entitlement will result in revoking the sub-pool and all its existing entitlements.
 
 Note that guests can still consume the main pool, provided the product does not also carry the physical_only attribute.
 
@@ -59,8 +59,8 @@ i.e. A physical system with 8 sockets will require quantity 8 (system sockets / 
 
 ## Derived
 
-Derived subscriptions are a variant of virt-limited subscriptions and are actually driven by data on the subscription itself rather than it's product attributes. These subscriptions are designed such that the physical host using the main subscription receives different content than it's guests.
+Derived subscriptions are a variant of virt-limited subscriptions and are actually driven by data on the subscription itself rather than its product attributes. These subscriptions are designed such that the physical host using the main subscription receives different content than its guests.
 
 A derived subscription carries both an additional derived product, and list of derived provided products. When a physical host consumed the main pool it receives the normal product and provided product list. However the sub-pool created for guests on that host will receive the derived product and derived provided products.
 
-This is typically used in hypervisor style subscriptions where the host requires no content, but it's guests do.
+This is typically used in hypervisor style subscriptions where the host requires no content, but its guests do.

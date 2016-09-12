@@ -9,7 +9,7 @@ problem of tracking what products a customer has purchased, and which of those
 the customer has consumed. For smaller customers, this can be a hosted solution
 where the customer, or some code on the customers behalf, "phones home" in
 order to consume a purchase. For larger customers, they may wish to manage
-their products in a disconnected on premise solution.
+their products in a disconnected on-premises solution.
 
 The Candlepin project is an open source software engine which has been designed
 to solve this problem. It provides an API for client code to ask "What
@@ -60,7 +60,7 @@ The Engine supports the following extension points:
 * Identity Certificate Generation: A Service call to generate a consumers identity
 * Event Publishing: A means of publishing out business events which occur in the system
 * User Data: How users are authorized and authenticated to candlepin.
-* Business Rules: Pluggable Javascript rules which control
+* Business Rules: Pluggable JavaScript rules which control
   * If a consumer can consume an entitlement to a subscribed product.
   * What is the "best" product for the consumer to be subscribed to.
 * Batch Jobs: Clusterable batch jobs
@@ -69,7 +69,7 @@ The Engine supports the following extension points:
 In the base implementation, identity and entitlements are all represented by
 x.509 certificates. The choice was made to use these formats so that standard
 SSL client and servers could be used to (1) write Entitlement Management
-clients and (2) Provide secure access to software downloads. The generation of
+clients and (2) provide secure access to software downloads. The generation of
 entitlement and certificate data is one of the extension points, so it is
 possible to replace those with custom implementations.
 
@@ -78,7 +78,7 @@ Clients (called consumers) go through the following standard lifecycle:
 
 1. Clients register with candlepin. They are given identity certificates which contain their UUID. This identity certificate can be used for future communication.
 1. Clients can search for pools of subscriptions.
-1. Clients consume a susbcriptions. This is also called binding to a subscription or creating an entitlement. This results in entitlement certificates being provided to the client.
+1. Clients consume susbcription(s). This is also called binding to a subscription or creating an entitlement. This results in entitlement certificates being provided to the client.
 1. Clients can retrieve updated certificates to handle cases where data has changed server side.
 1. Clients can unbind, or stop consuming certificates.
 1. Clients can unregister, or delete themselves from the system.

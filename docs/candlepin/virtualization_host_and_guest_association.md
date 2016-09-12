@@ -65,7 +65,7 @@ of using persisted fields, candlepin should use the host/guest facts to persist
 parent/child relationships, and the ConsumerCurator should be responsible for
 populating the consumer fields based on these facts when it loads a consumer.
 
-Should we hook in javascript here for figuring out parent/child here, as
+Should we hook in JavaScript here for figuring out parent/child here, as
 its based on facts?
 {:.alert .alert-todo}
 
@@ -73,13 +73,14 @@ its based on facts?
 Consumer facts are key/value pairs, both strings. As we want to store a list in
 virt.guests, we need to be careful about the format. virt.guests should be a
 comma delimited list of uuids. If a uuid contains a comma, the comma must be
-escaped with a \\. if a uuid contains a \\, it must be escaped with another \.
+escaped with a `\`. if a uuid contains a `\`, it must be escaped with another 
+`\`.
 
 ## Example 1
 1. Consumer A registers to candlepin. On registration, it includes a fact
    virt.uuid = 123. Candlepin stores this fact as normal, and does nothing
    further.
-1. Consumer A now attempts to bind to a pool. During the entilement logic
+1. Consumer A now attempts to bind to a pool. During the entitlement logic
    (really, when the consumer data is loaded from the db), candlepin will check
    to see if there is another consumer with fact virt.guests containing
    Consumer A's virt.uuid. In this case, there is not, so Consumer A will have
