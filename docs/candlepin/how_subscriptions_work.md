@@ -42,7 +42,7 @@ getting access to content via these subscriptions is described below.
 
 ### Types of Pools
 
-When a subscription object is imported, depending on the attributes of it's main marketing product, one or more pools will be created.
+When a subscription object is imported, depending on the attributes of its main marketing product, one or more pools will be created.
 
 1. Master Pool
   * At least one pool will always be created for any subscription and this can be considered the parent or "main" pool.
@@ -76,7 +76,7 @@ Pools can also carry a "derived" product and provided products. This accomodates
 * Represents the consumption of a Pool for a given consumer.
 * Can have a quantity, a consumer system may require a greater quantity than just 1.
 * Carries the certificate sent to clients. Grants access to all of the provided products from the pool, and thus is used to authenticate when actually fetching content.
-* Can be revoked returning the used quantity back to the pool.
+* Can be revoked, returning the used quantity back to the pool.
 
 ### Auto-attach
 * A major part of Candlepin is the auto-attach routine on the server which
@@ -96,13 +96,13 @@ Pools can also carry a "derived" product and provided products. This accomodates
 
 ## Exporting Subscriptions to a Downstream Candlepin Server
 
-Candlepin has been designed to allow for exporting subscriptions from a master/upstream Candlepin server for use in a standlone on-premise environment. (i.e. Katello, Satellite, SAM) This process involves a number of steps:
+Candlepin has been designed to allow for exporting subscriptions from a master/upstream Candlepin server for use in a standlone on-premises environment. (i.e. Katello, Satellite, SAM) This process involves a number of steps:
 
  1. A "distributor" consumer is created in the upstream candlepin server by some UI. (also sometimes referred to as a "Subscription Management Application")
  1. A user assigns entitlements to the distributor consumer for export in whatever quantities they wish to use downstream. Once assigned those are marked as consumed in the upstream server.
  1. The user can then generate a manifest, which is a signed zip file containing the relevant subscription and product information to enable authorized access to the content on the downstream server.
  1. A manifest can then be imported on the downstream server.
    * Each entitlement in the manifest becomes a downstream Subscription, thus feeding into the exact same Subscription -> Pool -> Entitlement data model outlined above.
- 1. When an updated manifest is generated and imported, Candlepin will syncronize the existing Pools to match the incoming manifest, revoking entitlements and creating new pools as necessary.
+ 1. When an updated manifest is generated and imported, Candlepin will synchronize the existing Pools to match the incoming manifest, revoking entitlements and creating new pools as necessary.
 
-Some on-premise solutions support automatic updating of the manifest, where if possible the Satellite/SAM server will periodically call back to their upstream server and attempt to update the manifest if anything has changed.
+Some on-premises solutions support automatic updating of the manifest, where if possible the Satellite/SAM server will periodically call back to their upstream server and attempt to update the manifest if anything has changed.

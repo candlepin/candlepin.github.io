@@ -23,7 +23,7 @@ But there can also be other criteria involved such as...
  * Consumers with certain attributes can only consume products with a given version.
 
 ### Example
-Locked at a specific version, upgrades are not included. Maybe be coupled with other limitations.
+Locked at a specific version, upgrades are not included. May be coupled with other limitations.
 
 ## Hardware Limited (i.e # of sockets, # of cores, etc)
  * Consumers with certain attributes (e.g. number of sockets) 
