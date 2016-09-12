@@ -50,7 +50,7 @@ or &exclude=value.data:
 
 ## Other notes
  * It is not possible to use both include and exclude in the same query
-   * However you may use multiple of either filer type.
+   * However you may use multiple of either filter type.
  * When the response is a list, a filter is applied to each member of the list
    * This is also applied on nested properties.  A consumer has a list of guestIds, so I can "exclude=guestIds.updated" in order to hide updated dates on all guestIds
 
