@@ -19,7 +19,7 @@ both the Entitlement Proxy and Entitlement Service.
 
 ## Protocols
 
- * REST/JSON
+* REST/JSON
   * REST traditionally uses the 4 HTTP verbs: GET, POST, PUT, DELETE. The urls
     are typically nouns. For example if you want to create a new organization
     the call might look something like
@@ -29,11 +29,11 @@ both the Entitlement Proxy and Entitlement Service.
     different from the XML-RPC api we have today where the verbs are part of
     the method call.
   * Alternatively we could use GET and POST, and use an XML-RPC type of methodology. That is, create and post JSON messages.
- * SOAP
+* SOAP
   * We will NOT provide a SOAP interface. It is overkill and rather pointless
     to go down this route. Folks like to think they need SOAP because it is
     up2date, but truly it is nothing more than CORBA with angle brackets. 
- * XML-RPC
+* XML-RPC
   * XML-RPC is extremely easy to support and add as we have this type of API in
     many of our products today such as Red Hat Network (hosted) and Satellite.
     Excellent libraries for Java and python.

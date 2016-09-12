@@ -54,7 +54,7 @@ When the _page_ and _per_page_ parameters are specified, a special header named
 navigation to the first, next, previous, and last pages.  Please see [RFC
 5988](http://tools.ietf.org/html/rfc5988) for a full specification of the Link
 header.  The header provides a list of links separated by commas.  Each link is
-split into a URL (surrounded by angle brackets) and it's relation defined by
+split into a URL (surrounded by angle brackets) and its relation defined by
 the string `rel="RELATION_NAME"`.  The four relation names are `first`, `next`,
 `prev`, and `last`.  A simple parser for the Link header can be found
 [here](https://github.com/eclipse/egit-github/blob/master/org.eclipse.egit.github.core/src/org/eclipse/egit/github/core/client/PageLinks.java).

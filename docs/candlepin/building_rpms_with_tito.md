@@ -25,7 +25,7 @@ $ cat ~/.titorc
 RPMBUILD_BASEDIR=$HOME/mytitobuilddir
 ```
 
-## Build Requires
+## Build Requirements
 Candlepin has a new set of build requirements solely for rpm building.
 Candlepin now uses [ant](http://ant.apache.org) to build the rpm. This is
 primarily because [buildr](http://buildr.apache.org) isn't yet packaged as an
@@ -51,7 +51,7 @@ $ sudo rpm -Uvh https://github.com/downloads/jmrodri/candlepin-deps/candlepin-de
 ```
 
 ## Building using Tito
-Once you have resolved the [#BuildRequires build requires] you can build the Candlepin rpm locally using `tito`.
+Once you have resolved the [build requirements](#build-requirements) you can build the Candlepin rpm locally using `tito`.
 
 ### Latest tagged build
 Want to build the latest tagged build? Simply run:

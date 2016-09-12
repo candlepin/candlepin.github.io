@@ -3,7 +3,7 @@ title: JavaScript Rules
 ---
 {% include toc.md %}
 
-Candlepin uses a Javascript rules file to encapsulate business logic around what consumers can use a given pool, which pools are the best fit to auto-subscribe for a given consumer, and what a consumer's entitlement status is. (red green yellow)
+Candlepin uses a JavaScript rules file to encapsulate business logic around what consumers can use a given pool, which pools are the best fit to auto-subscribe for a given consumer, and what a consumer's entitlement status is. (red green yellow)
 
 # How It Works
 The Candlepin RPM contains a copy of the rules file when that package was
@@ -25,13 +25,13 @@ are imported on older Candlepin servers.
 
 # Versioning
 The new rules.js file contains a version in the first line of the file. The
-major portion of the version number indicates overall compatability for the
+major portion of the version number indicates overall compatibility for the
 Candlepin server. Any time we change something major, usually passing
 additional data in or removing something we pass in, the major version number
 must increment. This will prevent any older Candlepin server from trying to use
 a rules file that will break.
 
-The minor version number will be incremented on any change to the rules that does not break API compatability.
+The minor version number will be incremented on any change to the rules that does not break API compatibility.
 
 On import, the Candlepin server will only import an incoming rules file if the
 major version number matches exactly, and if the minor version number is
@@ -54,4 +54,4 @@ servers in the wild until they upgrade.
 * Bump the minor version number of the rules.js file on any change to the file.
   Bump the major if we add/remove/change something that will not work on older
   Candlepin servers. Try to avoid doing this whenever possible.
-* Do not use "for each" in Javascript rules, this has been [deprecated](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Statements/for_each...in).
+* Do not use "for each" in JavaScript rules, this has been [deprecated](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Statements/for_each...in).

@@ -26,18 +26,18 @@ There are several gotchas associated with Hibernate behavior that has been obser
  2. Any query that is not SELECT FOR UPDATE (even EntityManager.refresh() without the lock mode) may retrieve old data due to database repeatable read semantics. By 'old' I mean data that has been loaded earlier in the transaction.
  3. If some of your fields are loaded by @Formula, e.g. Pool.consumed, and you are locking parent entity (Pool), the field will be loaded without SELECT FOR UPDATE. That means old data may be loaded.
 
-To dodge all of the above, it is important to make sure the developer understands what needs to be locked and up to date (all the particular fields that he needs during his business logic). Steps to mitigate above gotchas follow naturally: 
+To dodge all of the above, it is important to make sure the developer understands what needs to be locked and up to date (all the particular fields that they need during their business logic). Steps to mitigate above gotchas follow naturally:
 
  1. Before locking either make sure the entity is not in persistence context, or refresh it directly after loading.
  2. After successfully locking an entity, the only values that can be relied upon (to be up to date) are those directly loaded by SELECT FOR UPDATE statements. To force SELECT FOR UPDATE it is necessary to query with locking mode PESSIMISTIC_WRITE. EntityManager.refresh also allows setting the LockMode.
  3. You can't really rely on any Formula queried value, because Hibernate doesn't add "FOR UPDATE" clause to inline SQL queries (it just inserts Formula into the SELECT part of the parent query).
- 4. If you are absolutely sure that a value that you rely upon such as Pool.consumed has been loaded by query X and you know that X has not been issued earlier in the transaction, you can rely on that value, because repeatable read guarantee is not giving you the old value. Obviously this is extremelly haphazard implementation - it's hard to predict what Hibernate runs and when and it's impossible to make sure that nobody will reuse your data access method and runs X earlier. Also keep in mind that X doesn't have to be exact JQPL/Criteria/HQL that you run inside your code - what counts is the final SQL that RDBMS runs and caches as a repeatable read result. 
+ 4. If you are absolutely sure that a value that you rely upon such as Pool.consumed has been loaded by query X and you know that X has not been issued earlier in the transaction, you can rely on that value, because repeatable read guarantee is not giving you the old value. Obviously this is an extremely haphazard implementation - it's hard to predict what Hibernate runs and when and it's impossible to make sure that nobody will reuse your data access method and runs X earlier. Also keep in mind that X doesn't have to be exact JQPL/Criteria/HQL that you run inside your code - what counts is the final SQL that RDBMS runs and caches as a repeatable read result.
 
 ## Do not add unpersisted entity to a persistent collection
 Because we use @Id to implement equals() and hashCode() methods, the @Id must be populated before adding an entity into persistent collection. You can read more about this [here](https://developer.jboss.org/wiki/EqualsandHashCode)
 
 ## Maintain runtime consistency
-When we delete an entity and other loaded collection (that has CascadeType CREATE) contains that entity, we should remove the entity from the loaded collection. If we dont do that, hibernate will unschdule our delete:
+When we delete an entity and another loaded collection (that has CascadeType CREATE) contains that entity, we should remove the entity from the loaded collection. If we don't do that, hibernate will unschedule our delete:
 
 ```
 TRACE DefaultPersistEventListener[219] - un-scheduling entity deletion [[org.candlepin.model.Entitlement 
@@ -96,7 +96,7 @@ The createEntitlement method just creates and persists entitlement:
 ```
 {:.numbered}
 
-The test method happily passes. Now lets comment out a few lines in implementation of deletePool method:
+The test method happily passes. Now let's comment out a few lines in implementation of deletePool method:
 
 
 [3]
@@ -138,7 +138,7 @@ And you get exception [0] which indicates that you entitlements are still in the
 
 
 
-Now the entitlements will be cascade deleted. Now lets uncomment lines 6-9 of [3] and change line 6 to:
+Now the entitlements will be cascade deleted. Now let's uncomment lines 6-9 of [3] and change line 6 to:
 
 [4]
 
@@ -147,7 +147,7 @@ Now the entitlements will be cascade deleted. Now lets uncomment lines 6-9 of [3
 
 ```
 
-This will work only if the runtime consistency is maintained on line 7 of [3b]. Now logical step that one might try is to use poolCurtor.find instead of adding entitlement to the pools collection:
+This will work only if the runtime consistency is maintained on line 7 of [3b]. Now logical step that one might try is to use poolCurator.find instead of adding entitlement to the pools collection:
 
 ```java
     @Test  
@@ -170,7 +170,7 @@ This won't work, because poolCurator.find returns the object instantiated on lin
 entityManager().detach(pool);  
 ```
 
-All the code snippets above used my own createEntitlement (listed as [2]). Interesting things start to happen when instaed of that method I use our standard method to create test entitlements:
+All the code snippets above used my own createEntitlement (listed as [2]). Interesting things start to happen when instead of that method I use our standard method to create test entitlements:
 
 ```java
       Entitlement ent = createEntitlement(o, createConsumer(o),   
@@ -218,11 +218,11 @@ Given the refresh on line 09, you would expect the code will pass. It wont. Inst
 ```
 {:.numbered}
 
-As you can see createEntitlement is maintaining runtime consistency (puting toReturn to consumer's entitlements) so on the first sight everything looks ok. However, an important fact to realize with this code is that we use @Id to implement equals/hashCode. As you can see on line 7 we add the pool into consumer.entitlements. This is before entitlement (toReturn) is actually persisted. So the consumer.entitlements contains the entitlement but hashed by null value of @Id. After this method finishes, the line 10 of [5] will persist entitlement. After that the ent gets @Id populated.
+As you can see createEntitlement is maintaining runtime consistency (putting toReturn to consumer's entitlements) so on the first sight everything looks ok. However, an important fact to realize with this code is that we use @Id to implement equals/hashCode. As you can see on line 7 we add the pool into consumer.entitlements. This is before entitlement (toReturn) is actually persisted. So the consumer.entitlements contains the entitlement but hashed by null value of @Id. After this method finishes, the line 10 of [5] will persist entitlement. After that the entitlement gets @Id populated.
 
  
 
-After that the deletePool method on line 11 of [5] will try to revoke the entitlement ent. As seen in the following code [7], the removeEntitlement method removes the entitlement on line 10 of [7] from the consumer's entitlements collection. This removal of entitlement will be unsuccessfull (you can even debug that by printing boolean that remove() method returns). The reason for that is that consumers.entitlements contains the entitlement hashed by null value. But the parameter entitlement on line 10 of [7] has hashcode and equals method that  is already based on the populated @Id. Because the removal on line 10 fails and because we have CascadeType CREATE on Consumer.entitlements, the Hibernate unschedules delete of the entitlement. This causes the foreign key exception.
+After that the deletePool method on line 11 of [5] will try to revoke the entitlement ent. As seen in the following code [7], the removeEntitlement method removes the entitlement on line 10 of [7] from the consumer's entitlements collection. This removal of entitlement will be unsuccessful (you can even debug that by printing boolean that remove() method returns). The reason for that is that consumers.entitlements contains the entitlement hashed by null value. But the parameter entitlement on line 10 of [7] has hashCode and equals method that  is already based on the populated @Id. Because the removal on line 10 fails and because we have CascadeType CREATE on Consumer.entitlements, the Hibernate unschedules delete of the entitlement. This causes the foreign key exception.
 
 [7]
 
@@ -239,5 +239,3 @@ After that the deletePool method on line 11 of [5] will try to revoke the entitl
             consumer.removeEntitlement(entitlement);  
 ```
 {:.numbered}
-
-
