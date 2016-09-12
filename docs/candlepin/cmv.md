@@ -7,7 +7,7 @@ title: Migration Validation Tool
 
 The Candlepin Migration Validation (cmv) utility is a simple tool for verifying the integrity of a
 Candlepin deployment by taking snapshots before performing a, potentially destructive, operation,
-and then verifying it afterwards. If cmv detects any descrepancies, it will display a warning or
+and then verifying it afterwards. If cmv detects any discrepancies, it will display a warning or
 error, depending on the perceived severity of the issue.
 
 As the cmv tool uses the Candlepin API to perform all of its operations, it can also be used to
@@ -135,4 +135,3 @@ Commands:
   snapshot          Creates a snapshot of the products, content and pools for the specified org(s)
   verify            Verifies the current data for the specified org(s) matches the last/given snapshot
 ```
-

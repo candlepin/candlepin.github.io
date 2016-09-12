@@ -3,11 +3,11 @@ title: Data Transfer
 ---
 {% include toc.md %}
 
-# Data Transfer Format for Populating On-premise Candlepin
+# Data Transfer Format for Populating On-premises Candlepin
 
 ## Goals
- * allow for easy disconnected/connected loading of product and entitlement info into an on-premise candlepin from hosted candlepin
- * allow for multiple hosted consumers to map each into their own owner in a single on-premise candlepin
+ * allow for easy disconnected/connected loading of product and entitlement info into an on-premises candlepin from hosted candlepin
+ * allow for multiple hosted consumers to map each into their own owner in a single on-premises candlepin
  * reuse as much of the existing product/entitlement data as possible
    * json data from candlepin api
    * x509 certs included for use as a consumer of the upstream candlepin
@@ -42,12 +42,12 @@ Required data:
  * product attributes
  * product multiplier
  * content sets:
-  * type
-  * name
-  * label
-  * vendor
-  * content url
-  * gpg url
+   * type
+   * name
+   * label
+   * vendor
+   * content url
+   * gpg url
 
 ### Subscriptions
 From an entitlement we can get the following subscription data:
@@ -78,7 +78,7 @@ Inside the tarball will be:
 
 The data inside the tarball will always be a full snapshot of the latest information.
 
-This tarball will come with a matching detached cryptographic signature, signed by red hat/the upstream candlepin.
+This tarball will come with a matching detached cryptographic signature, signed by Red Hat/the upstream candlepin.
 
 ### meta.json
 A json file containing metainformation about the bundle. A version string would be a good starter for this.
