@@ -15,7 +15,7 @@ Run it or Jenkins will hate you.
 to determine what version of python it needs to run.
 It can tell you what is not backwards compatible to a given python version
 
-We use it in it's "lint" mode so that it annotates source code lines that are not compatable
+We use it in its "lint" mode so that it annotates source code lines that are not compatible
 with python 2.4, the version of python from RHEL5. 
 
 You should install this. 
@@ -43,7 +43,7 @@ We generally try to adhere to it.
 not pep8 compliant
 
 Fedora and EPEL have 'python-pep8' available. Newer versions are available from PyPi or
-from the guthub repo above.
+from the github repo above.
 
 "make pep8" will run it specifically.
 It is part of "make stylish"
@@ -52,7 +52,7 @@ It is part of "make stylish"
 [pyflakes](https://pypi.python.org/pypi/pyflakes) is another static analysis
 tool for python.
 
-"make pyflakes" runs it spefically.
+"make pyflakes" runs it specifically.
 It is part of "make stylish"
 
 ## tablint/trailinglint
