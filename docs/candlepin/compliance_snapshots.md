@@ -15,7 +15,7 @@ We will use qpid to receive events from Candlepin. For a Satellite install we'll
 
 An assumption is made that each event received by GB will cause a calculation and storage of the compliance status of the conusumer. This will create a historical snapshot for that point in time.
 
-We will also create a REST query that will allow a snapshot event to be sent on demand for an individual consumer. This will be used in scenarios where events may have been mistakenly dropped. It will eliminate the need to change somehting in Candlepin just to spawn the event.
+We will also create a REST query that will allow a snapshot event to be sent on demand for an individual consumer. This will be used in scenarios where events may have been mistakenly dropped. It will eliminate the need to change something in Candlepin just to spawn the event.
 
 As per Satellite -> Candlepin today, Satellite UI enforces permissions as it sees fit and GB will honor whatever request it receives as long as it follows the oauth enforcement. There will be a developer mode where the oauth requirement will be off and we just make requests. This off mode will be the default.
 
@@ -315,4 +315,3 @@ As per Satellite -> Candlepin today, Satellite UI enforces permissions as it see
   }
 }
 ```
-

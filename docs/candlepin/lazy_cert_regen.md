@@ -32,7 +32,7 @@ There are a few ways certificate regeneration can be triggered:
 1. PUT /entitlements/product/{productId}: Regenerate all certificates providing
    a given product. 
    * Can be used by the content provider when they make changes to a product or
-     it's content. Doesn't matter what changed, we don't really know, but we
+     its content. Doesn't matter what changed, we don't really know, but we
      can rest assured it wasn't anyone losing their subscription access. As
      such lazy revocation + regeneration is ok here.
 1. PUT /consumers/{uuid}/certificates: Regenerate everything for a given
@@ -58,7 +58,7 @@ certificate is regenerated.
 
 The only exception to lazy regeneration is noted above, if a subscription
 quantity has decreased, and we are now overconsuming, if an entitlement is
-being regenerated to reduce it's quantity (i.e. an entitlement with quantity >
+being regenerated to reduce its quantity (i.e. an entitlement with quantity >
 1), that certificate will be immediately revoked and regenerated.
 
 The API calls which can trigger certificate regeneration will all support a new

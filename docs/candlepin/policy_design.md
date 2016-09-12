@@ -108,8 +108,8 @@ Proposed plan for leveraging the scripting language additions to Java 6.
       fetch new rules.
 * Rules will be distributed and interpreted as Javascript.
 * Design some restrictive read-only objects inside the Candlepin Java code
-  allowing access to objects such as the consumer (it's type, facts,
-  entitlements, parent) and the product (it's type, attributes, etc).
+  allowing access to objects such as the consumer (its type, facts,
+  entitlements, parent) and the product (its type, attributes, etc).
   * Make these objects available to the Javascript engine.
 * In the future, the rules will be verified for a valid GPG signature.
 
