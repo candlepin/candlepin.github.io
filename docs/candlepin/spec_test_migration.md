@@ -14,7 +14,7 @@ title: Spec test migration
 
 * Due to changes in candlepin, if any changes need to be made to `server/old_spec`, that spec test should be ported to `server/spec` as a part of that PR.
 
-* Both `server/client/ruby/candlepin_api.rb` and `server/client/ruby/candlepin.rb` need to be maintained untill `candlepin_api.rb` is deleted.
+* Both `server/client/ruby/candlepin_api.rb` and `server/client/ruby/candlepin.rb` need to be maintained until `candlepin_api.rb` is deleted.
 
 * Buildr rspec will continue to run spec tests against both old and new spec tests.
 
@@ -28,11 +28,11 @@ title: Spec test migration
   ```console
   $ buildr rubocop:auto_correct
   ```
-* Note: Not all the new rest client methods have been thoroughly tested, We are relying on the spec test refactor to improve the reliablility of the client. Untill then, this client is for candlepin developers' use only.
+* Note: Not all the new rest client methods have been thoroughly tested; we are relying on the spec test refactor to improve the reliability of the client. Until then, this client is for candlepin developers' use only.
 
 ## Todo Tasks
 * Port hostedtest rest client APIs to the new client
 * In the new rest client need to move the helper classes Message, JSONClient, Candlepin::Util, Candlepin::API,etc ( basically everything but the resource classes) to their respective files.
 * We need to move the custom matchers from the test file to a utility that spec tests can use.
-* Debug is an instance variable on the client, which means we no longer have a global debug. The newer debug is very convenient, but perhaps we could keep the old option of a global debug too? When my test_candlepin.rb failed, I had to debug! on all the clients to find out where the problem was, and wished there was an global debug
+* Debug is an instance variable on the client, which means we no longer have a global debug. The newer debug is very convenient, but perhaps we could keep the old option of a global debug too? When my test_candlepin.rb failed, I had to debug! on all the clients to find out where the problem was, and wished there was a global debug
 * Figure out a way to run `server/client/ruby/test/test_candlepin.rb` with every PR. perhaps add a new task or update rspec task?

@@ -24,7 +24,7 @@ Prevent some jobs from running concurrently. For example, if I call refresh pool
 | ConsumerComplianceJob | async | Evaluates the compliance status of a consumer, and updates the consumer if requested. |
 | EntitleByProductsJob | async | Bind by pool, product for an entitle date. |
 | EntitlerJob | async | Bind by pool, product, heal entire org. |
-| ExpiredPoolsJob | 0 0 0/4 * * ? | Looks for any pools past their expiration date. If found we clean up the subscription, pool, and it's entitlements. This is primarily done on a scheduled basis to make sure we re-source derived pools if the stack has other still valid entitlements. |
+| ExpiredPoolsJob | 0 0 0/4 * * ? | Looks for any pools past their expiration date. If found we clean up the subscription, pool, and its entitlements. This is primarily done on a scheduled basis to make sure we re-source derived pools if the stack has other still valid entitlements. |
 | ExportCleaner | 0 0 12 * * ? | Examines the directory where the exporter compiles its information and resultant zip file. Data that is more that a day old will be expunged. |
 | HealEntireOrgJob | async | Heals an entire org. Extends UniqueByEntityJob. |
 | HypervisorUpdateJob | async | Refreshes the entitlement pools for specific org. |

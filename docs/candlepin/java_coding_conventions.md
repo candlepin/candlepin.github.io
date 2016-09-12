@@ -7,7 +7,7 @@ title: Coding Conventions
 This document contains the standard conventions that should be followed when
 writing Java code for the Candlepin project.  Everything not specifically
 addressed by this document should follow the official [Code Conventions for the
-Java Programming Language](http://www.oracle.com/technetwork/java/javase/documentation/codeconvtoc-136057.html)
+Java Programming Language](http://www.oracle.com/technetwork/java/javase/documentation/codeconvtoc-136057.html).
 
 Conventions specific to Candlepin have been primarily drawn from the
 conventions imposed by

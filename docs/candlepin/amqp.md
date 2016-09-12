@@ -75,7 +75,7 @@ In [Katello](http://www.katello.org/) and Satellite deployments Candlepin is con
 
 
 
-## Verify its working
+## Verify it's working
 
 Here's the old method that worked **without** SSL:
 

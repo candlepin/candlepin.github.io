@@ -1,5 +1,5 @@
 ---
-title: Bugzila process
+title: Bugzilla process
 ---
 {% include toc.md %}
 

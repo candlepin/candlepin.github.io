@@ -3,7 +3,7 @@ title: Developers
 ---
 {% include toc.md %}
 
-This page contains a variety of information for those intending to work on Candlepin and it's associated sub-projects.
+This page contains a variety of information for those intending to work on Candlepin and its associated sub-projects.
 
 # Eclipse Setup
 The Candlepin buildfile has an Eclipse task to generate the `.classpath` and
@@ -83,7 +83,7 @@ For example:
 712415: Make the names consistent between list --installed and list --consumed
 ```
 
-We use these for changelog's when tagging builds. It may seem pedantic but when
+We use these for changelogs when tagging builds. It may seem pedantic but when
 you need to process a few hundred lines it's very helpful if they're typo free,
 changelog friendly, and have the bz's automatically detected.
 
@@ -180,8 +180,9 @@ Subscriptions, Products, and Users all may live in external systems depending
 on the deployment.
 
 Tips:
+
  * Don't directly query the curators for these objects, use the service adapters instead.
- * Don't relate hiberante objects we *do* store in our database directly to these objects. You'll have to store the ID instead.
+ * Don't relate hibernate objects we *do* store in our database directly to these objects. You'll have to store the ID instead.
 
 ## Subscriptions vs Pools
 These two objects are almost the exact same thing. They both exist because we
@@ -209,7 +210,7 @@ are constantly switching between databases.  See [the AutoConf page](auto_conf.h
 To avoid having to "make install" or "make install-files" (install all the code
 but not the default configs, etc) or installing with tito, you need to make
 sure bin/subscription-manager can find the code from the source checkout on
-it's PYTHONPATH.
+its PYTHONPATH.
 
 What complicates simpling setting PYTHONPATH is that installed eggs are
 prepended to the system path before PYTHONPATH. So if a subscription-manager
@@ -262,11 +263,12 @@ However, it is possible to remote debug a root owned process with
 eclipse.
 
 The setup needs:
+
  * eclipse
  * pydev
  * python remote debug server setup in eclipse/pydev
    (see [pydev remote debugger setup](http://pydev.org/manual_adv_remote_debugger.html) and
-    [How To Debug Python Scripts With Eclipse](http://wiki.xbmc.org/index.php?title=How-to:Debug_Python_Scripts_with_Eclipse)
+    [How To Debug Python Scripts With Eclipse](http://wiki.xbmc.org/index.php?title=How-to:Debug_Python_Scripts_with_Eclipse))
 
 With the remote debug setup, subscription-manager can connect to the eclipse debugger server, even if
 the process is root owner (or, indeed, remote).
