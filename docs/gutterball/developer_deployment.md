@@ -39,7 +39,7 @@ All commands below are assumed relative to your candlepin project checkout: **$C
 1. **Create a DB user for gutterball**
 
    ```console
-   $ sudo su - postgres -c 'createuser -dls gutterrball'
+   $ sudo su - postgres -c 'createuser -dls gutterball'
    ```
 
 1. **Run the deploy script**
