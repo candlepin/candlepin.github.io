@@ -13,4 +13,7 @@ use Rack::Rewrite do
   moved_permanently %r{(/.*/)((?!.+?\.|.+/$).+)}, '$1$2/'
 end
 
-run Rack::Jekyll.new(:auto => false)
+# force_build will have Jekyll regenerate the site every time Rack is started.
+# This means that we can simply restart the OpenShift app to force a refresh
+# rather than require a redeployment.
+run Rack::Jekyll.new(:auto => false, :force_build => true)
