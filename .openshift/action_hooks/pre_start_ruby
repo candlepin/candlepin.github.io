@@ -1,0 +1,5 @@
+#!/bin/bash -x
+
+# Ensure all our plugins run under UTF-8 locale.
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8

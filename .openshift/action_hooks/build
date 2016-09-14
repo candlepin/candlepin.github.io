@@ -19,6 +19,13 @@ plantuml -v
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-pushd $OPENSHIFT_REPO_DIR
-bundle exec jekyll build
-popd
+# rack-jekyll should take care of building the site when it starts and
+# it will serve an temporary page informing the user of the outage.  If
+# we perform the rendering during the Openshift "build" phase, the application
+# serves nothing and the user gets an unpleasant 503 error.  However, if it
+# comes to pass that we do need to build during the actual build phase, the
+# lines below can be uncommented.
+
+# pushd $OPENSHIFT_REPO_DIR
+# bundle exec jekyll build
+# popd
