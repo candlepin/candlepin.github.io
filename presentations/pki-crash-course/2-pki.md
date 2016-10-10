@@ -137,6 +137,8 @@ for 65537, a common value for an RSA public exponent.
 - Don't name your files ".pem".  It doesn't provide any information about
   what is actually in the file and forces others to have to inspect the file
   to determine its purpose.
+- ".pem" is like a sushi restaurant describing every menu item as "fish and
+  rice".
 
 Note:
 You've got all the components you need to define something in ASN.1.  Now
