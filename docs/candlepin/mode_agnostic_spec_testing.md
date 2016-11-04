@@ -59,7 +59,7 @@ so that we can revert back to hosted mode by :
 * Note: Hosted spec tests do not run successfully in parallel mode. Please run them only in serial mode!
 
 ## How to create pools in a mode agnostic manner
-The candlepin_scenarios.rb utility has the following methods to help developers spec test in a mode agnostic manner:
+The server/client/ruby/hostedtest_api.rb utility has the following methods to help developers spec test in a mode agnostic manner:
 
 * ensure_hostedtest_resource:
   * if we are in hosted mode, ensures the hosted test resource is available, else throws a useful error message
