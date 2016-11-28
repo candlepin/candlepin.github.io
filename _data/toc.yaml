@@ -84,6 +84,7 @@
           - section: authentication_and_authorization
             subs:
               - section: oauth
+          - section: fail_fast
       - section: development
         subs:
           - section: developer_deployment
