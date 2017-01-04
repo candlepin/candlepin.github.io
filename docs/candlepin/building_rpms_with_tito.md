@@ -4,7 +4,7 @@ title: Building RPMs with Tito
 {% include toc.md %}
 
 # Building RPMs with Tito
-Candlepin uses [tito](http://github.com/dgoodwin/tito/blob/master/README.mkd) to build the rpms.
+Candlepin uses [tito](https://github.com/dgoodwin/tito/blob/master/README.md) to build the rpms.
 
 ## Configuration
 Tito is configured by `rel-eng/tito.props` with user defined settings in `$HOME/.titorc`
