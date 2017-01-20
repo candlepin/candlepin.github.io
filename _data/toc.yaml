@@ -5,6 +5,7 @@
   - section: design_overview
     subs:
       - section: dbus
+      - section: dbus_objects
       - section: dnf
       - section: subscription_manager_entry_points
       - section: make_stylish
