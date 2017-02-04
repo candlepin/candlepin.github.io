@@ -10,7 +10,7 @@ see [Developer Deployment](developer_deployment.html).
 
 # Requirements
 
-You will need RHEL/CentOS 5/6 or Fedora 20/21. Other systems do not have repositories used in this tutorial.
+The following instructions assume use of RHEL/Fedora (tested on EL5/6 and Fedora 20/21). It maybe be possible to install on other distributions by adapting the steps as necessary.
 
 
 # PostgreSQL
@@ -61,7 +61,7 @@ You will need RHEL/CentOS 5/6 or Fedora 20/21. Other systems do not have reposit
    $ wget -O /etc/yum.repos.d/epel-candlepin.repo http://repos.fedorapeople.org/repos/candlepin/candlepin/epel-candlepin.repo
    ```
 
-1. Enable EPEL repository
+1. Enable EPEL repository. Note: this step is necessary only at RedHat/CentOS.
 
    ```console
    $ sudo yum -y install epel-release
