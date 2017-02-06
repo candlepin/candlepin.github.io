@@ -8,6 +8,11 @@ title: Setting Up Candlepin
 This page describes how to install Candlepin using the rpms. If you are building from source, please
 see [Developer Deployment](developer_deployment.html).
 
+# Requirements
+
+The following instructions assume use of RHEL/Fedora (tested on EL5/6 and Fedora 20/21). It maybe be possible to install on other distributions by adapting the steps as necessary.
+
+
 # PostgreSQL
 
 1. Install PostgresSQL.
@@ -19,7 +24,11 @@ see [Developer Deployment](developer_deployment.html).
 1. Initialize PostgreSQL.
 
    ```console
-   $ sudo postgresql-setup initdb
+   $ sudo postgresql-setup initdb  # Fedora
+   ```
+
+   ```console
+   $ sudo /sbin/service postgresql initdb  # RHEL/CentOS
    ```
 
 1. Update `/var/lib/pgsql/data/pg_hba.conf` to be trust instead of ident:
@@ -28,6 +37,7 @@ see [Developer Deployment](developer_deployment.html).
    # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
    local   all         all                               trust
    host    all         all         127.0.0.1/32          trust
+   host    all         all         ::1/128               trust
    ```
 
 1. Enable and start the PostgreSQL server.
@@ -50,6 +60,13 @@ see [Developer Deployment](developer_deployment.html).
    ```console
    $ wget -O /etc/yum.repos.d/epel-candlepin.repo http://repos.fedorapeople.org/repos/candlepin/candlepin/epel-candlepin.repo
    ```
+
+1. Enable EPEL repository. Note: this step is necessary only at RedHat/CentOS.
+
+   ```console
+   $ sudo yum -y install epel-release
+   ```
+
 1. Install Candlepin
 
    ```console
