@@ -88,6 +88,7 @@
           - section: fail_fast
       - section: development
         subs:
+          - section: idea_setup
           - section: developer_deployment
           - section: auto_conf
           - section: java_coding_conventions
