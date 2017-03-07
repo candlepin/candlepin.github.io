@@ -14,10 +14,13 @@ Useful for developer or standalone deployments. The steps below will install qpi
  * Install qpid, generate ssl keys, and start the qpid server:
 
    ```console
-   $ gutterball/bin/qpid/configure-qpid.sh
+   $ server/bin/qpid/configure-qpid.sh
    ```
 
- * In /etc/candlepin/candlepin.conf add:
+ * Ensure candlepin is configured to connect to Qpid.
+
+  Either generate `candlepin.conf` with Qpid enabled by passing `-q` to `server/bin/deploy` or
+  in `/etc/candlepin/candlepin.conf`, manually set:
 
    ```properties
    candlepin.amqp.enable = true
