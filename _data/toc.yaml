@@ -131,6 +131,7 @@
       - section: swaggerapi
       - section: database
       - section: product_attributes
+      - section: pre_entitlement_rules_check
   - section: design
     subs:
       - section: compliance_snapshots
