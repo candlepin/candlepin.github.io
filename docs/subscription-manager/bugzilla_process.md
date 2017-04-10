@@ -6,6 +6,7 @@ title: Bugzilla process
 ## Bugzilla process
 
  * A developer picks a bug in the order of priority and severity, and:
+   * changes the state of the bug to `ASSIGNED`
    * "takes" it ( `assigns` it to one's self )
    * Checks if the bug is dev-ack-ed appropriately
  * Commit messages must be of the format "BUGID: Description"
