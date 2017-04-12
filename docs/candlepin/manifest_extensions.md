@@ -13,6 +13,9 @@ Custom extension data can be passed as part of the [GET /consumers/:uuid/export/
 $ curl -k -u USERNAME:PASSWORD https://localhost:8443/candlepin/consumers/CONSUMER_UUID/export/async?ext=version:1.2.3&ext=...
 ```
 
+**NOTE: As of candlepin-2.0.31, the 'ext' parameters are supported in the deprecated synchronous export API, though we strongly urge the use of the asynchronous version above.**
+{:.alert-bad}
+
 In order for candlepin to load a custom implementation of this adapter, the new class will have to be created and must implement the interface and be bound in a custom guice module. These classes must then be put on candlepins classpath (usually in the form of a JAR file) post candlepin installation. Be sure to remember to restart tomcat once the classes are in place.
 
 ### An example of setting up an extension.
