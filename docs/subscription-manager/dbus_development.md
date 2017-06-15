@@ -49,3 +49,45 @@ object.  Pass in the `-h` flag for information on the options the script can
 take.  You can define verbosity level, a different bus name, and specify which
 bus (system or session) to use.
 
+# Useful Tools
+
+* busctl (from systemd package) - CLI tool for interacting with DBus
+* gdbus (from glib2 package) - CLI tool for interacting with DBus
+* dbus-send (from dbus package) - CLI tool for interacting with DBus
+* dbus-monitor (from dbus package) - probe to print bus messages
+* d-feet - graphical tool to interact with DBus
+
+I find d-feet to be the easiest to use for just ad-hoc tests.  One of the CLI
+tools is the better choice if you're going to be running the same command over
+and over.
+
+# Learning DBus
+
+* [DBus
+  Specification](https://dbus.freedesktop.org/doc/dbus-specification.html) is
+  start here.  It's quite readable and will explain the basic concepts to you.
+* [DBus Tutorial](https://dbus.freedesktop.org/doc/dbus-tutorial.html) is also a
+  good introduction to the basic concepts.
+* [Designing a DBus API](https://dbus.freedesktop.org/doc/dbus-api-design.html) 
+  is good outline of the best practices when designing a DBus API
+* [dbus-python
+  Tutorial](https://dbus.freedesktop.org/doc/dbus-python/doc/tutorial.html) is
+  of limited use since it is terse and incomplete in sections.
+* [dbus-python API](https://dbus.freedesktop.org/doc/dbus-python/api/) is API
+  docs for dbus-python which is what we use for interacting with DBus in
+  subscription-manager.
+* [Writing polkit
+  applications](https://www.freedesktop.org/software/polkit/docs/master/polkit-apps.html)
+  will be useful when we decided to add polkit integration
+
+# Examples
+
+* `certmonger` has a DBus api that models X.509 certs (`org.fedorahosted.certmonger.ca interface`)
+* `dnfdaemon` has an interface to packages/repos (`org.baseurl.DNfSession`)
+* `telepathy` has and extensive DBus API and python bindings
+  (`org.freedesktop.Telepath`)
+* `seahorse` is a keyring tool with DBus interfaces (`org.gnome.seahorse`)
+* `kwallet` has a large DBus API (`org.kde.kwallet5`)
+* `org.freedesktop.Udisks2` is a good example of using the
+  `org.freedesktop.DBus.ObjectManager` interface
+* `org.fedoraproject.FirewallD1` is another large API
