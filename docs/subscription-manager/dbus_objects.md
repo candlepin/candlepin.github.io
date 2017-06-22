@@ -94,3 +94,46 @@ creates.
   order is `organization, activation key list, options dictionary`.  The options
   dictionary can contain the same values as `Register`.  This call returns the
   JSON response from the subscription management server.
+
+# Entitlement
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Environment`
+* Bus path: `/com/redhat/RHSM1/Environment`
+
+The Environment object offers an information about currently entitled environment.
+Entitled environment includes:
+
+   * an owner of the entitled subscriptions
+   * a list of pools that the entitled subscriptions provide
+   * a list of products that the pools provide
+   
+## Methods
+* `getStatus()`: Returns a string describing a current entitlement status.
+
+   * "Future Subscription"
+   * "Subscribed"
+   * "Not Subscribed"
+   * "Expired"
+   * "Partially Subscribed"
+   * "Unknown"
+
+* `getSubscriptions(dictionary(string,variant))`: Returns a list of subscriptions that are available to the registered owner.
+
+```python
+>>> getSubscriptions(active_on="<date>", 
+                     match_my_system=<bool>, 
+                     exclude_already_covered=<bool>,
+                     search_for_text="<string>")
+[{""}]
+```
+
+* `getPools(dictionary(string,variant))`: Returns a list of pools that a current entitlement offers.
+
+```
+>>> getPools(search_for_text="<string>")
+[{""}]
+
+```
+* `getConsumers()`: Returns a list of consumers that a current entitlement offers.
+
+* `getProducts()`: Returns a list of products that a current entitlement offers.
