@@ -106,6 +106,8 @@ Entitled environment includes:
    * an owner of the entitled subscriptions
    * a list of pools that the entitled subscriptions provide
    * a list of products that the pools provide
+   * a list of subscriptions that the entitled environment provide
+   * a list of products that are installed in a system
    
 ## Methods
 * `getStatus()`: Returns a string describing a current entitlement status.
@@ -120,20 +122,38 @@ Entitled environment includes:
 * `getSubscriptions(dictionary(string,variant))`: Returns a list of subscriptions that are available to the registered owner.
 
 ```python
->>> getSubscriptions(active_on="<date>", 
-                     match_my_system=<bool>, 
-                     exclude_already_covered=<bool>,
-                     search_for_text="<string>")
+>>> getSubscriptions(available=true,
+                     matches="some string",
+                     no-overlap=true)
+[{""}]
+
+>>> getSubscriptions(consumed=true,
+                     matches="some string")
+[{""}]
+
+>>> getSubscriptions(available=true,
+                     matches="some string")
 [{""}]
 ```
 
 * `getPools(dictionary(string,variant))`: Returns a list of pools that a current entitlement offers.
 
 ```
->>> getPools(search_for_text="<string>")
+>>> getPools(available=true,
+             matches="some string",
+             no-overlap=true)
+[{""}]
+
+>>> getPools(consumed=true,
+             matches="some string")
+[{""}]
+
+>>> getPools(available=true,
+             matches="some string")
 [{""}]
 
 ```
+
 * `getConsumers()`: Returns a list of consumers that a current entitlement offers.
 
 * `getProducts()`: Returns a list of products that a current entitlement offers.
