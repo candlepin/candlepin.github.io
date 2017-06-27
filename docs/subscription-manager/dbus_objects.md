@@ -97,20 +97,17 @@ creates.
 
 # Entitlement
 * Bus name: `com.redhat.RHSM1`
-* Interfaces: `com.redhat.RHSM1.Environment`
-* Bus path: `/com/redhat/RHSM1/Environment`
+* Interfaces: `com.redhat.RHSM1.Entitlement`
+* Bus path: `/com/redhat/RHSM1/Entitlement`
 
-The Environment object offers an information about currently entitled environment.
-Entitled environment includes:
+The Entitlement object provides an information about entitlements usable by a system.
+Entitlement information provides:
 
    * an owner of the entitled subscriptions
-   * a list of pools that the entitled subscriptions provide
-   * a list of products that the pools provide
-   * a list of subscriptions that the entitled environment provide
-   * a list of products that are installed in a system
+   * a list of pools accessible by this system
    
 ## Methods
-* `getStatus()`: Returns a string describing a current entitlement status.
+* `GetStatus()`: Returns a string describing a current entitlement status.
 
    * "Future Subscription"
    * "Subscribed"
@@ -119,41 +116,24 @@ Entitled environment includes:
    * "Partially Subscribed"
    * "Unknown"
 
-* `getSubscriptions(dictionary(string,variant))`: Returns a list of subscriptions that are available to the registered owner.
+```python
+>>> GetStatus()
+[{""}] # I will add the response once I try it with a prototype of this method.
+```
+
+* `GetPools(dictionary(string,variant))`: Returns a list of pools accessible by this system.
 
 ```python
->>> getSubscriptions(available=true,
-                     matches="some string",
-                     no-overlap=true)
-[{""}]
-
->>> getSubscriptions(consumed=true,
-                     matches="some string")
-[{""}]
-
->>> getSubscriptions(available=true,
-                     matches="some string")
-[{""}]
-```
-
-* `getPools(dictionary(string,variant))`: Returns a list of pools that a current entitlement offers.
-
-```
->>> getPools(available=true,
+>>> GetPools(available=true,
              matches="some string",
              no-overlap=true)
-[{""}]
+[{""}] # I will add the response once I try it with a prototype of this method.
 
->>> getPools(consumed=true,
+>>> GetPools(consumed=true,
              matches="some string")
-[{""}]
+[{""}] # I will add the response once I try it with a prototype of this method.
 
->>> getPools(available=true,
+>>> GetPools(available=true,
              matches="some string")
-[{""}]
-
+[{""}] # I will add the response once I try it with a prototype of this method.
 ```
-
-* `getConsumers()`: Returns a list of consumers that a current entitlement offers.
-
-* `getProducts()`: Returns a list of products that a current entitlement offers.
