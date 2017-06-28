@@ -118,10 +118,22 @@ Entitlement information provides:
 
 ```python
 >>> GetStatus()
-[{""}] # I will add the response once I try it with a prototype of this method.
+{"status": 0,
+ "overall_status": "Invalid",
+ "reasons": {"Awesome OS Modifier Bits": ["Not supported by a valid subscription."]
+             "Awesome OS for S390 Bits": ["Not supported by a valid subscription."]}]}
 ```
 
-* `GetPools(dictionary(string,variant))`: Returns a list of pools accessible by this system.
+* `GetPools(dictionary(string,variant))`: Returns a list of pools accessible by this system. 
+  The `options` dictionary can contain those arguments:
+
+  * `available`: list of pools from all available subscriptions
+  * `consumed`: list of pools from all consumed subscriptions
+  * `matches`: list of pools those names contains of the wanted string
+  * `no-overlap`: list of pools that can cover the installed products. 
+    The products that are not covered by any subscription yet.
+
+  You can combine the arguments.
 
 ```python
 >>> GetPools(available=true,
@@ -137,3 +149,4 @@ Entitlement information provides:
              matches="some string")
 [{""}] # I will add the response once I try it with a prototype of this method.
 ```
+``
