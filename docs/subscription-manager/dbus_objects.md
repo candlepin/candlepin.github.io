@@ -129,13 +129,13 @@ Entitlement information provides:
 
   * `consumed`: list of pools from all consumed subscriptions only
   * `matches`: list of pools those names contains of the wanted string
-  * `no-overlap`: list of pools that can cover the installed products. 
+  * `no_overlap`: list of pools that can cover the installed products. 
     The products that are not covered by any subscription yet.
 
   You can combine the arguments.
 
 ```python
->>> GetPools(no-overlap=true)
+>>> GetPools(no_overlap=true)
 [{"subscription_name": "Multi-Attribute Stackable (4 cores)",
   "provides": ["Multi-Attribute Limited Product"],
   "sku":      "cores4-multiattr",
