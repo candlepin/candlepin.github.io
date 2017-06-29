@@ -129,6 +129,7 @@ Entitlement information provides:
 
   * `consumed`: list of pools from all consumed subscriptions only
   * `matches`: list of pools those names contains of the wanted string
+  * `service_level`: the result is filtered by `service level`
   * `no_overlap`: list of pools that can cover the installed products. 
     The products that are not covered by any subscription yet.
 
