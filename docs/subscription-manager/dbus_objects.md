@@ -127,8 +127,7 @@ Entitlement information provides:
 * `GetPools(dictionary(string,variant))`: Returns a list of pools accessible by this system. 
   The `options` dictionary can contain those arguments:
 
-  * `available`: list of pools from all available subscriptions
-  * `consumed`: list of pools from all consumed subscriptions
+  * `consumed`: list of pools from all consumed subscriptions only
   * `matches`: list of pools those names contains of the wanted string
   * `no-overlap`: list of pools that can cover the installed products. 
     The products that are not covered by any subscription yet.
@@ -136,17 +135,63 @@ Entitlement information provides:
   You can combine the arguments.
 
 ```python
->>> GetPools(available=true,
-             matches="some string",
-             no-overlap=true)
-[{""}] # I will add the response once I try it with a prototype of this method.
+>>> GetPools(no-overlap=true)
+[{"subscription_name": "Multi-Attribute Stackable (4 cores)",
+  "provides": ["Multi-Attribute Limited Product"],
+  "sku":      "cores4-multiattr",
+  "contract": 0,
+  "account":  "12331131231", 
+  "serial":   "8552108704959396720",
+  "pool_id":  "8a882d8d5c2f9deb015c2f9f6e6403be",
+  "provides_management": false,
+  "active":    true,
+  "quantity_used": 1,
+  "service_level": "Premium",
+  "service_type":  "Level 3",
+  "status_details": "Subscription is current",
+  "subscription_type": "Stackable",
+  "starts":            "2017-05-21",
+  "ends":              "2018-05-21",
+  "system_type":       "Physical"},
+ {"subscription_name": "Admin OS Server Bundled (2 Sockets, Standard Support)",
+  "provides": ["Load Balancing Bits",
+               "Awesome OS Server Bits",
+               "Clustering Bits"],
+  "sku":      "adminos-server-2-socket-std",
+  "contract": 1,
+  "account":  "12331131231", 
+  "serial":   "4929383944640732124","
+  "pool_id":  "8a882d8d5c2f9deb015c2f9f50b30159",
+  "provides_management": true,
+  "active":    true,
+  "quantity_used": 1,
+  "service_level": "Standard",
+  "service_type":  "L1-L3",
+  "status_details": "Subscription is current",
+  "subscription_type": "Standard",
+  "starts":            "2017-05-21",
+  "ends":              "2018-05-21",
+  "system_type":       "Physical"}
+]
 
 >>> GetPools(consumed=true,
-             matches="some string")
-[{""}] # I will add the response once I try it with a prototype of this method.
-
->>> GetPools(available=true,
-             matches="some string")
-[{""}] # I will add the response once I try it with a prototype of this method.
+             matches="Stackable")
+[{"subscription_name": "Multi-Attribute Stackable (4 cores)",
+  "provides": ["Multi-Attribute Limited Product"],
+  "sku":      "cores4-multiattr",
+  "contract": 0,
+  "account":  "12331131231", 
+  "serial":   "8552108704959396720",
+  "pool_id":  "8a882d8d5c2f9deb015c2f9f6e6403be",
+  "provides_management": false,
+  "active":    true,
+  "quantity_used": 1,
+  "service_level": "Premium",
+  "service_type":  "Level 3",
+  "status_details": "Subscription is current",
+  "subscription_type": "Stackable",
+  "starts":            "2017-05-21",
+  "ends":              "2018-05-21",
+  "system_type":       "Physical"},
+]
 ```
-``
