@@ -53,9 +53,19 @@ When a subscription object is imported, depending on the attributes of its main 
   * Derived pool will have a pool attribute: requires_host = candlepin host consumer UUID
   * Access to this pool will be restricted to guests who have been reported as running on that host by virt-who.
 1. Stack Derived Pool
-  * Similar to a Derived Pool, only when stacked there is a business requirement that only one sub-pool ever exists for that stack for a given consumer.
-  * When a host first binds to a pool with a given stack ID, a stack derived pool is created.
-  * On subsequent binds to pools with that same stack ID, the stack derived pool is updated to have merged characteristics of all the pools in the stack. *insert link here*
+* Similar to a Derived Pool, except that, when stacked, only one sub-pool will ever exist for that stack for a given consumer.
+* The pool is created when a host binds to the first virt limited pool with a given stack ID.
+* On subsequent binds to pools with that same stack ID (does not have to be virt limited), the stack derived pool is updated to have merged characteristics of all the pools in the stack.
+  * Because of this, a stack derived pool can not have a single source subscription or source entitlement (null in DB/JSON).
+* Each stack derived pool is linked back to the source consumer and stack by means of a SourceStack
+* The entitlements that are contributing to the stack derived pool are associated with the source consumer.
+* As entitlements of a stack are consumed by the host, the stack derived pool is updated as follows:
+  * The pool's product (marketing) will be taken from the eldest entitlement (determined by entitlement creation date) in the stack (prefer the derived product, if set).
+  * The pool's provided products (engineering) are accumulated from all entitlements of the stack. If an entitlement has a derived product, the derived provided products defined for that entitlement are added instead of the provided products.
+  * The contract, account and order numbers will be taken from the eldest entitlement (determined by entitlement creation date) in the stack.
+  * The quantity will be updated from the eldest virt limited entitlement (determined by entitlement creation date). If the last entitlement remaining in the stack is NOT virt limited, the quantity remains as it is currently set.
+  * The start/end date of the pool will be set based on all entitlements in the stack (earliest entitlement start date, latest entitlement end date).
+* A stack derived pool is only removed when all of the entitlements for its stack are removed from the source consumer (even if there are no virt limited entitlements remaining).
 1. Unmapped Guest Pool
   * To help customers struggling with timing issues between when a guest is created and tries to subscribe, and when virt-who reports the host to guest mapping (unlocking the pools for that guest), unmapped guest pools were added.
   * These pools are only usable by guest consumers who are less than 24 hours old, and who have not yet been linked to any host.
