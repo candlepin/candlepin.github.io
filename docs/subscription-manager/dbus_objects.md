@@ -94,3 +94,105 @@ creates.
   order is `organization, activation key list, options dictionary`.  The options
   dictionary can contain the same values as `Register`.  This call returns the
   JSON response from the subscription management server.
+
+# Entitlement
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Entitlement`
+* Bus path: `/com/redhat/RHSM1/Entitlement`
+
+The Entitlement object provides an information about entitlements usable by a system.
+Entitlement information provides:
+
+   * an owner of the entitled subscriptions
+   * a list of pools accessible by this system
+   
+## Methods
+* `GetStatus()`: Returns a string describing a current entitlement status.
+
+   * "Future Subscription"
+   * "Subscribed"
+   * "Not Subscribed"
+   * "Expired"
+   * "Partially Subscribed"
+   * "Unknown"
+
+```python
+>>> GetStatus()
+{"status": 0,
+ "overall_status": "Invalid",
+ "reasons": {"Awesome OS Modifier Bits": ["Not supported by a valid subscription."]
+             "Awesome OS for S390 Bits": ["Not supported by a valid subscription."]}]}
+```
+
+* `GetPools(dictionary(string,variant))`: Returns a list of pools accessible by this system. 
+  The `options` dictionary can contain those arguments:
+
+  * `consumed`: list of pools from all consumed subscriptions only
+  * `matches`: list of pools those names contains of the wanted string
+  * `service_level`: the result is filtered by `service level`
+  * `no_overlap`: list of pools that can cover the installed products. 
+    The products that are not covered by any subscription yet.
+
+  You can combine the arguments.
+
+```python
+>>> GetPools(no_overlap=true)
+[{"subscription_name": "Multi-Attribute Stackable (4 cores)",
+  "provides": ["Multi-Attribute Limited Product"],
+  "sku":      "cores4-multiattr",
+  "contract": 0,
+  "account":  "12331131231", 
+  "serial":   "8552108704959396720",
+  "pool_id":  "8a882d8d5c2f9deb015c2f9f6e6403be",
+  "provides_management": false,
+  "active":    true,
+  "quantity_used": 1,
+  "service_level": "Premium",
+  "service_type":  "Level 3",
+  "status_details": "Subscription is current",
+  "subscription_type": "Stackable",
+  "starts":            "2017-05-21",
+  "ends":              "2018-05-21",
+  "system_type":       "Physical"},
+ {"subscription_name": "Admin OS Server Bundled (2 Sockets, Standard Support)",
+  "provides": ["Load Balancing Bits",
+               "Awesome OS Server Bits",
+               "Clustering Bits"],
+  "sku":      "adminos-server-2-socket-std",
+  "contract": 1,
+  "account":  "12331131231", 
+  "serial":   "4929383944640732124","
+  "pool_id":  "8a882d8d5c2f9deb015c2f9f50b30159",
+  "provides_management": true,
+  "active":    true,
+  "quantity_used": 1,
+  "service_level": "Standard",
+  "service_type":  "L1-L3",
+  "status_details": "Subscription is current",
+  "subscription_type": "Standard",
+  "starts":            "2017-05-21",
+  "ends":              "2018-05-21",
+  "system_type":       "Physical"}
+]
+
+>>> GetPools(consumed=true,
+             matches="Stackable")
+[{"subscription_name": "Multi-Attribute Stackable (4 cores)",
+  "provides": ["Multi-Attribute Limited Product"],
+  "sku":      "cores4-multiattr",
+  "contract": 0,
+  "account":  "12331131231", 
+  "serial":   "8552108704959396720",
+  "pool_id":  "8a882d8d5c2f9deb015c2f9f6e6403be",
+  "provides_management": false,
+  "active":    true,
+  "quantity_used": 1,
+  "service_level": "Premium",
+  "service_type":  "Level 3",
+  "status_details": "Subscription is current",
+  "subscription_type": "Stackable",
+  "starts":            "2017-05-21",
+  "ends":              "2018-05-21",
+  "system_type":       "Physical"},
+]
+```
