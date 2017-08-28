@@ -12,6 +12,8 @@ include:
 
 exclude:
   - 'vendor'
+  # For some reason OpenShift v3 installs to "bundle" instead of "vendor"
+  - 'bundle'
   - 'Gemfile*'
   - 'README.md'
   - 'config.ru'
@@ -58,7 +60,7 @@ defaults:
     values:
       layout: "presentation"
 
-gems:
+plugins:
   - jekyll-sitemap
   - jekyll-plantuml
   - jekyll-paginate
