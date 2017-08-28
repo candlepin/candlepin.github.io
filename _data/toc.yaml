@@ -37,7 +37,8 @@
           - section: constraints
       - section: entitlements
         subs:
-          - section: autobind
+          - section: autoattach
+          - section: disable_autoattach
           - section: server_side_entitlement_status
           - section: expired_entitlements
           - section: revoke_entitlements
