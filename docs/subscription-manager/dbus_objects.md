@@ -45,6 +45,21 @@ subscription-manager's configuration settings.
 * `GetAll()`: Get all configuration settings
 * `Set(string, variant)`: Set a setting to a value
 
+# Attach
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Attach`
+* Bus path: `/com/redhat/RHSM1/Attach`
+
+The Attach object provides an interface to attach subscriptions to the system.
+
+## Methods
+* `AutoAttach(string, dictionary(string, variant)`: Perform an auto-attach on
+  the system.  A service level (or empty string for none) is provided as the
+  first parameter and a dictionary of proxy options for the second.
+* `PoolAttach(array(string), id, dictionary(string, variant)`: Attach
+  specific pools to the system.  The first parameter is a list of pool IDs, the
+  second a quantity, and the final parameter is a dictionary of proxy options.
+
 # RegisterServer
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.RegisterServer`
@@ -94,7 +109,8 @@ creates.
   * `proxy_user`
   * `proxy_password`
 
-  The call returns the JSON response from the subscription management server.
+  The call returns the JSON response body from the subscription management
+  server.
 
 * `RegisterWithActivationKeys(string, array(strings), dictionary(string,
   variant), dictionary(string, variant)`: Register a system using one or more
@@ -103,4 +119,4 @@ creates.
   should only contain `name` and/or `force` since activation keys cannot be used
   with environments or existing consumer IDs.  The connection options dictionary
   can contain the same values as `Register`.  This call returns the JSON
-  response from the subscription management server.
+  response body from the subscription management server.
