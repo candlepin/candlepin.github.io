@@ -60,6 +60,20 @@ The Attach object provides an interface to attach subscriptions to the system.
   specific pools to the system.  The first parameter is a list of pool IDs, the
   second a quantity, and the final parameter is a dictionary of proxy options.
 
+# Products
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Products`
+* Bus path: `/com/redhat/RHSM1/Products`
+
+The Products object provides an interface to list installed products.
+
+## Methods
+* `ListInstalledProducts(string, dictionary(string, variant))`: Return
+  list of installed products. The argument order is: `filter, options dictionary`.
+  The `filter` argument can be used to filter out some products from returned
+  list of installed products. The options dictionary contains proxy options.
+  This call returns the JSON list of installed products.
+
 # RegisterServer
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.RegisterServer`
