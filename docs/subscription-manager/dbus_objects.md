@@ -86,18 +86,25 @@ the object attached to the domain socket server that the `RegisterServer`
 creates.
 
 ## Methods
-* `Register(string, string, string, dictionary(string, variant)`: Register a
-  system via subscription-manager.  The argument order is `organization,
-  username, password, options dictionary`.  The options dictionary can contain
-  the keys
+* `Register(string, string, string, dictionary(string, variant),
+  dictionary(string, variant)`: Register a system via subscription-manager.  The
+  argument order is `organization, username, password, options dictionary,
+  connection options dictionary`.
+
+  The options dictionary can contain the keys
+
+  * `force`: force a registration
+  * `name`: specify a consumer name; defaults to the system hostname
+  * `consumerid`: register with an existing consumer ID
+  * `environment`: register to a given environment
+
+  The connection options dictionary can contain the keys
 
   * `host`: the subscription management server host
   * `port`: the subscription management server port
   * `handler`: the context of the subscription management server.  E.g.
     `/subscriptions`
   * `insecure`: disable SSL/TLS host verification
-  * `environment`: the environment to register to
-  * `name`: defaults to the system hostname
   * `proxy_hostname`
   * `proxy_user`
   * `proxy_password`
@@ -106,7 +113,10 @@ creates.
   server.
 
 * `RegisterWithActivationKeys(string, array(strings), dictionary(string,
-  variant)`: Register a system using one or more activation keys.  The argument
-  order is `organization, activation key list, options dictionary`.  The options
-  dictionary can contain the same values as `Register`.  This call returns the
-  JSON response body from the subscription management server.
+  variant), dictionary(string, variant)`: Register a system using one or more
+  activation keys.  The argument order is `organization, activation key list,
+  options dictionary, connection options dictionary`. The options dictionary
+  should only contain `name` and/or `force` since activation keys cannot be used
+  with environments or existing consumer IDs.  The connection options dictionary
+  can contain the same values as `Register`.  This call returns the JSON
+  response body from the subscription management server.
