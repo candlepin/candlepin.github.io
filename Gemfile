@@ -13,8 +13,9 @@ gem 'pygments.rb'
 gem 'stringex'
 gem 'rack', "~> 2.0"
 gem 'rack-rewrite'
-gem 'thin'
+gem 'puma'
 
+# This group is excluded in the builder image!
 group :jekyll_plugins do
   gem 'hawkins', "~> 2.0"
 end
