@@ -17,6 +17,7 @@ exclude:
   - 'Gemfile*'
   - 'README.md'
   - 'config.ru'
+  - 'Dockerfile'
 
 projects_dir: 'docs'
 
