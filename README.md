@@ -76,7 +76,10 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
 1. Submit your changes as a PR.  The Travis continuous integration hook will run
    automatically.  If the build fails, correct it.  Otherwise, when the PR is
    merged into master, a webhook will inform Openshift and Openshift will
-   rebuilt and deploy the application.
+   rebuild and deploy the application.  Just for reference, the webhook URL can
+   be found in the Openshift console by going to the "Configuration" tab for a
+   BuildConfig.  The secret to use can be found under the "triggers" section if
+   you select "Edit YAML" under "Actions" for a BuildConfig.
 1. Travis configuration is in `.travis.yml` and in a few files located in the
    `_travis` directory.
 1. If you need to work more extensively with Travis, I recommend installing
