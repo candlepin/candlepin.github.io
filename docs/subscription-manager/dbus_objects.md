@@ -134,3 +134,17 @@ creates.
   with environments or existing consumer IDs.  The connection options dictionary
   can contain the same values as `Register`.  This call returns the JSON
   response body from the subscription management server.
+
+# Unregister
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Unregister`
+* Bus path: `/com/redhat/RHSM1/Unregister`
+
+The Unregister object provides an interface to unregister a system via
+subscription-manager.
+
+## Methods
+* `Unregister(dictionary(string, variant))`: Unregister a system via
+  subscription-manager. The Unregister method has one argument: dictionary
+  with proxy options. This call returns the JSON response body from the
+  subscription management server.
