@@ -4,8 +4,8 @@
 1. `yum install python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
 
 1. Install [RVM](http://rvm.io). I know RVM can be a pain when you first start
-   using it, but OpenShift uses Ruby 2.0.0 which is several minor releases
-   behind the current bleeding edge.  Note: do **NOT** install RVM as root.
+   using it, but you will enjoy life more if you aren't dealing with conflicting
+   gems all the time.  Note: do **NOT** install RVM as root.
 
    First you must configure your terminal emulator to act as a login shell.  In
    gnome-terminal, go to "Edit -> Profile Preferences -> Title and Command".
@@ -13,24 +13,17 @@
    "Edit -> Preferences" and check the "Run command as login shell" box.  See
    <https://rvm.io/integration/gnome-terminal>
 
-   Start a new terminal and run the following:
+   Start a new terminal and follow the
+   [instructions](https://rvm.io/rvm/security) and then run
 
    ```
-   $ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-   $ curl -sSL https://get.rvm.io | bash -s stable --ruby=ruby-2.0.0-p643 --ruby=ruby-2.2.1
-   $ rvm --default use ruby-2.2.1
+   $ rvm install ruby-2.3.4
    ```
 
-   With these settings, RVM will use Ruby 2.2.1 as a default.  However, when you
-   `cd` to the website directory RVM will detect the `.ruby-version` and
-   `.ruby-gemset` files and switch to Ruby 2.0.0 and the candlepinproject.org
-   gemset.  The documentation for RVM is extensive so don't be afraid to read
-   it.
+   The documentation for RVM is extensive so don't be afraid to read it.
 1. Go into your checkout directory and run `bundle install`
 1. (Optional) Install and configure Travis.  This will allow you to interact
-   with the continuous integration environment from the command line.  Note that
-   you have to do this separately because there is a gem conflict with the
-   site's bundle.
+   with the continuous integration environment from the command line.
 
    ```
    gem install travis
@@ -81,8 +74,9 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
 
 # Deployment
 1. Submit your changes as a PR.  The Travis continuous integration hook will run
-   automatically.  If the build fails correct it.  Otherwise, when the PR is
-   merged into master, Travis will run and deploy the site.
+   automatically.  If the build fails, correct it.  Otherwise, when the PR is
+   merged into master, a webhook will inform Openshift and Openshift will
+   rebuilt and deploy the application.
 1. Travis configuration is in `.travis.yml` and in a few files located in the
    `_travis` directory.
 1. If you need to work more extensively with Travis, I recommend installing
@@ -164,51 +158,56 @@ print "Hello World"
   ```
 
 # Openshift Setup
-To talk directly to the application running on Openshift, you need to first
-associate your checkout with the application.  Go into your checkout directory
-and perform the following.
+To interact with Openshift, you will need to install the command line client
+`oc`.  It is not available as an RPM since it's just a massive statically-linked
+binary.  The [documenation](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
+has a download link that will require you to log in to the Red Hat portal.  Once
+you have the file, unzip it and place the `oc` file in a directory on your path.
+I have a directory `~/bin` that is on my path, so that was the most convenient
+place for me.
 
-1. `gem install rhc`
-1. `rhc setup`
-1. Configure `rhc` with application and namespace defaults.
+Next you will need to authenticate.  Run `oc login` and follow the prompts.
 
-   ```
-   cat >> .git/config <<RHC
-   [rhc]
-       app-id = 56702a4789f5cfd04d000098
-       app-name = website
-       domain-name = candlepinproject
-   RHC
-   ```
-1. `git add remote openshift
-   ssh://56702a4789f5cfd04d000098@website-candlepinproject.rhcloud.com/~/git/website.git/`
+Due to our use of PlantUML (which requires Java), we cannot use one of the stock
+build images provided by Openshift since the stock containers just provide
+one language stack each.  We have to build our own image which is defined in
+`Dockerfile` and references other files under `.s2i`.  If you find yourself
+needing to modify the build image, you will need to install both Docker and the
+[`s2i` tool](https://github.com/openshift/source-to-image).  Like `oc`, `s2i` is
+a statically linked binary, so you'll need to download the appropriate tarball
+for your architecture and then place `s2i` in a directory on your path.
 
-You can now use the `rhc` tool in this directory without having to specify the
-application all the time.  E.g. `rhc tail`.  Additionally, you can view the
-Openshift git history.  Please do not push directly to the `openshift` remote.
-Let Travis do that.
+If you make changes to the Dockerfile, you should test them first.
 
-# Openshift Details
-We require two extra gears for our application to run. Both gears are used to
-provide diagram support using plantuml. The first is
-openshift-graphviz-cartridge from
-<https://github.com/puzzle/openshift-graphviz-cartridge>.  The second is
-openshift-plantuml-cartridge from
-<https://github.com/candlepin/openshift-plantuml-cartridge>.
+* Build the image with `docker build -t candlepin/website-ruby-23`
+* Run `s2i build --exclude="" . candlepin/website-ruby-23 website`.
+  That will generate the application image using custom scripts inserted into
+  `website-ruby-23` from the `.s2i/bin` directory.
+* Test everything by starting a container using `docker run -p 8088:8080 --rm
+  -ti website` and browsing the site at http://localhost:8088.  (Note, I
+  surfaced the container's port 8080 as 8088 since Tomcat normally uses 8080).
+* Hit CTRL-C to stop the container (and the `--rm` argument will remove the
+  container immediately).
 
-Right now, we have the BUNDLE_WITHOUT environment variable set to "development"
-to exclude gems that are in the development group in the Gemfile.  If you ever
-need to change that then run the following in your Openshift app checkout.
+If your changes work, you'll need to propagate them.
 
-```
-$ rhc set-env BUNDLE_WITHOUT="development"
-```
+* You will need to push the image to Docker Hub using the Candlepin account
+  Run `docker login` and enter the credentials (see Al for them).
+* Run `docker push candlepin/website-ruby-23:latest` to push the image.
 
-You can view the current custom environment variables with
+Openshift should be configured to watch that image repository and rebuild
+everything when it detects a change to the image.
 
-```
-$ rhc env list
-```
+# Environment Variables and Build and Run Processes
+Any environment variables that we need to define (such as the BUNDLE_WITHOUT
+variable to exclude gems from a group in the Gemfile) are defined in
+`.s2i/environment`.  If you ever need to change that then you will need to
+rebuild the build image as described above.
+
+Any changes to the site building process (e.g. some pre-processing step needs to
+be run before `jekyll build`) or run process (e.g. additional arguments given to
+Puma) would be made in `.s2i/bin/assemble` and `.s2i/bin/run` respectively.
+Again, you would need to rebuild the build image and push it to Docker Hub.
 
 # References
 * We use RVM to manage Ruby versions and gemsets.  See
