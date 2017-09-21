@@ -8,8 +8,8 @@ Subscription-manager exposes several DBus objects under the bus name
 although the session bus may be used for smoke testing (with the expectation
 that several calls will not work due to lack of permissions).
 
-Facts
-=====
+# Facts
+
 * Bus name: `com.redhat.RHSM1.Facts`
 * Interfaces: `com.redhat.RHSM1.Facts`
 * Bus path: `/com/redhat/RHSM1/Facts`
@@ -26,14 +26,15 @@ children representing different classifications of facts:
   internals.
 
 ## Methods
+
 All of these object paths use the same interface, `com.redhat.RHSM1.Facts` which
 has only one method: `GetFacts()`.  Calling `GetFacts()` on the Facts object
 path gives an aggregate of all the children otherwise each child only reports
 the facts it is responsible for.  Also note that any fact defined as a custom
 fact will override the same fact in a sibling.
 
-Configuration
-=============
+# Configuration
+
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.Config`
 * Bus path: `/com/redhat/RHSM1/Config`
@@ -42,6 +43,7 @@ The Config object offers a very simple interface to inspect or edit
 subscription-manager's configuration settings.
 
 ## Methods
+
 * `Get(string)`: Get a section or a specific setting.  E.g. `Get('rhsm')` or
   `Get('rhsm.baseurl')`
 * `GetAll()`: Get all configuration settings
@@ -67,8 +69,8 @@ subscription-manager's configuration settings.
   $ busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config Set sv "rhsm.insecure" s "1"
   ```
 
-Attach
-======
+# Attach
+
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.Attach`
 * Bus path: `/com/redhat/RHSM1/Attach`
@@ -76,6 +78,7 @@ Attach
 The Attach object provides an interface to attach subscriptions to the system.
 
 ## Methods
+
 * `AutoAttach(string, dictionary(string, variant)`: Perform an auto-attach on
   the system.  A service level (or empty string for none) is provided as the
   first parameter and a dictionary of proxy options for the second.
@@ -97,8 +100,8 @@ The Attach object provides an interface to attach subscriptions to the system.
   $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Attach com.redhat.RHSM1.Attach AutoAttach sa{sv} "" 0
   ```
 
-Products
-========
+# Products
+
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.Products`
 * Bus path: `/com/redhat/RHSM1/Products`
@@ -106,6 +109,7 @@ Products
 The Products object provides an interface to list installed products.
 
 ## Methods
+
 * `ListInstalledProducts(string, dictionary(string, variant))`: Return
   list of installed products. The argument order is: `filter, options dictionary`.
   The `filter` argument can be used to filter out some products from returned
@@ -120,8 +124,8 @@ The Products object provides an interface to list installed products.
   $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Products' com.redhat.RHSM1.Products.ListInstalledProducts string:"" dict:string:string:"",""
   ```
 
-RegisterServer
-==============
+# RegisterServer
+
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.RegisterServer`
 * Bus path: `/com/redhat/RHSM1/RegisterServer`
@@ -133,6 +137,7 @@ information sent over the session or system bus can be susceptible to
 eavesdropping.
 
 ## Methods
+
 * `Start()`: starts the domain socket listener and returns the address of the
   domain socket. This address can is used for service `Register`.
 * `Stop()`: stop the domain socket server
@@ -158,8 +163,8 @@ eavesdropping.
   $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/RegisterServer' com.redhat.RHSM1.RegisterServer.Stop
   ```
 
-Register
-========
+# Register
+
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.Register`
 * Bus path: `/com/redhat/RHSM1/Register`
@@ -169,6 +174,7 @@ the object attached to the domain socket server that the `RegisterServer`
 creates.
 
 ## Methods
+
 * `Register(string, string, string, dictionary(string, variant),
   dictionary(string, variant)`: Register a system via subscription-manager. The
   argument order is `organization, username, password, options dictionary,
@@ -212,8 +218,8 @@ creates.
   $ dbus-send --address="unix:abstract=/var/run/dbus-1wK4IpDyx1,guid=bb37a25a294373d92315c10a5995f41f" --print-reply --dest='com.redhat.RHSM1.Register' '/com/redhat/RHSM1/Register' com.redhat.RHSM1.Register.Register string:"admin" string:"admin" string:"admin" dict:string:string:"","" dict:string:string:"",""
   ```
 
-Unregister
-==========
+# Unregister
+
 * Bus name: `com.redhat.RHSM1`
 * Interfaces: `com.redhat.RHSM1.Unregister`
 * Bus path: `/com/redhat/RHSM1/Unregister`
@@ -222,6 +228,7 @@ The Unregister object provides an interface to unregister a system via
 subscription-manager.
 
 ## Methods
+
 * `Unregister(dictionary(string, variant))`: Unregister a system via
   subscription-manager. The Unregister method has one argument: dictionary
   with proxy options. This call returns the JSON response body from the
