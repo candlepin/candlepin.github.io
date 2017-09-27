@@ -30,6 +30,13 @@ title: Configuring Candlepin to Use MySQL
   is possible that MySQL will record them as occurring in the same secord.
 * String searches in MySQL are *case insensitive*.  See
   [here](http://dev.mysql.com/doc/refman/5.5/en/case-sensitivity.html).
+* The Candlepin table and column definitions expect UTF8 collations. While they
+  are explicitly set in most cases now, older Liquibase changeset files may not
+  specify the collation, so it's a good idea to ensure that the default collation
+  won't cause problems when creating new tables, columns and foreign keys.
+* Some of the current locking mechanisms within Candlepin expects the behavior of
+  READ-COMMITTED transaction isolation. Most things may work properly without
+  changing this, but certain spec tests may fail indeterministically without it.
 * We are using DATETIME to store date information in MySQL.  In MySQL, DATETIME
   does not store any time zone information.  This is consistent with our
   Postgres and Oracle schemas which use TIMESTAMP WITHOUT TIME ZONE.  If we
@@ -49,6 +56,13 @@ title: Configuring Candlepin to Use MySQL
 
    ```
    $ sudo yum install mysql-server mysql-connector-java
+   ```
+1. Set the transaction isolation mode and default character collation in /etc/my.cnf
+   ```
+   [mysqld]
+   transaction-isolation=READ-COMMITTED
+   collation-server=utf8_general_ci
+   character-set-server=utf8
    ```
 1. Enable MySQL with systemd
 
@@ -77,7 +91,7 @@ title: Configuring Candlepin to Use MySQL
    jpa.config.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
    jpa.config.hibernate.connection.username=candlepin
    jpa.config.hibernate.connection.password=
-   
+
    org.quartz.jobStore.driverDelegateClass = org.quartz.impl.jdbcjobstore.StdJDBCDelegate
    org.quartz.dataSource.myDS.driver = com.mysql.jdbc.Driver
    org.quartz.dataSource.myDS.URL = jdbc:mysql:///candlepin
