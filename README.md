@@ -76,7 +76,10 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
 1. Submit your changes as a PR.  The Travis continuous integration hook will run
    automatically.  If the build fails, correct it.  Otherwise, when the PR is
    merged into master, a webhook will inform Openshift and Openshift will
-   rebuilt and deploy the application.
+   rebuild and deploy the application.  Just for reference, the webhook URL can
+   be found in the Openshift console by going to the "Configuration" tab for a
+   BuildConfig.  The secret to use can be found under the "triggers" section if
+   you select "Edit YAML" under "Actions" for a BuildConfig.
 1. Travis configuration is in `.travis.yml` and in a few files located in the
    `_travis` directory.
 1. If you need to work more extensively with Travis, I recommend installing
@@ -159,12 +162,13 @@ print "Hello World"
 
 # Openshift Setup
 To interact with Openshift, you will need to install the command line client
-`oc`.  It is not available as an RPM since it's just a massive statically-linked
-binary.  The [documenation](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
-has a download link that will require you to log in to the Red Hat portal.  Once
-you have the file, unzip it and place the `oc` file in a directory on your path.
-I have a directory `~/bin` that is on my path, so that was the most convenient
-place for me.
+`oc`.  It is available in DNF as a package named `origin-clients` but as a
+fairly old version.  Instead I grabed it from the
+[documenation](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
+which has a download link that will require you to log in to the Red Hat portal.
+Once you have the file, unzip it and place the `oc` file in a directory on your
+path.  I have a directory `~/bin` that is on my path, so that was the most
+convenient place for me.
 
 Next you will need to authenticate.  Run `oc login` and follow the prompts.
 

@@ -33,9 +33,9 @@
       <li data-level="{{entry.level}}" class="index-entry section-{{entry.number}}{% if page_slug == entry.link %} highlight-node{% endif %}">
         {{ entry.number }}
         {%- if entry.has_sublevels -%}
-          <span class="hide_link index-icon"></span>
+          &nbsp;<span class="hide_link index-icon"></span>
         {%- endif -%}
-        <a href="{{ site.baseurl }}{{ entry.link }}.html">{{entry.name}}</a>
+        &nbsp;<a href="{{ site.baseurl }}{{ entry.link }}.html">{{entry.name}}</a>
       </li>
       {% if forloop.last %}
         {% for t in (1..depth) %}
