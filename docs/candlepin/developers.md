@@ -110,15 +110,15 @@ codebase.
      ```console
      $ buildr test:EntitlementCuratorTest
      ```
-   * Functional rspec tests:
+   * Functional rspec tests (from <project root>/server directory):
 
      ```console
-     $ buildr spec
+     $ buildr rspec
      ```
-   * Functional tests in parallel:
+   * Functional tests in parallel (from <project root>/server directory):
 
      ```console
-     $ buildr parallel_rspec
+     $ buildr rspec:parallel
      ```
    * The safest bet is to run everything before committing:
 
