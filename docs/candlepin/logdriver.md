@@ -4,8 +4,16 @@ title: Debugging with LogDriver
 # LogDriver
 Hibernate has a great feature that will show the SQL statements which is some
 what useful for debugging. To turn this on simply add set ['hibernate.show_sql
-= true'](https://forum.hibernate.org/viewtopic.php?p=2401574). But the
-Hibernate logging lacks a much needed feature, showing the parameter values of
+= true'](https://forum.hibernate.org/viewtopic.php?p=2401574).
+This will show the SQL logging in Tomcat's catalina log. To show these in the candlepin.log, you can set the following properties (in /etc/candlepin/candlepin.conf):
+
+```properties
+log4j.logger.org.hibernate=INFO
+log4j.logger.org.hibernate.SQL=DEBUG # shows the queries
+log4j.logger.org.hibernate.type.descriptor.sql=TRACE # shows query parameter values
+```
+
+But the Hibernate logging lacks a much needed feature, showing the parameter values of
 the given SQL statement.  For this you need a logging JDBC driver that can
 intercept the statements log the parameters then forward it off to the real
 JDBC driver.
