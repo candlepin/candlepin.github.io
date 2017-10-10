@@ -14,7 +14,9 @@ Cipher Suite.  If it has the string `DHE` in it, you're using Diffie-Hellman
 Ephemeral.  You need to either change the cipher suites supported by the
 server (the `SSLCipherSuite` directive in Apache[^2] and controlled in the
 `Connector` element in Tomcat's `server.xml`) or set the client to not tell
-the server that it supports any DHE suites.
+the server that it supports any DHE suites. Keep in mind that deploying of
+candlepin will recreate `server.xml` file by this Python script:
+`server/bin/update-server-xml.py`.
 {:.alert-bad}
 
 Here's how:
