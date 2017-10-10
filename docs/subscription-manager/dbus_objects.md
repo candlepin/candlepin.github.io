@@ -239,5 +239,5 @@ subscription-manager.
 * Example of unregistering system:
 
   ```console
-  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/UnRegister" com.redhat.RHSM1.UnRegister.UnRegister dict:string:string:"",""
+  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Unregister' com.redhat.RHSM1.Unregister.Unregister dict:string:string:"",""
   ```
