@@ -52,33 +52,42 @@ title: Configuring Candlepin to Use MySQL
 # Running Candlepin on MySQL
 
 ## Getting Ready
-1. Install MySQL with yum
+1. Install MySQL (or MariaDB which is already in Fedora repos).  For MariaDB the
+   packages are named `mariadb-server` and `mysql-connector-java`.
 
-   ```
+   ```console
    $ sudo yum install mysql-server mysql-connector-java
    ```
-1. Set the transaction isolation mode and default character collation in /etc/my.cnf
-   ```
-   [mysqld]
-   transaction-isolation=READ-COMMITTED
-   collation-server=utf8_general_ci
-   character-set-server=utf8
-   ```
-1. Enable MySQL with systemd
+
+1. Create `/etc/my.cnf.d/isolation.cnf` and open it in an editor.  Add the
+   following to set the default character collation and transaction isolation
+   mode:
 
    ```
+   [mysqld]
+   # Required for Candlepin
+   collation-server=utf8_general_ci
+   character-set-server=utf8
+
+   # Required for Candlepin
+   transaction-isolation=READ-COMMITTED
+   ```
+
+1. Enable MySQL/MariaDB with systemd.  For MariaDB use `mariadb.service`.
+
+   ```console
    $ sudo systemctl enable mysqld.service
    $ sudo systemctl start mysqld.service
    ```
 1. Create the Candlepin user.
 
-   ```
-   mysql --user=root mysql --execute="CREATE USER 'candlepin'@'localhost';   GRANT ALL PRIVILEGES on candlepin.* TO 'candlepin'@'localhost' WITH GRANT OPTION"
+   ```console
+   $ mysql --user=root mysql --execute="CREATE USER 'candlepin'@'localhost';   GRANT ALL PRIVILEGES on candlepin.* TO 'candlepin'@'localhost' WITH GRANT OPTION"
    ```
 1. Create the Candlepin database
 
-   ```
-   mysqladmin --user="candlepin" create candlepin
+   ```console
+   $ mysqladmin --user="candlepin" create candlepin
    ```
 
 ## Deploying
@@ -99,9 +108,8 @@ title: Configuring Candlepin to Use MySQL
    org.quartz.dataSource.myDS.password =
    org.quartz.dataSource.myDS.maxConnections = 5
    ```
-
 1. Deploy to MySQL.
 
-   ```
-   $ buildconf/scripts/deploy -m
+   ```console
+   $ bin/deploy -m
    ```
