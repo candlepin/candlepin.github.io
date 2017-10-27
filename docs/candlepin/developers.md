@@ -120,7 +120,7 @@ codebase.
      ```console
      $ buildr rspec:parallel
      ```
-   * The safest bet is to run everything before committing:
+   * The safest bet, in addition to rspec, is to run check_all (includes all lint tasks, test, validate_translation) before committing:
 
      ```console
      $ buildr check_all
