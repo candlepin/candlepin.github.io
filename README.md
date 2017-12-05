@@ -205,7 +205,7 @@ everything when it detects a change to the image.
 If you are starting with a brand new project, you'll need to import the image
 initially using `oc import-image --from='docker.io/candlepin/website-ruby-23' --confirm candlepin/website-ruby-23:latest`
 
-Then create your application with `oc new-app candlepin/website-ruby-23~https://github.com/awood/candlepinproject.org` or you can use the web console if you want.
+Then create your application with `oc new-app candlepin/website-ruby-23~https://github.com/candlepin/candlepinproject.org` or you can use the web console if you want.
 
 # Environment Variables and Build and Run Processes
 Any environment variables that we need to define (such as the BUNDLE_WITHOUT
