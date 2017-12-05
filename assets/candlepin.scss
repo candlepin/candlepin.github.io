@@ -19,7 +19,7 @@ toc_display: false
 $rh-red: rgb(204, 0, 0);
 $rh-dark-red: rgb(158, 41, 43);
 $rh-darker-red: rgb(120, 31, 28);
-$footer-height: 30px;
+$footer-height: 55px;
 
 .red-border {
   border-bottom: 2px solid $rh-red;
@@ -340,12 +340,9 @@ footer {
     }
   }
 
-  #licenses {
-    @include make-md-column(10);
-  }
-
-  #copyright {
-    @include make-md-column(2);
+  #openshift-logo {
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
 }
 
