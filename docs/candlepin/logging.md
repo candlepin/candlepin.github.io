@@ -156,3 +156,46 @@ We have a few customizations to logging.
   parameter fails its `@Verify` check.**  Most methods don't have multiple
   `@Verify` annotations so this shouldn't be a common occurrence.
 * The org level logging is handled by the LoggerAndMDCFilter class which is a TurboFilter.
+
+## Logging to Syslog
+Logging to syslog is possible but it requires customization of the `logback.xml`
+file packaged with Candlepin.
+
+1. Add a section like
+
+   ```xml
+   <appender name="SyslogAppender" class="ch.qos.logback.classic.net.SyslogAppender">
+       <syslogHost>localhost</syslogHost>
+       <facility>DAEMON</facility>
+       <suffixPattern>[%thread] %logger %msg</suffixPattern>
+   </appender>
+   ```
+
+   and add an `appender-ref` element with `ref="SyslogAppender"` under the `root` element.
+   E.g.
+
+   ```xml
+   <root level="WARN">
+       <appender-ref ref="CandlepinAppender" />
+       <appender-ref ref="SyslogAppender" />
+       <appender-ref ref="ErrorAppender" />
+   </root>
+   ```
+
+1. Allow syslog to listen on port 541.  The exact steps here will depend on
+   whether you are using rsyslog or syslog-ng.  For rsyslog, you'll want to
+   add the lines below and restart the daemon.
+
+   ```
+   # Provides UDP syslog reception
+   # for parameters see http://www.rsyslog.com/doc/imudp.html
+   module(load="imudp") # needs to be done just once
+   input(type="imudp" port="514")
+   ```
+
+Note that if you are using a SystemD based distribution, the messages sent to
+port 514 **are not going to appear in the journal**.  If you want the messages
+to go to the journal as well, you'll need to use something like rsyslog's
+[`omjournal`](http://www.rsyslog.com/doc/omjournal.html).  Logback itself does
+not have an appender implementation for the journal, although third-party
+libraries [exist](https://github.com/gnieh/logback-journal).
