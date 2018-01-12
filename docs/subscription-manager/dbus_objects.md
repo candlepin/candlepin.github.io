@@ -4,7 +4,7 @@ title: Subscription Manager D-Bus Objects
 {% include toc.md %}
 
 Subscription-manager exposes several DBus objects under the bus name
-`com.redhat.RHSM1`.  Subscription-manager expects to attach to the system bus
+`com.redhat.RHSM1`. Subscription-manager expects to attach to the system bus
 although the session bus may be used for smoke testing (with the expectation
 that several calls will not work due to lack of permissions).
 
@@ -44,30 +44,32 @@ subscription-manager's configuration settings.
 
 ## Methods
 
-* `Get(string)`: Get a section or a specific setting.  E.g. `Get('rhsm')` or
-  `Get('rhsm.baseurl')`
-* `GetAll()`: Get all configuration settings
-* `Set(string, variant)`: Set a setting to a value
+* `Get(string, string)`: Get a section or a specific setting.  E.g. `Get('rhsm', 'en_EN')` or
+  `Get('rhsm.baseurl', '')`
+* `GetAll(string)`: Get all configuration settings
+* `Set(string, variant, string)`: Set a setting to a value
 
 ### Examples
 
 * Example of getting all configuration:
 
   ```console
-  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config GetAll
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config GetAll s ""
   ```
 
 * Example of getting specific option:
 
   ```console
-  $ busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config Get s "rhsm.baseurl"
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config Get ss "rhsm.baseurl" ""
   ```
 
 * Example of setting specific option:
 
   ```console
-  $ busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config Set sv "rhsm.insecure" s "1"
+  $ busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config Set svs "server.insecure" s "1" ""
   ```
+
+> Note: All methods have at least one string argument. This last string argument can be empty string or it can specify locale. When locale string is set to supported locale, then RHSM service will try to translate some strings and error messages.
 
 # Attach
 
@@ -79,10 +81,10 @@ The Attach object provides an interface to attach subscriptions to the system.
 
 ## Methods
 
-* `AutoAttach(string, dictionary(string, variant)`: Perform an auto-attach on
+* `AutoAttach(string, dictionary(string, variant), string)`: Perform an auto-attach on
   the system.  A service level (or empty string for none) is provided as the
   first parameter and a dictionary of proxy options for the second.
-* `PoolAttach(array(string), id, dictionary(string, variant)`: Attach
+* `PoolAttach(array(string), id, dictionary(string, variant), string)`: Attach
   specific pools to the system.  The first parameter is a list of pool IDs, the
   second a quantity, and the final parameter is a dictionary of proxy options.
 
@@ -91,13 +93,13 @@ The Attach object provides an interface to attach subscriptions to the system.
 * Example of attaching to pool using Pool ID (quantity is one)
 
   ```console
-  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Attach com.redhat.RHSM1.Attach PoolAttach asia{sv} 1 4028fa7a5e9e7fe9015e9e84ea2a0317 1 0
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Attach com.redhat.RHSM1.Attach PoolAttach asia{sv}s 1 4028fa7a5e9e7fe9015e9e84ea2a0317 1 0 ""
   ```
 
 * Example of auto-attaching (service level not specified)
 
   ```console
-  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Attach com.redhat.RHSM1.Attach AutoAttach sa{sv} "" 0
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Attach com.redhat.RHSM1.Attach AutoAttach sa{sv}s "" 0 ""
   ```
 
 # Products
@@ -110,7 +112,7 @@ The Products object provides an interface to list installed products.
 
 ## Methods
 
-* `ListInstalledProducts(string, dictionary(string, variant))`: Return
+* `ListInstalledProducts(string, dictionary(string, variant), string)`: Return
   list of installed products. The argument order is: `filter, options dictionary`.
   The `filter` argument can be used to filter out some products from returned
   list of installed products. The options dictionary contains proxy options.
@@ -121,7 +123,7 @@ The Products object provides an interface to list installed products.
 * Example of listing of installed products
 
   ```console
-  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Products' com.redhat.RHSM1.Products.ListInstalledProducts string:"" dict:string:string:"",""
+  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Products' com.redhat.RHSM1.Products.ListInstalledProducts string:"" dict:string:string:"","" string:""
   ```
 
 # RegisterServer
@@ -138,16 +140,16 @@ eavesdropping.
 
 ## Methods
 
-* `Start()`: starts the domain socket listener and returns the address of the
+* `Start(string)`: starts the domain socket listener and returns the address of the
   domain socket. This address can is used for service `Register`.
-* `Stop()`: stop the domain socket server
+* `Stop(string)`: stop the domain socket server
 
 ### Examples
 
 * Example of starting domain socket listener
 
   ```console
-  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/RegisterServer' com.redhat.RHSM1.RegisterServer.Start
+  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/RegisterServer' com.redhat.RHSM1.RegisterServer.Start string:""
   ```
 
   returns following text to `stdout`:
@@ -160,7 +162,7 @@ eavesdropping.
 * Example of stopping domain socket listener
 
   ```console
-  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/RegisterServer' com.redhat.RHSM1.RegisterServer.Stop
+  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/RegisterServer' com.redhat.RHSM1.RegisterServer.Stop string:""
   ```
 
 # Register
@@ -176,9 +178,9 @@ creates.
 ## Methods
 
 * `Register(string, string, string, dictionary(string, variant),
-  dictionary(string, variant)`: Register a system via subscription-manager. The
+  dictionary(string, variant), string)`: Register a system via subscription-manager. The
   argument order is `organization, username, password, options dictionary,
-  connection options dictionary`.
+  connection options dictionary`, locale.
 
   The options dictionary can contain the keys
 
@@ -202,7 +204,7 @@ creates.
   server.
 
 * `RegisterWithActivationKeys(string, array(strings), dictionary(string,
-  variant), dictionary(string, variant)`: Register a system using one or more
+  variant), dictionary(string, variant), string)`: Register a system using one or more
   activation keys.  The argument order is `organization, activation key list,
   options dictionary, connection options dictionary`. The options dictionary
   should only contain `name` and/or `force` since activation keys cannot be used
@@ -215,7 +217,7 @@ creates.
 * Example of registration using username, password and organization
 
   ```console
-  $ dbus-send --address="unix:abstract=/var/run/dbus-1wK4IpDyx1,guid=bb37a25a294373d92315c10a5995f41f" --print-reply --dest='com.redhat.RHSM1.Register' '/com/redhat/RHSM1/Register' com.redhat.RHSM1.Register.Register string:"admin" string:"admin" string:"admin" dict:string:string:"","" dict:string:string:"",""
+  $ dbus-send --address="unix:abstract=/var/run/dbus-1wK4IpDyx1,guid=bb37a25a294373d92315c10a5995f41f" --print-reply --dest='com.redhat.RHSM1.Register' '/com/redhat/RHSM1/Register' com.redhat.RHSM1.Register.Register string:"admin" string:"admin" string:"admin" dict:string:string:"","" dict:string:string:"","" string:""
   ```
 
 # Unregister
@@ -229,7 +231,7 @@ subscription-manager.
 
 ## Methods
 
-* `Unregister(dictionary(string, variant))`: Unregister a system via
+* `Unregister(dictionary(string, variant), string)`: Unregister a system via
   subscription-manager. The Unregister method has one argument: dictionary
   with proxy options. This call returns the JSON response body from the
   subscription management server.
@@ -239,5 +241,5 @@ subscription-manager.
 * Example of unregistering system:
 
   ```console
-  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Unregister' com.redhat.RHSM1.Unregister.Unregister dict:string:string:"",""
+  $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Unregister' com.redhat.RHSM1.Unregister.Unregister dict:string:string:"","" string:""
   ```
