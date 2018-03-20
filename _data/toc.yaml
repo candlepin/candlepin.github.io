@@ -84,6 +84,7 @@
           - section: event_model
           - section: amqp
           - section: javascript_rules
+          - section: dtos
           - section: authentication_and_authorization
             subs:
               - section: oauth
