@@ -129,6 +129,7 @@
           - section: cleanup_db_backup
       - section: building_rpms_with_tito
       - section: bugzilla_process
+      - section: standard_for_card_sizes
   - section: reference
     subs:
       - section: swaggerapi
