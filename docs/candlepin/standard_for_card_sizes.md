@@ -29,7 +29,7 @@ This document should provide description of issue complexity for each correspond
 
 ## Size 5
 
-**Description:** Some issue that is possible to solve during half of one day.
+**Description:** Some issue that is possible to solve in half of a day.
 
 **Examples:**
 
