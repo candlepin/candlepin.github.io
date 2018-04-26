@@ -11,6 +11,15 @@ changing the backend data model without impacting API, event or manifest consume
 
 
 
+## When a DTO is Necessary
+
+Use the following criteria as a guideline for when a DTO should be used:
+
+1. If the object is returned by an API endpoint, then the object should be a DTO.
+2. If the object embeds an object that should be a DTO, then the object should be a DTO.
+
+
+
 ## Using the DTOs
 
 Applying and using the DTOs is pretty straight forward, as they don't contain any special logic or require
@@ -146,6 +155,13 @@ Designing a new DTO within this DTO framework is a three step process:
 1. Design & create DTO
 1. Design & create necessary object translators
 1. Register the object translators with the StandardTranslator
+
+
+
+### DTO Acceptance Criteria
+
+1. A given interface must not contain any references to the `org.candlepin.model` Java package.
+2. A given DTO must *not* return a type from the `org.candlepin.model` Java package.
 
 
 
