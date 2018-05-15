@@ -131,6 +131,65 @@ virt_only -down[#red]-> [Less] do_not_update_best
 virt_only -[#blue]-> [Equal] r
 {% endplantuml %}
 
+
+### How SLA affects Auto Attach (Diagrams 4 & 5) {#diagram4_5}
+
+The following diagrams show how SLA affected the auto attach algorithm up to candlepin version 2.4 and how that changed from 2.5 onwards.
+
+{% plantuml %}
+
+title Diagram 4: Auto-Attach Pool selection based on SLA (candlepin 2.4 / rules 5.26)
+
+(*) --> "Is Pool SLA null or in the exempt list?" as is_pool_sla_null_or_exempt
+
+is_pool_sla_null_or_exempt --> [Yes] "pool is selected for autoattach\nbut not prioritized for SLA" as selected_non_prioritized #yellow
+is_pool_sla_null_or_exempt --> [No] "SLA override provided on attach request?" as is_sla_override_provided
+
+is_sla_override_provided --> [Yes] "Pool SLA matches that SLA" as pool_matches_sla
+is_sla_override_provided --> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
+
+pool_matches_sla --> [Yes] selected_non_prioritized
+pool_matches_sla --> [No] "Pool is not selected during autoattach" as pool_is_not_selected #red
+
+consumer_has_sla_preference --> [Yes] pool_matches_sla
+consumer_has_sla_preference --> [No] "Owner has a default\nSLA preference set" as owner_has_default_sla
+
+owner_has_default_sla --> [Yes] pool_matches_sla
+owner_has_default_sla --> [No] selected_non_prioritized
+
+{% endplantuml %}
+
+
+{% plantuml %}
+
+title Diagram 5: Auto-Attach Pool selection based on SLA (candlepin 2.5 / rules 5.27)
+
+(*) --> "Is Pool SLA null or in the exempt list?" as is_pool_sla_null_or_exempt
+
+is_pool_sla_null_or_exempt --> [Yes] "pool is selected for autoattach\nbut not prioritized for SLA" as selected_non_prioritized #yellow
+is_pool_sla_null_or_exempt --> [No] "Consumer has at least one existing\nentitlement with an SLA set?" as consumer_has_existing_entitlement_with_sla_set
+
+consumer_has_existing_entitlement_with_sla_set -left-> [Yes] "A Consumer entitlement SLA\nmatches the Pool SLA?" as consumer_entitlement_sla_matches_pool_sla
+consumer_has_existing_entitlement_with_sla_set -down-> [No] "SLA override provided\non attach request?" as is_sla_override_provided
+
+consumer_entitlement_sla_matches_pool_sla --> [Yes] is_sla_override_provided
+consumer_entitlement_sla_matches_pool_sla -left-> [No] "Pool is not selected\nduring autoattach" as pool_is_not_selected #red
+
+is_sla_override_provided --> [Yes] "Pool SLA matches that SLA" as pool_sla_matches_that_sla
+is_sla_override_provided --> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
+
+pool_sla_matches_that_sla -left-> [Yes] "Pool selected during autoattach\nand prioritized +700" as pool_selected_and_prioritized #green
+pool_sla_matches_that_sla --> [No] selected_non_prioritized
+
+consumer_has_sla_preference -left-> [Yes] pool_sla_matches_that_sla
+consumer_has_sla_preference --> [No] "Owner has a default SLA preference set" as owner_has_default_sla
+
+owner_has_default_sla --> [Yes] pool_sla_matches_that_sla
+owner_has_default_sla --> [No] selected_non_prioritized
+
+{% endplantuml %}
+
+
 ## The Algorithm {#AlgorithmText}
 
 Below is a more detailed and technical description of the Auto Attach process.
@@ -144,7 +203,7 @@ status at the time healing will take place
 
 We can safely remove all pools from this list that:
 
-* do not match the service level override or service level of the consumer.
+* have SLAs that do not match any of the consumer's existing entitlement SLAs found in the compliance status. (unless either the pool's SLA is null or in the exempt list, or the consumer does not have existing entitlements, or the consumer has existing entitlements but none of them have an SLA set).
 * require an architecture that does not match the consumer, as that will never make a product fully compliant.
 * are virtual if the consumer is not a guest.
 * have 0 quantity (or quantity \< instance_multiplier if the system is physical.)
@@ -187,6 +246,25 @@ remove all pools that enforce stackable attributes that have caused problems
 (taken from compliance reason keys) After removing those pools, we run a final
 compliance check, the result of which is the groups validity.
 
+### Remove extra attributes
+For each entitlement group, attempt to remove all pools that enforce each
+combination of attributes.  Use the group of pools that has the most virt_only
+pools if the consumer is a guest, otherwise the set with the fewest pools.
+This prevents us from attaching "parallel" stacks, where we essentially have a
+compliant sockets stack, and a compliant cores stack.
+
+### Prune Pools
+Remove all pools from the group that are not required to make the stack/product
+fully compliant.  This can be skipped for non-stack groups, because they only
+have 1 pool, and at this point we know the group is required to cover a
+product.  We sort the pools based on priority, which is calculated based on
+whether or not the pool SLA matches the consumer's SLA, or the pool is virt_only/requires_host,
+and other factors (see note [\[5\]](#diagram2footnote5) for details), so those are preserved as long as possible.
+Try removing one pool at a time, and check compliance with
+everything else (that has not been removed) at max quantity.  If the stack is
+compliant and covers all the same products, disregard the removed pool,
+otherwise add it back.
+
 ### Select Best Entitlement Groups
 Firstly, we try to complete partial stacks, if possible.  If there is a stack
 group with the same stack_id, it is possible (because it passed validation)
@@ -203,24 +281,6 @@ that covers the most products to "best groups"
 This ensures that we are covering every product that is possible to cover, with
 no excessive groups (you cannot remove any stack or unstackable entitlement and
 remain compliant)
-
-### Remove extra attributes
-For each entitlement group, attempt to remove all pools that enforce each
-combination of attributes.  Use the group of pools that has the most virt_only
-pools if the consumer is a guest, otherwise the set with the fewest pools.
-This prevents us from attaching "parallel" stacks, where we essentially have a
-compliant sockets stack, and a compliant cores stack.
-
-### Prune Pools
-Remove all pools from the group that are not required to make the stack/product
-fully compliant.  This can be skipped for non-stack groups, because they only
-have 1 pool, and at this point we know the group is required to cover a
-product.  We sort the pools based on priority, which is calculated based on
-whether or not the pool is virt_only/requires_host, so those are preserved as
-long as possible Try removing one pool at a time, and check compliance with
-everything else (that has not been removed) at max quantity.  If the stack is
-compliant and covers all the same products, disregard the removed pool,
-otherwise add it back.
 
 ### Select Pool Quantity
 This is very similar to prune pools, except we know that every pool is
@@ -297,7 +357,7 @@ instance_multiplier: remove if quantity requested does not divide evenly by the 
 The following consumer to pool compatibilities are checked:
 Is the consumer arch in the pool product arch list?  
 Is the consumer guest status compatible with the pool virt_only/physical_only?  
-Is the consumer service level with the pool product support level?  
+Is any of the consumer's existing entitlement SLAs matching with the pool's SLA? (this check is performed only if the pool's SLA is non-null and not in the exempt list, and the consumer has existing entitlements and at least one of them has an SLA set).
 
 [Back to Diagram 2](#diagram2)
 
@@ -315,10 +375,12 @@ Is the consumer service level with the pool product support level?
 
 ##### [5] {#diagram2footnote5}
 Priority score for a single pool. A stack of pools is scored by its average:  
+
 The starting score is 100  
-virt_only +100
-requires_host +150
-match to required sockets, cores, ram, or vcpu (+20 max for each based on closeness to consumer’s need)
-Share derived -10
+sla matches consumer sla +700 (see [diagram 5](#diagram4_5) for details)  
+virt_only +100  
+requires_host +150  
+match to required sockets, cores, ram, or vcpu (+20 max for each based on closeness to consumer’s need)  
+Share derived -10  
 
 [Back to Diagram 2](#diagram2)
