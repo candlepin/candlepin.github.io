@@ -69,7 +69,20 @@ require some adaptation to the steps below.
    RHEL/CentOS 7
 
    ```console
-   $ yum install git gcc make glib2-devel dbus-glib-devel libnotify-devel GConf2 gtk3-devel intltool python-devel openssl-devel subscription-manager subscription-manager-gui
+   $ yum install git gcc make glib2-devel dbus-glib-devel libnotify-devel GConf2 GConf2-devel gtk3-devel intltool python-devel openssl-devel subscription-manager subscription-manager-gui
+   ```
+
+   > Note: when you are trying to compile subscription-manager on RHEL7, then package `GConf2-devel` is not available in "default" repository `rhel-7-server-rpms`. You have to enable another optional repository:
+
+   ```console
+   $ subscription-manager repos --enable=rhel-7-server-optional-rpms
+
+   ```
+
+   When this optional repository is enabled on RHEL7, then you can install `GConf2-devel`:
+
+   ```console
+   $ yum install GConf2-devel
    ```
 
    RHEL/CentOS 6
