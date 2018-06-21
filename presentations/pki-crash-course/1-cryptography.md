@@ -5,6 +5,7 @@
 - Mechanics
 - Symmetric Ciphers
 - Asymmetric Ciphers
+- Random Numbers
 - Cryptographic Hash Functions
 - MACs
 - Signatures
@@ -14,8 +15,7 @@
 
 - Confidentiality: outside parties can't decipher messages
 - Integrity: outside parties can't tamper with messages
-- Authenticity: outside parties can't masquerade as trusted parties
-- Non-repudiation: provable that a message originated from a single source
+- Authentication: being certain of who you are communicating with
 
 --
 # Terms
@@ -25,19 +25,14 @@
   The means of turning a message into encrypted text and then later reversing
   process.
 
-- Cleartext
-
-  The text of the message.
-
 - Plaintext
 
-  Cleartext formatted for the encryption process.  The cipher encrypts the
-  plaintext.
+  The text of the message.  Often the text will need to be formatted slightly
+  for the encryption process.
 
 - Ciphertext
 
-  The outcome of applying the cipher to the plaintext.  Should be
-  indistinguishable from gibberish.
+  The outcome of applying the cipher to the plaintext.
 
 - Key
 
@@ -46,15 +41,13 @@
   there are two keys and only one is kept secret.
 
 Note:
-The distinction between cleartext and plaintext is subtle but important.
-Some ciphers may require the cleartext to be in certain formats (for example
-in blocks of 16 bytes with padding on the end to fill up any short blocks).
-The plaintext is the formatted cleartext.
+Some ciphers may require the text to be in certain formats (for example in
+blocks of 16 bytes with padding on the end to fill up any short blocks).
 
 --
-# Mechanics
+# The Simplest Cipher
 
-It all comes down to XOR because XOR is reversible.
+XOR is both reversible and its own inverse.
 
 | Plaintext | Key | Ciphertext |
 |-|-|-|
@@ -70,15 +63,30 @@ It all comes down to XOR because XOR is reversible.
 | 1 | 0 | 1 |
 | 0 | 1 | 1 |
 
-Note:
-Every cipher has its own implementation details (e.g. number of times the
-plaintext is run through the algorithm; how the plaintext is sliced and
-diced), but ultimately everything arrives at XOR.
+--
+# XOR in Practice
+
+Pros:
+
+- When used correctly, it yields ciphertext that is immune to cryptanalysis
+
+Cons:
+
+- Not very practical: you need a completely random key as long as the
+  message itself
+- The key can never be reused and must be distributed securely
+
+Using XOR in this fashion is called a one-time pad.  The typical usage scenario
+would be a diplomat carries a USB key filled with random data (the "pad") to an
+embassy.  The same data is retained at the capital.  Messages can be exchanged
+until the data runs out.  Then the pad must be permanently destroyed.
+
+The first version of the famous "red telephone" hotline between Washington D.C.
+and Moscow used a one-time pad.
 
 --
 # Symmetric Ciphers
 
-- Provide confidentiality
 - One key to do all the work
 
   Plaintext + Key = Ciphertext
@@ -86,10 +94,42 @@ diced), but ultimately everything arrives at XOR.
   Ciphertext + Key = Plaintext
 - Fast
 - Best for communication between just two parties
+- Come in 2 varieties: stream and block
+
+--
+# Stream Ciphers
+
+- The key is used as an argument in a function that creates a stream of random
+  data.
+- Each plaintext bit is XORed with a bit from the keystream.
+- Examples: ChaCha20/Salsa20, RC4 (No longer considered secure)
+
+--
+# Block Ciphers
+
+- Chop the plaintext up into fixed-sized blocks and pad the last block if
+  needed
+- The key is also of fixed sized
+- The cipher executes pseudorandom permutations on the plaintext using the key
+  and various operations: XOR, bit shifts, matrix transformations, lookup tables
+  ("S-boxes")
 - Examples: AES (Rijndael), Blowfish, IDEA
 
 --
-# Example
+# Block Cipher Modes
+- Determine how to apply the block cipher across multiple blocks
+- Simplest is electronic codebook (ECB).  Encrypt each block independently.  Not
+  good though since patterns can appear.  E.g. encrypted version of "GET /
+  HTTP/1.1" over and over.
+- Other modes allow block ciphers to operate as stream ciphers (e.g. CTR mode)
+- More common is cipher block chaining (CBC).  The result of each blocks
+  encryption is fed into the next.  The first block is primed with a random
+  initialization vector
+
+![CBC](cbc-encryption.png "Cipher Block Chaining")
+
+--
+# Examples
 
 <div class="two_column left_float">
 ![Alice Cooper](alice.png "Alice Cooper")
@@ -98,7 +138,7 @@ Alice <!-- .element: class="caption" -->
 </div>
 
 <div class="two_column right_float">
-![Robert Plant](bob.png "Robert Bob Plant")
+![Robert Plant](bob.png "Robert 'Bob' Plant")
 
 Bob <!-- .element: class="caption" -->
 </div>
@@ -144,22 +184,14 @@ Too cliche
 --
 # Asymmetric Ciphers
 
-- Provide confidentiality and non-repudiation
 - Two keys: public and private
 
   Plaintext + Public Key = Ciphertext
 
   Ciphertext + Private Key = Plaintext
-- The public key should be (and often needs to be) widely distributed
-- All these public keys need a management infrastructure
+- The public key is shared with the world
+- All these public keys need an infrastructure (PKI) to manage them
 - Examples: RSA, ElGamal, ECDSA
-
-Note:
-Symmetric ciphers do not provide non-repudiation since both parties in the
-conversation share the secret key.  With asymmetric ciphers, if Alice sends
-a message and it's encrypted with her private key, we can decrypt it with
-the public key and know that it only could have come from her (presuming the
-key hasn't been leaked).
 
 --
 # Example - Asymmetric
@@ -207,38 +239,58 @@ Totally
 </div>
 
 --
+# Random Numbers
+
+- At the heart of everything.  Without a secure source of randomness, we end up
+  with predictable keys.
+- Hard to generate randomness on a deterministic device.  Computers use
+  - Intervals between keyboard inputs
+  - Mouse movements
+  - Hardware devices (e.g. Cloudflare uses lava lamps!)
+- Entropy is gathered, debiased, turned into a seed, and input into a
+  cryptographically secure pseudorandom number generator.
+- Example: `/dev/random` and `/dev/urandom`
+
+--
 # Cryptographic Hash Functions
 
 - Send in some input and get a unique, fixed-length output (a "digest")
 - One way trip: someone with just the hash can't work backward to get the
   message
-- No collisions: No two messages produce the same hash and it should be
-  infeasible to specially craft a message that results in a targeted hash.
+- Should be "computationally infeasible" to find:
+  - Any message producing a specific hash (preimage resistance)
+  - Any message whose hash collides with that of another given message's (second
+    preimage resistance)
+  - And more generally, any two messages that produce a collision (collision
+    resistance)
 - A small variation in the message leads to large variation in the hash
 - Used to create unique fingerprints for files, messages, certificates, etc.
 - Examples: MD5 (don't use), SHA1 (don't use), SHA256
+
+Note:
+No two people have the same fingerprint (in theory) and you can't take a
+fingerprint and work backwards to get a person.
 
 --
 # MACs
 
 - Message Authentication Codes
-- An *encrypted* hash using a shared secret key (symmetric ciphers)
-- Sent with the message to provide authenticity and limited integrity
-  - Limited because they do not prevent replaying or dropping messages
-- HMACs (Hashed MACs) mix the key and the message together and hash them
+- Sent with the message to provide authentication and integrity
+- MAC algorithms can be constructed from one or more cryptographic primitives
+- HMACs (Hashed MACs) mix the key and the message together and hash them:
+  H(K + H(K + M)) where "+" is concatenation.
 - Recipient performs the same mix with the shared key and the message they
   received.  If there's a mismatch, the message has been tampered with
 
 Note:
-The second point warrants further explanation.  Using a digest to verify
-message integrity is pointless if an attacker can manipulate the hash
-with impunity.
+The specific function H(K + H(K + M)) is beyond this talk but it's formulated to
+protect the integrity of the HMAC itself.
 
 --
 # Signatures
 
 - An *encrypted* hash using a private key (asymmetric ciphers)
-- Provide authenticity, limited integrity, and non-repudiation
+- Provide authentication, integrity
 - For RSA, creating a signature is the inverse of encrypting a message:
 
   Hash(Plaintext) + Private Key = Signature

@@ -1,15 +1,139 @@
 ## PKI Concepts
 
+- Trust
+- The Web of Trust
+- Certificate Authorities
+- Creating Trust
 - ASN.1
 - Formats
 - X509 Certificates
-- Certificate Authorities
 - Trust Stores
 - Keys
 - Certificate Signing Requests
+- Certificate Subjects
 - Certificate Revocation Lists
 - Certificate Extensions
 - Key Stores
+
+--
+# Trust
+
+- Public key cryptography isn't useful if no one has your public key
+- Easiest way is to meet your friend for coffee, and exchange public keys.
+- This doesn't scale well.  Better would be to throw a big party and exchange
+  keys with all your friends at once. (Yes, this is a thing that happens)
+- But Alice misses the party, so you give the keys to her.  But Bob missed the
+  party too, and this is getting tedious.
+- Bundle the public keys and identity together and sign the bundle with your
+  private key and upload it.
+- Alice and Bob already have your public key and can verify the signatures.
+
+--
+# The Web of Trust
+
+- Expand the "sign & upload" practice across a network of people
+- I don't know Charles, but I do know and trust Bob and Bob signed Charles' key
+- Works fine for social circles.  It's how GPG works
+- Doesn't scale for large networks with very few interconnections (e.g. the web)
+- What if there were a few very trustworthy people and you could just trust
+  whatever they signed?
+
+--
+# Certificate Authorities
+
+- The public key/identity bundles are called *certificates*
+- These "very trustworthy people" are organizations called *certificate
+  authorities* (CA)
+- You submit a *certificate signing request* (CSR) containing your public key
+  and identity and usually pay some money
+- They verify your identity (e.g. if you assert the identity www.example.com,
+  they send a challenge email to the address listed in the WHOIS entry)
+- They sign your CSR and give you the resulting certificate
+- You install your certificate on your web server and when browsers connect over
+  HTTPS, you send your certificate.  The browser performs other steps to ensure
+  you have the private key (e.g. you are who you say you are) and establishes a
+  secure channel
+
+--
+# Creating Trust
+
+- Who signs the public keys of certificate authorities?  The certificate
+  authority itself!
+- *Self-signed* certificates are called trust anchors or root certificates
+- CAs prove to browser and operating system makers that they are trustworthy
+  - Root certificate private keys are stored in hardware security modules
+  - In a vault
+  - With alarms and cameras
+  - Completely offline
+- Browsers and OSes include the root certificates in a *trust store*
+
+--
+# Trust As A Chain
+
+- Accessing the root certificate private keys for signing isn't trivial
+- CAs create intermediate certificates that are marked as being able to act as
+  CAs also
+- Intermediate CAs are put on systems that are online so signing can be
+  automated and scale up to issuing many certificates a day
+- When you pay the CA, your certificate becomes a *leaf certificate* (AKA
+  *end entity certificate*) at the end of the chain of trust
+- Programs start at the trust anchor validating the signature (and other things)
+  of the next certificate and so on until the end of the chain
+- Leaf certificates are *not* able to act as CAs.
+
+--
+# When There Is No Trust
+- When clients try to make a connection using certificates (e.g. SSL/TLS)
+  and the issuer of the server cert is unknown, the client aborts the connection
+
+  ```none
+  % curl https://koji.fedoraproject.org
+  curl: (60) Peer's certificate issuer has been marked as not trusted by the user.
+  More details here: http://curl.haxx.se/docs/sslcerts.html
+
+  curl performs SSL certificate verification by default, using a "bundle"
+   of Certificate Authority (CA) public keys (CA certs). If the default
+   bundle file isn't adequate, you can specify an alternate file
+   using the --cacert option.
+  If this HTTPS server uses a certificate signed by a CA represented in
+   the bundle, the certificate verification probably failed due to a
+   problem with the certificate (it might be expired, or the name might
+   not match the domain name in the URL).
+  If you'd like to turn off curl's verification of the certificate, use
+   the -k (or --insecure) option.
+  ```
+
+--
+# Example - Trust
+
+![Crudely hand drawn certificate](untrusted.png "Would you trust this?")
+
+"Excuse me, I would like to withdraw $100,000.  Here is my identification." <!-- .element class="caption" -->
+
+--
+# Certificate Authorities - Roll Your Own
+
+- No reason you can't create your own CA.  Perfectly reasonable for large
+  organizations (and much cheaper)
+- The trick is to make sure everyone in your organization has and trusts the
+  CA certificate
+
+  ```none
+  % curl --cacert ~/.fedora-server-ca.cert https://koji.fedoraproject.org
+  <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+  <html><head>
+  <title>302 Found</title>
+  </head><body>
+  <h1>Found</h1>
+  <p>The document has moved <a href="https://koji.fedoraproject.org/koji">here</a>.</p>
+  </body></html>
+  ```
+
+Note:
+The certificate for koji.fedoraproject.org is not signed by a commercial CA and
+most systems won't have the CA the cert used in their truststores.  If we
+connect and tell curl explicitly that we trust the Fedora Project CA, everything
+works.
 
 --
 # ASN.1
@@ -29,27 +153,26 @@ requests, etc.
 
 ```
 Widget ::= SEQUENCE {
-    model IA5String,
+    model UTF8String,
     serialNumber INTEGER,
     inspections SEQUENCE OF InspectionInfo
 }
 
 InspectionInfo ::= SEQUENCE {
-    inspectorName IA5String,
+    inspectorName UTF8String,
     inspectionDate DATE
 }
 ```
 
 Note: Let's say we have a Widget.  Every Widget has a model name, a serial
-number, and some inspection information with the name of the inspector and
-the date of the inspections.  Here's how we represent that in ASN.1.
+number, and some inspection information with the name of the inspector and the
+date for every inspection.  Here's how we represent that in ASN.1.
 
 Now let's go over that.  A SEQUENCE is one of the four ASN.1 structured types
 and it's just an ordered collection of items.  Inside that sequence we have an
-IA5String (International Alphabet 5 — basically ASCII), an INTEGER, and another
-sequence.  The inspections item is a SEQUENCE OF, another structured type that
-holds zero or more occurrences of a given type. In this case, the given type is
-InspectionInfo.
+UTF8String, an INTEGER, and another sequence.  The inspections item is a
+SEQUENCE OF, another structured type that holds zero or more occurrences of a
+given type. In this case, the given type is InspectionInfo.
 
 We continue down and see InspectionInfo is also a SEQUENCE containing the
 inspector's name and the inspection date.
@@ -156,16 +279,15 @@ with PGP.  It's a fun bit of trivia, but not relevant in the modern era.
 
 *Traditional file extension: ".crt" or ".cert"*
 
-- *Certificate* or *cert* for short
-- An ASN.1 object with a public key and other data
-- Signed by
-  - Trusted third party
-  - Self-signed (which means "trust me; I wouldn't lie to you")
+- *Cert* for short
+- An ASN.1 object with a public key, an identity, and other data
+- Signed by the Issuer
+  - CA
+  - Self-signed ("trust me")
 - Used for identification since the private key is only known by the cert
   owner
-- Most frequently used with SSL/TLS to ensure you are connecting to the
-  server you think you're connecting to.
-- Defined in [RFC 5280](https://tools.ietf.org/html/rfc5280)
+- Used with SSL/TLS to ensure you are connecting to the server you think you're
+  connecting to.
 
 --
 # X509 - Anatomy
@@ -177,8 +299,8 @@ with PGP.  It's a fun bit of trivia, but not relevant in the modern era.
 - *Validity*: How long is this certificate good?
 - *Subject*: Who the certificate owner claims to be
 - *Extensions*: Many and varied.  We'll get back to these
-- *Certificate Signature*: An unforgeable signature from the Issuer to prove
-  the certificate hasn't been tampered with
+- *Certificate Signature*: A digital signature from the Issuer to prove the
+  certificate hasn't been tampered with
 - *Subject Public Key Info*: The components of the public key
 
 Note:
@@ -231,104 +353,8 @@ The validity period on this certificate is more than one would expect for a
 plain vanilla certificate identifying a server.
 
 --
-# Certificate Authorities
-
-- *CA* for short
-- Trusted third-parties that put their seal of approval on a certificate
-- The "seal of approval" is a digital signature based on the CA's private key
-- Commercial CAs will externally verify you before signing (and charge you
-  some money)
-- CAs sign certificates with other, special certificates
-
-  ```none
-  X509v3 extensions:
-    X509v3 Basic Constraints:
-      CA:TRUE
-  ```
-- Clients decrypt the signature on each certificate using the public key of the
-  issuer
-- The decrypted signature hash is compared against the hash the client
-  computes for the certificate.  On a match, the client can be certain of the
-  certificate's integrity
-
-Note:
-If you are getting a certificate for a domain name for example, the CA will
-require you to respond to an email sent to the Registrant Email stored in
-DNS.
-
---
-# Trust
-- Trust is in a chain
-  - Sometimes there are two links: subject and issuer.
-  - Many CAs have sub-CAs, so you could have: subject, sub-sub-CA, sub-CA,
-    root CA
-- Clients walk the chain, verifying along the way, until they find a CA they
-  trust
-- Trust has to begin somewhere, so root CA certs are self-signed
-
---
-# Example - Trust
-
-![Crudely hand drawn certificate](untrusted.png "Would you trust this?")
-
-"Excuse me, I would like to withdraw $100,000.  Here is my identification." <!-- .element class="caption" -->
-
---
-# Trust
-
-- A CA is useless if no one trusts it, so the certificates for commercial CAs
-  need to be disseminated somehow
-- Systems (e.g. Fedora, Firefox, Chrome) contain a *truststore* with a
-  list of commercial CA certificates
-- When clients try to make a connection using certificates (e.g. SSL/TLS)
-  and the Issuer of the server cert is unknown, the client aborts the connection
-
-  ```none
-  % curl https://koji.fedoraproject.org
-  curl: (60) Peer's certificate issuer has been marked as not trusted by the user.
-  More details here: http://curl.haxx.se/docs/sslcerts.html
-
-  curl performs SSL certificate verification by default, using a "bundle"
-   of Certificate Authority (CA) public keys (CA certs). If the default
-   bundle file isn't adequate, you can specify an alternate file
-   using the --cacert option.
-  If this HTTPS server uses a certificate signed by a CA represented in
-   the bundle, the certificate verification probably failed due to a
-   problem with the certificate (it might be expired, or the name might
-   not match the domain name in the URL).
-  If you'd like to turn off curl's verification of the certificate, use
-   the -k (or --insecure) option.
-  ```
-
---
-# Certificate Authorities - Roll Your Own
-
-- No reason you can't create your own CA.  Perfectly reasonable for large
-  organizations (and much cheaper)
-- The trick is to make sure everyone in your organization has and trusts the
-  CA certificate
-
-  ```none
-  % curl --cacert ~/.fedora-server-ca.cert https://koji.fedoraproject.org
-  <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-  <html><head>
-  <title>302 Found</title>
-  </head><body>
-  <h1>Found</h1>
-  <p>The document has moved <a href="https://koji.fedoraproject.org/koji">here</a>.</p>
-  </body></html>
-  ```
-
-Note:
-The certificate for koji.fedoraproject.org that we looked at earlier is not
-signed by a commercial CA and most systems won't have the CA the cert used
-in their truststores.  If we connect and tell curl explicitly that we trust
-the Fedora Project CA, everything works.
-
---
 # Truststores - The Devil is in the Details
 
-- A repository of trusted CAs
 - There are a half dozen different ways used to add CAs
   - Path to the PEM for the CA cert (curl)
   - Various types of binary stores
@@ -419,7 +445,7 @@ name, and only checking that it has four corners and a hologram on it.
 "Hi, Amazon.com here.  I would like to withdraw $100,000 from my account." <!-- .element class="caption" -->
 
 - Certificate legitimately issued by a trusted authority
-- With no CN verification, we would accept this and end up connecting to
+- With no CN verification, we would accept this and end up handing over money to
   sketchyhobo.example.com
 
 --
@@ -439,6 +465,7 @@ name, and only checking that it has four corners and a hologram on it.
 - Other revocation mechanism is *Online Certificate Status Protocol* (OCSP)
   where a client connects a third-party server (usually run by the CA) to ask
   if the certificate in question is still valid.
+- Neither revocation mechanism work very well
 
 Note:
 Digitally signing CRLs allows CAs to serve them over HTTP.  Why?  If they
@@ -459,6 +486,21 @@ status of the CRL server resulting in a vicious cycle
 
 Note:
 CAs not including extensions will be discussed with OpenSSL
+
+--
+# Certificate Extensions - Basic Constraints
+
+- Critical in CA certificates
+- CAs sign intermediate CAs
+
+  ```none
+  X509v3 extensions:
+    X509v3 Basic Constraints:
+      CA:TRUE
+  ```
+- Can also set the length of the trust chain for a CA with "pathlen"
+- `pathlen: 0` means this certificate cannot sign other CAs
+- Can be omitted in leaf certificates
 
 --
 # Certificate Extensions - SubjectAltName
@@ -484,23 +526,11 @@ they want the same certificate to identify two top-level domains, "amazon.com"
 and "amzn.com"
 
 --
-# Certificate Extensions - BasicConstraints
-
-- Critical extension
-- Identifies whether a certificate can be used as a CA or not
-
-  ```none
-  X509v3 Basic Constraints:
-    CA:FALSE
-  ```
-- Can also set the length of the trust chain for a CA with "pathlen"
-- `pathlen: 0` means this certificate cannot sign other CAs
-
---
 # Certificate Extensions - Miscellaneous
 
 - CRL Distribution Points: On CA certs to point to the CRL
 - Authority Key Identifier: fingerprint of public key that signed the cert
+  (required for non-self-signed certs)
 - Subject Key Identifier: fingerprint of public key of cert (required for
   CA certs)
 - Name Constraints: namespaces the certificates the CA can sign
