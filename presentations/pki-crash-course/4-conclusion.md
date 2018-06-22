@@ -46,6 +46,10 @@ should never ignore these if the appear on a site that you don't have control ov
 - [Image of Robert Plant](http://commons.wikimedia.org/wiki/File:Robert-Plant.jpg)
   by Dina Regine licensed under [CC-BY-SA 2.0 Generic](http://creativecommons.org/licenses/by-sa/2.0/deed.en)
 
+- [Image of CBC block
+  mode](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#/media/File:CBC_encryption.svg)
+  by WhiteTimberwolf from Public Domain
+
 - [Image of Hobo](http://commons.wikimedia.org/wiki/File:Hobo_sitting_on_a_fence,_ca.1920_%28CHS-1428%29.jpg)
   by Charles C. Pierce from Public Domain
 

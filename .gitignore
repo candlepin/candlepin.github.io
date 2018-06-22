@@ -11,3 +11,6 @@ _site/
 
 # generated directory for plantuml diagrams
 uml/
+
+# source-to-image directory for Openshift
+.s2i

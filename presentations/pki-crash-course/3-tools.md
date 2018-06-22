@@ -509,10 +509,7 @@ Enter source keystore password:
 
 - The de facto Java crypto library
 - Fairly easy to work with
-- Not FIPS-140 certified (yet!)
-  - Things sold to the US government often need FIPS certification
-  - FIPS certification costs thousands of dollars and takes months.
-  - You can [help](https://www.bouncycastle.org/donate/index.cgi)!
+- FIPS-140 certified!
 
 --
 # Other Tools - Portecle
@@ -551,7 +548,7 @@ Enter source keystore password:
     ```none
     openssl pkcs8 -topk8 -in foo.key -nocrypt -outform DER -out foo.p8
     ```
-  - Read RSA PKCS8 like so:
+  - Read an RSA PKCS8 like so:
     ```java
     byte[] key;
 
@@ -569,6 +566,6 @@ Enter source keystore password:
     System.out.println("Public key: " + publicKey);
     ```
   - Last resort: Prepare for a painful experience of reading in the PEM,
-    base64 decoding, converting to ASN1, and rebuilding the key with the RSA
+    base64 decoding, parsing the DER, and rebuilding the key with the RSA
     primitives.
 
