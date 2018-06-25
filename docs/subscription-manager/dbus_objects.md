@@ -102,6 +102,65 @@ The Attach object provides an interface to attach subscriptions to the system.
   $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Attach com.redhat.RHSM1.Attach AutoAttach sa{sv}s "" 0 ""
   ```
 
+# Entitlement
+
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Entitlement`
+* Bus path: `/com/redhat/RHSM1/Entitlement`
+
+The Entitlement object provides an interface to work with entitlements.
+
+## Methods
+
+* `GetPools(dictionary(string, variant), dictionary(string, variant), string)`: Return json string with pools. First argument can contain options for obtaining list of pools (`pool_subsets`, `matches`, `pool_only`, `match_installed`, `no_overlap`, `service_level`, `show_all`, `on_date`, `future`, `after_date`). Possible values of `pool_subsets` are: `installed`, `consumed`, `available`. Second argument can contain proxy configuration and last argument can contain code of locale.
+
+* `GetStatus(string, string)`: Return json string with status of the system. First non-empty string argument is date (e.g. 2018-08-08). Last argument can be code with locale.
+
+* `RemoveAllEntitlements(dictionary(string, variant), string)`: Remove all entitlement from the system. First argument can be proxy configuration and second can be code of locale.
+
+* `RemoveEntitlementsByPoolIds(array(string), dictionary(string, variant), string)`: Remove entitlements listed in array of pool IDs. First argument is list of pool IDs, second argument can be proxy configuration and last can be code of locale.
+
+* `RemoveEntitlementsBySerials(array(string), dictionary(string, variant), string)`: Remove entitlements listed in array of serial IDs. First argument is list of serial IDs, second argument can be proxy configuration and last can be code of locale.
+
+### Examples
+
+* Example of getting status of the system
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement GetStatus ss "" ""
+  ```
+
+* Examples of getting pools
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement GetPools a{sv}a{sv}s 0 0 ""
+  ```
+
+  ```console
+  $ sudo busctl busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement \
+    GetPools a{sv}a{sv}s 1 "pool_subsets" s "installed" 0 ""
+  ```
+
+* Example of removing all pools from system:
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement \
+    RemoveAllEntitlements a{sv}s 0 ""
+  ```
+
+* Example of removing pools by pool IDs:
+
+  ```console
+  $ sudo sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement RemoveEntitlementsByPoolIds asa{sv}s 1 "ff8080816435dd77016435de0fee02e9" 0 ""
+  ```
+
+* Example of removing pools by serial IDs:
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement \
+    RemoveEntitlementsBySerials asa{sv}s 1 "1867353576787684832" 0 ""
+  ```
+
 # Products
 
 * Bus name: `com.redhat.RHSM1`
