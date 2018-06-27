@@ -126,6 +126,30 @@ The Products object provides an interface to list installed products.
   $ sudo dbus-send --system --print-reply --dest='com.redhat.RHSM1' '/com/redhat/RHSM1/Products' com.redhat.RHSM1.Products.ListInstalledProducts string:"" dict:string:string:"","" string:""
   ```
 
+# Consumer
+
+* Bus name: `com.redhat.RHSM1`
+* Interfaces: `com.redhat.RHSM1.Consumer`
+* Bus path: `/com/redhat/RHSM1/Consumer`
+
+The Consumer object provides an interface to get current UUID of consumer. This object can also broadcast signal, when consumer is created, changed or removed.
+
+## Methods
+
+* `GetUuid(string)`: Return string representing current UUID. When the system is not registered, then this method returns empty string. This method has only one string argument and it is locale.
+
+## Signals
+
+* `ConsumerChanged(integer)`: This signal is broadcasted, when consumer is created/changed/removed. Argument of this signal represent new state of the consumer (1: consumer was created, 2: consumer was changed, 3: consumer was removed).
+
+### Examples
+
+* Example of getting current consumer UUID
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Consumer com.redhat.RHSM1.Consumer GetUuid s ""
+  ```
+
 # RegisterServer
 
 * Bus name: `com.redhat.RHSM1`
