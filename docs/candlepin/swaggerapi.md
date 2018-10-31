@@ -24,11 +24,8 @@ We also host the Swagger file and the UI statically on this site:
 
 | Version | Swagger file | Interactive documentation |
 |-
-| 2.0.13 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.0.13.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.13.json){:target="_blank"} |
-| 2.0.21 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.0.21.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.21.json){:target="_blank"} |
-| 2.0.25 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.0.25.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.25.json){:target="_blank"} |
-| 2.0.40 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.0.40.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.40.json){:target="_blank"} |
-| 2.1.3 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.1.3.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.1.3.json){:target="_blank"} |
-| 2.2.0 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.2.0.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.2.0.json){:target="_blank"} |
+| 2.1.25 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.1.25.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.1.25.json){:target="_blank"} |
+| 2.3.10 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.3.10.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.3.10.json){:target="_blank"} |
+| 2.4.8 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.4.8.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.4.8.json){:target="_blank"} |
+| 2.5.7 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.5.7.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.5.7.json){:target="_blank"} |
 |=
-
