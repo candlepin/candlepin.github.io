@@ -60,7 +60,7 @@ Want to build the latest tagged build? Simply run:
 $ tito build --rpm
 ```
 
-Tito will then spew out the rpm output to the screen, no need to be alarmed this is normal.
+Tito will then spew out the rpm output to the screen.  No need to be alarmed: this is normal.
 
 ```console
 Checking for tag [candlepin-0.0.40-1] in git repo [ssh://git.fedorahosted.org/git/candlepin.git/]
