@@ -56,14 +56,16 @@
 # OpenSSL - Generating Keys
 
 ```none
-% openssl genrsa -out foo.key 2048
+% openssl genrsa -out foo.key 4096
 ```
 
 - Last number is the number of bits in the key
 - Key can be encrypted immediately with `-idea`, `-aes192`, `-aes256`
   - There is a `-des` option to encrypt with DES.  Do **not** use it.  DES is old
-- Results in PKCS1 file containing the **private key**
-  - Public key can be derived if you need it
+- Results in PKCS1 file containing the **private key** (and other information
+  that can be used to [speed up
+  decryption](https://en.wikipedia.org/wiki/RSA_%28cryptosystem%29#Using_the_Chinese_remainder_algorithm).
+  - Public key can be extracted if you need it
 
     ```none
     % openssl rsa -in foo.key -out foo.pub -pubout
@@ -88,7 +90,7 @@
   - Use `-subj` and pass in components delimited with a slash
 
     ```none
-    -subj /C=US/O=Acme Inc./CN=localhost
+    -subj "/C=US/O=Acme Inc./CN=localhost"
     ```
 
 Note:
@@ -109,6 +111,8 @@ CONF
 
 - Begin with a valid OpenSSL config file
 - Add a section with your extensions
+- You can do this with a `<(cat /etc/pki/tls/openssl.cnf <(printf ...))` if you
+  really want everything on one line
 - Use the `-reqexts` option to request that section be used in the CSR
 
 Notice that I am not using a host name as the CN since the hostnames are
@@ -136,7 +140,7 @@ confusing to others who don't know the CN gets ignored.
 # OpenSSL - Creating a Self-Signed Cert Fast
 
 ```none
-%  openssl req -new -x509 -newkey rsa:2048 -nodes -days 365 -subj '/CN=localhost' -out x.crt -keyout x.key
+%  openssl req -new -x509 -newkey rsa:4096 -nodes -days 365 -subj '/CN=localhost' -out x.crt -keyout x.key
 ```
 
 - Creates the key inline
@@ -146,18 +150,18 @@ confusing to others who don't know the CN gets ignored.
 # OpenSSL - Signing Certificates (Ad Hoc)
 
 ```none
-% openssl x509 -req -days 365 -in foo.csr -out foo.crt -CA my_ca.crt -CAkey my_ca.key -CAcreateserial
+% openssl x509 -req -days 365 -in foo.csr -out foo.crt -CA my_ca.crt -CAkey my_ca.key
+-CAcreateserial -extensions v3_req -extfile /etc/pki/tls/openssl.cnf
 ```
 
 - Great for development.  Not great for managing large numbers of certificates
+- `-extensions` required to generate a v3 certificate. Otherwise you get a v1!
 - A serial number must be provided (decimal or hex with `0x`)
-  - By default, expects a file named `<crt file basename>.srl`
-    containing a hex number.  E.g. `my_ca.srl`
-  - `-CAcreateserial` auto-generates a serial number for the cert and
-    creates the srl file for later use
+  - Expects a file named `<crt file basename>.srl` containing a hex number.
+  - `-CAcreateserial` auto-generates a serial number for the cert and creates
+    the srl file for later use
   - `-CAserial my_serial_list.srl` lets you use an arbitrary file
-  - `-set_serial 0xDEADBEEF` works if you want to specify the serial on the
-    CLI
+  - `-set_serial 0xDEADBEEF` works if you want to specify the serial on the CLI
 - After a serial is used, OpenSSL increments the value in the `.srl` file
 - If no serial is provided, OpenSSL emits a cryptic riddle
 
@@ -167,6 +171,7 @@ confusing to others who don't know the CN gets ignored.
   140437440989056:error:20074002:BIO routines:FILE_CTRL:system lib:bss_file.c:400:
   ```
 - **No extensions** on the CSR are copied over by default
+- Add extensions like so: `-extfile <(printf "subjectAltName=DNS:localhost")`
 
 --
 # OpenSSL - Signing Certificates (Managed)
