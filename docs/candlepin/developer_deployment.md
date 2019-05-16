@@ -215,6 +215,9 @@ The deploy script may also be customized/configured by providing command-line ar
 -H
 : Alternate to the HOSTEDTEST variable. If set, resources to test candlepin in hosted mode will be included in the candlepin war. If used with `-a`, the default adapters will be overriden by hostedtest adapters in `candlepin.conf`
 
+-r
+: Alternate to the TESTREPO variable. If set, testing repositories will be created.
+
 
 ### Manual Deployment
 
