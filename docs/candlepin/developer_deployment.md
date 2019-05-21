@@ -35,7 +35,7 @@ Candlepin uses [buildr](http://buildr.apache.org) as its build tool
 * Install dependencies.
 
   ```console
-  $ sudo dnf install ruby rubygems ruby-devel gcc make gettext tomcat java-1.8.0-openjdk-devel liquibase postgresql-jdbc openssl libxml2-python qpid-proton-c-devel qpid-proton-c
+  $ sudo dnf install ruby rubygems ruby-devel gcc make gettext tomcat java-1.8.0-openjdk-devel liquibase postgresql-jdbc openssl libxml2-python qpid-proton-c-devel qpid-proton-c jss
   ```
 
   NOTE: You may want to install Java 1.6.0 or 1.7.0 depending on OS version.
