@@ -2,12 +2,12 @@
 no_date: true
 toc_display: false
 ---
-@import "reveal/mixins";
-@import "reveal/settings";
-
 @import "candlepin-fonts";
 @import "candlepin-variables";
 @import "solarized";
+
+@import "reveal/mixins";
+@import "reveal/settings";
 
 // Override Reveal.js variables
 $mainColor: $solarized-light-primary;
@@ -15,12 +15,18 @@ $headingColor: $solarized-light-secondary;
 $backgroundColor: $solarized-light-bg;
 $selectionBackgroundColor: $solarized-magenta;
 $linkColor: $solarized-blue;
-$linkColorHover: lighten( $linkColor, 20% );
+$linkColorHover: lighten($linkColor, 20%);
+
+$mainFont: $font-family-sans-serif;
+$mainFontSize: 37px;
 
 $headingFont: "Roboto", $font-family-sans-serif;
-$mainFont: $font-family-sans-serif;
 $headingTextTransform: none;
 $headingTextShadow: none;
+$heading1Size: 70px;
+$heading2Size: 60px;
+$heading3Size: 50px;
+$heading4Size: 40px;
 
 html * {
   color-profile: sRGB;
@@ -35,10 +41,83 @@ html * {
 
     h1, h2, h3, h4, h5, h6 {
       font-weight: bold;
+      margin-bottom: 10px;
     }
 
-    pre code {
+    code {
+      background-color: transparentize($solarized-light-bg, 0.6);
+    }
+
+    & > pre {
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    pre > code {
       max-height: 750px;
+      background-color: transparentize($solarized-dark-bg, 0.3);
+      padding: 10px;
+    }
+
+    p {
+      text-align: left;
+    }
+
+    li > p {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    & > ul, & > ol {
+      display: block;
+    }
+
+    .caption {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    div.two_column {
+      float: left;
+      width: 40%;
+    }
+
+    div.left_float {
+      float: left;
+      margin-left: 10%;
+    }
+
+    div.right_float {
+      float: right;
+      margin-right: 10%;
+    }
+
+    div.action_block {
+      margin-top: 50px;
+      vertical-align: middle;
+
+      & > pre, & > img {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      & > img {
+        display: inline;
+        float: left;
+        margin-right: 30px;
+      }
+
+      & > pre > code {
+        text-align: left;
+        padding-top: 0px;
+      }
     }
 
     table {
@@ -60,15 +139,15 @@ html * {
 // See http://highlightjs.readthedocs.org/en/latest/css-classes-reference.html
 .hljs, .hljs .none {
   padding: 10px;
-  background: $solarized-dark-bg;
-  color: $solarized-dark-primary;
+  background: $solarized-light-bg;
+  color: $solarized-light-primary;
   font-family: $font-family-monospace;
   overflow-x: visible;
 }
 
 .hljs :not(.none) {
   .hljs-function .hljs-params {
-    color: $solarized-dark-primary;
+    color: $solarized-light-primary;
   }
 
   .hljs-comment,
@@ -76,7 +155,7 @@ html * {
   .hljs-doctype,
   .hljs-pi,
   .hljs-javadoc {
-    color: $solarized-dark-secondary;
+    color: $solarized-light-secondary;
   }
 
   .hljs-addition,
