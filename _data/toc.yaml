@@ -74,6 +74,7 @@
           - section: manifest_import
           - section: manifest_extensions
       - section: data_transfer_format
+      - section: artemis_jobs
   - section: developers
     subs:
       - section: architecture
