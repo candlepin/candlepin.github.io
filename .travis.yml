@@ -9,6 +9,6 @@ addons:
   apt:
     packages:
     - graphviz
-    - openjdk-7-jre
+    - openjdk-8-jre-headless
 script: ./_travis/build
 bundler_args: --without development --deployment
