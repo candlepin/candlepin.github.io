@@ -35,6 +35,7 @@
           - section: subscription_management
           - section: storage_band_subscriptions
           - section: constraints
+          - section: guest_pool_behaviour
       - section: entitlements
         subs:
           - section: autoattach
