@@ -66,6 +66,7 @@
           - section: running_on_mysql
           - section: running_on_oracle
           - section: external_artemis_setup
+          - section: connect_to_embedded_artemis
       - section: cmv
       - section: common_issues
       - section: high_availability
