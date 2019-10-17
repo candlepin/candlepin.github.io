@@ -114,17 +114,35 @@ The Entitlement object interacts with subscription-manager to list, get status, 
 ## Methods
 
 * `GetStatus(string, string)`: Returns string representing current status of entitlements. The first string argument is the date the user is interested in getting the status for; the second string argument is the locale
-* `GetPools(dictionary(string, variant), dictionary(string, variant), string)`: Tries to get pools installed/available/consumed on this system; returns a string. The first dictionary argument is a DBus object storing options of query; the second dictionary argument is a DBus object with proxy configuration; the third argument is a string representing the locale.
+* `GetPools(dictionary(string, variant), dictionary(string, variant), string)`: Tries to get pools installed/available/consumed on this system; returns a string. The first dictionary argument is a DBus object storing options of query. Available options keys: `pool_subsets`, `matches`, `pool_only`, `match_installed`, `match_installed`, `no_overlap`, `service_level`, `show_all`, `on_date`, `future`, `after_date`. The second dictionary argument is a DBus object with proxy configuration; the third argument is a string representing the locale.
 * `RemoveAllEntitlements(dictionary(string, variant), string)`: Returns JSON string containing response of trying to remove all entitlements (subscriptions) from the system. The first dictionary argument stores the proxy configuration; the string argument is the locale.
 * `RemoveEntitlementsByPoolIds(array(string), dictionary(string, variant), string)`: Returns a JSON string representing a list of serial numbers after trying to remove entitlements (subscriptions) by pool ids. The first array argument is the list of pool ids; the second argument is a dictionary containing the proxy configuration; the third argument is a string representing locale.
 * `RemoveEntitlementsBySerials(array(string), dictionary(string, variant), string)`: Returns a JSON string representing a list of serial numbers corresponding to entitlements successfully removed after trying to remove entitlements (subscriptions) by serials. The first array argument is the list of serial numbers of subscriptions
 
 ### Examples
 
-* Example of getting pools
+* Example of getting all pools
 
   ```console
   $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement GetPools a{sv}a{sv}s 0 0 ""
+  ```
+
+* Example of getting installed pools:
+
+  ```console
+  $ sudo dbus-send --system --print-reply --dest=com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement.GetPools dict:string:string:"pool_subsets","installed" dict:string:string:"","" string:""
+  ```
+
+* Example of getting consumed pools:
+
+  ```console
+  $ sudo dbus-send --system --print-reply --dest=com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement.GetPools dict:string:string:"pool_subsets","consumed" dict:string:string:"","" string:""
+  ```
+
+* Example of getting available pools:
+
+  ```console
+  $ sudo dbus-send --system --print-reply --dest=com.redhat.RHSM1 /com/redhat/RHSM1/Entitlement com.redhat.RHSM1.Entitlement.GetPools dict:string:string:"pool_subsets","consumed" dict:string:string:"","" string:""
   ```
 
 * Example of removing all entitlements
