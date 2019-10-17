@@ -57,6 +57,10 @@ subscription-manager's configuration settings.
 * `GetAll(string)`: Get all configuration settings
 * `Set(string, variant, string)`: Set a setting to a value
 
+## Signals
+
+* `ConfigChanged()`: This signal is broadcasted, when configuration file was created/changed/deleted.
+
 ### Examples
 
 * Example of getting all configuration:
@@ -118,6 +122,10 @@ The Entitlement object interacts with subscription-manager to list, get status, 
 * `RemoveAllEntitlements(dictionary(string, variant), string)`: Returns JSON string containing response of trying to remove all entitlements (subscriptions) from the system. The first dictionary argument stores the proxy configuration; the string argument is the locale.
 * `RemoveEntitlementsByPoolIds(array(string), dictionary(string, variant), string)`: Returns a JSON string representing a list of serial numbers after trying to remove entitlements (subscriptions) by pool ids. The first array argument is the list of pool ids; the second argument is a dictionary containing the proxy configuration; the third argument is a string representing locale.
 * `RemoveEntitlementsBySerials(array(string), dictionary(string, variant), string)`: Returns a JSON string representing a list of serial numbers corresponding to entitlements successfully removed after trying to remove entitlements (subscriptions) by serials. The first array argument is the list of serial numbers of subscriptions
+
+## Signals
+
+* `EntitlementChanged()`: This signal is broadcasted, when some entitlement certificated is created/changed/deleted.
 
 ### Examples
 
@@ -203,6 +211,11 @@ The Products object provides an interface to list installed products.
   The `filter` argument can be used to filter out some products from returned
   list of installed products. The options dictionary contains proxy options.
   This call returns the JSON list of installed products.
+
+
+## Signals
+
+* `InstalledProductsChanged`: This signal is broadcasted, when some product certificated is created/changed/deleted.
 
 ### Examples
 
@@ -318,6 +331,10 @@ The Syspurpose object interacts with subscription-manager to get information abo
 
 * `GetSyspurpose(string)`: DBus method for getting current system purpose. Argument represents locale.
 * `GetSyspurposeStatus()`: DBus method for getting current system purpose status.
+
+## Signals
+
+* `SyspurposeChanged()`: This signal is broadcasted, when `syspurpose.json` file is created/changed/deleted.
 
 ### Examples
 
