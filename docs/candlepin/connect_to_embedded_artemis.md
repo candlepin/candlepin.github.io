@@ -48,8 +48,17 @@ After restart of Candlepin any client can connect and listen to the messages in 
 
 # SSL
 In Artemis, Netty is responsible for all things related to the transport layer, so it handles [SSL](https://activemq.apache.org/components/artemis/migration-documentation/ssl.html) as well. All configuration options are set directly on the acceptor.
+
+Note: the trustStorePath and trustStorePassword variables are optional, in case you want to enable 2-way SSL authentication as described [here](https://github.com/apache/activemq-artemis/tree/master/examples/features/standard/ssl-enabled-dual-authentication).
+
+On the broker, the `artemis-server.ks` file is the key store file holding the server's certificate, while `artemis-server.ts` file is the file holding the certificates which the broker trusts:
 ```xml
-<acceptor name="netty-ssl">tcp://localhost:61617?sslEnabled=true;keyStorePath=${data.dir}/../etc/broker.ks;keyStorePassword=password;needClientAuth=true</acceptor>
+<acceptor name="netty-ssl">tcp://localhost:61617?sslEnabled=true;keyStorePath=${artemis.instance}/certs/artemis-server.ks;keyStorePassword=securepassword;needClientAuth=true;trustStorePath=${artemis.instance}/certs/artemis-server.ts;trustStorePassword=securepassword/acceptor>
+```
+
+On the URL used by the client side, the `artemis-client.ts` file is the file holding the certificates which the client trusts, while `artemis-client.ks` is the key store file holding the client's certificate:
+```
+tcp://localhost:61617?sslEnabled=true&trustStorePath=<path_to_certs>/artemis-client.ts&trustStorePassword=securepassword&keyStorePath=<path_to_certs>/artemis-client.ks&keyStorePassword=securepassword
 ```
 
 # External broker.xml
