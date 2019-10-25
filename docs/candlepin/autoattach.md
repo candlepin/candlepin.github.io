@@ -32,8 +32,8 @@ endif
 :Filter out already compliant products;
 
 :Sequentially select best subscription[note1] from those
-available until all products are covered or all subscriptions
-are exhausted;
+available until all products, roles and addons are covered,
+or all subscriptions are exhausted;
 note right: [note1] or group of subscriptions
 
 stop
@@ -72,12 +72,15 @@ note right:[3]
 :Filter out products from installed
 list that are already compliant;
 
+:Filter out specified role & addons
+that are already matched;
+
 :Aggregate subscriptions that have a common stack id;
 
-:Refine stacks for product specific coverage;
+:Refine stacks for product, role and addon specific coverage;
 note right:[4]
 
-while (Are all products covered or are the subscriptions exhausted?) is (No)
+while (Are all products, roles and addons covered or are the subscriptions exhausted?) is (No)
 : Attach next best subscription;
 note right: (See Select Best Pools Diagram below)
 endwhile (Yes)
@@ -91,8 +94,6 @@ stop
 [\[2\]](#diagram2footnote2)
 [\[3\]](#diagram2footnote3)
 [\[4\]](#diagram2footnote4)
-[\[5\]](#diagram2footnote5)
-
 
 
 ### Select Best Pools diagram (Diagram 3) {#diagram3}
@@ -103,89 +104,87 @@ title Attach to best subscription or\n stack of subscriptions
 (*) --> "Subscriptions remaining to check?" as more_data
 note right: [start]
 
-more_data --> [Yes] "is system a virtual guest?" as is_guest
+more_data --> [Yes] "Check number of host_required" as host_required
 more_data -left-> [No] "Return best" as return
 
 return -up-> (*)
-is_guest --> [Not Virtual guest] "Check number of products covered" as r
-r -right[#green]-> [More] "Select as current best\nReturns to [start]" as update_best #green
 
-
-r -down[#red]-> [Less] "Skip this subscription\nReturns to [start]" as do_not_update_best #red
-r -[#blue]-> [Equal] "Check subscription priority" as p
+host_required -right[#green]-> [More] "Select as current best\nReturns to [start]" as update_best #green
+host_required -left[#red]-> [Less] "Skip this subscription\nReturns to [start]" as do_not_update_best #red
+host_required -down[#blue]-> [Equal] "Check subscription priority" as p
 
 p -right[#green]-> [Higher] update_best
 p -left[#red]-> [Lower] do_not_update_best
-p -[#blue]-> [Equal] "Check required quantity" as crq
-crq -right[#green]-> [Lower] update_best
-crq -down[#red]-> [Higher] do_not_update_best
-crq -[#blue]-> [Equal] "is new not stacked and old stacked?" as new_stacked
-new_stacked -right[#green]-> [Yes] update_best
-new_stacked -down[#red]-> [No] do_not_update_best
-is_guest -right-> [Virtual Guest] "Check number of host_required" as host_required
-host_required -right[#green]-> [More] update_best
-host_required -down[#red]-> [Less] do_not_update_best
-host_required -[#blue]-> [Equal] "Check number of virt_only" as virt_only
+p -down[#blue]-> [Equal] "Check number of virt_only" as virt_only
+
 virt_only -right[#green]-> [More] update_best
-virt_only -down[#red]-> [Less] do_not_update_best
-virt_only -[#blue]-> [Equal] r
+virt_only -left[#red]-> [Less] do_not_update_best
+virt_only -down[#blue]-> [Equal] "Check required quantity" as crq
+
+crq -right[#green]-> [Lower] update_best
+crq -left[#red]-> [Higher] do_not_update_best
+crq -down[#blue]-> [Equal] "is new not stacked and old stacked?" as new_stacked
+
+new_stacked -right[#green]-> [Yes] update_best
+new_stacked -down[#blue]-> [No] "Check required role/addons" as roles_addons
+
+roles_addons -right[#green]-> [Yes] update_best
+roles_addons -down[#red]-> [No] do_not_update_best
+
 {% endplantuml %}
 
 
-### How SLA affects Auto Attach (Diagrams 4 & 5) {#diagram4_5}
+### How SLA affects Auto Attach (Diagrams 4 & 5)
 
 The following diagrams show how SLA affected the auto attach algorithm up to candlepin version 2.4 and how that changed from 2.5 onwards.
 
 {% plantuml %}
 
-title Diagram 4: Auto-Attach Pool selection based on SLA (candlepin 2.4 / rules 5.26)
+title Diagram 4: Auto-Attach Pool filtering based on SLA (candlepin 2.4 / rules 5.26)
 
 (*) --> "Is Pool SLA null or in the exempt list?" as is_pool_sla_null_or_exempt
 
-is_pool_sla_null_or_exempt --> [Yes] "pool is selected for autoattach\nbut not prioritized for SLA" as selected_non_prioritized #yellow
+is_pool_sla_null_or_exempt --> [Yes] "pool is considered by autoattach\nbut not prioritized for SLA" as considered_non_prioritized #yellow
 is_pool_sla_null_or_exempt --> [No] "SLA override provided on attach request?" as is_sla_override_provided
 
 is_sla_override_provided --> [Yes] "Pool SLA matches that SLA" as pool_matches_sla
 is_sla_override_provided --> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
 
-pool_matches_sla --> [Yes] selected_non_prioritized
-pool_matches_sla --> [No] "Pool is not selected during autoattach" as pool_is_not_selected #red
+pool_matches_sla --> [Yes] considered_non_prioritized
+pool_matches_sla --> [No] "Pool is not considered by autoattach" as pool_is_not_considered #red
 
 consumer_has_sla_preference --> [Yes] pool_matches_sla
 consumer_has_sla_preference --> [No] "Owner has a default\nSLA preference set" as owner_has_default_sla
 
 owner_has_default_sla --> [Yes] pool_matches_sla
-owner_has_default_sla --> [No] selected_non_prioritized
+owner_has_default_sla --> [No] considered_non_prioritized
 
 {% endplantuml %}
 
 
 {% plantuml %}
 
-title Diagram 5: Auto-Attach Pool selection based on SLA (candlepin 2.5 / rules 5.27)
+title Diagram 5: Auto-Attach Pool filtering based on SLA (candlepin 2.5 / rules 5.27)
 
 (*) --> "Is Pool SLA null or in the exempt list?" as is_pool_sla_null_or_exempt
 
-is_pool_sla_null_or_exempt --> [Yes] "pool is selected for autoattach\nbut not prioritized for SLA" as selected_non_prioritized #yellow
+is_pool_sla_null_or_exempt --> [Yes] "pool is considered by autoattach\nbut not prioritized for SLA" as considered_non_prioritized #yellow
 is_pool_sla_null_or_exempt --> [No] "Consumer has at least one existing\nentitlement with an SLA set?" as consumer_has_existing_entitlement_with_sla_set
 
 consumer_has_existing_entitlement_with_sla_set -left-> [Yes] "A Consumer entitlement SLA\nmatches the Pool SLA?" as consumer_entitlement_sla_matches_pool_sla
-consumer_has_existing_entitlement_with_sla_set -down-> [No] "SLA override provided\non attach request?" as is_sla_override_provided
+consumer_has_existing_entitlement_with_sla_set -down-> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
 
-consumer_entitlement_sla_matches_pool_sla --> [Yes] is_sla_override_provided
-consumer_entitlement_sla_matches_pool_sla -left-> [No] "Pool is not selected\nduring autoattach" as pool_is_not_selected #red
+consumer_entitlement_sla_matches_pool_sla --> [Yes] consumer_has_sla_preference
+consumer_entitlement_sla_matches_pool_sla -left-> [No] "Pool is not considered\nby autoattach" as pool_is_not_considered #red
 
-is_sla_override_provided --> [Yes] "Pool SLA matches that SLA" as pool_sla_matches_that_sla
-is_sla_override_provided --> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
-
-pool_sla_matches_that_sla -left-> [Yes] "Pool selected during autoattach\nand prioritized +700" as pool_selected_and_prioritized #green
-pool_sla_matches_that_sla --> [No] selected_non_prioritized
-
-consumer_has_sla_preference -left-> [Yes] pool_sla_matches_that_sla
+consumer_has_sla_preference -left-> [Yes] "Pool SLA matches that SLA" as pool_sla_matches_that_sla
 consumer_has_sla_preference --> [No] "Owner has a default SLA preference set" as owner_has_default_sla
 
+pool_sla_matches_that_sla -left-> [Yes] "Pool considered by autoattach\nand prioritized +700" as pool_considered_and_prioritized #green
+pool_sla_matches_that_sla --> [No] considered_non_prioritized
+
 owner_has_default_sla --> [Yes] pool_sla_matches_that_sla
-owner_has_default_sla --> [No] selected_non_prioritized
+owner_has_default_sla --> [No] considered_non_prioritized
 
 {% endplantuml %}
 
@@ -203,7 +202,7 @@ status at the time healing will take place
 
 We can safely remove all pools from this list that:
 
-* have SLAs that do not match any of the consumer's existing entitlement SLAs found in the compliance status. (unless either the pool's SLA is null or in the exempt list, or the consumer does not have existing entitlements, or the consumer has existing entitlements but none of them have an SLA set).
+* have SLAs that do not match any of the consumer's existing entitlement SLAs found in the compliance status. (unless either the pool's SLA is null or in the exempt list, or the consumer does not have existing entitlements, or the consumer has existing entitlements but none of them have an SLA set, or they have but are exempt).
 * require an architecture that does not match the consumer, as that will never make a product fully compliant.
 * are virtual if the consumer is not a guest.
 * have 0 quantity (or quantity \< instance_multiplier if the system is physical.)
@@ -220,9 +219,10 @@ These entitlements are added to the list of entitlements whenever a compliance
 check is run.
 
 ### Get Installed Products
-The list of installed products comes directly from the context, but we filter
-out products that are already found in the compliance status
-"compliantProducts"
+The list of installed products, comes directly from the context, but we filter
+out products that are already found in the compliance status "compliantProducts".
+The consumer's specified role and addons are also filtered based on if they are already
+satisfied by any of the already attached entitlements in the compliance status.
 
 ### Build Entitlement Groups
 Entitlement group objects provide a way to treat stacks and single entitlements interchangeably.  They consume pools and provide products.
@@ -253,34 +253,34 @@ pools if the consumer is a guest, otherwise the set with the fewest pools.
 This prevents us from attaching "parallel" stacks, where we essentially have a
 compliant sockets stack, and a compliant cores stack.
 
-### Prune Pools
+### Prune Pools {#prunePools}
 Remove all pools from the group that are not required to make the stack/product
 fully compliant.  This can be skipped for non-stack groups, because they only
 have 1 pool, and at this point we know the group is required to cover a
-product.  We sort the pools based on priority, which is calculated based on
-whether or not the pool SLA matches the consumer's SLA, or the pool is virt_only/requires_host,
-and other factors (see note [\[5\]](#diagram2footnote5) for details), so those are preserved as long as possible.
+product (or role or addon).  We sort the pools based on priority, which is calculated based on a multitude of attributes, syspurpose and non-syspurpose (see the section [Pool Priority Algorithm](#poolPriorityAlgorithm) for details), so those are preserved as long as possible.
 Try removing one pool at a time, and check compliance with
 everything else (that has not been removed) at max quantity.  If the stack is
-compliant and covers all the same products, disregard the removed pool,
+compliant and covers all the same products, roles and addons, disregard the removed pool,
 otherwise add it back.
 
-### Select Best Entitlement Groups
+### Select Best Entitlement Groups {#selectBestEntGroups}
 Firstly, we try to complete partial stacks, if possible.  If there is a stack
-group with the same stack_id, it is possible (because it passed validation)
+group with the same stack_id, it is possible (because it passed validation).
 
 This uses a greedy approach, rather than enumeration.
-While a valid group exists that covers a non-covered product, add the group
+While a valid group exists that covers a non-covered product (or role, or addon), add the group
 that covers the most products to "best groups"
 
-* Ties are broken by
-1. number of host specific pools
-1. number of virt_only pools
+Ties are broken by (in this order):
+1. number of host specific pools (more wins)
+1. average pool priority (higher wins)
+1. number of virt_only pools (more wins)
+1. required pool quantity (less wins)
 1. prefer unstackable entitlements
 
-This ensures that we are covering every product that is possible to cover, with
+This ensures that we are covering every product, role and addon that is possible to cover, with
 no excessive groups (you cannot remove any stack or unstackable entitlement and
-remain compliant)
+remain compliant).
 
 ### Select Pool Quantity
 This is very similar to prune pools, except we know that every pool is
@@ -312,6 +312,77 @@ Caveats:
      a pool available. Usually the guest just needs one. But with issues like
      one sub-pool per stack, trying to add more entitlements becomes noticably
      more difficult.
+
+
+### Pool Priority Algorithm {#poolPriorityAlgorithm}
+
+This is not a step that is called as a sequence of the previous algorithm steps, but it is rather called _during_ 2 of the previous steps that were mentioned: the [Prune Pools](#prunePools) step and the [Select Best Entitlement Groups](#selectBestEntGroups).
+
+It is calculating the priority score for a single pool (a stack of pools is scored by the average priority of all its pools). Each pool/product attribute is generating a numerical score (which might be positive, negative, or 0). Each attribute has a weight assigned, that is supposed to be larger than the sum of all less-important attributes combined (e.g. usage: 350 > requires_host+virt_only+sockets+ram+cores+vcpu: 330).
+
+Attributes are of three types:
+1. Syspurpose attributes (roles, addons, SLA, usage), whose scores are calculated dynamically with a given weight for each one, that represents its importance, based on 3 rules (outlined in the syspurpose part of the 'Scoring' section below). __IMPORTANT: In addition to the 4 syspurpose attributes, the list of syspurpose attributes in this algorithm also includes the 'products' as the strongest attribute, in order to avoid situations where a pool that is considered only because they provide a role has the same score with a pool that provides that role plus a product__.
+1. virt_only and requires_host, which are given static, positive scores.
+1. Compliance attributes (sockets, ram, cores, vcpu) which are calculated dynamically, with positive scores, but with a different algorithm than that of syspurpose attributes.
+
+#### Scoring
+1. Syspurpose dynamic score calculation:
+* Weights:  
+    *products*: 5600  
+    *roles*: 2800  
+    *addons*: 1400  
+    *support_level*: 700  
+    *usage*: 350  
+* Rules:  
+    *Match rule*: If a customer has an unsatisfied property of a given value and the pool property provides that same value, score a match for the pool:  
+  [+1 * attribute_weight]  
+    *Null rule*: If a customer’s unsatisfied property is null, and a pool’s property is also null, score a match for the pool.  I.e. “None” matches “None”:  
+  [+0.01 * attribute_weight]  
+    *Mismatch rule*: If a customer has a specified property of a given value and the pool has that property defined with another value or values, consider that a mismatch and score a negative value as a penalty:  
+  [-0.05 * attribute_weight]  
+* The starting score is 545 (large enough to make sure that if all the highest syspurpose mismatch rules get applied, the total score will not go below zero: 5600 * -0.05 +...+ 350 * -0.05 = -280 -140 -70 -35 -17.5 = -542.5).
+1. Static scores for virt_only and requires_host:  
+  * [+100] if the pool is virt_only  
+  * [+150] if the pool is host-specific (requires_host is non-null)
+1. Dynamic scoring for Compliance attributes (sockets, cores, ram, or vcpu):
+  * [+0 to +20] for each based on closeness to consumer’s need, with 20 being the default in case the pool does not specify the attribute at all.
+
+#### Example
+Here is an example calculation of a pool's score, based on the attributes set on a consumer and the pool:
+1. The consumer:
+* has installed product 'product1'
+* has specified role 'my_role'
+* has not specified any addons
+* has not specified an SLA
+* has specified usage 'my_usage'
+* is not a guest
+1. The pool:
+* covers 'product1'
+* has role 'my_role'
+* does not specify any addons
+* does not specify an SLA
+* has usage 'different_usage'
+* does not have virt_only set to true
+* does not have requires_host set
+* does not have ram set
+* does not have sockets set
+* does not have cores set
+* does not have vcpu set
+1. The calculation will be as follows:  
+  Initial default: +545  
+  PRODUCTS: +5600 (MATCH RULE: 1 * 5600)  
+  ROLES: +2800 (MATCH RULE: 1 * 2800)  
+  ADDONS: +14 (NULL RULE: 0.01 * 1400)  
+  SLA: +7 (NULL RULE: 0.01 * 700)  
+  USAGE: -17.5 (MISMATCH RULE: -0.05 * 350)  
+  VIRT_ONLY: +0  
+  REQUIRES_HOST: +0  
+  SOCKETS: +20  
+  CORES: +20  
+  RAM: +20  
+  VCPU: +20  
+  --------------------------------------  
+  Final Score: 9028.5  
 
 
 ### Footnotes
@@ -354,33 +425,21 @@ instance_multiplier: remove if quantity requested does not divide evenly by the 
 [Back to Diagram 2](#diagram2)
 
 ##### [3] {#diagram2footnote3}
-The following consumer to pool compatibilities are checked:
-Is the consumer arch in the pool product arch list?  
-Is the consumer guest status compatible with the pool virt_only/physical_only?  
-Is any of the consumer's existing entitlement SLAs matching with the pool's SLA? (this check is performed only if the pool's SLA is non-null and not in the exempt list, and the consumer has existing entitlements and at least one of them has an SLA set).
+The following consumer to pool compatibilities are checked:  
+1. Is the consumer arch in the pool product arch list?  
+1. Is the consumer guest status compatible with the pool virt_only/physical_only?  
+1. Is any of the consumer's existing entitlement SLAs matching with the pool's SLA? (this check is performed only if the pool's SLA is non-null and not in the exempt list, and the consumer has existing entitlements and at least one of them has an SLA set which is not exempt).
 
 [Back to Diagram 2](#diagram2)
 
 ##### [4] {#diagram2footnote4}
 1. Check the coverage of the stack.
-    * meaning do all product attributes summed up across all pools in the group completely cover those same attributes as required by the consumer)
+    * meaning do all product attributes summed up across all pools in the group completely cover those same attributes as required by the consumer
 1. If not covered: Remove all pools in the entitlement group which have at least one conflicting attribute (e.g. ARCH, attributes with a reason given).
 1. Remove entitlement group from consideration if *still* the stack coverage is invalid.
 1. If covered: Keep the entitlement group (for now).
-1. Remove the entitlement group if there are no provided products by this group that are required by the consumer.
+1. Remove the entitlement group if there are no provided products, role or addons by this group that are required by the consumer.
 1. Find the stack containing the least pools/enforcing the least attributes that is still “covered” (pick combo of pools with least attributes by the average priority of each sub group).
 1. Choose each stack_id in the consumer compliance that is listed in “partialStacks”, remove the overlap of products from the shared list of installed products.
-
-[Back to Diagram 2](#diagram2)
-
-##### [5] {#diagram2footnote5}
-Priority score for a single pool. A stack of pools is scored by its average:  
-
-The starting score is 100  
-sla matches consumer sla +700 (see [diagram 5](#diagram4_5) for details)  
-virt_only +100  
-requires_host +150  
-match to required sockets, cores, ram, or vcpu (+20 max for each based on closeness to consumer’s need)  
-Share derived -10  
 
 [Back to Diagram 2](#diagram2)
