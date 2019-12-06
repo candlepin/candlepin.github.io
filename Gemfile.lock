@@ -57,7 +57,7 @@ GEM
     pathutil (0.14.0)
       forwardable-extended (~> 2.6)
     public_suffix (3.0.0)
-    puma (3.10.0)
+    puma (3.12.2)
     pygments.rb (1.1.2)
       multi_json (>= 1.0.0)
     rack (2.0.3)
