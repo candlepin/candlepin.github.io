@@ -128,8 +128,10 @@
       - section: pre_entitlement_rules_check
   - section: design
     subs:
+      - section: api_version_design
       - section: compliance_snapshots
       - section: environments_design
+      - section: federated_certificate_management
       - section: lazy_cert_regen
       - section: manifest_consumer_association
       - section: multi_owner_users
@@ -137,6 +139,5 @@
       - section: owner_hierarchy
       - section: plugins
       - section: policy_design
+      - section: service_layer_guidelines
       - section: servlet_container
-      - section: api_version_design
-      - section: federated_certificate_management
