@@ -138,25 +138,6 @@ codebase.
      ```console
      $ DISPLAY=:13 nosetests
      ```
-1. python-rhsm
-   * Still a very small suite of tests which needs work, and requires a live Candlepin server on localhost. (needs work)
-
-     ```console
-     $ ./setup.py nosetests
-     ```
-
-     The setup.py is required just the first run to compile the C library and
-     copy it to the correct location for the unit tests. After that you can use
-     nosetests normally, although you may need to re-run the above if anything
-     changes in the C code.
-1. Headpin
-
-   ```console
-   $ rake spec
-   ```
-
-1. Thumbslug: TODO
-
 ## Mocks
 When possible, we try to leverage mocks in unit tests to skip
 complicated/costly setup of objects we're not interested in, and instead just

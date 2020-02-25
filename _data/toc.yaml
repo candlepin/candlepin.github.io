@@ -10,19 +10,6 @@
       - section: dnf
       - section: subscription_manager_entry_points
       - section: make_stylish
-- thumbslug:
-  - section: how_it_works
-  - section: building
-  - section: testing
-  - section: troubleshooting
-  - section: thumbslug_and_apache
-- gutterball:
-  - section: developer_deployment
-  - section: design_overview
-    subs:
-      - section: events
-      - section: reliable_events
-      - section: reportapi
 - candlepin:
   - section: getting_started
     subs:
@@ -64,7 +51,6 @@
           - section: configuration
           - section: quartz_setup
           - section: running_on_mysql
-          - section: running_on_oracle
           - section: external_artemis_setup
           - section: connect_to_embedded_artemis
       - section: cmv
@@ -144,10 +130,8 @@
     subs:
       - section: compliance_snapshots
       - section: environments_design
-      - section: jython_rules
       - section: lazy_cert_regen
       - section: manifest_consumer_association
-      - section: multi_cdn_design
       - section: multi_owner_users
       - section: multi_version_products_design
       - section: owner_hierarchy
@@ -156,4 +140,3 @@
       - section: servlet_container
       - section: api_version_design
       - section: federated_certificate_management
-      - section: multi_org_sharing
