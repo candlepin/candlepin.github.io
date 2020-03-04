@@ -272,6 +272,37 @@ creates.
   can contain the same values as `Register`.  This call returns the JSON
   response body from the subscription management server.
 
+* `GetOrgs(string, string, dictionary(string, variant), string)`:
+  Get list of organizations for given user. The argument order is: `username, password,
+  connection options dictionary, string with locale`. The connection options dictionary
+  can contain the same values as `Register`. This call returns the JSON response
+  body from the subscription management server. It is list of dictionaries. There are two
+  important items `key` and `displayName`. The `key` is used in `Register()` method and
+  `displayName` should be displayed to users. The `contentAccessMode` can have two values:
+  `entitlement` and `org_environment`. This significantly influences entitlement workflow
+  and how client should react on several situations.
+
+  `[
+    {
+        'contentAccessModeList': 'entitlement',
+        'updated': '2020-02-17T08:21:47+0000',
+        'displayName': 'Donald Duck',
+        'key': 'donaldduck',
+        'created': '2020-02-17T08:21:47+0000',
+        'logLevel': null,
+        'autobindHypervisorDisabled': false,
+        'contentPrefix': null,
+        'contentAccessMode': 'entitlement',
+        'href': '/owners/donaldduck',
+        'lastRefreshed': null,
+        'defaultServiceLevel': null,
+        'parentOwner': null,
+        'autobindDisabled': false,
+        'upstreamConsumer': null,
+        'id': 'ff80808170523d030170523d34890003'
+    }
+  ]`
+
 ### Examples
 
 * Example of registration using username, password and organization
