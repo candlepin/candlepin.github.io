@@ -19,13 +19,6 @@
         <li class="{% if page.url contains overview_page %}active{% endif %}">
           <a href="{{ site.baseurl }}/{{ overview_page }}">About</a>
         </li>
-        <li class="{% if page.url contains '/news/' or page.url contains '/whats_new' %}active{% endif %}">
-          <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">News <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{ site.baseurl }}/news/">Posts</a></li>
-            <li><a href="{{ site.baseurl }}/whats_new.html">Recent Changes</a></li>
-          </ul>
-        </li>
         <!-- Liquid doesn't appear to have a negation operator -->
         <li class="{% unless page.url contains overview_page %}{% if page.url contains '/docs/' %}active{% endif %}{% endunless %}">
           <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Documentation <span class="caret"></span></a>

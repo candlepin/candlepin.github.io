@@ -30,7 +30,7 @@ no_date: true
   <div id="front-page-lower" class="container-fluid">
     <div class="row">
 
-      <div class="front-column col-xs-12 col-md-4">
+      <div class="front-column col-xs-12 col-md-6">
         {% capture what_is_link %}{{ site.baseurl }}/docs/candlepin/overview.html{% endcapture %}
         <h3>
           <a href="{{ what_is_link }}" role="button">What is Candlepin?</a>
@@ -43,7 +43,7 @@ no_date: true
         <a class="more-link" href="{{ what_is_link }}">More</a>
       </div>
 
-      <div class="front-column col-xs-12 col-md-4">
+      <div class="front-column col-xs-12 col-md-6">
         {% capture features_link %}{{ site.baseurl }}/docs/candlepin/developer_notes.html{% endcapture %}
         <h3>
           <a href="{{ features_link }}" role="button">Features</a>
@@ -56,19 +56,6 @@ no_date: true
         <a class="more-link" href="{{ features_link }}">More</a>
       </div>
 
-      <div id="news" class="front-column col-xs-12 col-md-4">
-        {% capture news_link %}{{ site.baseurl }}/news{% endcapture %}
-        <h3>
-          <a href="{{ news_link }}" role="button">News</a>
-        </h3>
-        <ul>
-          {% for post in site.posts limit: 4 %}
-            {% capture post_id %}{{ post.id | replace_first: '/', '' | replace: '/', '-'}}{% endcapture %}
-            <li>{{ post.date | date: "%-d %B %Y" }} - <a href="{{ site.baseurl }}/news/index.html#{{ post_id }}">{{ post.title }}</a></li>
-          {% endfor %}
-        </ul>
-        <a class="more-link" href="{{ news_link }}">More</a>
-      </div>
     </div>
   </div>
   {% include footer.html %}
