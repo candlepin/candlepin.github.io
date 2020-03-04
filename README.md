@@ -29,7 +29,7 @@
    gem install travis
    travis login --org
    ```
-1. Render the site with `jekyll serve --watch`.  (See Advanced Workflow section
+1. Render the site with `bundle exec jekyll serve --watch`.  (See Advanced Workflow section
    for tips on getting real time previews of your updates).
 1. Make changes and save.  If you wish to create a news item, run `jekyll post
    "My Title"`.  That command calls out to a plugin that will create a file with
