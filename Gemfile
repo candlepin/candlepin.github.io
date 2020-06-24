@@ -11,7 +11,7 @@ gem 'rack-jekyll', :git => 'https://github.com/awood/rack-jekyll'
 gem 'nokogiri'
 gem 'pygments.rb'
 gem 'stringex'
-gem 'rack', "~> 2.0"
+gem 'rack', "~> 2.2"
 gem 'rack-rewrite'
 gem 'puma'
 
