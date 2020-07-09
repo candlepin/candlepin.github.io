@@ -3,6 +3,13 @@
 # Getting Started
 1. `yum install python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
 
+1. Make sure you have python 2.7 installed (it won't work with 2.6, or 3.x),
+   and make an alias if it is not the default version on your system (remove the alias
+   when you're done with this)
+   ```
+   $ alias python='/usr/bin/python2.7'
+   ```
+
 1. Install [RVM](http://rvm.io). I know RVM can be a pain when you first start
    using it, but you will enjoy life more if you aren't dealing with conflicting
    gems all the time.  Note: do **NOT** install RVM as root.
