@@ -136,7 +136,8 @@ roles_addons -down[#red]-> [No] do_not_update_best
 
 ### How SLA affects Auto Attach (Diagrams 4 & 5)
 
-The following diagrams show how SLA affected the auto attach algorithm up to candlepin version 2.4 and how that changed from 2.5 onwards.
+The following diagrams show how SLA affected the auto attach algorithm up to candlepin version 2.4 and how that changed from 3.1 onwards.
+From Candlepin 3.1 onwards, SLAs are only used to prioritize pools.
 
 {% plantuml %}
 
@@ -164,18 +165,12 @@ owner_has_default_sla --> [No] considered_non_prioritized
 
 {% plantuml %}
 
-title Diagram 5: Auto-Attach Pool filtering based on SLA (candlepin 2.5 / rules 5.27)
+title Diagram 5: Auto-Attach Pool prioritization based on SLA (candlepin 3.1 / rules 5.40)
 
 (*) --> "Is Pool SLA null or in the exempt list?" as is_pool_sla_null_or_exempt
 
 is_pool_sla_null_or_exempt --> [Yes] "pool is considered by autoattach\nbut not prioritized for SLA" as considered_non_prioritized #yellow
-is_pool_sla_null_or_exempt --> [No] "Consumer has at least one existing\nentitlement with an SLA set?" as consumer_has_existing_entitlement_with_sla_set
-
-consumer_has_existing_entitlement_with_sla_set -left-> [Yes] "A Consumer entitlement SLA\nmatches the Pool SLA?" as consumer_entitlement_sla_matches_pool_sla
-consumer_has_existing_entitlement_with_sla_set -down-> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
-
-consumer_entitlement_sla_matches_pool_sla --> [Yes] consumer_has_sla_preference
-consumer_entitlement_sla_matches_pool_sla -left-> [No] "Pool is not considered\nby autoattach" as pool_is_not_considered #red
+is_pool_sla_null_or_exempt --> [No] "Consumer has SLA preference?" as consumer_has_sla_preference
 
 consumer_has_sla_preference -left-> [Yes] "Pool SLA matches that SLA" as pool_sla_matches_that_sla
 consumer_has_sla_preference --> [No] "Owner has a default SLA preference set" as owner_has_default_sla
@@ -187,7 +182,6 @@ owner_has_default_sla --> [Yes] pool_sla_matches_that_sla
 owner_has_default_sla --> [No] considered_non_prioritized
 
 {% endplantuml %}
-
 
 ## The Algorithm {#AlgorithmText}
 
@@ -202,7 +196,6 @@ status at the time healing will take place
 
 We can safely remove all pools from this list that:
 
-* have SLAs that do not match any of the consumer's existing entitlement SLAs found in the compliance status. (unless either the pool's SLA is null or in the exempt list, or the consumer does not have existing entitlements, or the consumer has existing entitlements but none of them have an SLA set, or they have but are exempt).
 * require an architecture that does not match the consumer, as that will never make a product fully compliant.
 * are virtual if the consumer is not a guest.
 * have 0 quantity (or quantity \< instance_multiplier if the system is physical.)
