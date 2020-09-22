@@ -421,7 +421,6 @@ instance_multiplier: remove if quantity requested does not divide evenly by the 
 The following consumer to pool compatibilities are checked:  
 1. Is the consumer arch in the pool product arch list?  
 1. Is the consumer guest status compatible with the pool virt_only/physical_only?  
-1. Is any of the consumer's existing entitlement SLAs matching with the pool's SLA? (this check is performed only if the pool's SLA is non-null and not in the exempt list, and the consumer has existing entitlements and at least one of them has an SLA set which is not exempt).
 
 [Back to Diagram 2](#diagram2)
 
