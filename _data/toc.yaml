@@ -7,6 +7,7 @@
       - section: dbus
       - section: dbus_objects
       - section: dbus_development
+      - section: debug_http_traffic
       - section: dnf
       - section: subscription_manager_entry_points
       - section: make_stylish
