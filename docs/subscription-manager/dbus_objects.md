@@ -196,6 +196,14 @@ path gives an aggregate of all the children otherwise each child only reports
 the facts it is responsible for.  Also note that any fact defined as a custom
 fact will override the same fact in a sibling.
 
+### Examples
+
+* Example of getting all facts:
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1.Facts /com/redhat/RHSM1/Facts com.redhat.RHSM1.Facts GetFacts
+  ```
+
 # Products
 
 * Bus name: `com.redhat.RHSM1`
@@ -360,8 +368,10 @@ The Syspurpose object interacts with subscription-manager to get information abo
 
 ## Methods
 
-* `GetSyspurpose(string)`: DBus method for getting current system purpose. Argument represents locale.
-* `GetSyspurposeStatus()`: DBus method for getting current system purpose status.
+* `GetSyspurpose(string)`: D-Bus method for getting current system purpose. Argument represents locale.
+* `GetSyspurposeStatus(string)`: D-Bus method for getting current system purpose status. Argument represents locale.
+* `GetValidFields(string)`: D-Bus method for getting valid system purpose fields (keys and values). Argument represents locale.
+* `SetSyspurpose(dictionary(string, variant), string)`: D-Bus method for setting system purpose. First argument represents all system values that will be set and second argument represents locale.
 
 ## Signals
 
@@ -378,8 +388,28 @@ The Syspurpose object interacts with subscription-manager to get information abo
 * Example of getting system purpose status
 
   ```console
-  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Syspurpose com.redhat.RHSM1.Syspurpose GetSyspurposeStatus
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Syspurpose com.redhat.RHSM1.Syspurpose GetSyspurposeStatus s ""
   ```
+
+* Example of getting valid system purpose
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Syspurpose com.redhat.RHSM1.Syspurpose GetValidFields s ""
+  ```
+
+* Example of resetting all system purpose values
+
+  ```console
+  $ sudo busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Syspurpose com.redhat.RHSM1.Syspurpose GetValidFields a{sv}s 0 ""
+  ```
+
+* Example of setting system purpose values. Note: Keep in mind that system purpose values not included in the D-Bus method call are reset to empty string or empty list (addons)
+
+   ```console
+   sudo dbus-send --system --print-reply --dest=com.redhat.RHSM1 /com/redhat/RHSM1/Syspurpose com.redhat.RHSM1.Syspurpose.SetSyspurpose dict:string:string:"usage","Production","service_level_agreement","Premium" string:""
+   ```
+
+   System purpose will be following `{"usage": "Production", "addons": [], "service_level_agreement": "Premium", "role": ""}` after calling D-Bus method mentioned above, despite `role` or `addons` contained some values.
 
 # Unregister
 
