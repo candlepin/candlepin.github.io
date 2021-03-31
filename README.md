@@ -24,7 +24,7 @@
    [instructions](https://rvm.io/rvm/security) and then run
 
    ```
-   $ rvm install ruby-2.3.8
+   $ rvm install ruby-2.7.2
    ```
 
    The documentation for RVM is extensive so don't be afraid to read it.
