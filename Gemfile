@@ -15,8 +15,3 @@ gem 'stringex'
 gem 'rack', "~> 2.2"
 gem 'rack-rewrite'
 gem 'puma'
-
-# This group is excluded in the builder image!
-group :jekyll_plugins do
-  gem 'hawkins', "~> 2.0"
-end
