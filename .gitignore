@@ -4,6 +4,7 @@ _site/
 *.patch
 .sass-cache
 .jekyll-metadata
+.jekyll-cache
 
 # Travis deployment cache directory
 .dpl
@@ -12,5 +13,3 @@ _site/
 # generated directory for plantuml diagrams
 uml/
 
-# source-to-image directory for Openshift
-.s2i
