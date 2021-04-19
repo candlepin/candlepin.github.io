@@ -19,6 +19,9 @@ check_number PUMA_MAX_THREADS "${PUMA_MAX_THREADS:-0}"
 
 export RACK_ENV=${RACK_ENV:-"production"}
 
+echo "---> Running as ..."
+id
+
 if is_puma_installed; then
   export_vars=$(cgroup-limits) ; export $export_vars
 
