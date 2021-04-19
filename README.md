@@ -196,6 +196,9 @@ If you make changes to the Dockerfile, you should test them first.
 * Rebuild using the generated Dockerfile: `podman build -t website -f
   websiteDockerfile`.  This will run the `.s2i/bin/assemble` script and build a
   container with the site processed through Jekyll.
+* Note that if you make changes to the `assemble` or `run` scripts, you need to
+  commit those to git before running `s2i`.  Otherwise, the changes will not be
+  picked up!
 * `rm websiteDockerfile && rm -rf upload/`
 * Test everything by starting a container using `podman run -p 8088:8080 --rm
   -ti website` and browsing the site at http://localhost:8088.  (Note, I
