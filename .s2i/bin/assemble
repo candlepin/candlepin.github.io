@@ -20,6 +20,9 @@ function rake_assets_precompile() {
 
 set -e
 
+echo "---> Running as ..."
+id
+
 echo "---> Checking PlantUML ..."
 plantuml -v
 
@@ -68,9 +71,6 @@ if [[ "$RAILS_ENV" == "production" || "$RACK_ENV" == "production" ]]; then
   rake_assets_precompile
 fi
 
-# Fix source directory permissions
-fix-permissions ./
-
 # Make the ./tmp folder world writeable as Rails or other frameworks might use
 # it to store temporary data (uploads/cache/sessions/etcd).
 # The ./db folder has to be writeable as well because when Rails complete the
@@ -80,4 +80,9 @@ set +e
 [[ -d ./db ]] && chgrp -R 0 ./db && chmod -R g+rw ./db
 set -e
 
+echo "---> Building site ..."
 bundle exec jekyll build
+
+# Fix source directory permissions
+echo "---> Fixing directory permissions ..."
+fix-permissions ./

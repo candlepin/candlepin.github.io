@@ -3,12 +3,7 @@
 # Getting Started
 1. `yum install python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
 
-1. Make sure you have python 2.7 installed (it won't work with 2.6, or 3.x),
-   and make an alias if it is not the default version on your system (remove the alias
-   when you're done with this)
-   ```
-   $ alias python='/usr/bin/python2.7'
-   ```
+1. Make sure you have python 3 installed
 
 1. Install [RVM](http://rvm.io). I know RVM can be a pain when you first start
    using it, but you will enjoy life more if you aren't dealing with conflicting
@@ -24,7 +19,7 @@
    [instructions](https://rvm.io/rvm/security) and then run
 
    ```
-   $ rvm install ruby-2.3.8
+   $ rvm install ruby-2.7.1
    ```
 
    The documentation for RVM is extensive so don't be afraid to read it.
@@ -52,8 +47,7 @@
     ```
 2. If you wish to see real time previews of your updates (i.e. if you don't
    want to hit the refresh button all the time), then you can use
-   `jekyll liveserve`.  This command calls out to a plugin I wrote named
-   [Hawkins](https://github.com/awood/hawkins) that integrates the
+   `jekyll serve --livereload`.  This command calls integrates the
    [LiveReload protocol](http://feedback.livereload.com/knowledgebase/articles/86174-livereload-protocol)
    with some hooks that Jekyll provides.
 
@@ -87,6 +81,10 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
    be found in the Openshift console by going to the "Configuration" tab for a
    BuildConfig.  The secret to use can be found under the "triggers" section if
    you select "Edit YAML" under "Actions" for a BuildConfig.
+1. The OpenShift console link can be determined by looking at the Github
+   Webhooks for the project.  Go to "Settings", "Webhooks" and open the webhook
+   that deploys to OpenShift.  Take the "payload URL" host and append change the
+   "api" subdomain to "console".
 1. Travis configuration is in `.travis.yml` and in a few files located in the
    `_travis` directory.
 1. If you need to work more extensively with Travis, I recommend installing
@@ -190,29 +188,40 @@ for your architecture and then place `s2i` in a directory on your path.
 
 If you make changes to the Dockerfile, you should test them first.
 
-* Build the image with `docker build -t candlepin/website-ruby-23`
-* Run `s2i build --exclude="" . candlepin/website-ruby-23 website`.
-  That will generate the application image using custom scripts inserted into
-  `website-ruby-23` from the `.s2i/bin` directory.
-* Test everything by starting a container using `docker run -p 8088:8080 --rm
+* Build the image with `podman build -t candlepin/website-ruby-27 -f Dockerfile`
+* Run `s2i build --exclude="" . candlepin/website-ruby-27
+  --as-dockerfile websiteDockerfile`.
+  That will generate a Dockerfile using custom scripts inserted into
+  `website-ruby-27` from the `.s2i/bin` directory.
+* Rebuild using the generated Dockerfile: `podman build -t website -f
+  websiteDockerfile`.  This will run the `.s2i/bin/assemble` script and build a
+  container with the site processed through Jekyll.
+* `rm websiteDockerfile && rm -rf upload/`
+* Test everything by starting a container using `podman run -p 8088:8080 --rm
   -ti website` and browsing the site at http://localhost:8088.  (Note, I
-  surfaced the container's port 8080 as 8088 since Tomcat normally uses 8080).
+  surfaced the container's port 8080 as 8088 since Tomcat normally uses 8080 but
+  you can use whatever port you like).
 * Hit CTRL-C to stop the container (and the `--rm` argument will remove the
   container immediately).
 
 If your changes work, you'll need to propagate them.
 
-* You will need to push the image to Docker Hub using the Candlepin account
-  Run `docker login` and enter the credentials (see Al for them).
-* Run `docker push candlepin/website-ruby-23:latest` to push the image.
+* You will need to push the image to Docker Hub using an account affiliated with
+  the Candlepin organization.  See Al for assistance.
+* `podman tag candlepin/website-ruby-27:latest docker.io/candlepin/website-ruby-27:latest`
+* Replace `your:creds` with the account credentials and run
+  `podman push --creds your:creds --format=docker docker.io/candlepin/website-ruby-27:latest`
 
 Openshift should be configured to watch that image repository and rebuild
 everything when it detects a change to the image.
 
-If you are starting with a brand new project, you'll need to import the image
-initially using `oc import-image --from='docker.io/candlepin/website-ruby-23' --confirm candlepin/website-ruby-23:latest`
+If you are starting with a brand new project or a brand new container tag,
+you'll need to import the image initially using `oc import-image
+--from='docker.io/candlepin/website-ruby-27' --confirm
+candlepin/website-ruby-27:latest`  (Replace website-ruby-27 with whatever your
+new tag is).
 
-Then create your application with `oc new-app candlepin/website-ruby-23~https://github.com/candlepin/candlepinproject.org` or you can use the web console if you want.
+Then create your application with `oc new-app candlepin/website-ruby-27~https://github.com/candlepin/candlepinproject.org` or you can use the web console if you want.
 
 # Environment Variables and Build and Run Processes
 Any environment variables that we need to define (such as the BUNDLE_WITHOUT
