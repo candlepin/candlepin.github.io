@@ -96,6 +96,7 @@
           - section: hibernate
           - section: ruby_bindings
           - section: caching
+          - section: pr_review_guidelines
       - section: implementation_details
         subs:
           - section: revoke_entitlements_implementation
