@@ -1,0 +1,26 @@
+name: Jekyll site CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Java JDK
+      uses: actions/setup-java@v2.1.0
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - uses: actions/checkout@v2
+    - name: Build the site in the jekyll/builder container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/tmp/src \
+        candlepin/website-ruby-27:latest \
+        /bin/bash -c "chmod -R 777 /tmp/src && /usr/libexec/s2i/assemble"

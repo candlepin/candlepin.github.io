@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/candlepin/candlepinproject.org.png?branch=master)](https://travis-ci.org/candlepin/candlepinproject.org)
+![Build Status](https://github.com/candlepin/candlepinproject.org/actions/workflows/jekyll.yml/badge.svg?branch=master)
 
 # Getting Started
 1. `yum install python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
@@ -24,13 +24,6 @@
 
    The documentation for RVM is extensive so don't be afraid to read it.
 1. Go into your checkout directory and run `bundle install`
-1. (Optional) Install and configure Travis.  This will allow you to interact
-   with the continuous integration environment from the command line.
-
-   ```
-   gem install travis
-   travis login --org
-   ```
 1. Render the site with `bundle exec jekyll serve --watch`.  (See Advanced Workflow section
    for tips on getting real time previews of your updates).
 1. Make changes and save.  If you wish to create a news item, run `jekyll post
@@ -74,9 +67,9 @@ project and appropriate topic.  If you forget to include your page in the
 heirarchy, Jekyll will issue a warning when it is rendering the site.
 
 # Deployment
-1. Submit your changes as a PR.  The Travis continuous integration hook will run
-   automatically.  If the build fails, correct it.  Otherwise, when the PR is
-   merged into master, a webhook will inform Openshift and Openshift will
+1. Submit your changes as a PR.  The GitHub Actions continuous integration hook
+   will run automatically.  If the build fails, correct it.  Otherwise, when the
+   PR is merged into master, a webhook will inform Openshift and Openshift will
    rebuild and deploy the application.  Just for reference, the webhook URL can
    be found in the Openshift console by going to the "Configuration" tab for a
    BuildConfig.  The secret to use can be found under the "triggers" section if
@@ -85,10 +78,9 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
    Webhooks for the project.  Go to "Settings", "Webhooks" and open the webhook
    that deploys to OpenShift.  Take the "payload URL" host and append change the
    "api" subdomain to "console".
-1. Travis configuration is in `.travis.yml` and in a few files located in the
-   `_travis` directory.
-1. If you need to work more extensively with Travis, I recommend installing
-   the `travis` gem.  See <https://github.com/travis-ci/travis.rb#readme>.
+1. The CI settings are in `.github/workflows/jekyll.yml`
+1. If you need to work more extensively with the CI, the GitHub actions are
+   [documented exceptionally well](https://docs.github.com/en/actions)
 
 # Syntax Highlighting
 Syntax highlighting is provided by [Pygments](http://pygments.org) (more
@@ -236,6 +228,17 @@ Any changes to the site building process (e.g. some pre-processing step needs to
 be run before `jekyll build`) or run process (e.g. additional arguments given to
 Puma) would be made in `.s2i/bin/assemble` and `.s2i/bin/run` respectively.
 Again, you would need to rebuild the build image and push it to Docker Hub.
+
+# Continuous Integration
+The GitHub Actions CI workflow we use is based on a default Jekyll building
+workflow defined
+[here](https://github.com/actions/starter-workflows/blob/main/ci/jekyll.yml).
+Ours is slightly different due to our use of s2i.  Our s2i's `assemble` script
+expects the site source to be in `/tmp/src` so we bind mount the git checkout
+into that directory.  The build is performed with the candlepin/website-ruby-27
+container that we maintain and we do a shell trick with chmod to get the
+permissions on the bind mount correct.  After that, we just invoke the
+`assemble` script ourselves.
 
 # References
 * We use RVM to manage Ruby versions and gemsets.  See
