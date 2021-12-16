@@ -157,6 +157,27 @@ We have a few customizations to logging.
   `@Verify` annotations so this shouldn't be a common occurrence.
 * The org level logging is handled by the LoggerAndMDCFilter class which is a TurboFilter.
 
+## Logging SQL queries and parameters
+
+Hibernate has a great feature that will show the SQL statements which is some
+what useful for debugging. To turn this on simply add set ['hibernate.show_sql
+= true'](https://forum.hibernate.org/viewtopic.php?p=2401574).
+This will show the SQL logging in Tomcat's catalina log. To show these in the candlepin.log,
+you can set the following properties (in /etc/candlepin/candlepin.conf):
+
+```properties
+log4j.logger.org.hibernate=INFO
+log4j.logger.org.hibernate.SQL=DEBUG # shows the queries
+log4j.logger.org.hibernate.type.descriptor.sql=TRACE # shows query parameter values
+```
+
+### Sample output
+```
+2021-12-16 10:15:46,507 [thread=localhost-startStop-1] [=, org=, csid=] DEBUG org.hibernate.SQL - select asyncjobst0_.id as id1_18_, asyncjobst0_.created as created2_18_, asyncjobst0_.updated as updated3_18_, asyncjobst0_.attempts as attempts4_18_, asyncjobst0_.correlation_id as correlat5_18_, asyncjobst0_.end_time as end_time6_18_, asyncjobst0_.executor as executor7_18_, asyncjobst0_.job_group as job_grou8_18_, asyncjobst0_.job_key as job_key9_18_, asyncjobst0_.log_execution_details as log_exe10_18_, asyncjobst0_.log_level as log_lev11_18_, asyncjobst0_.max_attempts as max_att12_18_, asyncjobst0_.name as name13_18_, asyncjobst0_.origin as origin14_18_, asyncjobst0_.owner_id as owner_i15_18_, asyncjobst0_.previous_state as previou16_18_, asyncjobst0_.principal as princip17_18_, asyncjobst0_.job_result as job_res18_18_, asyncjobst0_.start_time as start_t19_18_, asyncjobst0_.state as state20_18_, asyncjobst0_.version as version21_18_ from cp_async_jobs asyncjobst0_ where (asyncjobst0_.state in (?)) and (asyncjobst0_.executor in (?))
+2021-12-16 10:15:46,508 [thread=localhost-startStop-1] [=, org=, csid=] TRACE org.hibernate.type.descriptor.sql.BasicBinder - binding parameter [1] as [INTEGER] - [4]
+2021-12-16 10:15:46,508 [thread=localhost-startStop-1] [=, org=, csid=] TRACE org.hibernate.type.descriptor.sql.BasicBinder - binding parameter [2] as [VARCHAR] - [candlepin.example.com]
+```
+
 ## Logging to Syslog
 Logging to syslog is possible but it requires customization of the `logback.xml`
 file packaged with Candlepin.

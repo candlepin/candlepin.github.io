@@ -125,10 +125,9 @@ The candlepin.conf.erb template has a few special properties.
   AUTOCONF=1
   ```
 
-* The script also accepts flags on which database to deploy to and whether or not to install the LogDriver.  The flags are
+* The script also accepts flags on which database to deploy to.  The flags are
   * `-m` for MySQL
   * `-o` for Oracle
-  * `-l` for the log driver
 * Under the covers these flags pass various information to the buildr erb task.
 
 ## Notes on `profiles.yaml`
@@ -152,7 +151,6 @@ The candlepin.conf.erb template has a few special properties.
   common: &common
     username: "candlepin"
     password: ""
-    logdriver_class: "net.rkbloom.logdriver.LogDriver"
 
   postgresql:
     <<: *common
@@ -162,8 +160,8 @@ The candlepin.conf.erb template has a few special properties.
     quartz_driver: "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
   ```
 
-  In this example, when building with `-e postgresql` you get the username,
-  password, and logdriver_class values too.  The ampersand creates an alias to
+  In this example, when building with `-e postgresql` you get the username
+  and password values too.  The ampersand creates an alias to
   an item.  The `<<` merges two hashes, and the asterisk dereferences the
   alias.  See [here](http://viewsourcecode.org/why/redhanded/bits/yamlSMergeKey.html).
 
