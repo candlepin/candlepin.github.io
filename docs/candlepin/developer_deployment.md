@@ -309,7 +309,6 @@ OPTIONS:
   -t          import test data
   -T          import minimal test data, some owners, users, and roles
   -H          include test resources for hosted mode
-  -l          use Logdriver
   -m          use MySQL
   -a          auto-deploy a generated candlepin.conf
   -v          verbose output

@@ -160,7 +160,8 @@ To enable remote debugging in Tomcat, you must pass the JVM values telling it to
 1. Add the following to the `CATALINA_OPTS` variable:
 
    ```
-   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 # for Java 11+
+   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000 # for Java 8 or earlier
    ```
    Now you will be able to connect a debugger to port 8000.
 
@@ -172,8 +173,8 @@ To enable remote debugging in Tomcat, you must pass the JVM values telling it to
 ## Building RPMs with Tito
 Candlepin uses Tito to build the rpms, see [here](building_rpms_with_tito.html).
 
-## Using LogDriver (logging JDBC driver)
-To use the logging JDBC driver with Candlepin see [the log driver page](logdriver.html)
+## Logging SQL queries and parameters
+To see how to debug hibernate SQL queries see [the logging page](logging.html)
 
 ## Analyzing PostgreSQL Performance
 ```sql
