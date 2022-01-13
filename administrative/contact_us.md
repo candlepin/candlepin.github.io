@@ -15,7 +15,7 @@ inclusion and general discussion.
 We use IRC for real time collaboration and support between developers.
 
 Network
-: Freenode [irc.freenode.net/candlepin](irc://irc.freenode.net/candlepin)
+: [Libera.Chat](https://libera.chat) - [irc.libera.chat](ircs://irc.libera.chat:6697)
 
 Channel
-: \#candlepin
+: [\#candlepin](ircs://irc.libera.chat:6697/candlepin)
