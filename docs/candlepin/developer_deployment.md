@@ -39,7 +39,7 @@ way to do work on Candlepin, as it helps ensure everyone is working with the sam
 
 1. Install Vagrant and its dependencies
     ```console
-    $ sudo dnf install vagrant vagrant-libvirt vagrant-hostmanager vagrant-sshfs ansible python3-netaddr
+    $ sudo dnf install vagrant vagrant-libvirt vagrant-hostmanager vagrant-sshfs ansible
     ```
 
 1. Bring up the Vagrant box
@@ -62,43 +62,19 @@ way to do work on Candlepin, as it helps ensure everyone is working with the sam
 
 ### Post-setup Steps
 
-Note that while Vagrant makes setting up the environment easier, it comes with some caveats:
+Note that while Vagrant makes setting up the environment easier, some elements of the user space may not
+be fully configured:
 
-* SSH keys and Git configuration are not copied into the Vagrant box
+* Git configuration is not copied into the Vagrant box
 
-    You will need to manually configure your git e-mail address and name in the Vagrant box, as well as copy
-    any SSH keys in to be able to properly commit and push changes from within the box. This step may be
-    omitted, but you will be forced to drop out of the Vagrant box to commit or push changes.
-
-* MariaDB is not installed by default
-
-    At the time of writing, the provisioning step does not install or configure MariaDB/MySQL. This
-    must be done manually, following the steps outlined in the [Set up MariaDB/MySQL](#set-up-mariadb-mysql)
-    section.
-
-* Java 11 is not installed by default
-
-    Like the above, Java 11 is not currently installed as part of the provisioning step. This can be done
-    by issuing the command manually:
-
-    ```console
-    $ sudo dnf install java-11-openjdk-devel
-    ```
-
-    Then, update the JAVA_HOME environment variable export in `~/.bashrc` and `/etc/tomcat/tomcat.conf` to
-    point to the directory managed by Alternatives: `/var/lib/java/jvm`
-
-    Finally, Alternatives can be used to specify which version of `java` and `javac` are needed:
-
-    ```console
-    $ sudo alternatives --config java
-    $ sudo alternatives --config javac
-    ```
+    You will need to manually configure your git e-mail address and name in the Vagrant box.
+    This step may be omitted, but you will be forced to drop out of the Vagrant box to commit
+    or push changes.
 
 These steps only need to be performed after initially bringing up the box for the first time, or if the box
 is ever recreated after destroying it.
 
-These will eventually be resolved in future versions of the Ansible roles responsible for provisioning the
+These may eventually be resolved in future versions of the Ansible roles responsible for provisioning the
 Vagrant boxes.
 
 
