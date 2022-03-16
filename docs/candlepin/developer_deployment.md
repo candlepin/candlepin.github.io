@@ -7,8 +7,8 @@ title: Developer Deployment
 
 ## Operating System
 Any flavor of Linux should be acceptable for development, but all of the instructions below are written
-for Fedora 34. You may need to make slight changes to the package names, depending on what is available
-from your system's package manager and repositories.
+for Fedora 35 Workstation. You may need to make slight changes to the package names, depending on what is
+available from your system's package repos, and your specific system configuration.
 
 ## Getting the Source
 
@@ -17,7 +17,7 @@ You can browse the source code at <https://github.com/candlepin/candlepin/>.
 For anonymous access to the Candlepin source code, feel free to clone the repository:
 
 ```console
-$ git clone git://github.com/candlepin/candlepin.git
+$ git clone https://github.com/candlepin/candlepin
 ```
 
 Candlepin committers can clone the repository using the ssh url, which is
@@ -37,9 +37,14 @@ way to do work on Candlepin, as it helps ensure everyone is working with the sam
 
 ### Setup
 
-1. Install Vagrant and its dependencies
+1. Install libvirt, Vagrant, Ansible, and the required vagrant plugins
     ```console
-    $ sudo dnf install vagrant vagrant-libvirt vagrant-hostmanager vagrant-sshfs ansible
+    $ sudo dnf install @virtualization vagrant vagrant-libvirt vagrant-sshfs vagrant-hostmanager ansible
+    ```
+
+1. Enable the libvirtd and virtnetworkd services
+    ```console
+    $ sudo systemctl enable --now libvirtd virtnetworkd
     ```
 
 1. Bring up the Vagrant box
@@ -57,8 +62,9 @@ way to do work on Candlepin, as it helps ensure everyone is working with the sam
     ```
 
     This will drop you into a shell at the root directory. The local Candlepin from which the Vagrant box was
-    built has been synced into `/vagrant`. At this point, Candlepin can be deployed following the instructions
-    in the [Deploying Candlepin](#deploying-candlepin) section.
+    built has been synced into `/vagrant` which itself is symlinked from `~/devel/candlepin`. At this point,
+    Candlepin can be deployed following the instructions in the [Deploying Candlepin](#deploying-candlepin)
+    section.
 
 ### Post-setup Steps
 
