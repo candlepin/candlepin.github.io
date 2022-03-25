@@ -1,4 +1,4 @@
-FROM centos/ruby-27-centos7
+FROM centos7/ruby-27-centos7
 
 LABEL name="candlepin/website-ruby-27" \
       maintainer="Alex Wood <awood@redhat.com>"
