@@ -208,7 +208,9 @@ If your changes work, you'll need to propagate them.
   `podman push --creds your:creds --format=docker docker.io/candlepin/website-ruby-27:latest`
 
 Openshift should be configured to watch that image repository and rebuild
-everything when it detects a change to the image.
+everything when it detects a change to the image.  If it does not, you can run
+`oc tag docker.io/candlepin/website-ruby-27:latest website-ruby-27:latest
+--scheduled=true`
 
 If you are starting with a brand new project or a brand new container tag,
 you'll need to import the image initially using `oc import-image
