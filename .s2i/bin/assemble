@@ -38,9 +38,9 @@ mv /tmp/src/* ./
 
 echo "---> Building your Ruby application from source ..."
 if [ -f Gemfile ]; then
-  ADDTL_BUNDLE_ARGS=""
   if [ -f Gemfile.lock ]; then
-    ADDTL_BUNDLE_ARGS="--deployment"
+    echo "---> Setting Bundle deployment to true ..."
+    bundle config set --local deployment 'true'
   fi
 
   if [[ "$RAILS_ENV" == "development" || "$RACK_ENV" == "development" ]]; then
@@ -52,11 +52,13 @@ if [ -f Gemfile ]; then
   fi
 
   if [ -n "$BUNDLE_WITHOUT" ]; then
-    ADDTL_BUNDLE_ARGS+=" --without $BUNDLE_WITHOUT"
+    echo "---> Setting Bundle without to $BUNDLE_WITHOUT ..."
+    bundle config set --local without "$BUNDLE_WITHOUT"
   fi
 
-  echo "---> Running 'bundle install ${ADDTL_BUNDLE_ARGS}' ..."
-  bundle install --path ./bundle ${ADDTL_BUNDLE_ARGS}
+  echo "---> Running 'bundle install' ..."
+  bundle config set --local path './bundle'
+  bundle install
 
   echo "---> Cleaning up unused ruby gems ..."
   bundle clean -V
