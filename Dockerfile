@@ -9,7 +9,7 @@ RUN yum install -y --setopt=tsflags=nodocs java-1.8.0-openjdk-devel graphviz pyt
     yum clean all -y
 
 # Keep this value up to date with the BUNDLED WITH version in Gemfile.lock
-RUN gem install bundler:2.2.15
+RUN gem install bundler:2.3.10
 
 COPY ./.s2i/lib/plantuml.jar /usr/share/java/plantuml.jar
 COPY ./.s2i/lib/plantuml /usr/bin/plantuml

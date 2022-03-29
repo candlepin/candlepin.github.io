@@ -1,6 +1,22 @@
 ![Build Status](https://github.com/candlepin/candlepinproject.org/actions/workflows/jekyll.yml/badge.svg?branch=master)
 
 # Getting Started
+## Container Development (Easy Mode)
+1. Build the `Dockerfile` and `Dockerfile.dev` images.  You can also pull
+   the `candlepin/website-ruby-27` from Docker Hub.
+   ```
+   $ podman build -t candlepin/website-ruby-27 -f Dockerfile
+   $ podman build -t site-test -f Dockerfile.dev
+   ```
+1. Run the `site-test` image with the site source mounted into it.  The `:z`
+   tells Podman to set the SELinux context on the volume.
+   ```
+   $ podman run -v .:/site:z -p 4000:4000 --rm site-test
+   ```
+1. You should only need to rebuild the images if something in the site software
+   stack changes: e.g. new dependencies, library updates, etc.
+
+## Local Development (Hard Mode)
 1. `yum install python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
 
 1. Make sure you have python 3 installed
