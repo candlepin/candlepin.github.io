@@ -23,4 +23,4 @@ jobs:
         docker run \
         -v ${{ github.workspace }}:/tmp/src \
         candlepin/website-ruby-27:latest \
-        /bin/bash -c "chmod -R 777 /tmp/src && /usr/libexec/s2i/assemble"
+        /bin/bash -c "chmod -R 777 /tmp/src && bash /usr/libexec/s2i/assemble"
