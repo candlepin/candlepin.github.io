@@ -30,4 +30,7 @@ We also host the Swagger file and the UI statically on this site:
 | 2.5.7 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.5.7.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.5.7.json){:target="_blank"} |
 | 2.9.17 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.9.17.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.9.17.json){:target="_blank"} |
 | 3.1.16 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-3.1.16.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-3.1.16.json){:target="_blank"} |
+| 4.0.18 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-4.0.18.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-4.0.18.json){:target="_blank"} |
+| 4.1.13 | [swagger.json](https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.1-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.1-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} |
+| 4.2.2 | [swagger.json](https://raw.githubusercontent.com/candlepin/candlepin/master/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/master/api/candlepin-api-spec.yaml){:target="_blank"} |
 |=
