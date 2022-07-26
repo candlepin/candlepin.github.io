@@ -35,6 +35,9 @@
         subs:
           - section: virt_guest_limit_design
           - section: virtualization_host_and_guest_association
+      - section: jobs
+        subs:
+          - section: inactive_consumer_cleanup_job
   - section: user_guide
     subs:
       - section: basic_how_to
