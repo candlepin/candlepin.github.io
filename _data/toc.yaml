@@ -1,6 +1,5 @@
 - subscription-manager:
-  - section: installation
-  - section: testing
+  - section: index
   - section: bugzilla_process
   - section: design_overview
     subs:
