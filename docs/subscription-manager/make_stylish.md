@@ -1,83 +1,34 @@
 ---
-title: Make's 'stylish' Target
+title: make stylish
 ---
 {% include toc.md %}
 
 # make stylish
 
-"stylish" is a target in the python code base Makefiles. It runs a series of
-lints and style checkers.
+## Formatting
 
-Run it or Jenkins will hate you.
+First things first: we are using [black](https://github.com/psf/black) to format the code.
+Install it (either from package manager or via pip) and run it before you make a commit.
+CI is configured to check if the code is formatted correctly and will fail if the formatting differs.
 
-## pyqver
-[pyqver](https://github.com/alikins/pyqver) is a tool that checks python code
-to determine what version of python it needs to run.
-It can tell you what is not backwards compatible to a given python version
+## Linters
 
-We use it in its "lint" mode so that it annotates source code lines that are not compatible
-with python 2.4, the version of python from RHEL5. 
+`make stylish` invokes several programs.
 
-You should install this. 
+- `rpmlint` checks if our `.spec` file is formatted correctly.
+- `flake8` checks all Python files for formatting issues. `black` solves many of them, so you will get list of undefined variables, imported-yet-unused packages or list of lines that are too long.
 
-If you see "pyqver.py: command not found", you need to install this. 
+## pre-commit hook
 
-To install, clone the repo above:
+You can write small bash script that will be invoked every time you make a commit or before you make a push.
 
-```console
-$ git clone https://github.com/alikins/pyqver.git
+Place a file to `.git/hooks/pre-commit` or `.git/hooks/pre-push`:
+
+```bash
+#!/usr/bin/bash
+
+black .
+flake8
 ```
 
-Then copy pyqver2.py somewhere in your $PATH.
-
-"make versionlint" will run it specifically. 
-It is part of "make stylish"
-
-## pep8
-[pep8](https://github.com/jcrocholl/pep8) is the general style guide for python code. See the
-specification [here](http://www.python.org/dev/peps/pep-0008/).
-
-We generally try to adhere to it.
-
-'pep8' the tool, is a lint-like tool that will tell you when and how your code is
-not pep8 compliant
-
-Fedora and EPEL have 'python-pep8' available. Newer versions are available from PyPi or
-from the github repo above.
-
-"make pep8" will run it specifically.
-It is part of "make stylish"
-
-## pyflakes
-[pyflakes](https://pypi.python.org/pypi/pyflakes) is another static analysis
-tool for python.
-
-"make pyflakes" runs it specifically.
-It is part of "make stylish"
-
-## tablint/trailinglint
-This target checks python code for trailing whitespace or the use of tabs.
-
-They are part of "make stylish"
-
-## debuglint
-This target checks python code for debugger invocations ('import pdf; pdb.set_trace()', etc).
-
-It is part of "make stylish"
-
-## find-missing-symbols
-This target tries to verify that any gtk signals that are defined in .glade files are at
-least references from python code.
-
-It is part of "make stylish"
-
-## find-missing-widgets
-This target tries to find any references to gtk widget names as strings, and verify that
-they are defined.
-
-It is part of "make stylish"
-
-## rpmlint
-rpmlint checks the specfile for common errors and mistakes. 
-
-It is part of "make stylish"
+Please note that this will not work for branches that were not formatted with `black`, e.g. all of RHEL 8 and RHEL 9.0 as well (up until subscription-manager-1.29.28).
