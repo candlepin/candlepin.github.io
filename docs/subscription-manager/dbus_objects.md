@@ -1,14 +1,14 @@
 ---
-title: Subscription Manager D-Bus Objects
+title: D-Bus objects
 ---
 {% include toc.md %}
 
-Subscription-manager exposes several DBus objects under the bus name
-`com.redhat.RHSM1`. Subscription-manager expects to attach to the system bus
-although the session bus may be used for smoke testing (with the expectation
-that several calls will not work due to lack of permissions).
+# D-Bus objects
 
-> Note: for array types ("a" followed by another type, for example "as" for string array or "a{sv} for dictionary"), input the number of elements in the array and then the elements in the array. For example, string array ["foo"] would be input as 1 "foo".
+subscription-manager exposes several DBus objects under the bus name
+`com.redhat.RHSM1`. subscription-manager expects to attach to the system bus.
+
+***Note**: for array types ("a" followed by another type, for example "as" for string array or "a{sv} for dictionary"), input the number of elements in the array and then the elements in the array. For example, string array ["foo"] would be input as 1 "foo".*
 
 # Attach
 
@@ -81,7 +81,7 @@ subscription-manager's configuration settings.
   $ busctl call com.redhat.RHSM1 /com/redhat/RHSM1/Config com.redhat.RHSM1.Config Set svs "server.insecure" s "1" ""
   ```
 
-> Note: All methods have at least one string argument. This last string argument can be empty string or it can specify locale. When locale string is set to supported locale, then RHSM service will try to translate some strings and error messages.
+***Note**: All methods have at least one string argument. This last string argument can be empty string or it can specify locale. When locale string is set to supported locale, then RHSM service will try to translate some strings and error messages.*
 
 # Consumer
 

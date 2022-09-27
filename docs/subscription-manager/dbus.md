@@ -7,12 +7,9 @@ title: D-Bus use in Subscription Manager
 
 Subscription Manger creates D-Bus messages when the entitlement status changes.
 
-<br>
-<br>
-
 ## Signals
 
-There are 2 signals that correspond to the messages that are sent:
+There are two signals that correspond to the messages that are sent:
 
 ```python
     @dbus.service.signal(
@@ -20,6 +17,7 @@ There are 2 signals that correspond to the messages that are sent:
         signature='i')
     def entitlement_status_changed(self, status_code):
 ```
+
 ```python
     @dbus.service.signal(dbus_interface=dbus.PROPERTIES_IFACE,
                          signature="sa{sv}as")
@@ -27,21 +25,17 @@ There are 2 signals that correspond to the messages that are sent:
                           invalidated_properties):
 ```
 
-<br>
-<br>
-
 ## Messages
 
-The first contains a code with the status of the machine. It is consumed by the process rhsm_icon. This is the alert bubble that informs the user of the entitlement status. The messages displayed there are keyed from the integer value. Those messages are not specific to actual installed products.
+The first contains a code with the status of the machine. It used to be consumed by the process `rhsm_icon`. The messages displayed there are keyed from the integer value. Those messages are not specific to actual installed products.
 
 The second contains a dictionary that contains 3 parameters: Version, Status, and Entitlements. Version and Status [enum below] have single string values. Entitlements is a dictionary that uses the unique identifier [SKU] of each installed product as a key. The value is a tuple that contains the name of the installed product, a state code [enum below], and the compliance message for the product. All installed products will appear in this data set.
 
-statuses = ["valid", "invalid", "partial", "unknown"]<br>
-states = ["future_subscribed", "subscribed","not_subscribed", "expired", "partially_subscribed"]
+`statuses = ["valid", "invalid", "partial", "unknown"]`
 
-<br>
+`states = ["future_subscribed", "subscribed", "not_subscribed", "expired", "partially_subscribed"]`
 
-#### Output from a D-Bus perspective:
+### Output from a D-Bus perspective:
 
 ```console
 $ dbus-monitor --system --monitor
@@ -85,7 +79,7 @@ signal sender=:1.10 -> dest=(null destination) serial=5 path=/EntitlementStatus;
    ]
 
 ```
-<br>
+
 In a scenario where the machine is unregistered, the output for PropertiesChanged will appear as follows:
 
 ```console
@@ -105,8 +99,6 @@ signal sender=:1.8 -> dest=(null destination) serial=5 path=/EntitlementStatus; 
    ]
 
 ```
-<br>
-<br>
 
 ## On Demand Message Production
 
@@ -118,7 +110,7 @@ There is a means to 'poke' the rhsm daemon to make it produce the first message 
         out_signature='i')
     def check_status(self):
 ```
-<br>
+
 Entitlement Status employs the standard Properties interface methods:
 
 ```python
@@ -130,5 +122,5 @@ Entitlement Status employs the standard Properties interface methods:
                          in_signature="s", out_signature="a{sv}")
     def GetAll(self, interface_name):
 ```
-<br>
+
 As the available information is read-only, no other access retrictions have been implemented. If the capabilities are expanded in the future to include system manipulation, then access control will be added.

@@ -1,8 +1,8 @@
 ---
-title: Design Overview
+title: Design overview
 ---
 
-# Design Overview
+# Design overview
 
 subscription-manager is a CLI tool, a DBus server, and a DNF plugin.
 

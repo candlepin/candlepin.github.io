@@ -1,5 +1,5 @@
 ---
-title: Tips for DBus Development
+title: Tips for D-Bus Development
 ---
 {% include toc.md %}
 
