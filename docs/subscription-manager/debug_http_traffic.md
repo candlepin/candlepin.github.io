@@ -1,11 +1,9 @@
 ---
-title: Debugging of HTTP traffic
+title: Network traffic debugging
 ---
 {% include toc.md %}
 
-
-Introduction
-============
+# Network traffic debugging
 
 You can watch network communication between RHSM clients (subscription-manager, rhsm.service, virt-who, etc.) and the Candlepin server in several ways:
 
