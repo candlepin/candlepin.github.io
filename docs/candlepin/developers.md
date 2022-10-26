@@ -10,7 +10,7 @@ Our canonical reference for code style is the `config/checkstyle/checkstyle.xml`
 which stores all the Checkstyle configuration.
 
 ### Checkstyle
-* See instructions [here](checkstyle.html). 
+* See instructions [here](checkstyle.html).
 
 Also see the [Java Coding Conventions](java_coding_conventions.html)
 
@@ -27,37 +27,126 @@ the "\*" is on the right line, and feed in arguments to indent as appropriate.
 # Committing Code Changes
 
 ## Commit Messages
-General commit messages should follow the following format:
+When writing commit messages, the goal is to have a summary that describes the changes as a whole, and details
+including specifics about the change.
 
-```text
-A short one line description of what you did.
+The first line of a commit message is used as the title for many things, including both our build changelogs
+and the default PR title. Commit titles are limited to 70 characters and will be automatically truncated or
+word-wrapped by tooling the processes commit messages.
 
-Then a newline, and optionally provide any extra information here.
-```
+For commits originating from publicly viewable tasks (only Bugzilla as of October, 2022), the beginning of the
+commit title should be the ID of that task followed by a colon. When Jira becomes publicly accessible, the
+Jira task ID should be included as well.
 
-When committing a bug fix from bugzilla (BZ), the following format should be used:
+The body of the commit message should consist of one or more bulleted items indicating specifics about the
+change, such that a reader unfamiliar with the specifics of the change can get a rough understanding of the
+change and developer intent without needing to look at the code. Each line of the body should also try to stay
+within the 70 characters limit.
 
-```text
-\<Bug Number\>: Short one line description of what was done.
-
-Then optionally a newline and other information.
-```
-
-For example:
-
-```text
-712415: Make the names consistent between list --installed and list --consumed
-```
-
-We use these for changelogs when tagging builds. It may seem pedantic but when
-you need to process a few hundred lines it's very helpful if they're typo free,
-changelog friendly, and have the bz's automatically detected.
+Commit messages are used for generating changelogs when tagging builds. It may seem pedantic but when you need
+to process a few hundred lines it's very helpful if they're typo free, changelog friendly, and have the
+originating task automatically detected.
 
 A general git guide can be found [here](https://fedorahosted.org/spacewalk/wiki/GitGuide).
 
-## Important Notes
- * Please be sure that when committing code, you have your git author info set up correctly, and that you are working as the correct user.
- * Take a few seconds before committing to ensure that your commit messages follow the correct format, and are typos free.
+### Commit message format
+```text
+[{task_identifier}:] commit title & summary of changes (70 char limit)
+- bulleted list of specific changes
+- change two
+- change three
+```
+
+Where `task_identifier` is the Bugzilla ID or Jira ID as appropriate.
+
+### Examples
+```text
+Added same-ID entity version collision resolution
+
+  - The versioned entity update logic will now clear the entity
+    version for an existing entity on collision when the colliding
+    entities have the same entity ID
+```
+
+```text
+Added support for the device_auth capability and status
+
+  - Added support for the device_auth capability
+  - Added new fields to the status DTO for indicating OAuth2
+    device auth details (realm, url, client_id, and scope)
+  - Updated keycloak flows to also populate the device auth
+    fields and capabilities
+```
+
+```text
+2075587: Fixed attribute storage issue causing version collisions
+
+  - Fixed a bug with null-versioned product attributes causing
+    version collisions due to being used in the version calculation
+    before being silently discarded during entity persistence
+  - Null-valued attributes are now silently discarded at the API
+    layer to retain the current behavior
+  - Product entities will no longer accept null values for product
+    attributes, as Hibernate throws them out anyway
+```
+
+### Important Notes
+ * Please be sure that when committing code, you have your git author info set up correctly, and that you are
+   working as the correct user.
+ * Take a few seconds before committing to ensure that your commit messages follow the correct format, and are
+   typos free.
+
+## Pull/Merge Request Messaging
+Pull-request (PR) titles should generally use the commit title for PRs containing only a single commit,
+but with the additional fields. In the case of a PR containing multiple commits, the PR title should be
+updated to encapsulate the entirety of the work or changes made by all of the commits.
+
+Additionally, indicating the intended branch in the PR title helps readers quickly identify the context of the
+changes, and confirms that the target branch matches the author’s intent. This is not strictly required, but
+can be helpful to reviewers.
+
+For complicated PRs or changes that involve complicated manual testing steps, the author should add a comment
+which includes information needed to perform manual testing and/or verification steps, as well as any other
+additional information needed to properly contextualize the changes contained in the PR.
+
+### Pull Request Title Formatting
+#### General Format
+`[{branch_code}] {task_id}: {pr_title}`
+
+#### When both BZ and Jira are present
+`[{branch_code}] {bugzilla_id}: {pr_title} ({jira_id})`
+
+Where:
+ * **branch_code**<br/>
+   Version of the target branch (3.2, 4.0, 4.1, ‘M’ for master, or feature name for feature branches’)
+ * **task_identifier**<br/>
+   The Jira or Bugzilla ID of the task associated with the change (ENT-1234, or 12345678)
+ * **pr_title**<br/>
+   The title of the PR; should usually match the commit summary 1:1 unless the PR contains multiple commits,
+   in which case it should be a summary of all changes
+ * **bugzilla_id**<br/>
+   The ID of the Bugzilla issue associated with the change (12345678); may not be present if the change does
+   not originate from a reported issue via Bugzilla
+ * **jira_id**<br/>
+   The ID of the Jira task associated with the change (ENT-1234); should always be available
+
+### Examples
+#### Titles
+ * [M] ENT-1234: Updated code to not fail when it should work
+ * [4.1] 12345678: Fixed endpoint returning 500 when it shouldn’t (ENT-5678)
+ * ENT-4096: Added new utility to do a thing
+
+#### Example PRs
+ * Single-commit PR with simple change:<br/>
+   <https://github.com/candlepin/candlepin/pull/3585>
+
+ * Single-commit PR with a complex change:<br/>
+   <https://github.com/candlepin/candlepin/pull/3623>
+
+ * Multi-commit, prototype PR:<br/>
+   <https://github.com/candlepin/candlepin/pull/3616>
+
+
 
 # Testing
 Testing is extremely important for the team. We have a variety of test suites

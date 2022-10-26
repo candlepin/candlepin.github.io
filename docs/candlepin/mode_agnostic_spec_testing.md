@@ -1,3 +1,6 @@
+TODO: Update this document to reflect testing methodologies and instructions that are used with the modern
+spec testing platform and Candlepin 4.0+ deployment.
+
 ---
 title: Mode agnostic spec testing
 ---
