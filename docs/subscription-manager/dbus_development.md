@@ -1,5 +1,5 @@
 ---
-title: Tips for D-Bus Development
+title: D-Bus Development Notes and Tips
 ---
 {% include toc.md %}
 
@@ -21,6 +21,24 @@ that reports on a consumer's installed products.  We would need to edit
 ```
 
 under the default context policy element.
+
+## Local development
+
+You may want to develop subscription-manager without having its RPMs installed.
+
+For D-Bus development, you have to copy the two mentioned `.conf` files to
+`/etc/dbus-1/system.d/`. After adding or editing them, you have to tell D-Bus
+to reload the configuration for the changes to take effect:
+
+```console
+$ sudo systemctl reload dbus
+```
+
+Then you can start the server by running
+
+```console
+$ sudo PYTHONPATH=src/ python3 -m subscription_manager.scripts.rhsm_service --verbose
+```
 
 # Smoke Testing
 
