@@ -37,7 +37,15 @@
           - section: virtualization_host_and_guest_association
       - section: jobs
         subs:
+          - section: active_entitlement_job
+          - section: certificate_cleanup_job
+          - section: import_record_cleaner_job
           - section: inactive_consumer_cleanup_job
+          - section: job_cleaner_job
+          - section: manifest_cleaner_job
+          - section: orphan_cleanup_job
+          - section: unmapped_guest_entitlement_cleaner_job
+
   - section: user_guide
     subs:
       - section: basic_how_to
