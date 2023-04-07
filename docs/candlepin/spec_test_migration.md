@@ -6,9 +6,9 @@ title: Spec test migration
 ## Migration <TDLR>
 * Effective immediately (11th March 2016), the spec tests in `server/spec` are being moved to `server/old_spec` and the supporting ruby client `server/client/ruby/candlepin_api.rb` is being replaced by `server/client/ruby/candlepin.rb`.
 
-* The rest client refactor is complete and has been merged into master, but the spec tests refactor is in progress and is being worked in the branch `awood/spec-refactor`
+* The rest client refactor is complete and has been merged into main, but the spec tests refactor is in progress and is being worked in the branch `awood/spec-refactor`
 
-* Once that branch is merged to master ( TODO: update this doc then ), the existing spec tests and ruby client will be  deprecated.
+* Once that branch is merged to main ( TODO: update this doc then ), the existing spec tests and ruby client will be  deprecated.
 
 * After that merge, Any new tests should be added only to `server/spec`.
 

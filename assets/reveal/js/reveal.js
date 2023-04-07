@@ -1904,7 +1904,7 @@
 	 * @param {int} v Vertical index of the target slide
 	 * @param {int} f Optional index of a fragment within the
 	 * target slide to activate
-	 * @param {int} o Optional origin for use in multimaster environments
+	 * @param {int} o Optional origin for use in multi environments
 	 */
 	function slide( h, v, f, o ) {
 
@@ -2175,7 +2175,7 @@
 				element.classList.remove( 'present' );
 				element.classList.remove( 'future' );
 
-				// http://www.w3.org/html/wg/drafts/html/master/editing.html#the-hidden-attribute
+				// https://html.spec.whatwg.org/multipage/interaction.html#the-hidden-attribute
 				element.setAttribute( 'hidden', '' );
 				element.setAttribute( 'aria-hidden', 'true' );
 

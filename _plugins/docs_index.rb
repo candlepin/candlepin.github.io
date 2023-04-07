@@ -18,7 +18,7 @@ module Jekyll
   class IndexGenerator < Generator
     include LogCapable
 
-    # Adds titles of pages to Master Table of Contents.
+    # Adds titles of pages to Main Table of Contents.
     # When a page info is extracted from project_pages hash,
     # the page is removed from project_pages. This way we can track
     # uncategorized pages
@@ -27,7 +27,7 @@ module Jekyll
         section_name = s['section']
         page = project_pages.delete(section_name)
         if page.nil?
-          logger.abort_with("FATAL:", "Page '#{section_name}.md' that is defined in Master Table of Contents wasn't found!")
+          logger.abort_with("FATAL:", "Page '#{section_name}.md' that is defined in Main Table of Contents wasn't found!")
         end
 
         s['section-title'] = page[:title]

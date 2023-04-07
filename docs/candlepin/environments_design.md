@@ -36,7 +36,7 @@ rectify the problem.
 
 ## Assumptions
 1. Moving a consumer to a new environment is not currently supported and will be dealt with when the time comes.
-1. If an arch is blacklisted and thus not prompted to an environment, any system which tries to use content for that arch will end up with yum breaking.
+1. If an arch is blocklisted and thus not prompted to an environment, any system which tries to use content for that arch will end up with yum breaking.
 1. We will allow entitlements to be granted (for now) even if none of their content has been promoted to the consumer's environment. The result will be an entitlement cert with no content sets.
 1. For now, subscriptions will be available in any environment, even if none of their content has been promoted to that environment. This will be dealt with separately.
 

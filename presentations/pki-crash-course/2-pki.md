@@ -376,8 +376,8 @@ plain vanilla certificate identifying a server.
 /etc/pki/ca-trust/source/anchors/cert/fedora-server-ca.cert
   % update-ca-trust extract
   ```
-- You can also blacklist certificates by placing them in
-  `/etc/pki/ca-trust/source/blacklist`
+- You can also blocklist certificates by placing them in
+  `/etc/pki/ca-trust/source/blocklist`
 
 Note:
 A Fedora system has a CA bundle (based on the Mozilla database of CAs)

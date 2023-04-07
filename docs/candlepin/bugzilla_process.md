@@ -11,7 +11,7 @@ title: Bugzilla process
 * All pull requests against a bug filed in bugzilla must have a commit message of the format "BUGID: Description"
  * Once the developer is done working and has submitted a pull request for the same, the developer adds a github tracker on the bug to link the pull request ( format: candlepin/candlepin/pull/PR_NUMBER ), and changes the state of the bug to `POST`
  * Before the reviewer starts to review the pull request, the reviewer assigns the pull request to self, and adds the `Needs Second Review` label if necessary.
- * After the pull request is merged to master,
+ * After the pull request is merged to main,
    * the reviewer deletes the branch used for the PR.
    * the reviewer changes the state of the Candlepin project bug to `MODIFIED`.
    * the reviewer changes the state of the downstream bug ( if any ) to `POST`.
