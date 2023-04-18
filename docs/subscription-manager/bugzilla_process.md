@@ -14,7 +14,7 @@ title: Bugzilla process
    * The developer adds a github tracker on the bug to link the pull request ( format: candlepin/candlepin/pull/PR_NUMBER ).
    * The developer changes the state of the bug to `POST`
  * Before the reviewer starts to review the pull request, the reviewer assigns the pull request to self, and adds the `Needs Second Review` label if necessary.
- * After the pull request is merged to master,
+ * After the pull request is merged to main,
    * the reviewer deletes the branch used for the PR.
    * the reviewer changes the state of the bug to `MODIFIED`.
    * the author of the pull request deletes the branch used for the PR if the reviewer missed it.

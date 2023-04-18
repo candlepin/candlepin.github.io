@@ -28,7 +28,7 @@ the snapshots and cause the verification to generate false positives.
 ### Taking a Snapshot
 Taking a snapshot is as simple as providing the ```snapshot``` command:
 
-```~/devel/candlepin/server(master) $ ./bin/cmv snapshot```
+```~/devel/candlepin/server(main) $ ./bin/cmv snapshot```
 
 cmv will begin pulling information for each registered organization, generating the following
 output for each:
@@ -45,7 +45,7 @@ By default, the snapshot data will be saved to "snapshot.zip", though this can b
 ```--file [FILE]``` option. Additionally, if only specific organizations are of interest, they may
 be specified after the command:
 
-```~/devel/candlepin/server(master) $ ./bin/cmv --file donaldduck.zip snapshot donaldduck```
+```~/devel/candlepin/server(main) $ ./bin/cmv --file donaldduck.zip snapshot donaldduck```
 
 
 
@@ -75,7 +75,7 @@ Actual:   2015-06-08T16:12:24.827+0000
 As with the ```snapshot``` command, the snapshot file used for verification can be specified with
 the ```--file [FILE]``` option, and specific organizations may be provided:
 
-```~/devel/candlepin/server(master) $ ./bin/cmv --file donaldduck.zip verify donaldduck```
+```~/devel/candlepin/server(main) $ ./bin/cmv --file donaldduck.zip verify donaldduck```
 
 
 

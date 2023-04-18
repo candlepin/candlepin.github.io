@@ -118,7 +118,7 @@ additional information needed to properly contextualize the changes contained in
 
 Where:
  * **branch_code**<br/>
-   Version of the target branch (3.2, 4.0, 4.1, ‘M’ for master, or feature name for feature branches’)
+   Version of the target branch (3.2, 4.0, 4.1, ‘M’ for main, or feature name for feature branches’)
  * **task_identifier**<br/>
    The Jira or Bugzilla ID of the task associated with the change (ENT-1234, or 12345678)
  * **pr_title**<br/>

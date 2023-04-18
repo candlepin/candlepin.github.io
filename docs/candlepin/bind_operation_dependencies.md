@@ -5,9 +5,9 @@ title: Bind Operation Dependencies
 
 ## Bind time operation dependencies
 
- * Source: <a download="master_bind_dependencies_2.0.29.graphml" href="{{ site.baseurl }}/yed_artifacts/master_bind_dependencies_2.0.29.graphml" title="master_bind_dependencies_src">master_bind_dependencies_2.0.29.graphml</a>
+ * Source: <a download="main_bind_dependencies_2.0.29.graphml" href="{{ site.baseurl }}/yed_artifacts/main_bind_dependencies_2.0.29.graphml" title="main_bind_dependencies_src">main_bind_dependencies_2.0.29.graphml</a>
  * Note: This document is true as of version 2.0.29
-![]({{ site.baseurl }}/images/master_bind_dependencies_2.0.29.jpg){:.center-block}
+![]({{ site.baseurl }}/images/main_bind_dependencies_2.0.29.jpg){:.center-block}
 
 ## Dependencies Description
  * ONE: We need to to lock pools before the entitlements are persisted as they hold references to the pools.

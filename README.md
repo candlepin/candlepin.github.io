@@ -1,4 +1,4 @@
-![Build Status](https://github.com/candlepin/candlepinproject.org/actions/workflows/jekyll.yml/badge.svg?branch=master)
+![Build Status](https://github.com/candlepin/candlepinproject.org/actions/workflows/jekyll.yml/badge.svg?branch=main)
 
 # Getting Started
 ## Container Development (Easy Mode)
@@ -85,7 +85,7 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
 # Deployment
 1. Submit your changes as a PR.  The GitHub Actions continuous integration hook
    will run automatically.  If the build fails, correct it.  Otherwise, when the
-   PR is merged into master, a webhook will inform Openshift and Openshift will
+   PR is merged into main, a webhook will inform Openshift and Openshift will
    rebuild and deploy the application.  Just for reference, the webhook URL can
    be found in the Openshift console by going to the "Configuration" tab for a
    BuildConfig.  The secret to use can be found under the "triggers" section if

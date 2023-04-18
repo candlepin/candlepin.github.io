@@ -68,7 +68,7 @@ The server/client/ruby/hostedtest_api.rb utility has the following methods to he
   * if we are in hosted mode, ensures the hosted test resource is available, else throws a useful error message
 * create_pool_and_subscription:
   * create upstream subscription and refresh pools if running in hosted mode, create pool directly otherwise.
-  * always returns the master pool created.
+  * always returns the primary pool created.
 * delete_pool_and_subscription:
   * if we are running in hosted mode, delete the upstream subscription and refresh pools, otherwise simply delete the pool
 * refresh_upstream_subscription:

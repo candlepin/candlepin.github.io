@@ -49,7 +49,7 @@ After restart of Candlepin any client can connect and listen to the messages in 
 # SSL
 In Artemis, Netty is responsible for all things related to the transport layer, so it handles [SSL](https://activemq.apache.org/components/artemis/migration-documentation/ssl.html) as well. All configuration options are set directly on the acceptor.
 
-Note: the trustStorePath and trustStorePassword variables are optional, in case you want to enable 2-way SSL authentication as described [here](https://github.com/apache/activemq-artemis/tree/master/examples/features/standard/ssl-enabled-dual-authentication).
+Note: the trustStorePath and trustStorePassword variables are optional, in case you want to enable 2-way SSL authentication as described [here](https://github.com/apache/activemq-artemis/tree/main/examples/features/standard/ssl-enabled-dual-authentication).
 
 On the broker, the `artemis-server.ks` file is the key store file holding the server's certificate, while `artemis-server.ts` file is the file holding the certificates which the broker trusts:
 ```xml
