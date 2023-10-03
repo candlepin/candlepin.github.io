@@ -1,25 +1,21 @@
-FROM centos/ruby-27-centos7
+FROM ruby:2.7-slim-bullseye
 
-LABEL name="candlepin/website-ruby-27" \
-      maintainer="Alex Wood <awood@redhat.com>"
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    graphviz \
+    plantuml \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
 
-USER root
+COPY Gemfile* .
+RUN bundle install && \
+    rm -rf Gemfile*
 
-RUN yum install -y --setopt=tsflags=nodocs java-1.8.0-openjdk-devel graphviz python3 && \
-    yum clean all -y
+EXPOSE 4000
 
-# Keep this value up to date with the BUNDLED WITH version in Gemfile.lock
-RUN gem install bundler:2.3.10
+WORKDIR /site
 
-COPY ./.s2i/lib/plantuml.jar /usr/share/java/plantuml.jar
-COPY ./.s2i/lib/plantuml /usr/bin/plantuml
-RUN chmod 755 /usr/bin/plantuml
+ENTRYPOINT [ "jekyll" ]
 
-COPY ./.s2i/bin/ $STI_SCRIPTS_PATH
-
-# Drop the root user and make the content of /opt/app-root owned by user 1001
-RUN chown -R 1001:0 ${APP_ROOT} && chmod -R ug+rwx ${APP_ROOT} && \
-    rpm-file-permissions
-
-USER 1001
-
+CMD [ "--help" ]
