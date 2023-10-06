@@ -59,4 +59,4 @@ should never ignore these if the appear on a site that you don't have control ov
 # Questions ?
 
 Suggestions and corrections: <!-- .element class="caption" -->
-https://github.com/candlepin/candlepinproject.org/issues
+https://github.com/candlepin/candlepin.github.io/issues

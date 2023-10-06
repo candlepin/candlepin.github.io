@@ -1,20 +1,17 @@
-![Build Status](https://github.com/candlepin/candlepinproject.org/actions/workflows/jekyll.yml/badge.svg?branch=main)
+![Build Status](https://github.com/candlepin/candlepin.github.io/actions/workflows/jekyll.yml/badge.svg?branch=main)
 
 # Getting Started
 ## Container Development (Easy Mode)
-1. Build the `Dockerfile` and `Dockerfile.dev` images.  You can also pull
-   the `candlepin/website-ruby-27` from Docker Hub.
+1. Build the `Dockerfile` image.
    ```
-   $ podman build -t candlepin/website-ruby-27 -f Dockerfile
-   $ podman build -t site-test -f Dockerfile.dev
+   $ podman build -t candlepin/jekyll -f Dockerfile
    ```
-1. Run the `site-test` image with the site source mounted into it.  The `:z`
-   tells Podman to set the SELinux context on the volume.
+1. Run the `candlepin/jekyll` image with the site source mounted into it. Image can be used to build the site or test it via serve.
    ```
-   $ podman run -v .:/site:z -p 4000:4000 --rm site-test
+   $ podman run -p 4000:4000 -v "$(pwd)":/site candlepin/jekyll serve --livereload --force_polling -H "0.0.0.0" -P 4000
    ```
 1. You should only need to rebuild the images if something in the site software
-   stack changes: e.g. new dependencies, library updates, etc.
+   stack changes: e.g. new gems.
 
 ## Local Development (Hard Mode)
 1. `yum install python-pygments gcc ruby-devel libxml2 libxml2-devel libxslt libxslt-devel plantuml graphviz`
@@ -85,16 +82,10 @@ heirarchy, Jekyll will issue a warning when it is rendering the site.
 # Deployment
 1. Submit your changes as a PR.  The GitHub Actions continuous integration hook
    will run automatically.  If the build fails, correct it.  Otherwise, when the
-   PR is merged into main, a webhook will inform Openshift and Openshift will
-   rebuild and deploy the application.  Just for reference, the webhook URL can
-   be found in the Openshift console by going to the "Configuration" tab for a
-   BuildConfig.  The secret to use can be found under the "triggers" section if
-   you select "Edit YAML" under "Actions" for a BuildConfig.
-1. The OpenShift console link can be determined by looking at the Github
-   Webhooks for the project.  Go to "Settings", "Webhooks" and open the webhook
-   that deploys to OpenShift.  Take the "payload URL" host and append change the
-   "api" subdomain to "console".
-1. The CI settings are in `.github/workflows/jekyll.yml`
+   PR is merged into main, a second workflow will run and deploy the site to 
+   the Github Pages.
+1. The CI settings are in `.github/workflows`. `pr_verification.yml` handles 
+   pull requests and `deploy.yml` handles deployment.
 1. If you need to work more extensively with the CI, the GitHub actions are
    [documented exceptionally well](https://docs.github.com/en/actions)
 
@@ -173,90 +164,11 @@ print "Hello World"
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
   ```
 
-# Openshift Setup
-To interact with Openshift, you will need to install the command line client
-`oc`.  It is available in DNF as a package named `origin-clients` but as a
-fairly old version.  Instead I grabed it from the
-[documenation](https://docs.openshift.com/enterprise/3.0/cli_reference/get_started_cli.html)
-which has a download link that will require you to log in to the Red Hat portal.
-Once you have the file, unzip it and place the `oc` file in a directory on your
-path.  I have a directory `~/bin` that is on my path, so that was the most
-convenient place for me.
-
-Next you will need to authenticate.  Run `oc login` and follow the prompts.
-
-Due to our use of PlantUML (which requires Java), we cannot use one of the stock
-build images provided by Openshift since the stock containers just provide
-one language stack each.  We have to build our own image which is defined in
-`Dockerfile` and references other files under `.s2i`.  If you find yourself
-needing to modify the build image, you will need to install both Docker and the
-[`s2i` tool](https://github.com/openshift/source-to-image).  Like `oc`, `s2i` is
-a statically linked binary, so you'll need to download the appropriate tarball
-for your architecture and then place `s2i` in a directory on your path.
-
-If you make changes to the Dockerfile, you should test them first.
-
-* Build the image with `podman build -t candlepin/website-ruby-27 -f Dockerfile`
-* Run `s2i build --exclude="" . candlepin/website-ruby-27
-  --as-dockerfile websiteDockerfile`.
-  That will generate a Dockerfile using custom scripts inserted into
-  `website-ruby-27` from the `.s2i/bin` directory.
-* Rebuild using the generated Dockerfile: `podman build -t website -f
-  websiteDockerfile`.  This will run the `.s2i/bin/assemble` script and build a
-  container with the site processed through Jekyll.
-* Note that if you make changes to the `assemble` or `run` scripts, you need to
-  commit those to git before running `s2i`.  Otherwise, the changes will not be
-  picked up!
-* `rm websiteDockerfile && rm -rf upload/`
-* Test everything by starting a container using `podman run -p 8088:8080 --rm
-  -ti website` and browsing the site at http://localhost:8088.  (Note, I
-  surfaced the container's port 8080 as 8088 since Tomcat normally uses 8080 but
-  you can use whatever port you like).
-* Hit CTRL-C to stop the container (and the `--rm` argument will remove the
-  container immediately).
-
-If your changes work, you'll need to propagate them.
-
-* You will need to push the image to Docker Hub using an account affiliated with
-  the Candlepin organization.  See Al for assistance.
-* `podman tag candlepin/website-ruby-27:latest docker.io/candlepin/website-ruby-27:latest`
-* Replace `your:creds` with the account credentials and run
-  `podman push --creds your:creds --format=docker docker.io/candlepin/website-ruby-27:latest`
-
-Openshift should be configured to watch that image repository and rebuild
-everything when it detects a change to the image.  If it does not, you can run
-`oc tag docker.io/candlepin/website-ruby-27:latest website-ruby-27:latest
---scheduled=true`
-
-If you are starting with a brand new project or a brand new container tag,
-you'll need to import the image initially using `oc import-image
---from='docker.io/candlepin/website-ruby-27' --confirm
-candlepin/website-ruby-27:latest`  (Replace website-ruby-27 with whatever your
-new tag is).
-
-Then create your application with `oc new-app candlepin/website-ruby-27~https://github.com/candlepin/candlepinproject.org` or you can use the web console if you want.
-
-# Environment Variables and Build and Run Processes
-Any environment variables that we need to define (such as the BUNDLE_WITHOUT
-variable to exclude gems from a group in the Gemfile) are defined in
-`.s2i/environment`.  If you ever need to change that then you will need to
-rebuild the build image as described above.
-
-Any changes to the site building process (e.g. some pre-processing step needs to
-be run before `jekyll build`) or run process (e.g. additional arguments given to
-Puma) would be made in `.s2i/bin/assemble` and `.s2i/bin/run` respectively.
-Again, you would need to rebuild the build image and push it to Docker Hub.
-
 # Continuous Integration
 The GitHub Actions CI workflow we use is based on a default Jekyll building
 workflow defined
-[here](https://github.com/actions/starter-workflows/blob/main/ci/jekyll.yml).
-Ours is slightly different due to our use of s2i.  Our s2i's `assemble` script
-expects the site source to be in `/tmp/src` so we bind mount the git checkout
-into that directory.  The build is performed with the candlepin/website-ruby-27
-container that we maintain and we do a shell trick with chmod to get the
-permissions on the bind mount correct.  After that, we just invoke the
-`assemble` script ourselves.
+[here](https://github.com/actions/starter-workflows/blob/main/pages/jekyll-gh-pages.yml).
+Ours is slightly different due to additional dependencies such as plantuml.
 
 # References
 * We use RVM to manage Ruby versions and gemsets.  See
