@@ -1,4 +1,4 @@
-![Build Status](https://github.com/candlepin/candlepin.github.io/actions/workflows/jekyll.yml/badge.svg?branch=main)
+![Build Status](https://github.com/candlepin/candlepin.github.io/actions/workflows/deploy.yml/badge.svg?branch=main)
 
 # Getting Started
 ## Container Development (Easy Mode)
