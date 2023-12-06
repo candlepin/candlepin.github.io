@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Update package info
+        run: sudo apt-get update -y
+
       - name: Install plantuml
         run: sudo apt-get install -y plantuml
 
