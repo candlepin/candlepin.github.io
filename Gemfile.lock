@@ -58,7 +58,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rchardet (1.8.0)
-    rexml (3.3.2)
+    rexml (3.3.3)
       strscan
     rouge (3.26.0)
     rubypants (0.7.1)
