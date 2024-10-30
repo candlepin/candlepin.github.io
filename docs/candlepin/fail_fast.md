@@ -12,7 +12,7 @@ Fail Fast mechanism is a set of defensive measures that Candlepin automatically 
 Fail Fast mechanism currently defends against problems with Qpid Broker. It uses feature called Suspend Mode to temporarily stop Candlepin's operations.
 
 ## Suspend Mode
-Candlepin can operate in two modes: NORMAL mode and SUSPEND mode. The NORMAL corresponds to standard Candlepin operation. SUSPEND mode is a state in which Candlepin stops responding to most of the requests. When in SUSPEND mode, Candlepin will return HTTP code 503. Also, all the scheduled jobs are suspended. The only available resoruce is `/status` endpoint. Thus, when in SUSPEND mode, clients cannot use Candlepin. The current mode of Candlepin can be discovered using `/status` endpoint. It is recommended that this endpoint is used for polling the Candlepin mode.
+Candlepin can operate in two modes: NORMAL mode and SUSPEND mode. The NORMAL corresponds to standard Candlepin operation. SUSPEND mode is a state in which Candlepin stops responding to most of the requests. When in SUSPEND mode, Candlepin will return HTTP code 503. Also, all the scheduled jobs are suspended. The only available resource is `/status` endpoint. Thus, when in SUSPEND mode, clients cannot use Candlepin. The current mode of Candlepin can be discovered using `/status` endpoint. It is recommended that this endpoint is used for polling the Candlepin mode.
 
 The feature is enabled by default and can be controlled using config property `candlepin.suspend_mode_enabled`
 
@@ -55,4 +55,4 @@ The spec tests assume existence of special queue. To create it, it is necessary 
 Qpid Management Framework is proprietary Qpid, message base, protocol. It is used to manage Qpid Broker and also to retrieve information about the broker. Candlepin uses QMF (implementation in `QpidQmf.java`) in order to figure out whether an exchange is flow stopped.
 
 ### Startup Check
-At the startup of Candlepin, Qpid QMF is used to check for the connectivity to the broker. If it is not CONNECTED, then Candlepin immediatelly fails and stops the startup. This behavior can be controlled by property `candlepin.amqp.qmf.startup_check_enabled`
+At the startup of Candlepin, Qpid QMF is used to check for the connectivity to the broker. If it is not CONNECTED, then Candlepin immediately fails and stops the startup. This behavior can be controlled by property `candlepin.amqp.qmf.startup_check_enabled`

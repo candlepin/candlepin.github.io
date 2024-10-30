@@ -133,7 +133,7 @@ Please add your questions and comments to the bottom with your username.
      it to be able to talk to _all_ versions. Candlepin, on the other hand, would need to speak to all versions of python-rhsm.
    * zeus: +1 new versions know how to talk to their version of candlepin. But the server needs to speak all versions (up to a point).
  * dgoodwin: What constitutes a new *version* of the API? Any behavioral change? Any release? Any major release?
-   * jbowes: if we can support minor api rev bumps that are backwards compatible (ie adding a new field onto a json struture makes the api 1.1, but 1.0 clients can still speak to it), then I'd 
+   * jbowes: if we can support minor api rev bumps that are backwards compatible (ie adding a new field onto a json structure makes the api 1.1, but 1.0 clients can still speak to it), then I'd 
      bump for any new feature. for major api revs, we'd bump whenever we have to make a change that old clients couldn't understand, for example a new certificate format.
  * dgoodwin: How do we maintain test coverage across all versions?
    * zeus: from a spec test perspective, this will involve adding NEW tests when we bump versions for an api method

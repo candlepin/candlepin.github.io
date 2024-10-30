@@ -89,7 +89,7 @@ In Candlepin, we mainly cache `Product`/`Content` entities and all the collectio
 Very simplified view of when Hibernate uses 2LC can be summarized as follows:
 
  * When entity is looked up by its `Id` column
- * When entity is defiend as ManyToOne attribute and isn't referenced in the query (when the attribute is referenced in the query, Hibernate will usually issue a Sql Join to load the attribute value)
+ * When entity is defined as ManyToOne attribute and isn't referenced in the query (when the attribute is referenced in the query, Hibernate will usually issue a Sql Join to load the attribute value)
  * When persistent collection is cached (`Cache` annotation on the collection), the entities in that collection will be loaded from 2LC
  * A query is cached and the results are cached entities - this is quite obvious
  * When using old Hibernate Criteria - this is a bit odd, but when using old Hibernate Criteria, Hibernate is sometimes less proactive doing Sql Joins and instead it is loading associated relationship using separate selects. Which means you may get more cache hits
@@ -149,7 +149,7 @@ Even though `Product` is not taken from cache here, we are still getting benefit
  * Query for `OwnerProduct` entity and set `OwnerProduct.product` as EAGER with Fetch style SELECT
  * Query for `OwnerProduct` entity and then manually query for `Product` using its UUID
 
-Lets discuss the first option. Becuase we set `OwnerProduct.product` to LAZY, Hibernate is not going to join when we execute the query. Then, because `OwnerProduct.product` is a relationship that retrieves just one Product, Hibernate will utilize 2LC. The code might look like this:
+Lets discuss the first option. Because we set `OwnerProduct.product` to LAZY, Hibernate is not going to join when we execute the query. Then, because `OwnerProduct.product` is a relationship that retrieves just one Product, Hibernate will utilize 2LC. The code might look like this:
 
 ```
     public Product getProductByIdJpql(String ownerId, String productId) {

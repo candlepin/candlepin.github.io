@@ -282,7 +282,7 @@ adjusting quantity to consume, starting at the minimum increment, up to max
 available, until the stack is compliant.  return a map of pool id to pool
 quantity for candlepin to interpret.
 
-### Accomodating Guests
+### Accommodating Guests
 When a guest attempts to Auto Attach, the host will first attempt to Auto Attach, with some significant changes:
 
 1. The host will be handed the guests list of installed products, and attempt to Auto Attach with these
@@ -303,7 +303,7 @@ Caveats:
 
   1. The quantity the guest will need is not considered, we only attempt to get
      a pool available. Usually the guest just needs one. But with issues like
-     one sub-pool per stack, trying to add more entitlements becomes noticably
+     one sub-pool per stack, trying to add more entitlements becomes noticeably
      more difficult.
 
 

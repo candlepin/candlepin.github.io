@@ -29,7 +29,7 @@ Entitlement Pool
 You will also see the other terms used throughout the wiki
 
 Entitlement Certificate
-: By default, an x.509 certficate which represents you right to consume a subscription. This certificate can be used to access software.
+: By default, an x.509 certificate which represents you right to consume a subscription. This certificate can be used to access software.
 
 Identity Certificate
 : By default, an x.509 certificate which unique identifies a single consumer.

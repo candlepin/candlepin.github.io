@@ -4,7 +4,7 @@ title: Configuring A Remote Artemis Server
 {% include toc.md %}
 
 # Configuring A Remote Artemis Server
-By default, candlepin runs with an embedded Artemis server. Candlepin does however support running against a remote Artemis server. The following guide will walk you through installing a remote Artemis server with basic configuration. Because candlepin relys on very specific queues and addresses, it is not advised to mess with these configuration settings.
+By default, candlepin runs with an embedded Artemis server. Candlepin does however support running against a remote Artemis server. The following guide will walk you through installing a remote Artemis server with basic configuration. Because candlepin relies on very specific queues and addresses, it is not advised to mess with these configuration settings.
 
 ## Installing Artemis
 First, stop tomcat so that the embedded Artemis instance is shut down to avoid port conflicts.
@@ -52,7 +52,7 @@ sudo useradd artemis --home /var/lib/artemis
 sudo chown -R artemis:artemis /var/lib/artemis
 ```
 
-Setup an SELinux policy for the artemis service. In a temp directory, create an ***artemisservice.te*** file contining the following.
+Setup an SELinux policy for the artemis service. In a temp directory, create an ***artemisservice.te*** file containing the following.
 ```bash
 module artemisservice 1.0;
 
@@ -107,7 +107,7 @@ sudo systemctl start artemis
 sudo systemctl status artemis
 ```
 
-In a seperate terminal, tail and grep the logs to make sure that candlepin is running against the remote Artemis server when it starts.
+In a separate terminal, tail and grep the logs to make sure that candlepin is running against the remote Artemis server when it starts.
 
 ```bash
 tail -f /var/log/candlepin/candlepin.log  | grep "Candlepin will connect"

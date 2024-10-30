@@ -79,7 +79,7 @@ When a subscription object is imported, depending on the attributes of its main 
 
 #### Derived Products
 
-Pools can also carry a "derived" product and provided products. This accomodates scenarios where the host is intended to get access to different (or no) content than the guests. The parent or primary pool will use the normal product and provided products on the subscription. However any derived or unmapped guest pools will flip to use the derived product and provided products instead of the normal set.
+Pools can also carry a "derived" product and provided products. This accommodates scenarios where the host is intended to get access to different (or no) content than the guests. The parent or primary pool will use the normal product and provided products on the subscription. However any derived or unmapped guest pools will flip to use the derived product and provided products instead of the normal set.
 
 ## Entitlements
 
@@ -106,7 +106,7 @@ Pools can also carry a "derived" product and provided products. This accomodates
 
 ## Exporting Subscriptions to a Downstream Candlepin Server
 
-Candlepin has been designed to allow for exporting subscriptions from a main/upstream Candlepin server for use in a standlone on-premises environment. (i.e. Katello, Satellite, SAM) This process involves a number of steps:
+Candlepin has been designed to allow for exporting subscriptions from a main/upstream Candlepin server for use in a standalone on-premises environment. (i.e. Katello, Satellite, SAM) This process involves a number of steps:
 
  1. A "distributor" consumer is created in the upstream candlepin server by some UI. (also sometimes referred to as a "Subscription Management Application")
  1. A user assigns entitlements to the distributor consumer for export in whatever quantities they wish to use downstream. Once assigned those are marked as consumed in the upstream server.

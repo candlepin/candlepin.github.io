@@ -47,7 +47,7 @@ title: Owner Hierarchy
 This was the first option to come to mind but I think it quickly begins to look
 infeasible and messy. For one, much of the data in an export is already there
 (products / consumer types / rules), only the Entitlement importer would be
-re-usable. If so, then the process would become an upstream subscription
+reusable. If so, then the process would become an upstream subscription
 becomes an upstream pool, an on-site Candlepin is deployed and registered as an
 upstream consumer, who then binds and obtains entitlments with a quantity. The
 export is generated and then imported on-site, those entitlements now translate

@@ -4,7 +4,7 @@ title: Manifest Consumer Association
 {% include toc.md %}
 
 # Manifest Consumer Association Design
-Katello neesds the ability to associate a given manifest with the distributor (consumer). The following information needs to be accessible.
+Katello needs the ability to associate a given manifest with the distributor (consumer). The following information needs to be accessible.
 
 * consumer uuid
 * consumer id cert pub/priv pair

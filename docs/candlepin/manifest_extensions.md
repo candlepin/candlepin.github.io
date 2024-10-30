@@ -59,7 +59,7 @@ package org.candlepin.example;
 import com.google.inject.AbstractModule;
 
 /**
- * When overriding service implmentation, a custom guice module must be created. In this
+ * When overriding service implementation, a custom guice module must be created. In this
  * example, we simply bind the ExportExtensionAdapter interface to our custom extension
  * adapter class so that candlepin will inject our adapter whenever the interface is
  * injected.

@@ -157,7 +157,7 @@ If you have set up a standalone qpid server, the ssl certificate can be found in
   $ sudo qpid-config --ssl-certificate=path/to/cert --ssl-key path/to/key -b amqps://localhost:5671 del exchange event
   ```
 
-* Create an excange.
+* Create an exchange.
 
   ```console
   $ sudo qpid-config --ssl-certificate=path/to/cert --ssl-key path/to/key -b amqps://localhost:5671 add exchange topic event --durable

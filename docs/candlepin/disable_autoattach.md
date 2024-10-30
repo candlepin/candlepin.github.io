@@ -6,7 +6,7 @@ title: Disabling Auto Attach
 # Disabling Auto Attach For An Owner
 _This feature is available in both candlepin-0.9.54.11+ and candlepin-2.0.20+_
 
-Candlepin allows disabling the Auto Attach functionality, on a per Owner basis, to accomodate entitlement stability
+Candlepin allows disabling the Auto Attach functionality, on a per Owner basis, to accommodate entitlement stability
 for Consumers of an Owner/Organisation during subscription renewals and/or other maintenance.
 
 In many circumstances, Candlepin's Auto Attach functionality is not the greatest at selecting the most

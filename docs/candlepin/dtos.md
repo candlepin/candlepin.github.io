@@ -107,7 +107,7 @@ Direct instantiation:
     this.modelTranslator = new StandardTranslator(...);
 ```
 
-Dependecy injection:
+Dependency injection:
 ```
     @Inject
     public MyResource(ModelTranslator modelTranslator) {
@@ -197,7 +197,7 @@ Similarly, the populate methods take a source object and a destination object, a
 object with data from the source object. Both methods have a overloaded definition which also accepts a
 model translator which can be used to translate nested objects within the source object.
 
-The overlapping nature of the translate and populate operations allows most object translator implementions to
+The overlapping nature of the translate and populate operations allows most object translator implementations to
 simply chain the translate operation into the populate operation rather than duplicate code. For example:
 
 ```

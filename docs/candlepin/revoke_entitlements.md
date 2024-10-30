@@ -13,7 +13,7 @@ Revoking an entitlement is an operation that will remove an entitlement from its
 
 The revocation must ensure that other database objects such as associated Pool quantities are updated. Revocation might also trigger removal of other Entitlements and deletion of other pools. 
 
-## Revocation Worfklow
+## Revocation Workflow
 The following diagram shows highlevel steps that need to take place during the revocation of a set of entitlements. 
 
 

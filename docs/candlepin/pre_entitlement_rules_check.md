@@ -13,20 +13,20 @@ The following are the checks candlepin performs based on consumer facts and pool
     * if required consumer type is not specified, consumer type should be either system or hypervisor.
     * if the pool is restricted to username, ensure it matches the request
  * **do_pre_virt_only**:
-    * manifests cant consume virt pools if they are also pool_derived.
-    * non guests and non manifests cant consume virt pools.
+    * manifests can't consume virt pools if they are also pool_derived.
+    * non guests and non manifests can't consume virt pools.
  * **do_pre_physical_only**:
-    * guests ( unless they are distributors ) cant consume physical only pools
+    * guests ( unless they are distributors ) can't consume physical only pools
  * **do_pre_unmapped_guests_only**:
     * virtual guests cannot use unmapped guest pool if we know which host it belongs to.
     * virtual guests cannot use unmapped guest pool if they are new newly registered.
     * virtual guests cannot bind future unmapped guest pools
  * **do_pre_requires_host**:
-    * manifests cant consume required_host pools
+    * manifests can't consume required_host pools
     * if consumer does not have a virt.uuid fact, and the pool has a requires_host, do not allow bind.
     * the pool owner must match the host of the virtual guest ( identified by the requires_host pool attribute ).
  * **do_pre_requires_consumer**:
-    * manifests cant consume required_consumer pools
+    * manifests can't consume required_consumer pools
     * the pool owner must match the consumer uuid (identified by the requires_consumer pool attribute).
  * **do_pre_requires_consumer_type**:
     * if a consumer_type attribute is on the pool, ensure it matches that of the consumer requesting the bind
@@ -38,7 +38,7 @@ The following are the checks candlepin performs based on consumer facts and pool
    * for non manifests and non guests, if consumer has a socket fact and pool is not stacked, ensure the pool provides enough sockets.
  * **do_pre_cores**:
    * for non manifest non guests, if consumers has a cores fact, and pool is not stacked, ensure consumer has enough cores.
-   * for manifest consumers, make sure manfiest consumer has cores capability.
+   * for manifest consumers, make sure manifest consumer has cores capability.
  * **do_pre_ram**:
    * for non manifests, if pool is non stacking, ensure pool has enough ram.
    * for manifests, ensure manifest has ram capability
@@ -47,4 +47,4 @@ The following are the checks candlepin performs based on consumer facts and pool
    * for manifests, ensure manifest has storage capability
 * **do_pre_instance_multiplier**:
    * for non manifests, non guests, for direct binds, verify quantity is divisible by pool's instance multiplier.
-   * verify manfest consumers have instance multiplier capability.
+   * verify manifest consumers have instance multiplier capability.

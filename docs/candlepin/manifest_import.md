@@ -57,7 +57,7 @@ $ curl -k -X POST -F "application/zip=@1dc9d30a-cb39-4155-8789-c6efb0061b42-expo
 }
 
 # Monitor the job status to see when the job has completed
-# and if it was successfull.
+# and if it was successful.
 $ curl -k -u USERNAME:PASSWORD https://localhost:8443/candlepin/jobs/import_8b018fd9-679a-4e2e-8704-2eac757b35a8?result_data=true
 {
   "id" : "import_8b018fd9-679a-4e2e-8704-2eac757b35a8",

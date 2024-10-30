@@ -75,9 +75,9 @@
 # Navigation
 In order for a page to appear on the left-hand navigation column, it needs to be
 listed in `_data/toc.yaml`.  Use the basename of the page (e.g. 'foo' if the
-page is 'foo.md') and insert it into YAML heirarchy under the appropriate
+page is 'foo.md') and insert it into YAML hierarchy under the appropriate
 project and appropriate topic.  If you forget to include your page in the
-heirarchy, Jekyll will issue a warning when it is rendering the site.
+hierarchy, Jekyll will issue a warning when it is rendering the site.
 
 # Deployment
 1. Submit your changes as a PR.  The GitHub Actions continuous integration hook

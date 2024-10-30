@@ -5,7 +5,7 @@ title: Exporting A Manifest
 
 # Exporting A Manifest
 
-In order for a consumer to be exported, it must be manfest enabled. We refer to this type of consumer as a distributor. A consumer is considered to be a distributor if its ConsumerType defines 'manifest':true. Any entitlements attached to a distributor will be included in the manifest when it is exported.
+In order for a consumer to be exported, it must be manifest enabled. We refer to this type of consumer as a distributor. A consumer is considered to be a distributor if its ConsumerType defines 'manifest':true. Any entitlements attached to a distributor will be included in the manifest when it is exported.
 
 To export a manifest for a distributor, you use the [GET /consumers/:uuid/export/async]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.13.json#!/owners/exportDataAsync){:target="_blank"} API. When the export request is made, candlepin will start an asynchronous job that will perform the export. When the job is complete, the job status will provide the details of how the export can be obtained using the [GET /consumers/:uuid/export/:export_id]({{ site.url }}/swagger/?url=candlepin/swagger-2.0.13.json#!/owners/downloadExistingExport){:target="_blank"} API.
 
@@ -76,7 +76,7 @@ A manifest file contains all of the data from the upstream candlepin required to
 
 Extracting a manifest file yields:
 
-- **consumer_export.zip:** An archive of the expored consumer data.
+- **consumer_export.zip:** An archive of the exported consumer data.
 - **signature:** The signature for the consumer_export.zip file.
 
 The contents of the consumer_export.zip file are as follows:

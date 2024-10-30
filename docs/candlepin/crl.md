@@ -184,7 +184,7 @@ performed when the caller first constructs the streaming reader:
    `seqLength` (the length of the *revokedCertificates* sequence).
 5. We are now within the *revokedCertificates* sequence.
 
-With the preliminary operations complete, we return the instatiated reader and
+With the preliminary operations complete, we return the instantiated reader and
 the caller can begin streaming sequences within *revokedCertificates* using the
 `next` method.  This method returns one revoked certificate sequence each time
 it is called.
@@ -213,7 +213,7 @@ The caller would need to pass in some type of memo object to the streaming
 reader when the reader is instantiated.  As the reader moves through the
 meta-data items in the *tbsCertList* during initialization, it would simply
 populate the memo object with the values.  The caller could then look in the
-memo object once the reader has finished instatiation.
+memo object once the reader has finished instantiation.
 
 Signature verification is more complex.  Since the signature algorithm used is
 required for the verification process and the algorithm information is towards
