@@ -25,7 +25,7 @@ be aware:
 
 This leaves the responsibility of timing, conversion and compatibility to Satellite's upgrade process
 or the manual upgrade process followed for non-standard deployments (i.e. hosted). However, this sounds
-worse than it acutally is: At the time of writing, both Satellite and hosted currently wait for manually
+worse than it actually is: At the time of writing, both Satellite and hosted currently wait for manually
 executed jobs to complete before performing an upgrade, most job configurations have only changed
 location, not value, and the API changes have been minimized or duplicated to avoid compatibility issues
 where possible.

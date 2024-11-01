@@ -26,7 +26,7 @@ Soon it will be possible to have multiple versions of the same product installed
      cert.write(filename)
    * Prevent duplicates from getting written. (probably helped by pushing the
      write logic into `ProductDirectory`)
-   * Handle backward compatability, likely by having `ProductDirectory` do a
+   * Handle backward compatibility, likely by having `ProductDirectory` do a
      quick check on load for old filenames and if any are found, write them in
      the new fashion.
    * Examine usage of certificate directory findByProduct vs findAllByProduct.

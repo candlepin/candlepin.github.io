@@ -78,7 +78,7 @@ Clients (called consumers) go through the following standard lifecycle:
 
 1. Clients register with candlepin. They are given identity certificates which contain their UUID. This identity certificate can be used for future communication.
 1. Clients can search for pools of subscriptions.
-1. Clients consume susbcription(s). This is also called binding to a subscription or creating an entitlement. This results in entitlement certificates being provided to the client.
+1. Clients consume subscription(s). This is also called binding to a subscription or creating an entitlement. This results in entitlement certificates being provided to the client.
 1. Clients can retrieve updated certificates to handle cases where data has changed server side.
 1. Clients can unbind, or stop consuming certificates.
 1. Clients can unregister, or delete themselves from the system.

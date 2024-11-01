@@ -15,7 +15,7 @@ The following instructions assume use of RHEL/Fedora (tested on EL5/6 and Fedora
 
 # PostgreSQL
 
-1. Install PostgresSQL.
+1. Install PostgreSQL.
 
    ```console
    $ sudo yum install -y postgresql-server postgresql

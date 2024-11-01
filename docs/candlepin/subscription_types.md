@@ -32,7 +32,7 @@ Example:
 
  * virt_limit: 4 / unlimited
 
-When a physical host consumes a virt_limit subscription, a sub-pool is created that is only visible/usable by guests who are running on that host. The virt-who utitlity is typically what reports the host/guest mapping information and allows this functionality to work. Revoking the physical host entitlement will result in revoking the sub-pool and all its existing entitlements.
+When a physical host consumes a virt_limit subscription, a sub-pool is created that is only visible/usable by guests who are running on that host. The virt-who utility is typically what reports the host/guest mapping information and allows this functionality to work. Revoking the physical host entitlement will result in revoking the sub-pool and all its existing entitlements.
 
 Note that guests can still consume the main pool, provided the product does not also carry the physical_only attribute.
 

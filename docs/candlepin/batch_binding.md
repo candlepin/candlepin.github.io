@@ -4,7 +4,7 @@ title: Batch binding exact pools
 {% include toc.md %}
 
 ## Overview
-* Candlepin 2.0 provides a convinience API to bind a batch of exact pools by respective quantities. This document shows the usage and example responses of that API.
+* Candlepin 2.0 provides a convenience API to bind a batch of exact pools by respective quantities. This document shows the usage and example responses of that API.
 * Batch bind requests are asynchronous only.
 * The requests are atomic. If any of the pools and respective quantities requested fails for any reason ( including JavaScript validation ), the entire operation fails and none of the pools are consumed.
 
@@ -50,7 +50,7 @@ title: Batch binding exact pools
   url: GET https://localhost:8443/candlepin/jobs/bind_by_pool_1cfdedb3-05aa-444a-814a-aabc5afedba4?result_data=true
   ```
 
-## Succesful Response
+## Successful Response
 * Upon success, the `resultData` on the `JobStatus` enlists a `PoolIdAndQuantity` for each pool consumed with the respective quantity consumed
 
   ```text

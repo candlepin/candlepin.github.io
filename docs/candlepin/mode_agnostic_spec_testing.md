@@ -26,7 +26,7 @@ One of the ways that the two modes differ is in the manner by which pools are cr
 
 ## How to test in hosted mode
 
-* The most convinient way to deploy candlepin in hosted mode is to simply use the deploy script:
+* The most convenient way to deploy candlepin in hosted mode is to simply use the deploy script:
 
   ```console
   $ ./server/bin/deploy -Ha

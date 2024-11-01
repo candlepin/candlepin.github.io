@@ -5,7 +5,7 @@ title: D-Bus use in Subscription Manager
 
 # D-Bus
 
-Subscription Manger creates D-Bus messages when the entitlement status changes.
+Subscription Manager creates D-Bus messages when the entitlement status changes.
 
 ## Signals
 
@@ -123,4 +123,4 @@ Entitlement Status employs the standard Properties interface methods:
     def GetAll(self, interface_name):
 ```
 
-As the available information is read-only, no other access retrictions have been implemented. If the capabilities are expanded in the future to include system manipulation, then access control will be added.
+As the available information is read-only, no other access restrictions have been implemented. If the capabilities are expanded in the future to include system manipulation, then access control will be added.

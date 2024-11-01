@@ -60,6 +60,6 @@ Could be based on unit of time, cpu cycles, any other criteria accessible.
 Draw down is probably best used for things like training. Here is a set number
 of hours or usage period. Once you have used it up, there is no more.
 
-## Cloud Subcriptions
+## Cloud Subscriptions
 Similar to quantity based, but the consumers are potentially shorted lived.
 This is similar to "Concurrent users" as a licensing model.

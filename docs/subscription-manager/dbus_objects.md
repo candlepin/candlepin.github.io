@@ -310,7 +310,7 @@ creates.
   * `proxy_password`
 
   The call returns the JSON response body from the subscription management
-  server. Example of JSON document returned after sucessful registration:
+  server. Example of JSON document returned after successful registration:
 
   ```json
 {

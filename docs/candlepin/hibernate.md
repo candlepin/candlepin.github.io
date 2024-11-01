@@ -197,7 +197,7 @@ So the complete test method now looks like this:
 ```
 {:.numbered}
 
-Given the refresh on line 09, you would expect the code will pass. It wont. Instead you will get [0] again. Now the problem why this code doesn't work is much more intricate. The implementation of on createEntitlement (our standard functional test prepare method) on line 6 is:
+Given the refresh on line 09, you would expect the code will pass. It won't. Instead you will get [0] again. Now the problem why this code doesn't work is much more intricate. The implementation of on createEntitlement (our standard functional test prepare method) on line 6 is:
 
 [6]
 

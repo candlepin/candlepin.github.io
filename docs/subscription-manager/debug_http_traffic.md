@@ -22,7 +22,7 @@ Every RHSM application using `rhsm` Python package can set following environment
 * `SUBMAN_DEBUG_PRINT_RESPONSE`
 * `SUBMAN_DEBUG_TCP_IP`
 
-When you set these environment variables (`1`, `true`, ...), the client application using rhsm module will start to print informations to standard output about HTTP requests. Subscription-manager currently considers all non-empty variables as `True`, but that may change in the future. We recommend unsetting these variables by passing empty string or by deleting the variable from the environment completely.
+When you set these environment variables (`1`, `true`, ...), the client application using rhsm module will start to print information to standard output about HTTP requests. Subscription-manager currently considers all non-empty variables as `True`, but that may change in the future. We recommend unsetting these variables by passing empty string or by deleting the variable from the environment completely.
 
 NOTE: This debugging functionality was introduced in RHEL8.3 in subscription-manager-1.27.11-1.
 
