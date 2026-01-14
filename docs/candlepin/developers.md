@@ -15,7 +15,7 @@ which stores all the Checkstyle configuration.
 Also see the [Java Coding Conventions](java_coding_conventions.html)
 
 ### Python
-For Python, stick to the guidelines in [PEP8](http://legacy.python.org/dev/peps/pep-0008/).
+For Python, stick to the guidelines in [PEP 8](https://peps.python.org/pep-0008/).
 Also, run `make stylish` to run pep8, pyflakes, pyqver, rpmlint, and a few
 subman specific code checks.
 
@@ -47,7 +47,7 @@ Commit messages are used for generating changelogs when tagging builds. It may s
 to process a few hundred lines it's very helpful if they're typo free, changelog friendly, and have the
 originating task automatically detected.
 
-A general git guide can be found [here](https://fedorahosted.org/spacewalk/wiki/GitGuide).
+A general git guide can be found in the [Pro Git book](https://git-scm.com/book/en/v2).
 
 ### Commit message format
 ```text
@@ -165,12 +165,12 @@ codebase.
      ```console
      $ ./gradlew test --tests EntitlementCuratorTest
      ```
-   * Functional rspec tests (from <project root>/server directory):
+   * Specification tests:
 
      ```console
-     $ ./gradlew rspec
+     $ ./gradlew spec
      ```
-   * The safest bet, in addition to rspec, is to run check (includes all lint tasks, test, validate_translation) before committing:
+   * The safest bet, in addition to spec, is to run check (includes all lint tasks, test, validate_translation) before committing:
 
      ```console
      $ ./gradlew  check
@@ -185,7 +185,7 @@ wrong you can end up with an un-maintainable mess. Look for good examples,
 experiment, chat with the team, and in general just try to leverage this when
 possible. We're all still learning how this works. :)
 
-In the Java unit tests this is accomplished with [Mockito](http://code.google.com/p/mockito/).
+In the Java unit tests this is accomplished with [Mockito](https://site.mockito.org/).
 
 In subscription-manager and python-rhsm we use the python-mock module: <http://www.voidspace.org.uk/python/mock/>
 
@@ -222,8 +222,9 @@ See [the debugging with wireshark page](debugging_with_wireshark.html)
 # Tips
 
 ## Auto-Generating candlepin.conf
-Buildr can auto-generate candlepin.conf for you.  This is very useful when you
-are constantly switching between databases.  See [the AutoConf page](auto_conf.html).
+The Candlepin deploy script can generate `candlepin.conf` for you, which is useful when switching
+between databases/environments. See [Developer Deployment](developer_deployment.html) for the `-a`
+option, and see [the AutoConf page](auto_conf.html) for legacy Buildr-based workflows.
 
 ## Backup / Restore A Database
 It can be helpful for developers to save a postgresql database for later use
@@ -236,10 +237,10 @@ $ pg_dump -U candlepin candlepin > candlepindb.sql
 To restore an old database:
 
 ```console
-$ sudo service tomcat6 stop
+$ sudo systemctl stop tomcat
 $ dropdb -U candlepin candlepin && createdb -U candlepin candlepin
 $ psql -U candlepin candlepin < ~/src/candlepin/candlepindb.sql
-$ buildconf/scripts/deploy -g -t
+$ ./bin/deployment/deploy -g -t -a
 ```
 
 ## Debugging with Tomcat
@@ -250,7 +251,6 @@ To enable remote debugging in Tomcat, you must pass the JVM values telling it to
 
    ```
    -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000 # for Java 11+
-   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000 # for Java 8 or earlier
    ```
    Now you will be able to connect a debugger to port 8000.
 

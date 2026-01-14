@@ -10,16 +10,14 @@ addressed by this document should follow the official [Code Conventions for the
 Java Programming Language](http://www.oracle.com/technetwork/java/javase/documentation/codeconvtoc-136057.html).
 
 Conventions specific to Candlepin have been primarily drawn from the
-conventions imposed by
-[Spacewalk](https://fedorahosted.org/spacewalk/wiki/JavaCodingConventions), or
-have been invented to accommodate matters of internal style and practicality.
+conventions imposed by upstream projects, and have been invented to accommodate matters of internal style
+and practicality.
 To help people conform to the document conventions, we have integrated
-[checkstyle](http://checkstyle.sourceforge.net/) into our build tree.
+[checkstyle](https://checkstyle.sourceforge.io/) into our build tree.
 
-The checkstyle configuration file, `buildconf/checkstyle.xml`, is our
-definitive style guide source.  The conventions here should be putting
-those conventions into english and for things checkstyle can't check.
-[Configuration Checkstyle](checkstyle.html)
+The checkstyle configuration file, `config/checkstyle/checkstyle.xml`, is our definitive style guide source.
+The conventions here should be putting those conventions into english and for things checkstyle can't check.
+See [Checkstyle configuration](checkstyle.html).
 
 ## Brackets
 All left brackets should be the end of the line and all right brackets should be alone on the line.

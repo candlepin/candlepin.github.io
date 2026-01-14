@@ -94,7 +94,6 @@ The latest git commit is *f05b8a5* which is *11* commits since the last tag:
 *candlepin-0.0.40-1*. 
 
 ## Other tito resources
- * [tito github repo](http://github.com/dgoodwin/tito)
- * [Tito introduction into Spacewalk](https://fedorahosted.org/spacewalk/wiki/Tito)
- * [Spacewalk release cycle using Tito](https://fedorahosted.org/spacewalk/wiki/ReleaseProcess)
- * [Building test rpms using Tito](https://fedorahosted.org/spacewalk/wiki/GitGuide#BuildingTestRPMs)
+ * [tito github repo](https://github.com/dgoodwin/tito)
+ * [RPM Packaging Guide](https://rpm-packaging-guide.github.io/)
+ * [Fedora Packaging Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/)

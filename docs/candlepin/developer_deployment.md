@@ -7,7 +7,7 @@ title: Developer Deployment
 
 ## Operating System
 Any flavor of Linux should be acceptable for development, but all of the instructions below are written
-for Fedora 35 Workstation. You may need to make slight changes to the package names, depending on what is
+for Fedora 43 Workstation. You may need to make slight changes to the package names, depending on what is
 available from your system's package repos, and your specific system configuration.
 
 ## Getting the Source
@@ -28,7 +28,7 @@ permission to do so).
 $ git clone git@github.com:candlepin/candlepin.git
 ```
 
-For more information on working with Git, checkout the [Spacewalk](https://fedorahosted.org/spacewalk/) [GitGuide](https://fedorahosted.org/spacewalk/wiki/GitGuide).
+For more information on working with Git, see the [Pro Git book](https://git-scm.com/book/en/v2), the [official Git documentation](https://git-scm.com/docs), and [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow).
 
 
 ## Vagrant
@@ -39,7 +39,8 @@ way to do work on Candlepin, as it helps ensure everyone is working with the sam
 
 1. Install libvirt, Vagrant, Ansible, and the required vagrant plugins
     ```console
-    $ sudo dnf install @virtualization vagrant vagrant-libvirt vagrant-sshfs vagrant-hostmanager ansible
+    $ sudo dnf install @virtualization vagrant ansible libvirt-devel gcc make ruby-devel
+    $ vagrant plugin install vagrant-libvirt vagrant-sshfs vagrant-hostmanager
     ```
 
 1. Enable the libvirtd and virtnetworkd services
@@ -66,25 +67,6 @@ way to do work on Candlepin, as it helps ensure everyone is working with the sam
     Candlepin can be deployed following the instructions in the [Deploying Candlepin](#deploying-candlepin)
     section.
 
-### Post-setup Steps
-
-Note that while Vagrant makes setting up the environment easier, some elements of the user space may not
-be fully configured:
-
-* Git configuration is not copied into the Vagrant box
-
-    You will need to manually configure your git e-mail address and name in the Vagrant box.
-    This step may be omitted, but you will be forced to drop out of the Vagrant box to commit
-    or push changes.
-
-These steps only need to be performed after initially bringing up the box for the first time, or if the box
-is ever recreated after destroying it.
-
-These may eventually be resolved in future versions of the Ansible roles responsible for provisioning the
-Vagrant boxes.
-
-
-
 ## Local Development
 If you are unable or unwilling to use the Vagrant box for development tasks, you can, instead, set up your
 local environment for Candlepin development. Note that some Candlepin dependencies may not be available from
@@ -94,47 +76,24 @@ manually resolve the conflict.
 1. **Install and configure core dependencies**
 
     ```console
-    $ sudo dnf install gcc make java-1.8.0-openjdk-devel java-11-openjdk-devel jss tomcat gettext openssl
+    $ sudo dnf install gcc make tomcat gettext openssl
+    $ sudo dnf install adoptium-temurin-java-repository
+    $ sudo fedora-third-party enable
+    $ sudo dnf install temurin-17-jdk
     ```
     By default, the JAVA_HOME environment variable is not setup during this install. This should be configured
-    to point to the home directory for the "active" JVM (Java 11 in most cases, Java 8 for some older
-    Candlepin branches).
+    to point to the home directory for the "active" JVM (Java 17).
 
-    On systems where Alternatives is available and configured (as is the case on Fedora 34), this should point
-    to the Alternatives-managed JDK directory:
+    On systems where Alternatives is available and configured (as is the case on Fedora 43), this should point
+    to the active JDK directory. A reliable way to derive this is from the `javac` path:
 
     ```console
-    $ echo 'export JAVA_HOME="/var/lib/jvm/java"' >> ~/.bashrc
+    $ export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(command -v javac)")")")"
+    $ echo "export JAVA_HOME=\"$JAVA_HOME\"" >> ~/.bashrc
     ```
 
     If Alternatives is not installed or enabled, JAVA_HOME will need to be configured to point to the explicit
     JDK directory as needed.
-
-
-1. **Install Ruby and Ruby gems**
-
-    Candlepin currently requires Ruby 2.4 to run its spec test suite (rspec), which is unfortunately
-    no longer available through the standard package repos in Fedora 34. For this reason, and to avoid
-    conflicts with various gems, we highly recommend using [RVM](http://rvm.io) to install and manage Ruby
-    and its gems.
-
-    Instructions for installing RVM are available on the [RVM](http://rvm.io) website (<http://rvm.io>).
-
-    Warning: Do not install RVM, Ruby, or the necessary gems as root
-    {:.alert-bad}
-
-    Once RVM is installed, install Ruby 2.4 via rvm:
-
-    ```console
-    $ rvm install ruby-2.4
-    ```
-
-    Finally, install bundler so we can install the required gems:
-
-    ```console
-    $ gem install bundler
-    $ bundle install
-    ```
 
 
 1. **Set up PostgreSQL**
@@ -332,8 +291,8 @@ and some capabilities:
 
 # Running Tests
 
-Candlepin provides two tests suites for proper functionality and stability: unit tests and specification
-tests, via JUnit and rspec, respectively. Whenever changes are made to Candlepin, both of these suites
+Candlepin provides two test suites for proper functionality and stability: unit tests and specification
+tests, via JUnit. Whenever changes are made to Candlepin, both of these suites
 should be run to verify existing functionality has not be affected by the changes, and new tests should be
 added to each suite as appropriate for the change.
 
@@ -365,31 +324,32 @@ $ ./gradlew test --tests "JobManagerTest.jobStatusFound"
 
 ## Specification Tests
 
-Specification tests are run through rspec, and can be invoked through Gradle with the `rspec` task from the
+Specification tests are run on the JVM and can be invoked through Gradle with the `spec` task from the
 root of the Candlepin repository.
 
 ```console
-$ ./gradlew rspec
+$ ./gradlew spec
 ```
 
-This will run  the entire spec test suite, and write the results to the console. To run tests for a specific
-spec test suite, the `--spec` option can be used with the partial file name of the spec file to run, without
-the "_spec.rb" suffix.
+This will run the entire spec test suite and write the results to the console. To run tests for a specific
+spec test suite, the `--tests` option can be used with a suite identifier (for example, a partial suite name).
 
-For example, to run the tests in the activation_key_spec.rb file, the following command can be used:
+For example, to run the tests for the ActivationKeySpecTest suite, the following command can be used:
 
 ```console
-$ ./gradlew rspec --spec activation_key
+$ ./gradlew spec --tests ActivationKeySpecTest
+Or you can use wildcards, but they must be in quotes:
+$ ./gradlew spec --tests "ActivationKey*"
 ```
 
-Individual tests or groups of tests within a given spec file can be run using the `--test` option and
+Individual tests or groups of tests within a given spec file can be run using the `--tests` option and
 providing a string to match against the name of the desired tests.
 
-For instance, to run the tests in the activation_key_spec file containing the word "updating", the following
+For instance, to run the tests in the ActivationKeySpecTest file containing the word "authorized", the following
 command can be used:
 
 ```console
-$ ./gradlew rspec --spec activation_key --test 'updating'
+$ ./gradlew spec --tests "ActivationKeySpecTest.*authorized*"
 ```
 
 
@@ -427,19 +387,3 @@ unix  2      [ ]         STREAM     CONNECTED     793153 21864/java
 The important things here are 8080 (the default HTTP listener), and 8443 (the
 SSL listener). If you don't have both of those, try setting FORCECERT=1 and
 trying again. Consulting catalina.out is always useful as well.
-
-## HornetQ Upgrade Errors
-The hornetq journal doesn't seem to like being used by new versions. If you see an exception on startup like:
-
-```console
-SEVERE: Failure in initialisation
-java.lang.IllegalStateException: Invalid record type 23
-at org.hornetq.core.persistence.impl.journal.JournalStorageManager.loadBindingJournal(JournalStorageManager.java:1527)
-```
-
-You need to clear your journal:
-
-```console
-$ rm -rf /var/lib/candlepin/hornetq*
-```
-
