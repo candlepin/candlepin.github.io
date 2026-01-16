@@ -34,9 +34,8 @@ The first line of a commit message is used as the title for many things, includi
 and the default PR title. Commit titles are limited to 70 characters and will be automatically truncated or
 word-wrapped by tooling the processes commit messages.
 
-For commits originating from publicly viewable tasks (only Bugzilla as of October, 2022), the beginning of the
-commit title should be the ID of that task followed by a colon. When Jira becomes publicly accessible, the
-Jira task ID should be included as well.
+For commits originating from jira issues, the beginning of the
+commit title should be the ID of that issue followed by a colon (e.g. CANDLEPIN-XYZ: ).
 
 The body of the commit message should consist of one or more bulleted items indicating specifics about the
 change, such that a reader unfamiliar with the specifics of the change can get a rough understanding of the
@@ -51,13 +50,11 @@ A general git guide can be found in the [Pro Git book](https://git-scm.com/book/
 
 ### Commit message format
 ```text
-[{task_identifier}:] commit title & summary of changes (70 char limit)
+[{jira_id}:] commit title & summary of changes (70 char limit)
 - bulleted list of specific changes
 - change two
 - change three
 ```
-
-Where `task_identifier` is the Bugzilla ID or Jira ID as appropriate.
 
 ### Examples
 ```text
@@ -79,7 +76,7 @@ Added support for the device_auth capability and status
 ```
 
 ```text
-2075587: Fixed attribute storage issue causing version collisions
+CANDLEPIN-1234: Fixed attribute storage issue causing version collisions
 
   - Fixed a bug with null-versioned product attributes causing
     version collisions due to being used in the version calculation
@@ -111,40 +108,35 @@ additional information needed to properly contextualize the changes contained in
 
 ### Pull Request Title Formatting
 #### General Format
-`[{branch_code}] {task_id}: {pr_title}`
-
-#### When both BZ and Jira are present
-`[{branch_code}] {bugzilla_id}: {pr_title} ({jira_id})`
+`[{branch_code}] {jira_id}: {pr_title}`
 
 Where:
  * **branch_code**<br/>
-   Version of the target branch (3.2, 4.0, 4.1, ‘M’ for main, or feature name for feature branches’)
- * **task_identifier**<br/>
-   The Jira or Bugzilla ID of the task associated with the change (ENT-1234, or 12345678)
+   Version of the target branch (3.2, 4.0, 4.1, ‘M’ for main, ‘F’ for feature branches’, or ‘POC’ for proof of concepts that are not supposed to be merged)
+  * **jira_id**<br/>
+   The ID of the Jira task associated with the change (e.g. CANDLEPIN-1234); should be available most of the time, except for PRs with minor changes not tracked in a jira issue
  * **pr_title**<br/>
    The title of the PR; should usually match the commit summary 1:1 unless the PR contains multiple commits,
    in which case it should be a summary of all changes
- * **bugzilla_id**<br/>
-   The ID of the Bugzilla issue associated with the change (12345678); may not be present if the change does
-   not originate from a reported issue via Bugzilla
- * **jira_id**<br/>
-   The ID of the Jira task associated with the change (ENT-1234); should always be available
 
 ### Examples
 #### Titles
- * [M] ENT-1234: Updated code to not fail when it should work
- * [4.1] 12345678: Fixed endpoint returning 500 when it shouldn’t (ENT-5678)
- * ENT-4096: Added new utility to do a thing
+ * [M] CANDLEPIN-1234: Updated code to not fail when it should work
+ * [4.6] CANDLEPIN-4096: Added new utility to do a thing
+ * [POC] CANDLEPIN-1117: Migrate to Jakarta EE
 
 #### Example PRs
- * Single-commit PR with simple change:<br/>
-   <https://github.com/candlepin/candlepin/pull/3585>
+ * Single-commit PR with simple change on the main branch:<br/>
+   <https://github.com/candlepin/candlepin/pull/5319>
 
- * Single-commit PR with a complex change:<br/>
-   <https://github.com/candlepin/candlepin/pull/3623>
+ * Single-commit PR with a complex change on the main branch:<br/>
+   <https://github.com/candlepin/candlepin/pull/5336>
 
- * Multi-commit, prototype PR:<br/>
-   <https://github.com/candlepin/candlepin/pull/3616>
+ * Single-commit PR with a complex change on a feature branch:<br/>
+   <https://github.com/candlepin/candlepin/pull/5332>
+
+ * Multi-commit, prototype/PoC PR:<br/>
+   <https://github.com/candlepin/candlepin/pull/5304>
 
 
 
@@ -212,12 +204,6 @@ The Pool's are then used to track consumption.
 
 ## Reading SSL Data for Debugging
 See [the debugging with wireshark page](debugging_with_wireshark.html)
-
-# Bugs
- * When marking a bugzilla as modified, include a comment with:
-   * SHA1 for the commit(s) of the branches your fix went to, be sure to do
-     this *after* you push, any rebase will change the SHA1.
-   * the version of the package the fix will appear in. (look for the most recent tag, and add 1)
 
 # Tips
 
