@@ -24,6 +24,7 @@ We also host the Swagger file and the UI statically on this site:
 
 | Version | Swagger file | Interactive documentation |
 |-
+|  | [openapi.yaml](https://raw.githubusercontent.com/candlepin/candlepin/main/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/main/api/candlepin-api-spec.yaml){:target="_blank"} |
 | 2.1.25 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.1.25.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.1.25.json){:target="_blank"} |
 | 2.3.10 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.3.10.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.3.10.json){:target="_blank"} |
 | 2.4.8 |  [swagger.json]({{ site.url }}/swagger/candlepin/swagger-2.4.8.json){:target="_blank"}  | [Swagger UI]({{ site.url }}/swagger/?url=candlepin/swagger-2.4.8.json){:target="_blank"} |
@@ -40,5 +41,4 @@ We also host the Swagger file and the UI statically on this site:
 | 4.5.2-2 | [openapi.yaml](https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.5-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.5-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} |
 | 4.6.6-1 | [openapi.yaml](https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.6-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.6-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} |
 | 4.7.2-2 | [openapi.yaml](https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.7.2-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/candlepin-4.7.2-HOTFIX/api/candlepin-api-spec.yaml){:target="_blank"} |
-| 4.8.1-1 | [openapi.yaml](https://raw.githubusercontent.com/candlepin/candlepin/main/api/candlepin-api-spec.yaml){:target="_blank"} | [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/candlepin/candlepin/main/api/candlepin-api-spec.yaml){:target="_blank"} |
 |=
