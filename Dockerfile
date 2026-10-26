@@ -1,4 +1,4 @@
-FROM ruby:2.7-slim-bullseye
+FROM docker.io/library/ruby:3.3-slim-bookworm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -16,6 +16,6 @@ EXPOSE 4000
 
 WORKDIR /site
 
-ENTRYPOINT [ "jekyll" ]
+ENTRYPOINT [ "bundle", "exec", "jekyll" ]
 
 CMD [ "--help" ]
