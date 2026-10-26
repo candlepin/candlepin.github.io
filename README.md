@@ -8,7 +8,7 @@
    ```
 1. Run the `candlepin/jekyll` image with the site source mounted into it. Image can be used to build the site or test it via serve.
    ```
-   $ podman run -p 4000:4000 -v "$(pwd)":/site candlepin/jekyll serve --livereload --force_polling -H "0.0.0.0" -P 4000
+   $ podman run -p 4000:4000 -v "$(pwd)":/site:Z candlepin/jekyll serve --livereload --force_polling -H "0.0.0.0" -P 4000
    ```
 1. You should only need to rebuild the images if something in the site software
    stack changes: e.g. new gems.
@@ -32,7 +32,7 @@
    [instructions](https://rvm.io/rvm/security) and then run
 
    ```
-   $ rvm install ruby-2.7.1
+   $ rvm install ruby-3.3
    ```
 
    The documentation for RVM is extensive so don't be afraid to read it.
